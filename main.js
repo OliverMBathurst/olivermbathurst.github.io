@@ -235,7 +235,7 @@ function reCalculate(){
         }
     }
 	if(!changes){
-		paused = true;//deadlock, just pause
+		fullReset();//deadlock, just restart
 	}
 }
 
