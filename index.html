@@ -3,21 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <title>Oliver Bathurst, C# Developer</title>
+	<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16x16.png">
 </head>
-<style>
-html body{
-  left: 0;
-  right: 0;
-  bottom: 0;
-  top: 0;
-  margin: 0;
-}
-</style>
+<link rel="stylesheet" type="text/css" href="styles.css">
 <body>
 <div id="canvasDiv">
-	<canvas id="canvas" width="900px" height="900px"></canvas>
+	<canvas id="canvas"/>
 </div>
-<div id="footer"/>
+<div id="footer">
+		<li>
+			<a class="normalLink" href="https://github.com/OliverMBathurst">GitHub</a>
+			<a class="normalLink" href="https://www.linkedin.com/in/oliverbathurst/">LinkedIn</a>
+			<a class="normalLink" href="https://github.com/OliverMBathurst/Curriculum-Vitae/raw/master/Oliver%20Bathurst%20CV.pdf">CV</a>			
+		</li>
+		<li>
+			<a class="hiddenLink" href="#" onclick="togglePause()" style="opacity: 0.1; color:#504f54">Pause</a>
+			<a class="hiddenLink" href="#" onclick="toggleDebugMode()" style="opacity: 0.1; color:#504f54">Play</a>
+		</li>
+    </form>
+</div>
 <script src="main.js"></script>
 </body>
 </html>

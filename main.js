@@ -7,10 +7,14 @@ canvas.width = window.innerWidth;
 var footerHeight = document.getElementById('footer').clientHeight;
 var footerWidth = document.getElementById('footer').clientWidth;
 
+canvas.height = window.innerHeight - footerHeight;
+
+var liveCount = 0;
 var paused = false;
 var pausedToggle = false;
 var mouseDown = false;
 var debugMode = false;
+var threshold = 2500;
 
 var traceX = getRandomX();
 var traceY = getRandomY();
@@ -24,8 +28,10 @@ context.canvas.addEventListener('mousemove', mouseMoveListener);
 context.canvas.addEventListener('mouseup', mouseUpListener);
 context.canvas.addEventListener('onclick', mouseClickListener);
 
-randomifyMap();
-tick();
+window.addEventListener('load', (event) => {
+	randomifyMap();
+	tick();
+});
 
 function mouseDownListener(e) {
     e.preventDefault();
@@ -65,7 +71,7 @@ function addLife(e){
 }
 
 function addLifeAtCoordinates(x, y){
-	if(map != undefined && map[x] != undefined && map[x][y] != undefined && debugMode){
+	if(map != undefined && map[x] != undefined && map[x][y] != undefined && debugMode && liveCount < threshold){
 		map[x][y] = 1;
 		printMap();
 	}	
@@ -93,10 +99,10 @@ function resetMap(){
             map[i][j] = 0;
         }
     }
+	liveCount = 0;
 }
 
 function printMap(){
-	var liveCount = 0;
 	context.clearRect(0, 0, canvas.width, canvas.height);
     for (var i = 0; i < canvas.width; i++){
         for(var j = 0; j < canvas.height; j++){
@@ -104,11 +110,14 @@ function printMap(){
 				map[i] = newRow(canvas.height);
 			}
 			if(map[i][j] == undefined){
-				map[i][j] = getCell();
+				var c = getCell();
+				if(c === 1){
+					liveCount++;
+				}
+				map[i][j] = c;				
 			}
 			if(map[i][j] != undefined && map[i][j] === 1){
 				context.fillRect(i, j, 1, 1);
-				liveCount++;
 			}			
         }
     }
@@ -118,7 +127,7 @@ function printMap(){
 function showHeader(){
 	if(!debugMode){
 		var width = canvas.width/2;
-		var height = (canvas.height - footerHeight) / 2;
+		var height = canvas.height / 2;
 		
 		context.globalAlpha = 0.6;
 		context.fillRect(0, 0, canvas.width, canvas.height);	
@@ -127,9 +136,9 @@ function showHeader(){
 		context.fillStyle = "#FFFFFF";
 		context.textAlign = "center";
 		context.textBaseline = 'middle';
-		context.font = "70px Calibri";
+		context.font = "80px IBMPlexSerif-Regular";
 		context.fillText("Oliver Bathurst", width, height);
-		context.font = "35px Calibri";
+		context.font = "35px IBMPlexSerif-Thin";
 		context.fillText("C# Developer", width, height + 50);
 		context.fillStyle = "#000000";
 	}
@@ -138,7 +147,11 @@ function showHeader(){
 function newRow(height){
 	var arr = [];
 	for(var i = 0; i < height; i++){
-		arr[i] = getCell();
+		var c = getCell();		
+		if(c === 1){
+			liveCount++;
+		}
+		arr[i] = c;		
 	}
 	return arr;
 }
@@ -149,14 +162,18 @@ function randomifyMap(){
 			if(map[i] == undefined){
 				map[i] = newRow();
 			}else{
-				map[i][j] = getCell();
+				var c = getCell();
+				if(c === 1){
+					liveCount++;
+				}
+				map[i][j] = c;
 			}			
         }
     }
 }
 
 function getCell(){
-	if (Math.random() >  0.97){
+	if (Math.random() >  0.98){ //0.97 seems to work best
 		return 1;
 	}else{
 		return 0;
@@ -171,32 +188,55 @@ function getRandomY(){
 	return Math.floor(Math.random() * Math.floor(canvas.height));
 }
 
+function fullReset(){
+	paused = true;
+	
+	resetMap();
+	randomifyMap();
+	reCalculate();
+	printMap();
+	
+	paused = false;
+	tick();
+}
+
 function tick(){
 	if(!paused && !mouseDown && !pausedToggle){
 		printMap();
 		showHeader();
 		reCalculate();
 		requestAnimationFrame(tick);
+		if(liveCount >= threshold){
+			fullReset();
+		}
 	}
 }
 
 function reCalculate(){
+	var changes = false;
     for (var i = 0; i < canvas.width; i++){
         for(var j = 0; j < canvas.height; j++){
 			if(map != undefined && map[i] != undefined && map[i][j] != undefined){
 				if(map[i][j] === 0){
 					if (liveNeighbours(i,j) === 3){
 						map[i][j] = 1;
+						liveCount++;
+						changes = true;
 					}
 				}else{ //it is alive
 					var neighbours = liveNeighbours(i,j);
 					if(neighbours < 2 || neighbours > 3){
 						map[i][j] = 0;
+						liveCount--;
+						changes = true;
 					}
 				}
 			}
         }
     }
+	if(!changes){
+		paused = true;//deadlock, just pause
+	}
 }
 
 function liveNeighbours(x, y) {
@@ -242,10 +282,9 @@ function getCount(x, y){
 
 function toggleDebugMode(){
 	if(debugMode){
-			//unhide stuff
 		debugMode = false;
+		tick();
 	}else{
-			//hide stuff
 		debugMode = true;
 	}
 }
