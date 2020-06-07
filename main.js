@@ -79,8 +79,9 @@ function addLifeAtCoordinates(x, y){
 
 
 function resizeCanvas() {
-	paused = true;	
+	paused = true;
 	canvas.width = window.innerWidth;
+	canvas.height = window.innerHeight - document.getElementById('footer').clientHeight;
 	paused = false;
 	tick();
 }
