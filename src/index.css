@@ -1,0 +1,84 @@
+body {
+  background-image: url('res/squares.webp');
+  text-align: center
+}
+  
+.cell {
+  display: inline-block;
+  border: 1px solid black;
+  width: 15px;
+  height: 15px;
+}
+
+.off {
+  background-color: white;
+}
+
+.on {
+  background-color: black;
+}
+
+.cell:hover { 
+  background: black;
+}
+
+.center {
+  margin: auto;
+  display: table;
+  margin-top: 10px;
+}
+
+.grid {
+  height: 65%;
+  line-height: 0;
+  position:fixed;
+}
+
+.footer {
+  width: 100%;
+  background-color: #000000;
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  height: 35%;
+  text-align: center;
+}
+
+.canvas {
+  height: 65%;
+  line-height: 0;
+  position:fixed;
+}
+  
+h1, h2, h3, h4 {
+  color: white;
+  margin: auto;
+  text-align: center;
+  width: 50%;
+  margin-top: 10px;
+}
+
+h4 {
+  margin-top: 0px;
+}
+
+ @font-face { font-family: IBMPlexSerif-Thin; src: url('fonts/IBMPlexSerif-Thin.ttf');}
+ 
+ @font-face { font-family: IBMPlexSerif-Regular; src: url('fonts/IBMPlexSerif-Regular.ttf');}
+
+a {
+	font-size: 30px;
+	color: white;
+	text-decoration: none;
+	font-family: IBMPlexSerif-Regular;
+  display: block;
+}
+
+html body{
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  margin: 0;
+  text-align: center;
+}
