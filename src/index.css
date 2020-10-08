@@ -1,6 +1,5 @@
 body {
-  background-image: url('res/squares.webp');
-  text-align: center
+  background-image: url('../src/assets/res/squares.webp');
 }
   
 .cell {
@@ -34,6 +33,37 @@ body {
   position:fixed;
 }
 
+.overlay {
+  opacity: 0.7;
+  background-color:black;
+  width: 100%;
+  height: 65%;
+  line-height: 0;
+  position: absolute;
+  z-index: 1;
+}
+
+.headingContainer {
+  width: 100%;
+  height: 65%;
+  position: absolute;
+  z-index: 2;
+  text-align: center;
+  top:25%;
+}
+
+.heading {
+  font-family: Ubuntu-Regular;  
+  color: white;  
+  font-size: 60px;
+}
+
+.sub-heading {
+  font-family: Ubuntu-Light;
+  color: white;  
+  font-size: 30px;
+}
+
 .footer {
   width: 100%;
   background-color: #000000;
@@ -43,14 +73,9 @@ body {
   height: 35%;
   text-align: center;
 }
-
-.canvas {
-  height: 65%;
-  line-height: 0;
-  position:fixed;
-}
   
 h1, h2, h3, h4 {
+  font-family: Ubuntu-Regular;
   color: white;
   margin: auto;
   text-align: center;
@@ -62,15 +87,15 @@ h4 {
   margin-top: 0px;
 }
 
- @font-face { font-family: IBMPlexSerif-Thin; src: url('fonts/IBMPlexSerif-Thin.ttf');}
+ @font-face { font-family: Ubuntu-Light; src: url('../src/assets/fonts/Ubuntu-Light.ttf');}
  
- @font-face { font-family: IBMPlexSerif-Regular; src: url('fonts/IBMPlexSerif-Regular.ttf');}
+ @font-face { font-family: Ubuntu-Regular; src: url('../src/assets/fonts/Ubuntu-Regular.ttf');}
 
 a {
 	font-size: 30px;
 	color: white;
 	text-decoration: none;
-	font-family: IBMPlexSerif-Regular;
+	font-family: Ubuntu-Light;
   display: block;
 }
 

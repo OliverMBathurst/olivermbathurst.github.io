@@ -1,8 +1,9 @@
 import React from 'react';
 import Grid from './grid'
 import Footer from './footer'
-import Canvas from './canvas'
-import { clone, merge } from './global'
+import Overlay from './overlay'
+import HeadingContainer from './heading_container'
+import { clone, merge } from './global_functions'
 import { DefaultRowCount, DefaultColumnCount, DefaultBoxHeight, DefaultBoxWidth } from '../constants/constants'
 
 class Main extends React.Component {
@@ -34,11 +35,12 @@ class Main extends React.Component {
     render() {
       return (
         <div>
-          <Canvas/>
+          <HeadingContainer/>
+          <Overlay/>
           <Grid 
             grid = {this.state.grid}
-            rowCount = {this.rowCount}
-            columnCount = {this.columnCount}
+            rowCount = {DefaultRowCount}
+            columnCount = {DefaultColumnCount}
             selectCell = {this.selectCell}
           />
           <Footer/>
