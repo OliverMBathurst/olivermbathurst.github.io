@@ -1,5 +1,5 @@
 export function clone(obj) {
-    return JSON.parse(JSON.stringify(obj))      
+    return obj ? JSON.parse(JSON.stringify(obj)) : null
 }
 
 export function merge(arrOld, arrNew) {
