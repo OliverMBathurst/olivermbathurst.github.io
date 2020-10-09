@@ -48,55 +48,45 @@ body {
   height: 65%;
   position: absolute;
   z-index: 2;
-  text-align: center;
-  top:25%;
 }
 
 .heading {
   font-family: Ubuntu-Regular;  
   color: white;  
   font-size: 60px;
+  display: block;
+  margin-top: 12%;
 }
 
 .sub-heading {
   font-family: Ubuntu-Light;
   color: white;  
   font-size: 30px;
+  display: block;
+  margin-top: 1%;
 }
 
 .footer {
   width: 100%;
-  background-color: #000000;
-  position: fixed;
-  right: 0;
   bottom: 0;
   height: 35%;
-  text-align: center;
-}
-  
-h1, h2, h3, h4 {
-  font-family: Ubuntu-Regular;
-  color: white;
-  margin: auto;
-  text-align: center;
-  width: 50%;
-  margin-top: 10px;
-}
-
-h4 {
-  margin-top: 0px;
+  background-color: #000000;
+  position: fixed;  
 }
 
  @font-face { font-family: Ubuntu-Light; src: url('../src/assets/fonts/Ubuntu-Light.ttf');}
  
  @font-face { font-family: Ubuntu-Regular; src: url('../src/assets/fonts/Ubuntu-Regular.ttf');}
 
-a {
-	font-size: 30px;
+.footerButton {
+  font-size: 30px;
 	color: white;
 	text-decoration: none;
-	font-family: Ubuntu-Light;
-  display: block;
+  font-family: Ubuntu-Light;
+  position: relative;
+  display:inline-block;
+  padding-top: 1%;
+  padding-right: 1%;
 }
 
 html body{

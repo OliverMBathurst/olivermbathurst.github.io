@@ -40,9 +40,9 @@ export function headings() {
             title: "Oliver Bathurst",
             class: "heading"
         },
-        /*{
+        {
             title: "Full-Stack Developer",
             class: "sub-heading"
-        }*/
+        }
     ]
 }

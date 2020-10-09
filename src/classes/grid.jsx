@@ -19,7 +19,7 @@ class Grid extends React.Component {
       )
   
       return (
-        <div className = "grid" style={{width: this.props.columnCount * 16}}>
+        <div className = "grid">
           {rows}
         </div>
       )

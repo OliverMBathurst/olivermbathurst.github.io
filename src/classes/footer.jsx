@@ -6,7 +6,7 @@ class Footer extends React.Component {
   constructor() {
     super();
     this.state = {
-      links: links().map((x, i) => <a key = {i} href = {x.link}>{x.title}</a>)
+      links: links().map((x, i) => <a className = "footerButton" key = {i} href = {x.link}>{x.title}</a>)
     }
   }
 
