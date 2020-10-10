@@ -1,2 +1,2 @@
-# olivermbathurst.github.io
-<a href = "olivermbathurst.github.io">My website</a> 😀💻
+# My Personal Website ![](https://travis-ci.org/OliverMBathurst/olivermbathurst.github.io.svg?branch=master)
+<a href = "olivermbathurst.github.io">Link</a> 😀💻
