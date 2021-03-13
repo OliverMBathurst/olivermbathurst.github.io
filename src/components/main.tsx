@@ -14,54 +14,53 @@ const Main = () => {
 
     setGrid(getNewGrid());
 
-    window.addEventListener("resize", () => setGrid(merge(grid, getNewGrid())));
+    window.addEventListener("resize", () => setGrid(g => merge(g, getNewGrid())));
 
-    const intervalId = setInterval(() => playSimulation(), Interval);
+    const intervalId = setInterval(() => {
+      let copy = [...grid]
+      let change = false
+
+      for (var i = 0; i < copy.length; i++) {
+        for (var j = 0; j < copy[i].length; j++) {
+          let life = 0
+
+          //Adjacents
+          if (i > 0 && copy[i-1][j]) life++;
+          if (i + 1 < copy.length && copy[i+1][j]) life++;
+          if (j >= 0 && copy[i][j-1]) life++;
+          if (j + 1 < copy[i].length && copy[i][j+1]) life++;
+
+          //Diagonals
+          if (j - 1 >= 0 && i - 1 >= 0 && copy[i-1][j-1]) life++;
+          if (j + 1 < copy[i].length && i - 1 >= 0 && copy[i-1][j+1]) life++; 
+          if (i + 1 < copy.length && j + 1 < copy[i].length && grid[i+1][j+1]) life++;
+          if (i + 1 < copy.length && j - 1 >= 0 && copy[i+1][j-1]) life++;
+
+          if (copy[i][j] && (life < 2 || life > 3)) {
+            copy[i][j] = false;
+            change = true
+          } else if (!copy[i][j] && life === 3) {
+            copy[i][j] = true
+            change = true
+          }
+        }
+      }
+
+      if (!change) {
+        for (var ic = 0; ic < copy.length; ic++){
+          for (var jc = 0; jc < copy[ic].length; jc++){
+            copy[ic][jc] = Math.random() > LifeChance;
+          }
+        }
+      }
+    
+    setGrid(copy);
+    }, Interval);
 
     setLoading(false);
     return () => clearInterval(intervalId);
   }, [])
 
-  const playSimulation = () => {
-    let copy = [...grid]
-    let change = false
-
-    for (var i = 0; i < copy.length; i++) {
-      for (var j = 0; j < copy[i].length; j++) {
-        let life = 0
-
-        //Adjacents
-        if (i > 0 && copy[i-1][j]) life++;
-        if (i + 1 < copy.length && copy[i+1][j]) life++;
-        if (j >= 0 && copy[i][j-1]) life++;
-        if (j + 1 < copy[i].length && copy[i][j+1]) life++;
-
-        //Diagonals
-        if (j - 1 >= 0 && i - 1 >= 0 && copy[i-1][j-1]) life++;
-        if (j + 1 < copy[i].length && i - 1 >= 0 && copy[i-1][j+1]) life++; 
-        if (i + 1 < copy.length && j + 1 < copy[i].length && grid[i+1][j+1]) life++;
-        if (i + 1 < copy.length && j - 1 >= 0 && copy[i+1][j-1]) life++;
-
-        if (copy[i][j] && (life < 2 || life > 3)) {
-          copy[i][j] = false;
-          change = true
-        } else if (!copy[i][j] && life === 3) {
-          copy[i][j] = true
-          change = true
-        }
-      }
-    }
-
-    if (!change) {
-      for (var ic = 0; ic < copy.length; ic++){
-        for (var jc = 0; jc < copy[ic].length; jc++){
-          copy[ic][jc] = Math.random() > LifeChance;
-        }
-      }
-    }
-    
-    setGrid(copy);
-  }  
 
   const getNewGrid = (width: number = Math.round(window.innerHeight/DefaultBoxHeight), height: number = Math.round(window.innerWidth/DefaultBoxWidth)) : boolean[][] => {
       var boolArray: boolean[][] = [];
