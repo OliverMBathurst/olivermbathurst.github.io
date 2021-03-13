@@ -11,8 +11,9 @@ const Grid = (props: IGridProps) => {
         let cellKey = i + "_" + j;
 
         return <Cell
-            cellClass = {grid[i][j] ? "cell on" : "cell off"}
             key = {cellKey}
+            cellClass = {grid[i][j] ? "cell on" : "cell off"}
+            cellKey = {cellKey}
           />
       }))}
     </div>

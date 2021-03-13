@@ -12,4 +12,4 @@ const HeadingContainer = () => {
     )
 }
 
-export default HeadingContainer
+export default HeadingContainer;

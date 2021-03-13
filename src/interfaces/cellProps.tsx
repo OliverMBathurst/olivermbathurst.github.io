@@ -1,4 +1,4 @@
 export default interface ICellProps {
     cellClass: string;
-    key: string;
+    cellKey: string;
 }

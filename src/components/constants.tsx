@@ -27,11 +27,7 @@ export const headings: IHeader[] = [
     }
 ];
 
-export const clone = (obj: any): any => {
-    return obj ? JSON.parse(JSON.stringify(obj)) : null;
-}
-
-export function merge(arrOld: boolean[][], arrNew: boolean[][]): boolean[][] {
+export const merge = (arrOld: boolean[][], arrNew: boolean[][]): boolean[][] => {
     if (arrNew.length === 0) {
         return arrNew;
     }

@@ -2,12 +2,12 @@ import React from 'react';
 import ICellProps from '../interfaces/cellProps';
 
 const Cell = (props: ICellProps) => {
-  const { cellClass, key } = props;
+  const { cellClass, cellKey } = props;
   
     return (
       <div
         className = {cellClass}
-        key = {key}
+        key = {cellKey}
       />
     )
 }
