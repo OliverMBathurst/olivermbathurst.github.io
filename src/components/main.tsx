@@ -53,9 +53,9 @@ const Main = () => {
     }
 
     if (!change) {
-      for (var i = 0; i < copy.length; i++){
-        for (var j = 0; j < copy[i].length; j++){
-          copy[i][j] = Math.random() > LifeChance;
+      for (var ic = 0; ic < copy.length; ic++){
+        for (var jc = 0; jc < copy[ic].length; jc++){
+          copy[ic][jc] = Math.random() > LifeChance;
         }
       }
     }
