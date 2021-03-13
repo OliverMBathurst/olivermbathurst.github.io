@@ -14,7 +14,7 @@ const Main = () => {
 
     setGrid(getNewGrid());
 
-    window.addEventListener("resize", () => setGrid(g => merge(g, getNewGrid())));
+    window.addEventListener("resize", () => setGrid(merge(grid, getNewGrid())));
 
     const intervalId = setInterval(() => {
       let copy = [...grid]
@@ -59,6 +59,7 @@ const Main = () => {
 
     setLoading(false);
     return () => clearInterval(intervalId);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
 
