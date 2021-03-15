@@ -1,4 +1,5 @@
 export default interface IFooterLink {
-    title: string;
-    link: string;
+  title: string;
+  link: string;
+  id: number;
 }

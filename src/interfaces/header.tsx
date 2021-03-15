@@ -1,4 +1,4 @@
 export default interface IHeader {
-    title: string;
-    class: string;
+  title: string;
+  class: string;
 }

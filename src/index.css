@@ -1,24 +1,21 @@
 body {
-  background-image: url('../src/assets/res/squares.webp');
+  background-image: url("../src/assets/res/squares.webp");
 }
-  
+
 .cell {
   display: inline-block;
-  border: 1px solid black;
+  border: 1px solid white;
+  background-color: white;
   width: 15px;
   height: 15px;
 }
 
-.off {
-  background-color: white;
+.snake {
+  background-color: green;
 }
 
-.on {
-  background-color: black;
-}
-
-.cell:hover { 
-  background: black;
+.food {
+  background-color: yellow;
 }
 
 .center {
@@ -28,16 +25,17 @@ body {
 }
 
 .grid {
-  height: 65%;
+  height: 100%;
+  width: 100%;
   line-height: 0;
-  position:fixed;
+  position: fixed;
 }
 
 .overlay {
-  opacity: 0.7;
-  background-color:black;
+  opacity: 0.5;
+  background-color: black;
   width: 100%;
-  height: 65%;
+  height: 100%;
   line-height: 0;
   position: absolute;
   z-index: 1;
@@ -45,22 +43,22 @@ body {
 
 .headingContainer {
   width: 100%;
-  height: 65%;
+  height: 100%;
   position: absolute;
   z-index: 2;
 }
 
 .heading {
-  font-family: Ubuntu-Regular;  
-  color: white;  
-  font-size: 60px;
+  color: black;
+  font-family: Ubuntu-Regular;
   display: block;
-  margin-top: 12%;
+  font-size: 60px;
+  padding-top: 20%;
 }
 
 .sub-heading {
   font-family: Ubuntu-Light;
-  color: white;  
+  color: black;
   font-size: 30px;
   display: block;
   margin-top: 1%;
@@ -68,28 +66,38 @@ body {
 
 .footer {
   width: 100%;
-  bottom: 0;
-  height: 35%;
-  background-color: #000000;
-  position: fixed;  
+  z-index: 2;
+  position: absolute;
+  padding-top: 30%;
 }
 
- @font-face { font-family: Ubuntu-Light; src: url('../src/assets/fonts/Ubuntu-Light.ttf');}
- 
- @font-face { font-family: Ubuntu-Regular; src: url('../src/assets/fonts/Ubuntu-Regular.ttf');}
+@font-face {
+  font-family: Ubuntu-Light;
+  src: url("../src/assets/fonts/Ubuntu-Light.ttf");
+}
+
+@font-face {
+  font-family: Ubuntu-Regular;
+  src: url("../src/assets/fonts/Ubuntu-Regular.ttf");
+}
 
 .footerButton {
   font-size: 30px;
-	color: white;
-	text-decoration: none;
+  color: black;
+  text-decoration: none;
   font-family: Ubuntu-Light;
-  position: relative;
-  display:inline-block;
-  padding-top: 1%;
-  padding-right: 1%;
+  padding-bottom: 20px;
+  display: block;
 }
 
-html body{
+.bottomFooter {
+  width: 100%;
+  bottom: 0;
+  position: fixed;
+  z-index: 2;
+}
+
+html body {
   left: 0;
   right: 0;
   bottom: 0;

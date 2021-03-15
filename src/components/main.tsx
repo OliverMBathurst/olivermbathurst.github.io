@@ -1,94 +1,138 @@
-import React, { useEffect, useState } from 'react';
-import Grid from './grid'
-import Footer from './footer'
-import Overlay from './overlay'
-import HeadingContainer from './headingContainer'
-import { merge } from './constants'
-import { DefaultRowCount, DefaultColumnCount, DefaultBoxHeight, DefaultBoxWidth, LifeChance, Interval } from '../constants/constants'
+import React, { useEffect, useState } from "react";
+import Grid from "./grid";
+import Overlay from "./overlay";
+import HeadingContainer from "./headingContainer";
+import Footer from "./footer";
+import SourceCodeLink from "./sourceCodeLink";
+import ISnakeCell from "../interfaces/snakeCell";
+import ICoordinates from "../interfaces/coordinates";
+import {
+  DefaultRowCount,
+  DefaultColumnCount,
+  DefaultBoxHeight,
+  DefaultBoxWidth,
+  InitialSnakeLength,
+  FoodChance,
+  Interval,
+} from "../constants/constants";
+import { CellType } from "../enums/cellType";
+import { Direction } from "../enums/direction";
+import { directionMappings } from "./constants";
 
 const Main = () => {
-  const [grid, setGrid] = useState<boolean[][]>(Array(DefaultRowCount).fill(false).map(() => Array(DefaultColumnCount).fill(false)));
+  const [grid, setGrid] = useState<ISnakeCell[][] | undefined>();
   const [loading, setLoading] = useState<boolean>(true);
+  const [
+    snakeHeadCoordinates,
+    setSnakeHeadCoordinates,
+  ] = useState<ICoordinates>({ x: 0, y: 0 });
 
   useEffect(() => {
+    initializeGrid();
 
-    setGrid(getNewGrid());
-
-    window.addEventListener("resize", () => setGrid(merge(grid, getNewGrid())));
-
-    const intervalId = setInterval(() => {
-      let copy = [...grid]
-      let change = false
-
-      for (var i = 0; i < copy.length; i++) {
-        for (var j = 0; j < copy[i].length; j++) {
-          let life = 0
-
-          //Adjacents
-          if (i > 0 && copy[i-1][j]) life++;
-          if (i + 1 < copy.length && copy[i+1][j]) life++;
-          if (j >= 0 && copy[i][j-1]) life++;
-          if (j + 1 < copy[i].length && copy[i][j+1]) life++;
-
-          //Diagonals
-          if (j - 1 >= 0 && i - 1 >= 0 && copy[i-1][j-1]) life++;
-          if (j + 1 < copy[i].length && i - 1 >= 0 && copy[i-1][j+1]) life++; 
-          if (i + 1 < copy.length && j + 1 < copy[i].length && grid[i+1][j+1]) life++;
-          if (i + 1 < copy.length && j - 1 >= 0 && copy[i+1][j-1]) life++;
-
-          if (copy[i][j] && (life < 2 || life > 3)) {
-            copy[i][j] = false;
-            change = true
-          } else if (!copy[i][j] && life === 3) {
-            copy[i][j] = true
-            change = true
-          }
-        }
-      }
-
-      if (!change) {
-        for (var ic = 0; ic < copy.length; ic++){
-          for (var jc = 0; jc < copy[ic].length; jc++){
-            copy[ic][jc] = Math.random() > LifeChance;
-          }
-        }
-      }
-    
-    setGrid(copy);
-    }, Interval);
+    window.addEventListener("resize", onWindowResized);
+    const intervalId = setInterval(run, Interval);
 
     setLoading(false);
     return () => clearInterval(intervalId);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, []);
 
+  const initializeGrid = (
+    width: number = Math.round(window.innerHeight / DefaultBoxHeight),
+    height: number = Math.round(window.innerWidth / DefaultBoxWidth)
+  ) => {
+    var snakeCellArray: ISnakeCell[][] = [];
 
-  const getNewGrid = (width: number = Math.round(window.innerHeight/DefaultBoxHeight), height: number = Math.round(window.innerWidth/DefaultBoxWidth)) : boolean[][] => {
-      var boolArray: boolean[][] = [];
-
-      for (var i = 0; i < height; i++){
-        boolArray[i] = new Array<boolean>(width).map(() => Math.random() > LifeChance);
+    for (var i = 0; i < height; i++) {
+      snakeCellArray[i] = [];
+      for (var j = 0; j < width; j++) {
+        snakeCellArray[i][j] = {
+          type: Math.random() > FoodChance ? CellType.Food : CellType.Normal,
+          direction: Direction.Fixed,
+        };
       }
+    }
 
-      return boolArray;
-  }
+    var headX = Math.floor(
+      Math.random() * (width - 2 * InitialSnakeLength) + InitialSnakeLength
+    );
+    var headY = Math.floor(
+      Math.random() * (snakeCellArray.length - 2 * InitialSnakeLength) +
+        InitialSnakeLength
+    );
+
+    snakeCellArray[headY][headX].type = CellType.Snake;
+    snakeCellArray[headY][headX].direction =
+      directionMappings[Math.floor(Math.random() * (4 - 1) + 1)];
+
+    for (var c = 1; c < InitialSnakeLength; c++) {
+      snakeCellArray[headY][headX - c].direction = Direction.Fixed;
+      snakeCellArray[headY][headX - c].type = CellType.Snake;
+    }
+
+    if (snakeCellArray[headY][headX].direction === Direction.Left) {
+      snakeCellArray[headY][headX].direction = Direction.Fixed;
+      snakeCellArray[headY][headX - InitialSnakeLength + 1].direction =
+        Direction.Left;
+    }
+
+    setSnakeHeadCoordinates({ x: headX, y: headY });
+    setGrid(snakeCellArray);
+  };
+
+  const onWindowResized = () => {};
+
+  const run = () => {
+    if (grid) {
+      var originalCoordinates: ICoordinates = {
+        x: snakeHeadCoordinates.x,
+        y: snakeHeadCoordinates.y,
+      };
+      var direction =
+        grid[snakeHeadCoordinates.x][snakeHeadCoordinates.y].direction;
+      var newCoordinates = getNextCoordinates(originalCoordinates, direction);
+
+      //todo
+
+    }
+  };
+
+  const getNextCoordinates = (
+    currentCoordinates: ICoordinates,
+    direction: Direction
+  ): ICoordinates | undefined => {
+    if (direction == Direction.Right) {
+      return { x: currentCoordinates.x + 1, y: currentCoordinates.y };
+    } else if (direction == Direction.Down) {
+      return { x: currentCoordinates.x, y: currentCoordinates.y - 1 };
+    } else if (direction == Direction.Left) {
+      return { x: currentCoordinates.x - 1, y: currentCoordinates.y };
+    } else if (direction == Direction.Up) {
+      return { x: currentCoordinates.x, y: currentCoordinates.y + 1 };
+    } else if (direction == Direction.Fixed) {
+      return currentCoordinates;
+    }
+    return undefined;
+  };
 
   if (loading) {
-    return <></>
+    return <></>;
   }
 
   return (
     <div>
-      <HeadingContainer/>
-      <Overlay/>
-      <Grid 
-        grid = {grid}
-        rowCount = {DefaultRowCount}
-        columnCount = {DefaultColumnCount}
+      <HeadingContainer />
+      <Overlay />
+      <Grid
+        grid={grid}
+        rowCount={DefaultRowCount}
+        columnCount={DefaultColumnCount}
       />
-      <Footer/>
+      <Footer />
+      <SourceCodeLink />
     </div>
-  )
-}
+  );
+};
 
-export default Main
+export default Main;

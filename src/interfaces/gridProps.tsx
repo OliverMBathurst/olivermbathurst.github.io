@@ -1,5 +1,7 @@
+import ISnakeCell from "./snakeCell";
+
 export default interface IGridProps {
-    grid: boolean[][];
-    rowCount: number;
-    columnCount: number;
+  grid: ISnakeCell[][] | undefined;
+  rowCount: number;
+  columnCount: number;
 }
