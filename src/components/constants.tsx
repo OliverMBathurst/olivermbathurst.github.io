@@ -53,3 +53,5 @@ export const directionMappings: { [index: number]: Direction } = {
   [3]: Direction.Left,
   [4]: Direction.Up,
 };
+
+export const validKeyCodes: number[] = [39, 37, 40, 38];
