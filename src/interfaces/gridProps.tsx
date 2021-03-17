@@ -1,7 +1,7 @@
-import ISnakeCell from "./snakeCell";
+import ICell from "./cell";
 
 export default interface IGridProps {
-  grid: ISnakeCell[][] | undefined;
+  grid: ICell[][] | undefined;
   rowCount: number;
   columnCount: number;
 }
