@@ -1,41 +1,52 @@
-import React, { useEffect, useState, Component } from "react";
+import React, { Component } from "react";
 import Grid from "./grid";
 import Overlay from "./overlay";
 import HeadingContainer from "./headingContainer";
 import Footer from "./footer";
 import SourceCodeLink from "./sourceCodeLink";
-import ICell from "../interfaces/cell";
+import ICellDescriptor from "../interfaces/cell";
 import ISnake from "../interfaces/snake";
-import IState from '../interfaces/state';
-import IProps from '../interfaces/props';
+import IState from "../interfaces/state";
+import IProps from "../interfaces/props";
 import ICoordinates from "../interfaces/coordinates";
 import {
-  DefaultRowCount,
-  DefaultColumnCount,
   DefaultBoxHeight,
   DefaultBoxWidth,
   InitialSnakeLength,
   FoodChance,
   Interval,
-} from "../constants/constants";
+  validKeyCodes,
+  cellStyles,
+} from "./constants";
 import { CellType } from "../enums/cellType";
 import { Direction } from "../enums/direction";
-import { validKeyCodes } from "./constants";
 
 class Main extends Component<IProps, IState> {
-  
   constructor(props: IProps) {
     super(props);
 
     window.addEventListener("resize", this.onWindowResized);
     window.addEventListener("keydown", this.onKeyDown);
 
-    var width: number = Math.round(window.innerHeight / DefaultBoxHeight), height: number = Math.round(window.innerWidth / DefaultBoxWidth);
+    var width: number = Math.round(window.innerHeight / DefaultBoxHeight),
+      height: number = Math.round(window.innerWidth / DefaultBoxWidth);
+
+    var newGrid = this.getNewGrid(width, height);
+    var newSnake = this.getNewSnake(width, height);
+
+    for (var i = 0; i < newSnake.cells.length; i++) {
+      newGrid[newSnake.cells[i].y][newSnake.cells[i].x] = {
+        type: CellType.Snake,
+        cellClass: cellStyles[CellType.Snake],
+        style: {}
+      };
+    }
+
     this.state = {
-      grid: this.getNewGrid(width, height),
-      snake: this.getNewSnake(width, height),
+      grid: newGrid,
+      snake: newSnake,
       timeout: setInterval(this.run, Interval),
-      userControlling: false
+      userControlling: false,
     };
   }
 
@@ -44,8 +55,7 @@ class Main extends Component<IProps, IState> {
       Math.random() * (gridWidth - 2 * InitialSnakeLength) + InitialSnakeLength
     );
     var headY = Math.floor(
-      Math.random() * (gridHeight - 2 * InitialSnakeLength) +
-        InitialSnakeLength
+      Math.random() * (gridHeight - 2 * InitialSnakeLength) + InitialSnakeLength
     );
 
     var snake: ISnake = {
@@ -58,19 +68,25 @@ class Main extends Component<IProps, IState> {
     }
 
     return snake;
-  }
+  };
 
-  getNewGrid = (width: number, height: number): ICell[][] => {
-    return new Array<Array<ICell>>(
-      height
-    ).map(() => {
-      return new Array<ICell>(width).map(() => {
-        return {
-          type: Math.random() > FoodChance ? CellType.Food : CellType.Normal,
+  getNewGrid = (width: number, height: number): ICellDescriptor[][] => {
+    var newGrid: ICellDescriptor[][] = [];
+    for (var i = 0; i < height; i++) {
+      newGrid[i] = [];
+      for (var j = 0; j < width; j++) {
+        var cellType = Math.random() > FoodChance ? CellType.Food : CellType.Normal;
+        var style = cellType === CellType.Food ? { opacity: Math.random() > 0.5 ? 1 : 0.5 } : {};
+
+        newGrid[i][j] = {
+          type: cellType,
+          cellClass: cellStyles[cellType],
+          style: style,
         };
-      });
-    });
-  }
+      }
+    }
+    return newGrid;
+  };
 
   onKeyDown = (event: KeyboardEvent) => {
     if (this.state.snake) {
@@ -91,7 +107,7 @@ class Main extends Component<IProps, IState> {
 
         this.setState({
           snake: copy,
-          userControlling: true
+          userControlling: true,
         });
       }
     }
@@ -104,13 +120,12 @@ class Main extends Component<IProps, IState> {
 
     this.setState({
       userControlling: false,
-      timeout: setInterval(this.run, Interval)
+      timeout: setInterval(this.run, Interval),
     });
   };
 
   onWindowResized = () => {
     if (this.state.grid) {
-
     }
   };
 
@@ -118,41 +133,109 @@ class Main extends Component<IProps, IState> {
     if (this.state.grid && this.state.snake) {
       var nextDirection = this.state.userControlling
         ? this.state.snake.direction
-        : this.getNextDirection(this.state.snake.cells[0], this.state.snake.direction);
+        : this.getNextDirection(
+            this.state.snake.cells[0],
+            this.state.snake.direction
+          );
 
       var newSnakeHeadCoordinates = this.getNextCoordinates(
         this.state.snake.cells[0],
         nextDirection
       );
 
-      this.state.snake.cells[0] = newSnakeHeadCoordinates;
       var snakeCopy: ISnake = {
-        cells: this.getNewSnakeCells(this.state.snake.cells),
+        cells: this.getNewSnakeCells([...this.state.snake.cells]),
         direction: nextDirection,
       };
 
-      if (
-        this.state.grid[snakeCopy.cells[0].y][snakeCopy.cells[0].x].type === CellType.Snake
-      ) {
+      snakeCopy.cells[0] = newSnakeHeadCoordinates;
+
+      if (!this.validateSnake(snakeCopy)) {
         this.restart();
-      } else if (
-        this.state.grid[snakeCopy.cells[0].y][snakeCopy.cells[0].x].type === CellType.Food
+      }
+
+      var gridCopy = [...this.state.grid];
+      if (
+        gridCopy[snakeCopy.cells[0].y][snakeCopy.cells[0].x].type ===
+        CellType.Food
       ) {
-        //append cell to tail
+        snakeCopy = this.addToTail(snakeCopy);
+        if (!this.validateSnake(snakeCopy)) {
+          this.restart();
+        }
       }
 
-      for (var i = 0; i < snakeCopy.cells.length; i++) {
-        this.state.grid[snakeCopy.cells[i].y][snakeCopy.cells[i].x].type = CellType.Snake;
+      var oldCells = this.state.snake.cells.filter(
+        (oldSnakeCell) => snakeCopy.cells.indexOf(oldSnakeCell) === -1
+      );
+      for (var oldC = 0; oldC < oldCells.length; oldC++) {
+        gridCopy[oldCells[oldC].y][oldCells[oldC].x] = {
+          type: CellType.Normal,
+          style: {},
+          cellClass: cellStyles[CellType.Normal]
+        };
       }
 
-      this.setState({ snake: snakeCopy });
+      var newCells = snakeCopy.cells.filter(
+        (newCell: ICoordinates) =>
+          gridCopy[newCell.y][newCell.x].type !== CellType.Snake
+      );
+      for (var i = 0; i < newCells.length; i++) {
+        gridCopy[newCells[i].y][newCells[i].x] = {
+          type: CellType.Snake,
+          cellClass: cellStyles[CellType.Snake],
+          style: {}
+        };
+      }
+
+      this.setState({
+        snake: snakeCopy,
+        grid: gridCopy,
+      });
     }
+  };
+
+  addToTail = (snake: ISnake): ISnake => {
+    var tail = snake.cells[snake.cells.length - 1];
+    var penultimate = snake.cells[snake.cells.length - 2];
+    if (tail.x > penultimate.x) {
+      snake.cells = snake.cells.concat({ x: tail.x + 1, y: tail.y });
+    } else if (penultimate.x > tail.x) {
+      snake.cells = snake.cells.concat({ x: tail.x - 1, y: tail.y });
+    } else {
+      if (penultimate.y < tail.y) {
+        snake.cells.concat({ x: tail.x, y: tail.y + 1 });
+      } else {
+        snake.cells.concat({ x: tail.x, y: tail.y - 1 });
+      }
+    }
+
+    return snake;
+  };
+
+  validateSnake = (snake: ISnake): boolean => {
+    for (var i = 0; i < snake.cells.length; i++) {
+      var cell = snake.cells[i];
+      if (snake.cells.filter((x) => x === cell).length > 1) {
+        return false;
+      }
+
+      if (cell.y < 0 || cell.y > this.state.grid.length - 1) {
+        return false;
+      }
+
+      if (cell.x < 0 || cell.x > this.state.grid[cell.y].length - 1) {
+        return false;
+      }
+    }
+
+    return true;
   };
 
   getNewSnakeCells = (cells: ICoordinates[]): ICoordinates[] => {
     var copy: ICoordinates[] = [...cells];
-    for (var i = copy.length - 2; i >= 0; i--) {
-      copy[i] = copy[i + 1];
+    for (var i = copy.length - 1; i > 0; i--) {
+      copy[i] = copy[i - 1];
     }
     return copy;
   };
@@ -231,8 +314,9 @@ class Main extends Component<IProps, IState> {
     return (
       this.state.grid
         .slice(coordinates.y, this.state.grid.length)
-        .filter((c: ICell[]) => c[0].type === CellType.Food).length > 0 &&
-        this.state.grid[coordinates.y - 1][coordinates.x].type !== CellType.Snake
+        .filter((c: ICellDescriptor[]) => c[0].type === CellType.Food).length >
+        0 &&
+      this.state.grid[coordinates.y - 1][coordinates.x].type !== CellType.Snake
     );
   };
 
@@ -241,8 +325,10 @@ class Main extends Component<IProps, IState> {
       return false;
     }
     return (
-      this.state.grid.slice(0, coordinates.y).filter((c: ICell[]) => c[0].type === CellType.Food)
-        .length > 0
+      this.state.grid
+        .slice(0, coordinates.y)
+        .filter((c: ICellDescriptor[]) => c[0].type === CellType.Food).length >
+      0
     );
   };
 
@@ -253,7 +339,7 @@ class Main extends Component<IProps, IState> {
     return (
       this.state.grid[coordinates.y]
         .slice(coordinates.x, this.state.grid[coordinates.y].length)
-        .filter((c: ICell) => c.type === CellType.Food).length > 0
+        .filter((c: ICellDescriptor) => c.type === CellType.Food).length > 0
     );
   };
 
@@ -264,7 +350,7 @@ class Main extends Component<IProps, IState> {
     return (
       this.state.grid[coordinates.y]
         .slice(coordinates.x, 0)
-        .filter((c: ICell) => c.type === CellType.Food).length > 0
+        .filter((c: ICellDescriptor) => c.type === CellType.Food).length > 0
     );
   };
 
@@ -273,13 +359,38 @@ class Main extends Component<IProps, IState> {
     direction: Direction
   ): ICoordinates => {
     if (direction === Direction.Right) {
-      return { x: currentCoordinates.x + 1, y: currentCoordinates.y };
+      return {
+        x:
+          currentCoordinates.x + 1 <
+          this.state.grid[currentCoordinates.y].length - 1
+            ? currentCoordinates.x + 1
+            : 0,
+        y: currentCoordinates.y,
+      };
     } else if (direction === Direction.Down) {
-      return { x: currentCoordinates.x, y: currentCoordinates.y - 1 };
+      return {
+        x: currentCoordinates.x,
+        y:
+          currentCoordinates.y + 1 > this.state.grid.length - 1
+            ? 0
+            : currentCoordinates.y + 1,
+      };
     } else if (direction === Direction.Left) {
-      return { x: currentCoordinates.x - 1, y: currentCoordinates.y };
+      return {
+        x:
+          currentCoordinates.x - 1 < 0
+            ? this.state.grid[currentCoordinates.y].length - 1
+            : currentCoordinates.x - 1,
+        y: currentCoordinates.y,
+      };
     } else if (direction === Direction.Up) {
-      return { x: currentCoordinates.x, y: currentCoordinates.y + 1 };
+      return {
+        x: currentCoordinates.x,
+        y:
+          currentCoordinates.y - 1 < 0
+            ? this.state.grid.length - 1
+            : currentCoordinates.y - 1,
+      };
     } else if (direction === Direction.Fixed) {
       return currentCoordinates;
     }
@@ -289,24 +400,18 @@ class Main extends Component<IProps, IState> {
   render() {
     return (
       <>
-      {this.state.grid &&
-        (
+        {this.state.grid && (
           <div>
             <HeadingContainer />
             <Overlay />
-            <Grid
-              grid={this.state.grid}
-              rowCount={DefaultRowCount}
-              columnCount={DefaultColumnCount}
-            />
+            <Grid grid={this.state.grid} />
             <Footer />
             <SourceCodeLink />
           </div>
-        )
-      }
+        )}
       </>
-    )
-  }  
+    );
+  }
 }
 
 export default Main;

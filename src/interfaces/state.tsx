@@ -1,8 +1,8 @@
-import ICell from "./cell";
+import ICellDescriptor from "./cell";
 import ISnake from "./snake";
 
 export default interface IState {
-    grid: ICell[][];
+    grid: ICellDescriptor[][];
     snake: ISnake;
     userControlling: boolean;
     timeout: NodeJS.Timeout;

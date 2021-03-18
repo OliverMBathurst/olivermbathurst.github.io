@@ -3,6 +3,14 @@ import IHeader from "../interfaces/header";
 import { CellType } from "../enums/cellType";
 import { Direction } from "../enums/direction";
 
+export const DefaultRowCount: number = 200;
+export const DefaultColumnCount: number = 200;
+export const DefaultBoxWidth: number = 15;
+export const DefaultBoxHeight: number = 15;
+export const FoodChance: number = 0.5;
+export const Interval: number = 50;
+export const InitialSnakeLength: number = 5;
+
 export const footerLinks: IFooterLink[] = [
   {
     title: "GitHub",

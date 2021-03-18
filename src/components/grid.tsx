@@ -1,8 +1,7 @@
 import React from "react";
 import IGridProps from "../interfaces/gridProps";
-import ICell from "../interfaces/cell";
+import ICellDescriptor from "../interfaces/cell";
 import Cell from "./cell";
-import { cellStyles } from "./constants";
 
 const Grid = (props: IGridProps) => {
   const { grid } = props;
@@ -13,15 +12,15 @@ const Grid = (props: IGridProps) => {
 
   return (
     <div className="grid">
-      {grid.map((_: ICell[], i: number) =>
-        grid[i].map((_: ICell, j: number) => {
+      {grid.map((_: ICellDescriptor[], i: number) =>
+        grid[i].map((cell: ICellDescriptor, j: number) => {
           let cellKey = i + "_" + j;
 
           return (
             <Cell
-              key={cellKey}
-              cellClass={cellStyles[grid[i][j].type]}
+              cellClass={cell.cellClass}
               cellKey={cellKey}
+              cellStyle={cell.style}
             />
           );
         })
