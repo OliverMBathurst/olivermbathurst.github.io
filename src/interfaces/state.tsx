@@ -6,4 +6,5 @@ export default interface IState {
     snake: ISnake;
     userControlling: boolean;
     timeout: NodeJS.Timeout;
+    paused: boolean;
 }

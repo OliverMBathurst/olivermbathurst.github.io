@@ -47,6 +47,7 @@ class Main extends Component<IProps, IState> {
       snake: newSnake,
       timeout: setInterval(this.run, Interval),
       userControlling: false,
+      paused: false
     };
   }
 
@@ -93,7 +94,14 @@ class Main extends Component<IProps, IState> {
       if (event.defaultPrevented) {
         return;
       }
-      if (event.keyCode in validKeyCodes) {
+      if (validKeyCodes.indexOf(event.keyCode) !== -1) {
+        if (event.keyCode === 80 || event.keyCode === 82){
+          this.setState({
+            paused: event.keyCode === 80
+          });
+          return;
+        }
+
         var copy = { ...this.state.snake };
         if (event.keyCode === 39) {
           copy.direction = Direction.Right;
@@ -130,6 +138,10 @@ class Main extends Component<IProps, IState> {
   };
 
   run = (): void => {
+    if (this.state.paused) {
+      return;
+    }
+
     if (this.state.grid && this.state.snake) {
       var nextDirection = this.state.userControlling
         ? this.state.snake.direction
@@ -264,6 +276,8 @@ class Main extends Component<IProps, IState> {
 
       if (!foundFood) {
         return this.getRandomNextDirection(headCoordinates, direction);
+      } else {
+        return direction;
       }
     }
 

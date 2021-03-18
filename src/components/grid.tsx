@@ -18,6 +18,7 @@ const Grid = (props: IGridProps) => {
 
           return (
             <Cell
+              key={cellKey}
               cellClass={cell.cellClass}
               cellKey={cellKey}
               cellStyle={cell.style}

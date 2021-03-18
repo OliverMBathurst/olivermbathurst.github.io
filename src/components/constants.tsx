@@ -5,10 +5,10 @@ import { Direction } from "../enums/direction";
 
 export const DefaultRowCount: number = 200;
 export const DefaultColumnCount: number = 200;
-export const DefaultBoxWidth: number = 15;
-export const DefaultBoxHeight: number = 15;
+export const DefaultBoxWidth: number = 17;
+export const DefaultBoxHeight: number = 17;
 export const FoodChance: number = 0.5;
-export const Interval: number = 50;
+export const Interval: number = 10;
 export const InitialSnakeLength: number = 5;
 
 export const footerLinks: IFooterLink[] = [
@@ -62,4 +62,4 @@ export const directionMappings: { [index: number]: Direction } = {
   [4]: Direction.Up,
 };
 
-export const validKeyCodes: number[] = [39, 37, 40, 38];
+export const validKeyCodes: number[] = [39, 37, 40, 38, 80, 82];
