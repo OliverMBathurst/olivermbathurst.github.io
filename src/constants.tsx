@@ -1,14 +1,13 @@
-import IFooterLink from "../interfaces/footer";
-import IHeader from "../interfaces/header";
-import { CellType } from "../enums/cellType";
-import { Direction } from "../enums/direction";
+import IFooterLink from "./interfaces/footer";
+import IHeader from "./interfaces/header";
+import { CellType } from "./enums/cellType";
 
 export const DefaultRowCount: number = 200;
 export const DefaultColumnCount: number = 200;
 export const DefaultBoxWidth: number = 17;
 export const DefaultBoxHeight: number = 17;
 export const FoodChance: number = 0.5;
-export const Interval: number = 10;
+export const Interval: number = 5;
 export const InitialSnakeLength: number = 5;
 
 export const footerLinks: IFooterLink[] = [
@@ -47,19 +46,11 @@ export const headings: IHeader[] = [
   },
 ];
 
-export const cellStyles: { [index: number]: string } = {
+export const cellClasses: { [index: number]: string } = {
   [CellType.Snake]: "snake",
   [CellType.Normal]: "normal",
   [CellType.Food]: "food",
+  [CellType.Debug]: "debug",
 };
 
-// eslint-disable-next-line no-useless-computed-key
-export const directionMappings: { [index: number]: Direction } = {
-  [0]: Direction.Fixed,
-  [1]: Direction.Down,
-  [2]: Direction.Right,
-  [3]: Direction.Left,
-  [4]: Direction.Up,
-};
-
-export const validKeyCodes: number[] = [39, 37, 40, 38, 80, 82];
+export const validKeyCodes: number[] = [39, 37, 40, 38, 80, 82, 68];

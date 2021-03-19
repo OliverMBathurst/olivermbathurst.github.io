@@ -1,6 +1,6 @@
 import React from "react";
 import IFooterLink from "../interfaces/footer";
-import { footerLinks } from "./constants";
+import { footerLinks } from "../constants";
 
 const Footer = () => {
   return (
@@ -14,4 +14,4 @@ const Footer = () => {
   );
 };
 
-export default Footer;
+export default React.memo(Footer);

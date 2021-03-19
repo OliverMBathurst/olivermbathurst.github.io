@@ -1,4 +1,4 @@
-import ICellDescriptor from "./cell";
+import ICellDescriptor from "./cellDescriptor";
 
 export default interface IGridProps {
   grid: ICellDescriptor[][] | undefined;

@@ -1,7 +1,3 @@
-body {
-  background-image: url("../src/assets/res/squares.webp");
-}
-
 .cell {
   display: inline-block;
   border: 1px solid white;
@@ -16,6 +12,10 @@ body {
 
 .food {
   background-color: rgb(39, 213, 69);
+}
+
+.debug {
+  background-color: brown;
 }
 
 .center {
@@ -54,7 +54,7 @@ body {
   font-weight: 600;
   display: block;
   font-size: 60px;
-  padding-top: 20%;
+  padding-top: 10%;
 }
 
 .sub-heading {

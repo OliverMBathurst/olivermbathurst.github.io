@@ -1,4 +1,4 @@
-import ICellDescriptor from "./cell";
+import ICellDescriptor from "./cellDescriptor";
 import ISnake from "./snake";
 
 export default interface IState {
@@ -6,5 +6,7 @@ export default interface IState {
     snake: ISnake;
     userControlling: boolean;
     timeout: NodeJS.Timeout;
+    windowResizeTimeout: NodeJS.Timeout | null;
     paused: boolean;
+    debug: boolean;
 }

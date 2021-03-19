@@ -1,6 +1,6 @@
 import React from "react";
 import IHeader from "../interfaces/header";
-import { headings } from "./constants";
+import { headings } from "../constants";
 
 const HeadingContainer = () => {
   return (
@@ -14,4 +14,4 @@ const HeadingContainer = () => {
   );
 };
 
-export default HeadingContainer;
+export default React.memo(HeadingContainer);

@@ -1,6 +1,6 @@
 import React from "react";
 import IGridProps from "../interfaces/gridProps";
-import ICellDescriptor from "../interfaces/cell";
+import ICellDescriptor from "../interfaces/cellDescriptor";
 import Cell from "./cell";
 
 const Grid = (props: IGridProps) => {

@@ -1,5 +1,5 @@
 import React from "react";
-import { sourceCodeLink } from "./constants";
+import { sourceCodeLink } from "../constants";
 
 const SourceCodeLink = () => {
   const { link, title, id } = sourceCodeLink;
@@ -13,4 +13,4 @@ const SourceCodeLink = () => {
   );
 };
 
-export default SourceCodeLink;
+export default React.memo(SourceCodeLink);

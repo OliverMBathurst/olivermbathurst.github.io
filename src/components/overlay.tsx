@@ -4,4 +4,4 @@ const Overlay = () => {
   return <div className="overlay" />;
 };
 
-export default Overlay;
+export default React.memo(Overlay);
