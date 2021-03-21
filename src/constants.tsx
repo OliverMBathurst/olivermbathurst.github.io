@@ -69,4 +69,4 @@ export const cellClasses: { [index: number]: string } = {
   [CellType.Debug]: "debug",
 };
 
-export const validKeyCodes: number[] = [39, 37, 40, 38, 80, 82, 68];
+export const validKeyCodes: string[] = ["KeyP", "KeyR", "KeyD", "ArrowRight", "ArrowLeft", "ArrowUp", "ArrowDown"];

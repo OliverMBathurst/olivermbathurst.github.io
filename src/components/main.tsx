@@ -53,15 +53,15 @@ class Main extends Component<IProps, IState> {
       return;
     }
 
-    if (validKeyCodes.indexOf(event.keyCode) !== -1) {
-      if (event.keyCode === 80 || event.keyCode === 82) {
+    if (validKeyCodes.indexOf(event.code) !== -1) {
+      if (event.code === "KeyP" || event.code === "KeyR") {
         this.setState({
-          paused: event.keyCode === 80,
+          paused: event.code === "KeyP",
         });
         return;
       }
 
-      if (event.keyCode === 68) {
+      if (event.code === "KeyD") {
         this.setState({
           debug: true,
         });
@@ -69,13 +69,13 @@ class Main extends Component<IProps, IState> {
       }
 
       var copy = { ...this.state.snake };
-      if (event.keyCode === 39) {
+      if (event.code === "ArrowRight") {
         copy.direction = Direction.Right;
-      } else if (event.keyCode === 37) {
+      } else if (event.code === "ArrowLeft") {
         copy.direction = Direction.Left;
-      } else if (event.keyCode === 40) {
+      } else if (event.code === "ArrowDown") {
         copy.direction = Direction.Down;
-      } else if (event.keyCode === 38) {
+      } else if (event.code === "ArrowUp") {
         copy.direction = Direction.Up;
       }
 
@@ -90,11 +90,11 @@ class Main extends Component<IProps, IState> {
     if (this.state.timeout) {
       clearInterval(this.state.timeout);
     }
-    
+
     if (!this.state.paused) {
       this.setState({ paused: true });
     }
-    
+
     var {
       width,
       height,
@@ -103,13 +103,13 @@ class Main extends Component<IProps, IState> {
     this.setState({
       grid: GridHelper.getNewGrid(width, height),
       snake: SnakeHelper.getNewSnake(width, height),
-      userControlling: false      
+      userControlling: false,
     });
 
     this.setState({
       timeout: setInterval(this.run, Interval),
-      paused: false
-    })
+      paused: false,
+    });
   };
 
   onWindowResized = () => {
@@ -155,6 +155,7 @@ class Main extends Component<IProps, IState> {
 
       if (!SnakeHelper.validateSnake(snakeCopy, this.state.grid)) {
         this.restart();
+        return;
       }
 
       var gridCopy = [...this.state.grid];
@@ -165,6 +166,7 @@ class Main extends Component<IProps, IState> {
         snakeCopy = SnakeHelper.addToTail(snakeCopy, this.state.grid);
         if (!SnakeHelper.validateSnake(snakeCopy, this.state.grid)) {
           this.restart();
+          return;
         }
       }
 
@@ -214,7 +216,7 @@ class Main extends Component<IProps, IState> {
       <>
         {this.state.grid && (
           <div>
-            {!this.state.userControlling && <TextContainer />}            
+            {!this.state.userControlling && <TextContainer />}
             <Grid grid={this.state.grid} />
             <SourceCodeLink />
           </div>

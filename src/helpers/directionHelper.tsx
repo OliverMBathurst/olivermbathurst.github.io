@@ -142,7 +142,7 @@ export default class DirectionHelper {
     if (direction === Direction.Right) {
       return {
         x:
-          currentCoordinates.x + 1 < grid[currentCoordinates.y].length - 1
+          currentCoordinates.x + 1 < grid[currentCoordinates.y].length
             ? currentCoordinates.x + 1
             : 0,
         y: currentCoordinates.y,
