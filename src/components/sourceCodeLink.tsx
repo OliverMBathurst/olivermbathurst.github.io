@@ -5,11 +5,9 @@ const SourceCodeLink = () => {
   const { link, title, id } = sourceCodeLink;
 
   return (
-    <div className="bottomFooter">
-      <a className="footerButton" href={link} key={id}>
+      <a className="sourceCodeButton" href={link} key={id}>
         {title}
       </a>
-    </div>
   );
 };
 

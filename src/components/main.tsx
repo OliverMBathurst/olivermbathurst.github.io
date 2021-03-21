@@ -5,9 +5,7 @@ import IState from "../interfaces/state";
 import IProps from "../interfaces/props";
 import ICoordinates from "../interfaces/coordinates";
 import IWindowParameters from "../interfaces/windowParameters";
-import Overlay from "./overlay";
-import HeadingContainer from "./headingContainer";
-import Footer from "./footer";
+import TextContainer from "./textContainer";
 import SourceCodeLink from "./sourceCodeLink";
 import SnakeHelper from "../helpers/snakeHelper";
 import GridHelper from "../helpers/gridHelper";
@@ -216,10 +214,8 @@ class Main extends Component<IProps, IState> {
       <>
         {this.state.grid && (
           <div>
-            <HeadingContainer />
-            <Overlay />
+            {!this.state.userControlling && <TextContainer />}            
             <Grid grid={this.state.grid} />
-            <Footer />
             <SourceCodeLink />
           </div>
         )}

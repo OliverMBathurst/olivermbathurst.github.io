@@ -1,7 +1,7 @@
 .cell {
   display: inline-block;
-  border: 1px solid white;
-  background-color: white;
+  border: 1px solid #333332;
+  background-color: #424242;
   width: 15px;
   height: 15px;
 }
@@ -18,6 +18,11 @@
   background-color: brown;
 }
 
+.image {
+  width: 64px;
+  height: 64px;
+}
+
 .center {
   margin: auto;
   display: table;
@@ -32,7 +37,7 @@
 }
 
 .overlay {
-  opacity: 0.5;
+  opacity: 0;
   background-color: black;
   width: 100%;
   height: 100%;
@@ -42,61 +47,59 @@
 }
 
 .headingContainer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
   width: 100%;
-  height: 50%;
+  text-align: center;
   position: absolute;
   z-index: 2;
 }
 
 .heading {
-  color: black;
-  font-family: Ubuntu-Regular;
-  font-weight: 600;
+  color: white;
+  font-family: Helvetica;
   display: block;
   font-size: 60px;
-  padding-top: 10%;
+  z-index: 3;
+  position: relative;
 }
 
 .sub-heading {
-  font-family: Ubuntu-Regular;
-  color: black;
-  font-weight: 600;
+  font-family: Helvetica;
+  color: white;
   font-size: 30px;
+  display: block;
+  padding-bottom: 40px;
+  z-index: 3;
+  position: relative;
 }
 
-.footer {
-  width: 100%;
-  height: 50%;
-  z-index: 2;
-  position: absolute;
-  bottom: 0;
-}
-
-@font-face {
-  font-family: Ubuntu-Light;
-  src: url("../src/assets/fonts/Ubuntu-Light.ttf");
-}
-
-@font-face {
-  font-family: Ubuntu-Regular;
-  src: url("../src/assets/fonts/Ubuntu-Regular.ttf");
-}
-
-.footerButton {
+.sourceCodeButton {
   font-size: 30px;
   color: black;
   text-decoration: none;
-  font-family: Ubuntu-Regular;
-  font-weight: 600;
-  padding-bottom: 20px;
-  display: block;
-}
-
-.bottomFooter {
-  width: 100%;
+  font-family: Helvetica;
+  display: inline;
   bottom: 0;
   position: fixed;
   z-index: 2;
+  right: 0;
+}
+
+.headerButton {
+  font-size: 30px;
+  color: black;
+  text-decoration: none;
+  font-family: Helvetica;
+  font-weight: 600;
+  padding-bottom: 20px;
+  display: inline;
+  z-index: 3;
+  position: relative;
+  padding-right: 20px;
 }
 
 html body {
@@ -106,4 +109,5 @@ html body {
   top: 0;
   margin: 0;
   text-align: center;
+  background-color: #424242;
 }
