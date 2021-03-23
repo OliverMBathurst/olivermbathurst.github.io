@@ -1,9 +1,7 @@
 import React, { Component } from "react";
 import Grid from "./grid";
-import ISnake from "../interfaces/snake";
 import IState from "../interfaces/state";
 import IProps from "../interfaces/props";
-import ICoordinates from "../interfaces/coordinates";
 import IWindowParameters from "../interfaces/windowParameters";
 import TextContainer from "./textContainer";
 import SourceCodeLink from "./sourceCodeLink";
@@ -11,9 +9,15 @@ import SnakeHelper from "../helpers/snakeHelper";
 import GridHelper from "../helpers/gridHelper";
 import DirectionHelper from "../helpers/directionHelper";
 import WindowHelper from "../helpers/windowHelper";
-import { Interval, validKeyCodes, cellClasses } from "../constants";
+import {
+  Interval,
+  validKeyCodes,
+  cellClasses,
+  InitialSnakeLength,
+} from "../constants";
 import { CellType } from "../enums/cellType";
 import { Direction } from "../enums/direction";
+import IGridChange from "../interfaces/gridChange";
 
 class Main extends Component<IProps, IState> {
   constructor(props: IProps) {
@@ -26,14 +30,14 @@ class Main extends Component<IProps, IState> {
       width,
       height,
     }: IWindowParameters = WindowHelper.getNewWindowParams();
+
     var newGrid = GridHelper.getNewGrid(width, height);
-    var newSnake = SnakeHelper.getNewSnake(width, height);
+    var newSnake = SnakeHelper.getNewSnake(newGrid);
 
     for (var i = 0; i < newSnake.cells.length; i++) {
-      newGrid[newSnake.cells[i].y][newSnake.cells[i].x] = {
+      newGrid.cells[newSnake.cells[i].y][newSnake.cells[i].x] = {
         type: CellType.Snake,
         cellClass: cellClasses[CellType.Snake],
-        style: {},
       };
     }
 
@@ -49,7 +53,7 @@ class Main extends Component<IProps, IState> {
   }
 
   onKeyDown = (event: KeyboardEvent) => {
-    if (!this.state.snake || !this.state.grid || event.defaultPrevented) {
+    if (event.defaultPrevented) {
       return;
     }
 
@@ -100,9 +104,10 @@ class Main extends Component<IProps, IState> {
       height,
     }: IWindowParameters = WindowHelper.getNewWindowParams();
 
+    var newGrid = GridHelper.getNewGrid(width, height);
     this.setState({
-      grid: GridHelper.getNewGrid(width, height),
-      snake: SnakeHelper.getNewSnake(width, height),
+      grid: newGrid,
+      snake: SnakeHelper.getNewSnake(newGrid),
       userControlling: false,
     });
 
@@ -113,16 +118,15 @@ class Main extends Component<IProps, IState> {
   };
 
   onWindowResized = () => {
-    if (this.state.grid) {
-      this.setState({ paused: true });
+    this.setState({ paused: true });
 
-      if (this.state.windowResizeTimeout) {
-        clearTimeout(this.state.windowResizeTimeout);
-      }
-      this.setState({
-        windowResizeTimeout: setTimeout(this.restart, 200),
-      });
+    if (this.state.windowResizeTimeout) {
+      clearTimeout(this.state.windowResizeTimeout);
     }
+
+    this.setState({
+      windowResizeTimeout: setTimeout(this.restart, 200),
+    });
   };
 
   run = (): void => {
@@ -130,97 +134,100 @@ class Main extends Component<IProps, IState> {
       return;
     }
 
-    if (this.state.grid && this.state.snake) {
-      var nextDirection = this.state.userControlling
-        ? this.state.snake.direction
-        : DirectionHelper.getNextDirection(
-            this.state.snake.cells[0],
-            this.state.snake.direction,
-            this.state.grid
-          );
+    var snakeCopy = {
+      direction: this.state.snake.direction,
+      cells: [...this.state.snake.cells],
+    };
 
-      var newSnakeHeadCoordinates = DirectionHelper.getNextCoordinates(
-        this.state.snake.cells[0],
-        nextDirection,
-        this.state.grid
-      );
+    if (
+      snakeCopy.cells.length ===
+      InitialSnakeLength + this.state.grid.foodCount
+    ) {
+      this.restart();
+      return;
+    }
 
-      var snakeCopy: ISnake = {
-        cells: SnakeHelper.getNewSnakeCells(
-          [...this.state.snake.cells],
-          newSnakeHeadCoordinates
-        ),
-        direction: nextDirection,
-      };
+    var nextDirection = this.state.userControlling
+      ? snakeCopy.direction
+      : DirectionHelper.getNextDirection(snakeCopy, this.state.grid);
 
-      if (!SnakeHelper.validateSnake(snakeCopy, this.state.grid)) {
+    var nextSnake = SnakeHelper.getNextSnake(
+      snakeCopy,
+      nextDirection,
+      this.state.grid
+    );
+
+    if (!SnakeHelper.validateSnake(nextSnake, this.state.grid)) {
+      this.restart();
+      return;
+    }
+
+    if (
+      this.state.grid.cells[nextSnake.cells[0].y][nextSnake.cells[0].x].type ===
+      CellType.Food
+    ) {
+      nextSnake = SnakeHelper.addToTail(nextSnake, this.state.grid);
+      if (!SnakeHelper.validateSnake(nextSnake, this.state.grid)) {
         this.restart();
         return;
       }
-
-      var gridCopy = [...this.state.grid];
-      if (
-        gridCopy[snakeCopy.cells[0].y][snakeCopy.cells[0].x].type ===
-        CellType.Food
-      ) {
-        snakeCopy = SnakeHelper.addToTail(snakeCopy, this.state.grid);
-        if (!SnakeHelper.validateSnake(snakeCopy, this.state.grid)) {
-          this.restart();
-          return;
-        }
-      }
-
-      var oldCells = this.state.snake.cells.filter(
-        (oldSnakeCell) => snakeCopy.cells.indexOf(oldSnakeCell) === -1
-      );
-      for (var oldC = 0; oldC < oldCells.length; oldC++) {
-        gridCopy[oldCells[oldC].y][oldCells[oldC].x] = {
-          type: CellType.Normal,
-          style: {},
-          cellClass: cellClasses[CellType.Normal],
-        };
-      }
-
-      var newCells = snakeCopy.cells.filter(
-        (newCell: ICoordinates) =>
-          gridCopy[newCell.y][newCell.x].type !== CellType.Snake
-      );
-      for (var i = 0; i < newCells.length; i++) {
-        gridCopy[newCells[i].y][newCells[i].x] = {
-          type: CellType.Snake,
-          cellClass: cellClasses[CellType.Snake],
-          style: {},
-        };
-      }
-
-      if (this.state.debug) {
-        gridCopy[0][0].cellClass = cellClasses[CellType.Debug];
-        gridCopy[gridCopy.length - 1][0].cellClass =
-          cellClasses[CellType.Debug];
-        gridCopy[0][gridCopy[0].length - 1].cellClass =
-          cellClasses[CellType.Debug];
-        gridCopy[gridCopy.length - 1][
-          gridCopy[gridCopy.length - 1].length - 1
-        ].cellClass = cellClasses[CellType.Debug];
-      }
-
-      this.setState({
-        snake: snakeCopy,
-        grid: gridCopy,
-      });
     }
+
+    var changes: IGridChange[] = [];
+
+    for (const cell of this.state.snake.cells) {
+      if (
+        nextSnake.cells.filter(
+          (newCell) => newCell.x === cell.x && newCell.y === cell.y
+        ).length === 0
+      ) {
+        changes.push({
+          coordinates: { x: cell.x, y: cell.y },
+          cell: {
+            type: CellType.Normal,
+            cellClass: cellClasses[CellType.Normal],
+          },
+        });
+      }
+    }
+
+    for (const cell of nextSnake.cells) {
+      if (this.state.grid.cells[cell.y][cell.x].type !== CellType.Snake) {
+        changes.push({
+          coordinates: { x: cell.x, y: cell.y },
+          cell: {
+            type: CellType.Snake,
+            cellClass: cellClasses[CellType.Snake],
+          },
+        });
+      }
+    }
+
+    if (changes.length > 0) {
+      var copy = { ...this.state.grid };
+      for (var change of changes) {
+        copy.cells[change.coordinates.y][change.coordinates.x] = change.cell;
+      }
+      this.setState({
+        grid: copy,
+        snake: nextSnake,
+      });
+      return;
+    }
+
+    this.setState({
+      snake: nextSnake,
+    });
   };
 
   render() {
     return (
       <>
-        {this.state.grid && (
-          <div>
-            {!this.state.userControlling && <TextContainer />}
-            <Grid grid={this.state.grid} />
-            <SourceCodeLink />
-          </div>
-        )}
+        <div>
+          {!this.state.userControlling && <TextContainer />}
+          <Grid grid={this.state.grid} />
+          <SourceCodeLink />
+        </div>
       </>
     );
   }

@@ -9,7 +9,7 @@ export const DefaultRowCount: number = 200;
 export const DefaultColumnCount: number = 200;
 export const DefaultBoxWidth: number = 17;
 export const DefaultBoxHeight: number = 17;
-export const FoodChance: number = 0.9;
+export const FoodChance: number = 0.995;
 export const Interval: number = 5;
 export const InitialSnakeLength: number = 5;
 
@@ -69,4 +69,12 @@ export const cellClasses: { [index: number]: string } = {
   [CellType.Debug]: "debug",
 };
 
-export const validKeyCodes: string[] = ["KeyP", "KeyR", "KeyD", "ArrowRight", "ArrowLeft", "ArrowUp", "ArrowDown"];
+export const validKeyCodes: string[] = [
+  "KeyP",
+  "KeyR",
+  "KeyD",
+  "ArrowRight",
+  "ArrowLeft",
+  "ArrowUp",
+  "ArrowDown",
+];

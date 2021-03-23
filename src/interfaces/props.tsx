@@ -1,3 +1,3 @@
 export default interface IProps {
-    //define main props here if needed
+  //define main props here if needed
 }

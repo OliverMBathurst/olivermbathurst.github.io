@@ -6,14 +6,10 @@ import Cell from "./cell";
 const Grid = (props: IGridProps) => {
   const { grid } = props;
 
-  if (!grid) {
-    return <></>;
-  }
-
   return (
     <div className="grid">
-      {grid.map((_: ICellDescriptor[], i: number) =>
-        grid[i].map((cell: ICellDescriptor, j: number) => {
+      {grid.cells.map((_: ICellDescriptor[], i: number) =>
+        grid.cells[i].map((cell: ICellDescriptor, j: number) => {
           let cellKey = i + "_" + j;
 
           return (

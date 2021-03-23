@@ -2,49 +2,50 @@ import { Direction } from "../enums/direction";
 import { CellType } from "../enums/cellType";
 import ICellDescriptor from "../interfaces/cellDescriptor";
 import ICoordinates from "../interfaces/coordinates";
+import IGrid from "../interfaces/grid";
+import ISnake from "../interfaces/snake";
+import SnakeHelper from "./snakeHelper";
 
 export default class DirectionHelper {
-  static getNextDirection = (
-    headCoordinates: ICoordinates,
+  static nextSnakeValid = (
+    snake: ISnake,
     direction: Direction,
-    grid: ICellDescriptor[][]
-  ): Direction => {
-    if (grid) {
-      var foundFood: boolean = false;
+    grid: IGrid
+  ): boolean => {
+    return SnakeHelper.validateSnake(
+      SnakeHelper.getNextSnake(snake, direction, grid),
+      grid
+    );
+  };
 
-      switch (direction) {
-        case Direction.Down:
-          foundFood = DirectionHelper.isFoodDown(headCoordinates, grid);
-          break;
-        case Direction.Left:
-          foundFood = DirectionHelper.isFoodLeft(headCoordinates, grid);
-          break;
-        case Direction.Right:
-          foundFood = DirectionHelper.isFoodRight(headCoordinates, grid);
-          break;
-        case Direction.Up:
-          foundFood = DirectionHelper.isFoodUp(headCoordinates, grid);
-          break;
-      }
+  static getNextDirection = (snake: ISnake, grid: IGrid): Direction => {
+    var valid: boolean = false;
+    var headCoordinates = snake.cells[0];
 
-      if (!foundFood) {
-        return DirectionHelper.getRandomNextDirection(
-          headCoordinates,
-          direction,
-          grid
-        );
-      } else {
-        return direction;
-      }
+    switch (snake.direction) {
+      case Direction.Down:
+        valid = DirectionHelper.isFoodDown(headCoordinates, grid);
+        break;
+      case Direction.Left:
+        valid = DirectionHelper.isFoodLeft(headCoordinates, grid);
+        break;
+      case Direction.Right:
+        valid = DirectionHelper.isFoodRight(headCoordinates, grid);
+        break;
+      case Direction.Up:
+        valid = DirectionHelper.isFoodUp(headCoordinates, grid);
+        break;
     }
 
-    return Direction.Up;
+    return valid && DirectionHelper.nextSnakeValid(snake, snake.direction, grid)
+      ? snake.direction
+      : DirectionHelper.getRandomNextDirection(snake, snake.direction, grid);
   };
 
   static getRandomNextDirection = (
-    coordinates: ICoordinates,
+    snake: ISnake,
     excludedDirection: Direction,
-    grid: ICellDescriptor[][]
+    grid: IGrid
   ): Direction => {
     var allDirections: Direction[] = [
       Direction.Down,
@@ -53,128 +54,92 @@ export default class DirectionHelper {
       Direction.Up,
     ];
 
+    const head = snake.cells[0];
+
     allDirections.splice(allDirections.indexOf(excludedDirection), 1);
 
     var foodDirections: Direction[] = [];
+    var validDirections: Direction[] = [];
 
     for (var dir of allDirections) {
-      if (
-        dir === Direction.Down &&
-        DirectionHelper.isFoodDown(coordinates, grid)
-      ) {
-        foodDirections.push(Direction.Down);
-      } else if (
-        dir === Direction.Up &&
-        DirectionHelper.isFoodUp(coordinates, grid)
-      ) {
-        foodDirections.push(Direction.Up);
+      var foundFood: boolean = false;
+
+      if (dir === Direction.Down && DirectionHelper.isFoodDown(head, grid)) {
+        foundFood = true;
+      } else if (dir === Direction.Up && DirectionHelper.isFoodUp(head, grid)) {
+        foundFood = true;
       } else if (
         dir === Direction.Right &&
-        DirectionHelper.isFoodRight(coordinates, grid)
+        DirectionHelper.isFoodRight(head, grid)
       ) {
-        foodDirections.push(Direction.Right);
+        foundFood = true;
       } else if (
         dir === Direction.Left &&
-        DirectionHelper.isFoodLeft(coordinates, grid)
+        DirectionHelper.isFoodLeft(head, grid)
       ) {
-        foodDirections.push(Direction.Left);
+        foundFood = true;
+      }
+
+      if (DirectionHelper.nextSnakeValid(snake, dir, grid)) {
+        validDirections.push(dir);
+      }
+
+      if (foundFood) {
+        foodDirections.push(dir);
       }
     }
 
-    if (foodDirections.length === 0) {
-      return Direction.Right;
+    if (foodDirections.length > 0) {
+      var goldDirections = foodDirections.filter(
+        (foodDirection) => validDirections.indexOf(foodDirection) !== -1
+      );
+      if (goldDirections.length > 0) {
+        return goldDirections[
+          Math.floor(Math.random() * goldDirections.length)
+        ];
+      }
     }
 
-    return foodDirections[Math.floor(Math.random() * foodDirections.length)];
+    if (validDirections.length > 0) {
+      return validDirections[
+        Math.floor(Math.random() * validDirections.length)
+      ];
+    }
+
+    return Direction.Right;
   };
 
-  static isFoodDown = (
-    coordinates: ICoordinates,
-    grid: ICellDescriptor[][]
-  ): boolean => {
+  static isFoodDown = (coordinates: ICoordinates, grid: IGrid): boolean => {
     return (
-      grid
-        .slice(coordinates.y, grid.length)
+      grid.cells
+        .slice(coordinates.y, grid.cells.length)
         .map((array: ICellDescriptor[]) => array[coordinates.x])
         .filter((c: ICellDescriptor) => c.type === CellType.Food).length > 0
     );
   };
 
-  static isFoodUp = (
-    coordinates: ICoordinates,
-    grid: ICellDescriptor[][]
-  ): boolean => {
+  static isFoodUp = (coordinates: ICoordinates, grid: IGrid): boolean => {
     return (
-      grid
+      grid.cells
         .slice(0, coordinates.y)
         .map((array: ICellDescriptor[]) => array[coordinates.x])
         .filter((c: ICellDescriptor) => c.type === CellType.Food).length > 0
     );
   };
 
-  static isFoodRight = (
-    coordinates: ICoordinates,
-    grid: ICellDescriptor[][]
-  ): boolean => {
+  static isFoodRight = (coordinates: ICoordinates, grid: IGrid): boolean => {
     return (
-      grid[coordinates.y]
-        .slice(coordinates.x, grid[coordinates.y].length)
+      grid.cells[coordinates.y]
+        .slice(coordinates.x, grid.cells[coordinates.y].length)
         .filter((c: ICellDescriptor) => c.type === CellType.Food).length > 0
     );
   };
 
-  static isFoodLeft = (
-    coordinates: ICoordinates,
-    grid: ICellDescriptor[][]
-  ): boolean => {
+  static isFoodLeft = (coordinates: ICoordinates, grid: IGrid): boolean => {
     return (
-      grid[coordinates.y]
+      grid.cells[coordinates.y]
         .slice(0, coordinates.x)
         .filter((c: ICellDescriptor) => c.type === CellType.Food).length > 0
     );
-  };
-
-  static getNextCoordinates = (
-    currentCoordinates: ICoordinates,
-    direction: Direction,
-    grid: ICellDescriptor[][]
-  ): ICoordinates => {
-    if (direction === Direction.Right) {
-      return {
-        x:
-          currentCoordinates.x + 1 < grid[currentCoordinates.y].length
-            ? currentCoordinates.x + 1
-            : 0,
-        y: currentCoordinates.y,
-      };
-    } else if (direction === Direction.Down) {
-      return {
-        x: currentCoordinates.x,
-        y:
-          currentCoordinates.y + 1 > grid.length - 1
-            ? 0
-            : currentCoordinates.y + 1,
-      };
-    } else if (direction === Direction.Left) {
-      return {
-        x:
-          currentCoordinates.x - 1 < 0
-            ? grid[currentCoordinates.y].length - 1
-            : currentCoordinates.x - 1,
-        y: currentCoordinates.y,
-      };
-    } else if (direction === Direction.Up) {
-      return {
-        x: currentCoordinates.x,
-        y:
-          currentCoordinates.y - 1 < 0
-            ? grid.length - 1
-            : currentCoordinates.y - 1,
-      };
-    } else if (direction === Direction.None) {
-      return currentCoordinates;
-    }
-
-    return currentCoordinates;
   };
 }

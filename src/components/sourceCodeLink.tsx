@@ -5,9 +5,9 @@ const SourceCodeLink = () => {
   const { link, title, id } = sourceCodeLink;
 
   return (
-      <a className="sourceCodeButton" href={link} key={id}>
-        {title}
-      </a>
+    <a className="sourceCodeButton" href={link} key={id}>
+      {title}
+    </a>
   );
 };
 
