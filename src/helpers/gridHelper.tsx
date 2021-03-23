@@ -34,7 +34,7 @@ export default class GridHelper {
       cells: newGrid,
       foodCount: foodCount,
       height: height,
-      width: width
+      width: width,
     };
   };
 }

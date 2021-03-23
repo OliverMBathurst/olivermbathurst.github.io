@@ -34,8 +34,8 @@ class Main extends Component<IProps, IState> {
     var newGrid = GridHelper.getNewGrid(width, height);
     var newSnake = SnakeHelper.getNewSnake(newGrid);
 
-    for (var i = 0; i < newSnake.cells.length; i++) {
-      newGrid.cells[newSnake.cells[i].y][newSnake.cells[i].x] = {
+    for (const cell of newSnake.cells) {
+      newGrid.cells[cell.y][cell.x] = {
         type: CellType.Snake,
         cellClass: cellClasses[CellType.Snake],
       };
@@ -109,9 +109,6 @@ class Main extends Component<IProps, IState> {
       grid: newGrid,
       snake: SnakeHelper.getNewSnake(newGrid),
       userControlling: false,
-    });
-
-    this.setState({
       timeout: setInterval(this.run, Interval),
       paused: false,
     });

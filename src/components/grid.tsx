@@ -26,4 +26,4 @@ const Grid = (props: IGridProps) => {
   );
 };
 
-export default Grid;
+export default React.memo(Grid);

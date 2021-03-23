@@ -11,7 +11,8 @@ export default class SnakeHelper {
       Math.random() * (grid.width - 2 * InitialSnakeLength) + InitialSnakeLength
     );
     var headY = Math.floor(
-      Math.random() * (grid.height - 2 * InitialSnakeLength) + InitialSnakeLength
+      Math.random() * (grid.height - 2 * InitialSnakeLength) +
+        InitialSnakeLength
     );
 
     var snake: ISnake = {
@@ -23,18 +24,24 @@ export default class SnakeHelper {
       snake.cells = snake.cells.concat({ x: headX - c, y: headY });
     }
 
-    var allDirections: Direction[] = [Direction.Left, Direction.Right, Direction.Down, Direction.Up];
+    var allDirections: Direction[] = [
+      Direction.Left,
+      Direction.Right,
+      Direction.Down,
+      Direction.Up,
+    ];
     var validDirections: Direction[] = [];
 
-    for(const dir of allDirections) {
-      if (DirectionHelper.nextSnakeValid(snake, dir, grid)){
+    for (const dir of allDirections) {
+      if (DirectionHelper.nextSnakeValid(snake, dir, grid)) {
         validDirections.push(dir);
       }
     }
 
     if (validDirections.length !== 0) {
-      snake.direction = validDirections[Math.floor(Math.random() * validDirections.length)]
-    }    
+      snake.direction =
+        validDirections[Math.floor(Math.random() * validDirections.length)];
+    }
 
     return snake;
   };
@@ -66,7 +73,7 @@ export default class SnakeHelper {
   static addToTail = (snake: ISnake, grid: IGrid): ISnake => {
     var snakeCopy: ISnake = {
       direction: snake.direction,
-      cells: [...snake.cells]
+      cells: [...snake.cells],
     };
     var tail = snakeCopy.cells[snakeCopy.cells.length - 1];
     var penultimate = snakeCopy.cells[snakeCopy.cells.length - 2];
@@ -105,8 +112,8 @@ export default class SnakeHelper {
   ): ISnake => {
     var snakeCopy: ISnake = {
       direction: snake.direction,
-      cells: [...snake.cells]
-    }
+      cells: [...snake.cells],
+    };
     var head = snakeCopy.cells[0];
     var nextHead: ICoordinates;
 

@@ -19,25 +19,26 @@ export default class DirectionHelper {
   };
 
   static getNextDirection = (snake: ISnake, grid: IGrid): Direction => {
-    var valid: boolean = false;
+    var foundFood: boolean = false;
     var headCoordinates = snake.cells[0];
 
     switch (snake.direction) {
       case Direction.Down:
-        valid = DirectionHelper.isFoodDown(headCoordinates, grid);
+        foundFood = DirectionHelper.isFoodDown(headCoordinates, grid);
         break;
       case Direction.Left:
-        valid = DirectionHelper.isFoodLeft(headCoordinates, grid);
+        foundFood = DirectionHelper.isFoodLeft(headCoordinates, grid);
         break;
       case Direction.Right:
-        valid = DirectionHelper.isFoodRight(headCoordinates, grid);
+        foundFood = DirectionHelper.isFoodRight(headCoordinates, grid);
         break;
       case Direction.Up:
-        valid = DirectionHelper.isFoodUp(headCoordinates, grid);
+        foundFood = DirectionHelper.isFoodUp(headCoordinates, grid);
         break;
     }
 
-    return valid && DirectionHelper.nextSnakeValid(snake, snake.direction, grid)
+    return foundFood &&
+      DirectionHelper.nextSnakeValid(snake, snake.direction, grid)
       ? snake.direction
       : DirectionHelper.getRandomNextDirection(snake, snake.direction, grid);
   };
