@@ -1,0 +1,37 @@
+.taskbar-item {
+    background: rgba(255,255,255, 0.1);
+    font-family: Segoe;
+    display: inline-block;
+    min-width: 130px;
+    cursor: pointer;
+    height: 30px;
+    padding-top: 2px;
+    margin-right: 3px;
+
+    svg {
+        vertical-align: middle;
+        padding-left: 5px;
+    }
+
+    .selected-bottom {
+        margin-top: 3px;
+        height: 2px;
+        background-color: #6878aa;
+        width: 100%;
+    }
+
+    .file-name {
+        padding-left: 5px;
+        display: inline-block;
+        color: #d5d1cc;
+        font-size: 12px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        vertical-align: middle;
+    }
+}
+
+.taskbar-item:hover {
+    background: rgba(255, 255, 255, 0.2);
+}

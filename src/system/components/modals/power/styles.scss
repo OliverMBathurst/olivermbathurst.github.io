@@ -1,0 +1,25 @@
+﻿.power-modal {
+    background-color: transparent;
+    font-family: Segoe;
+
+    .power-option {
+        width: 100%;
+        text-align: center;
+        cursor: pointer;
+        height: 33%;
+        min-height: 50px;
+        min-width: 200px;
+        color: white;
+        display: table;
+        background-color: rgba(0, 0, 0, 0.5);
+
+        .power-option-text {
+            display: table-cell;
+            vertical-align: middle;
+        }
+    }
+
+    .power-option:hover {
+        background: rgba(0, 0, 0, 0.4);
+    }
+}

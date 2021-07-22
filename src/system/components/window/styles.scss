@@ -1,0 +1,14 @@
+﻿.window, .window-selected {
+    position: absolute;
+    max-height: calc(100% - 30px);
+
+    .window-container {
+        overflow: auto;
+        max-height: calc(100% - 64px);
+        height: inherit;
+    }
+}
+
+.window-selected {
+    z-index: 998;
+}

@@ -1,0 +1,61 @@
+﻿.all-files-pane {
+    font-family: Segoe;
+    font-size: 16px;
+    width: calc(100% - 20px);
+    left: 20px;
+    position: relative;
+    top: 20px;
+
+    .all-files-pane-panel-descriptor {
+        color: white;
+        font-weight: 200;
+    }
+
+    .file-container {
+        height: calc(100% - 30px);
+        min-height: calc(100% - 30px);
+        top: 10px;
+        position: relative;
+
+        .start-menu-file-item {
+            display: inline-block;
+            color: white;
+            width: 60px;
+            max-width: 60px;
+            cursor: pointer;
+            border-radius: 5px;
+            vertical-align: top;
+            margin-right: 10px;
+            padding-top: 5px;
+
+            .start-menu-file-item-container {
+                max-width: 60px;
+                text-align: center;
+
+                svg {
+                    vertical-align: top;
+                }
+
+                .start-menu-file-item-name {
+                    display: inline-block;
+                    font-size: 10px;
+                    width: 100%;
+                    text-shadow: 1px 1px 2px black;
+                    overflow: hidden;
+                    max-height: 32px;
+                    text-overflow: ellipsis;
+                    -webkit-touch-callout: none; /* iOS Safari */
+                    -webkit-user-select: none; /* Safari */
+                    -khtml-user-select: none; /* Konqueror HTML */
+                    -moz-user-select: none; /* Old versions of Firefox */
+                    -ms-user-select: none; /* Internet Explorer/Edge */
+                    user-select: none;
+                }
+            }
+        }
+
+        .start-menu-file-item:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+    }
+}

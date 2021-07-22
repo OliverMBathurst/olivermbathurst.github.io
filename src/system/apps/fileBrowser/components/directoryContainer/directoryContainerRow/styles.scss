@@ -1,0 +1,28 @@
+﻿.row-container-row {
+    width: 100%;
+    cursor: pointer;
+    max-height: 28px;
+
+    .row-icon-container {
+        padding-left: 10px;
+        vertical-align: middle;
+    }
+
+    .row-name-container {
+        padding-left: 10px;
+        color: white;
+        font-size: 12px;
+    }
+
+    .row-icon-container, .row-name-container {
+        display: inline-block;
+    }
+}
+
+.row-container-row:nth-child(even) {
+    background: rgba(1, 0, 0, 0.1);
+}
+
+.row-container-row:hover {
+    background: rgba(255, 255, 255, 0.2);
+}

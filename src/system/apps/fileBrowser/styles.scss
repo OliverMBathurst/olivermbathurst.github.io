@@ -1,0 +1,14 @@
+﻿.file-browser {
+    font-family: Segoe;
+    height: 100%;
+
+    .path-input {
+        box-sizing: border-box;
+        width: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        color: white;
+        border: none;
+        height: 30px;
+        text-align: center;
+    }
+}

@@ -1,0 +1,18 @@
+﻿#pdf-viewer {
+    height: calc(100% - 22px);
+    font-family: Segoe;
+
+    #canvas-container {
+        text-align: center;
+        background: rgba(0, 0, 0, 0.8);
+        height: 100%;
+    }
+
+    #pdf-viewer-footer {
+        background: rgba(0, 0, 0, 0.8);
+
+        #navigation-controls {
+            text-align: center;
+        }
+    }
+}

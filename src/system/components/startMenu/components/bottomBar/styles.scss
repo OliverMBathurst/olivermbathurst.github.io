@@ -1,0 +1,17 @@
+﻿.bottom-bar {
+    height: 43px;
+    background-color: rgba(0, 0, 0, 0.5);
+    width: 100%;
+    font-family: Segoe;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    position: absolute;
+    bottom: 0;
+
+    .bottom-bar-item {
+        svg {
+            float: right;
+            cursor: pointer;
+            padding: 8px 10px 5px 0;
+        }
+    }
+}

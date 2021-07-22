@@ -1,0 +1,10 @@
+﻿.start-menu {
+    max-height: calc(100% - 30px);
+    min-height: 300px;
+    position: absolute;
+    background: rgba(0, 0, 0, 0.9);
+    bottom: 30px;
+    left: 0;
+    border-radius: 0 12px 0 0;
+    z-index: 1000;
+}

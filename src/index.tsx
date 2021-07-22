@@ -1,6 +1,10 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import "./index.css";
-import Main from "./components/main";
+import React from 'react';
+import ReactDOM from 'react-dom';
+import System from './system/system';
 
-ReactDOM.render(<Main />, document.getElementById("root"));
+ReactDOM.render(
+  <React.StrictMode>
+    <System />
+  </React.StrictMode>,
+  document.getElementById('root')
+);

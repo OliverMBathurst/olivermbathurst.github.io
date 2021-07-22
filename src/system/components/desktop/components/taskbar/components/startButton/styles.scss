@@ -1,0 +1,20 @@
+﻿.start-menu-button {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+
+    #start-button {
+        padding-top: 5px;
+    }
+
+    #start-menu-icon {
+        vertical-align: middle;
+        padding-top: 3px;
+        padding-left: 3px;
+    }
+}
+
+.start-menu-button:hover {
+    background: rgba(255, 255, 255, 0.1);
+}

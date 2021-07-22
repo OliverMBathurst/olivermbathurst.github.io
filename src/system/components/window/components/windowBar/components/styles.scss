@@ -1,0 +1,28 @@
+﻿.window-controls {
+    position: relative;
+    display: table-cell;
+    vertical-align: middle;
+    width: 75px;
+
+    .window-controls-button, .window-controls-button-negative {
+        display: table-cell;
+        width: 20px;
+        padding-right: 5px;
+        padding-left: 5px;
+        height: 34px;
+        vertical-align: middle;
+        cursor: pointer;
+    }
+
+    .window-controls-button-negative {
+        border-radius: 0px 12px 0px 0px;
+    }
+
+    .window-controls-button:hover {
+        background-color: rgba(108, 122, 137, 0.5);
+    }
+
+    .window-controls-button-negative:hover {
+        background-color: rgba(255, 0, 0, 1);
+    }
+}

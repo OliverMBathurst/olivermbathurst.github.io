@@ -1,0 +1,89 @@
+﻿.overlay {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: 1001;
+    background-color: black;
+    opacity: 0.8;
+    font-family: 'Segoe';
+
+    .central-div {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        cursor: default;
+
+        .heading, .sub-heading {
+            color: white;
+            display: block;
+            text-align: center;
+        }
+
+        .heading {
+            font-size: 60px;
+        }
+
+        .sub-heading {
+            font-size: 40px;
+        }
+
+        .overlay-button-container {
+            display: block;
+            text-align: center;
+            padding-top: 20px;
+
+            .overlay-link {
+                display: inline-block;
+                font-size: 30px;
+                color: white;
+                padding-right: 10px;
+                cursor: pointer;
+                outline: none;
+                border: none;
+                background: transparent;
+            }
+        }
+
+        @media only screen and (max-width: 768px) {
+            .heading {
+                font-size: 40px;
+            }
+
+            .sub-heading {
+                font-size: 30px;
+            }
+
+            .overlay-button-container {
+                .overlay-link {
+                    font-size: 20px;
+                }
+            }
+        }
+
+        @media only screen and (max-width: 320px) {
+            .heading {
+                font-size: 30px;
+            }
+
+            .sub-heading {
+                font-size: 20px;
+            }
+
+            .overlay-button-container {
+                .overlay-link {
+                    font-size: 10px;
+                }
+            }
+        }
+    }
+
+    svg {
+        position: absolute;
+        top: 0;
+        right: 0;
+        cursor: pointer;
+        padding-right: 10px;
+        padding-top: 5px;
+    }
+}
