@@ -21,13 +21,14 @@
             text-align: center;
             text-shadow: 1px 1px 2px black;
             max-height: 32px;
-            overflow-wrap: anywhere;
             -webkit-touch-callout: none; /* iOS Safari */
             -webkit-user-select: none; /* Safari */
             -khtml-user-select: none; /* Konqueror HTML */
             -moz-user-select: none; /* Old versions of Firefox */
             -ms-user-select: none; /* Internet Explorer/Edge */
             user-select: none;
+            text-overflow: ellipsis;
+            overflow: hidden;
         }
     }
 }

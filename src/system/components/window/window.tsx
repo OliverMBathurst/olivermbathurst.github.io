@@ -1,4 +1,5 @@
 import React, { memo, useEffect, useRef } from 'react'
+import { WINDOW_BAR_HEIGHT } from '../../../global/constants'
 import { WindowState } from '../../../global/enums'
 import { IDragCompletedEvent, IDragHandlerOptions, IWindow, IWindowSize } from '../../../global/interfaces'
 import DragHandler from '../../../global/utils/handlers/dragHandler/dragHandler'
@@ -38,10 +39,47 @@ const Window = (props: IWindowProps) => {
             onDragComplete: onWindowPositionChanged,
             position: windowObj.position
         }
-
+        
         var dragHandler = new DragHandler(dragHandlerOptions)
         return () => dragHandler.removeListeners()
     }, [])
+
+    useEffect(() => {
+        const handleResize = () => {
+            if (windowObj.position) {
+                const { x, y } = windowObj.position
+                var maxWidth = getMaxWindowWidth(x), maxHeight = getMaxWindowHeight(y + WINDOW_BAR_HEIGHT)
+                if (windowRef.current && windowBarRef.current) {
+                    if (windowRef.current.clientWidth > maxWidth) {
+                        var w = `${maxWidth}px`
+                        windowBarRef.current.style.width = w
+                        windowRef.current.style.width = w
+                    }
+
+                    if (windowRef.current.clientHeight > maxHeight) {
+                        windowRef.current.style.height = `${maxHeight}px`
+                    }
+
+                    if (windowObj.size) {
+                        if (maxWidth > windowRef.current.clientWidth && windowObj.size.width > windowRef.current.clientWidth) {
+                            var newWidth = `${windowObj.size.width > maxWidth ? maxWidth : windowObj.size.width}px`
+                            windowRef.current.style.width = newWidth
+                            windowBarRef.current.style.width = newWidth
+                        }
+
+                        if (maxHeight > windowRef.current.clientHeight && windowObj.size.height > windowRef.current.clientHeight) {
+                            windowRef.current.style.height = `${windowObj.size.height > maxHeight ? maxHeight : windowObj.size.height}px`
+                        }
+                    } else {
+                        onWindowSizeChanged(windowObj.id, { width: windowRef.current.clientWidth, height: windowRef.current.clientHeight })
+                    }
+                }
+            }
+        }
+
+        window.addEventListener("resize", handleResize)
+        return () => window.removeEventListener("resize", handleResize)
+    }, [windowObj.position])
 
     useEffect(() => {
         if (windowRef.current && windowBarRef.current && containerRef.current) {

@@ -100,7 +100,7 @@ class DragHandler implements IDragHandler {
         var diff = Math.abs(seconds - lastClickFire)
         lastClickFire = seconds
 
-        if (diff > 0 && diff < 1) {
+        if (diff < 1) {
             if (this.onDoubleClickOccurred) {
                 this.onDoubleClickOccurred()
             }

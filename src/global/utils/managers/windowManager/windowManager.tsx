@@ -114,6 +114,14 @@ class WindowManager implements IWindowManager {
         
 
     onWindowSizeChanged = (id: string, size: IWindowSize): IWindow[] => {
+        var windowsCopy = [...this.windows]
+
+        var idx = windowsCopy.findIndex(w => w.id === id)
+        if (idx !== -1) {
+            windowsCopy[idx].size = size
+        }
+
+        this.windows = windowsCopy
         return this.windows
     }
 

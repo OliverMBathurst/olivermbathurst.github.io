@@ -5,6 +5,7 @@ export const DESKTOP_ICON_WIDTH = 58
 export const DESKTOP_ICON_HEIGHT = 90
 export const DESKTOP_ICON_PADDING_LEFT = 10
 export const MOBILE_BREAKPOINT = 768
+export const WINDOW_BAR_HEIGHT = 34
 
 export const URLS = {
     gitHub: 'https://github.com/OliverMBathurst',
