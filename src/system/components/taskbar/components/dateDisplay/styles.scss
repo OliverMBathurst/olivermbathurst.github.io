@@ -1,0 +1,20 @@
+@font-face {
+    font-family: 'Segoe';
+    src: url("../../../../../fonts/Segoe UI.ttf");
+}
+
+.date-display {
+    font-family: Segoe;
+    float: right;
+    color: white;
+    cursor: default;
+    font-size: 12px;
+    color: rgba(213, 209, 204, 0.8);
+    padding-top: 7px;
+    height: 30px;
+    user-select: none;
+}
+
+.date-display:hover {
+    background: rgba(255, 255, 255, 0.1);
+}

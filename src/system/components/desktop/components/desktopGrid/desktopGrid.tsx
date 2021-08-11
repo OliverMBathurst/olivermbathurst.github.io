@@ -1,7 +1,7 @@
 import React, { createRef, memo, useCallback, useEffect, useRef, useState } from 'react'
 import { DESKTOP_ICON_HEIGHT, DESKTOP_ICON_WIDTH } from '../../../../../global/constants'
 import { OSItemType } from '../../../../../global/enums'
-import { ICoordinates, IDesktopDisplayItem, IDragCompletedEvent, IHydratedDirectory, IIdDefinedReferenceModel, ILineCoordinates, IOSItemClickedEvent } from '../../../../../global/interfaces'
+import { ICoordinates, IDesktopDisplayItem, IDragCompletedEvent, IHandlerManager, IHydratedDirectory, IIdDefinedReferenceModel, ILineCoordinates, IOSItemClickedEvent } from '../../../../../global/interfaces'
 import { getAvailableGridPositions } from '../../../../../global/utils/helpers/gridHelper'
 import { isValidPosition } from '../../../../../global/utils/helpers/positionHelper'
 import { getFormattedLine, overlap } from '../../../../../global/utils/helpers/rectHelper'
@@ -12,12 +12,14 @@ var initialPosition: ICoordinates | undefined
 var multiSelect: boolean | undefined
 
 interface IDesktopGridProps {
+    handlerManager: IHandlerManager
     getHydratedDirectory: (id: string, driveId: string) => IHydratedDirectory | undefined
     onDesktopItemsDoubleClicked: (events: IOSItemClickedEvent[]) => void
 }
 
 const DesktopGrid = (props: IDesktopGridProps) => {
     const {
+        handlerManager,
         getHydratedDirectory,
         onDesktopItemsDoubleClicked
     } = props
@@ -28,41 +30,13 @@ const DesktopGrid = (props: IDesktopGridProps) => {
 
     const desktopGridRef = useRef<HTMLDivElement>(null)
 
-    const getItem = useCallback((id: string) => {
-        var item = items.find(i => i.id === id)
-        if (!item) {
-            return null
-        }
-
-        var reference = item.reference
-        if (!reference) {
-            return null
-        }
-
-        return { id: id, reference: reference }
-    }, [items])
-
-    const onDesktopItemClicked = useCallback((id: string, shift: boolean) => {
-        var item = getItem(id)
-        if (!item) return
-
-        if (selected.length === 0 || (!multiSelect && !shift)) {
-            setSelected([item])
-            return
-        }
-
-        var selectedCopy = [...selected]
-        if (selectedCopy.findIndex(s => s.id === item!.id) === -1) {
-            setSelected(selectedCopy.concat({ id: item.id, reference: item.reference }))
-        }
-    }, [selected, getItem])
-
     useEffect(() => {
         if (!globalThis.desktopDirectory || !globalThis.desktopDirectory.id || !globalThis.desktopDirectory.driveId) {
             throw new Error('Desktop directory not defined')
         }
 
         const directory = getHydratedDirectory(globalThis.desktopDirectory.id, globalThis.desktopDirectory.driveId)
+        
         if (!directory) {
             throw new Error('Desktop directory not defined')
         }
@@ -101,12 +75,12 @@ const DesktopGrid = (props: IDesktopGridProps) => {
     useEffect(() => {
         const handleKeyDown = (event: KeyboardEvent) => {
             if (event.key === 'Enter') {
-                if (selected && selected.length > 0 && items.length > 0) {
+                if (selected.length > 0 && items.length > 0) {
                     var selectedItems: IOSItemClickedEvent[] = []
                     for (const selectedItem of selected) {
-                        var item = items.find(x => x.id === selectedItem.id)
-                        if (item) {
-                            selectedItems.push({ id: selectedItem.id, type: item.type, driveId: item.driveId })
+                        var hightlightedItem = items.find(x => x.id === selectedItem.id)
+                        if (hightlightedItem) {
+                            selectedItems.push({ id: selectedItem.id, type: hightlightedItem.type, driveId: hightlightedItem.driveId })
                         }
                     }
 
@@ -125,7 +99,7 @@ const DesktopGrid = (props: IDesktopGridProps) => {
 
             var itemsCopy = [...items]
 
-            const usedPositions = itemsCopy.map(i => i.position).filter(p => p)
+            const usedPositions = itemsCopy.map(item => item.position).filter(p => p)
 
             const predicate = (available: ICoordinates) => usedPositions.findIndex(p => p!.x === available.x && p!.y === available.y)
 
@@ -139,24 +113,27 @@ const DesktopGrid = (props: IDesktopGridProps) => {
                 }
             }
 
-            var invalids = itemsCopy.filter(i => !isValidPosition(i.position, 0, 0))
+            for (var i = 0; i < itemsCopy.length; i++) {
+                let item = itemsCopy[i]
 
-            for (const item of invalids) {
-                var idx = itemsCopy.findIndex(i => i.id === item.id)
+                if (isValidPosition(item.initialPosition, 0, 0)) {
+                    item.position = item.initialPosition
+                    continue
+                }
 
-                if (idx === -1) {
+                if (isValidPosition(item.position, 0, 0)) {
                     continue
                 }
 
                 if (gridPositions.length === 0) {
-                    itemsCopy[idx].position = isValidPosition(item.initialPosition, 0, 0)
+                    item.position = isValidPosition(item.initialPosition, 0, 0)
                         ? item.initialPosition
                         : { x: -100000, y: -100000 }
                 }
                 
                 if (!item.position) {
                     var pos = gridPositions[0]
-                    itemsCopy[idx].position = pos
+                    item.position = pos
                     splice(pos)
                     continue
                 }
@@ -168,7 +145,9 @@ const DesktopGrid = (props: IDesktopGridProps) => {
                     .sort(coord => Math.abs(y - coord.y))[0]
                     
                 splice(closest)
-                itemsCopy[idx].position = closest
+                item.position = closest
+
+                itemsCopy[i] = item
             }
 
             setItems(itemsCopy)
@@ -177,6 +156,53 @@ const DesktopGrid = (props: IDesktopGridProps) => {
         window.addEventListener("resize", handleResize)
         return () => window.removeEventListener("resize", handleResize)
     }, [items])
+
+    const getItem = useCallback((id: string) => {
+        var foundItem = items.find(i => i.id === id)
+        if (!foundItem) {
+            return null
+        }
+
+        var reference = foundItem.reference
+        if (!reference) {
+            return null
+        }
+
+        return { id: id, reference: reference }
+    }, [items])
+
+    const onDesktopItemPositionsChanged = useCallback((events: IDragCompletedEvent[]) => {
+        if (events.length === 0) return
+
+        var itemsCopy = [...items]
+        var changes = false
+        for (const event of events) {
+            var itemIdx = itemsCopy.findIndex(x => x.id === event.id)
+            if (itemIdx !== -1) {
+                itemsCopy[itemIdx].position = event.position
+                changes = true
+            }
+        }
+
+        if (changes) {
+            setItems(itemsCopy)
+        }
+    }, [items])
+
+    const onDesktopItemClicked = useCallback((id: string, ctrl: boolean) => {
+        var clickedItem = getItem(id)
+        if (!clickedItem) return
+
+        if (selected.length === 0 || (!multiSelect && !ctrl)) {
+            setSelected([clickedItem])
+            return
+        }
+
+        var selectedCopy = [...selected]
+        if (selectedCopy.findIndex(x => x.id === clickedItem!.id) === -1) {
+            setSelected(selectedCopy.concat({ id: clickedItem.id, reference: clickedItem.reference }))
+        }
+    }, [selected, getItem, setSelected])
 
     useEffect(() => {
         const handleMouseMove = (event: MouseEvent) => {
@@ -188,9 +214,9 @@ const DesktopGrid = (props: IDesktopGridProps) => {
 
                 if (items) {
                     var itemsCopy = [...items]
-                    for (var item of itemsCopy) {
-                        if (!item.position) continue
-                        const { x, y } = item.position
+                    for (var potentialSelected of itemsCopy) {
+                        if (!potentialSelected.position) continue
+                        const { x, y } = potentialSelected.position
 
                         var targetLine = {
                             xy: { x, y: y + DESKTOP_ICON_HEIGHT },
@@ -198,7 +224,7 @@ const DesktopGrid = (props: IDesktopGridProps) => {
                         }
 
                         if (overlap(localLine, targetLine)) {
-                            onDesktopItemClicked(item.id, false)
+                            onDesktopItemClicked(potentialSelected.id, false)
                         }
                     }
                 }
@@ -238,31 +264,6 @@ const DesktopGrid = (props: IDesktopGridProps) => {
         }
     }, [selected])
 
-    const onDesktopItemDoubleClickedInternal = (id: string, type: OSItemType, driveId: string | undefined) => {
-        var item = getItem(id)
-        if (!item) return
-        setSelected([item])
-        onDesktopItemsDoubleClicked([{ id, type, driveId }])
-    }
-
-    const onDesktopItemPositionsChanged = (events: IDragCompletedEvent[]) => {
-        if (events.length === 0) return
-
-        var itemsCopy = [...items]
-        var changes = false
-        for (const event of events) {
-            var itemIdx = itemsCopy.findIndex(x => x.id === event.id)
-            if (itemIdx !== -1) {
-                itemsCopy[itemIdx].position = event.position
-                changes = true
-            }
-        }
-
-        if (changes) {
-            setItems(itemsCopy)
-        }        
-    }
-
     const SelectionRectangle = () => {
         if (!line || !multiSelect) {
             return null
@@ -289,9 +290,10 @@ const DesktopGrid = (props: IDesktopGridProps) => {
                 <DesktopItem
                     key={m.id}
                     {...m}
-                    selectedItemsGroup={selected}
-                    onDesktopItemClicked={(id, shift) => onDesktopItemClicked(id, shift)}
-                    onDesktopItemDoubleClicked={() => onDesktopItemDoubleClickedInternal(m.id, m.type, m.driveId)}
+                    selected={selected}
+                    handlerManager={handlerManager}
+                    onDesktopItemClicked={onDesktopItemClicked}
+                    onDesktopItemDoubleClicked={(id: string, type: OSItemType, driveId: string | undefined) => onDesktopItemsDoubleClicked([{ id, type, driveId }])}
                     onDesktopItemPositionsChanged={onDesktopItemPositionsChanged}
                 />
             )}

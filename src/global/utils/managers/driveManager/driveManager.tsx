@@ -2,20 +2,18 @@ import FileIcon from "../../../../assets/icons/fileIcon"
 import InternetIcon from "../../../../assets/icons/internetIcon"
 import { URLS } from "../../../constants"
 import { OSItemType } from "../../../enums"
-import { IDrive, IDriveManager, IFile, IHydratedDirectory, IIdHelper, IShortcut, IUrlFileContents, IVirtualDirectory } from "../../../interfaces"
-import IdHelper from "../idHelper/idHelper"
+import { IDosBoxFileContents, IDrive, IDriveManager, IFile, IGenericFileContents, IHydratedDirectory, IIdHelper, IShortcut, IUrlFileContents, IVirtualDirectory } from "../../../interfaces"
+import { creditsElement } from "../../../styledConstants"
 import Drive from "./components/drive/drive"
 import File from "./components/file/file"
 import HydratedDirectory from "./components/hydratedDirectory/hydratedDirectory"
 import Shortcut from "./components/shortcut/shortcut"
 import VirtualDirectory from "./components/virtualDirectory/virtualDirectory"
 
-const idHelper: IIdHelper = new IdHelper()
-
 class DriveManager implements IDriveManager {
     drives: IDrive[]
 
-    constructor() {
+    constructor(idHelper: IIdHelper) {
         /*
         * Create dir structure here
         */
@@ -44,6 +42,8 @@ class DriveManager implements IDriveManager {
 
         var gitHubFileContents: IUrlFileContents = { url: gitHubUri }
         var linkedInFileContents: IUrlFileContents = { url: linkedInUri }
+        var creditsFileContents: IGenericFileContents = { element: creditsElement() }
+        var dosBoxDemoFileContents: IDosBoxFileContents = { url: 'https://js-dos.com/6.22/current/test/digger.zip' }
 
         var gitHub: IFile = new File(
             idHelper.getNewFileId(driveId),
@@ -65,6 +65,20 @@ class DriveManager implements IDriveManager {
             }
         )
 
+        var credits: IFile = new File(
+            idHelper.getNewFileId(driveId),
+            'Credits',
+            '.txt',
+            creditsFileContents
+        )
+
+        var dosBoxDemo: IFile = new File(
+            idHelper.getNewFileId(driveId),
+            'Demo',
+            '.dosbox',
+            dosBoxDemoFileContents
+        )
+
         var rootDummyFile: IFile = new File(idHelper.getNewFileId(driveId), 'Dummy', '.pdf', '')
 
         var rootId = idHelper.getNewDirectoryId(driveId)
@@ -73,7 +87,7 @@ class DriveManager implements IDriveManager {
 
         var desktopDirectoryId = idHelper.getNewDirectoryId(driveId)
         var projectsDirectory: IVirtualDirectory = new VirtualDirectory(idHelper.getNewDirectoryId(driveId), 'projects', [], [], [], undefined, { root: false, parentId: desktopDirectoryId })
-        var desktopDirectory: IVirtualDirectory = new VirtualDirectory(desktopDirectoryId, 'desktop', [cv.id, gitHub.id, linkedIn.id], [projectsDirectory.id], [shortcut.id])
+        var desktopDirectory: IVirtualDirectory = new VirtualDirectory(desktopDirectoryId, 'desktop', [cv.id, gitHub.id, linkedIn.id, credits.id, dosBoxDemo.id], [projectsDirectory.id], [shortcut.id])
 
         projectsDirectory.location = { parentId: desktopDirectory.id }
 
@@ -88,7 +102,7 @@ class DriveManager implements IDriveManager {
             driveId: drive.id
         }
 
-        drive.addOrUpdateFiles([cv, gitHub, linkedIn, rootDummyFile])
+        drive.addOrUpdateFiles([cv, gitHub, linkedIn, rootDummyFile, credits, dosBoxDemo])
         drive.addOrUpdateDirectories([rootDirectory, desktopDirectory, projectsDirectory])
         drive.addOrUpdateShortcuts([shortcut])
 

@@ -1,23 +1,35 @@
 import React, { useEffect, useState } from 'react'
-import { IHydratedDirectory } from '../../../global/interfaces'
+import { IHydratedDirectory, IWindow } from '../../../global/interfaces'
 import DirectoryContainer from './components/directoryContainer/directoryContainer'
 import './styles.scss'
 
 interface IFileBrowserProps {
+    window?: IWindow
     dir: IHydratedDirectory
     getHydratedDirectory: (id: string, driveId: string | undefined) => IHydratedDirectory | undefined
     onFileDoubleClicked: (id: string, driveId: string | undefined) => void
+    onWindowNameChanged: (id: string, name: string) => void
 }
 
 const FileBrowser = (props: IFileBrowserProps) => {
     const {
+        window,
         dir,
         getHydratedDirectory,
-        onFileDoubleClicked
+        onFileDoubleClicked,
+        onWindowNameChanged
     } = props
 
     const [currentPath, setCurrentPath] = useState('')
     const [currentDirectory, setCurrentDirectory] = useState<IHydratedDirectory | undefined>(dir)
+
+    const setCurrentDirectoryInternal = (directory: IHydratedDirectory | undefined) => {
+        if (directory && directory.name && window) {
+            onWindowNameChanged(window?.id, directory.name)
+        }
+        
+        setCurrentDirectory(directory)
+    }
 
     useEffect(() => {
         var absPath: string = ''
@@ -47,7 +59,7 @@ const FileBrowser = (props: IFileBrowserProps) => {
             <DirectoryContainer
                 dir={currentDirectory}
                 getHydratedDirectory={getHydratedDirectory}
-                setCurrentDirectory={setCurrentDirectory}
+                setCurrentDirectory={setCurrentDirectoryInternal}
                 onFileDoubleClicked={onFileDoubleClicked} />
         </div>)
 }

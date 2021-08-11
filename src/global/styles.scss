@@ -1,0 +1,25 @@
+﻿.credits {
+    color: white;
+    background: black;
+    font-family: Segoe;
+    height: 100%;
+
+    button {
+        outline: none;
+        color: aqua;
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+        padding: 0;
+    }
+
+    ol {
+        font-size: 14px;
+    }
+
+    h1, ol {
+        margin: 0;
+        padding: 20px 40px 20px 40px;
+        user-select: none;
+    }
+}

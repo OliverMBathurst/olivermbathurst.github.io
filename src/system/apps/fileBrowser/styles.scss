@@ -1,14 +1,18 @@
 ﻿.file-browser {
     font-family: Segoe;
     height: 100%;
+    overflow: auto;
 
     .path-input {
         box-sizing: border-box;
         width: 100%;
-        background: rgba(0, 0, 0, 0.8);
+        background: rgba(0, 0, 0, 0.9);
         color: white;
         border: none;
         height: 30px;
         text-align: center;
+        outline: none;
+        user-select: none;
+        cursor: default;
     }
 }

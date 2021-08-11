@@ -1,12 +1,16 @@
 ﻿.window, .window-selected {
     position: absolute;
-    max-height: calc(100% - 30px);
+    border: 1px solid transparent;
+    min-height: 35px;
+    min-width: 1px;
 
     .window-container {
-        overflow: auto;
-        max-height: calc(100% - 64px);
-        height: inherit;
+        cursor: default;
     }
+}
+
+.window-minimized {
+    display: none;
 }
 
 .window-selected {

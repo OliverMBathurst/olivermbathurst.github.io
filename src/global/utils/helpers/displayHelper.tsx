@@ -2,7 +2,7 @@ import DirectoryIcon from '../../../assets/icons/directoryIcon'
 import DirectoryShortcutIcon from '../../../assets/icons/directoryShortcutIcon'
 import FileIcon from '../../../assets/icons/fileIcon'
 import FileShortcutIcon from '../../../assets/icons/fileShortcutIcon'
-import { OSItemType } from "../../enums"
+import { OSItemType, WindowType } from "../../enums"
 
 export const getDisplayIcon = (type: OSItemType, width: number = 48, height: number = 48) => {
     var props = { width: width, height: height }
@@ -18,6 +18,10 @@ export const getDisplayIcon = (type: OSItemType, width: number = 48, height: num
         default:
             return <FileIcon {...props} />
     }
+}
+
+export const getWindowDisplayIcon = (type: WindowType, width: number = 20, height: number = 20) => {
+    return getDisplayIcon(type === WindowType.Directory ? OSItemType.Directory : OSItemType.File, width, height)
 }
 
 export const getDisplayName = (type: OSItemType, name: string | undefined, extension: string | undefined) => {

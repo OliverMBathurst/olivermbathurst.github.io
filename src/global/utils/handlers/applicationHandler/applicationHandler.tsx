@@ -1,9 +1,10 @@
+import React from 'react'
 import DirectoryIcon from '../../../../assets/icons/directoryIcon'
+import DosBox from '../../../../system/apps/dosBox/dosBox'
 import FileBrowser from '../../../../system/apps/fileBrowser/fileBrowser'
 import PDFViewer from "../../../../system/apps/pdfViewer/pdfViewer"
-import WebBrowser from '../../../../system/apps/webBrowser/webBrowser'
 import { WindowState, WindowType } from "../../../enums"
-import { IApplicationHandler, IFile, IHydratedDirectory, IPDFFileContents, IUrlFileContents, IWindow } from "../../../interfaces"
+import { IApplicationHandler, IDosBoxFileContents, IFile, IGenericFileContents, IHydratedDirectory, IPDFFileContents, IUrlFileContents, IWindow } from "../../../interfaces"
 
 class ApplicationHandler implements IApplicationHandler {
     invoke = (file: IFile | undefined): IWindow | null => {
@@ -18,7 +19,17 @@ class ApplicationHandler implements IApplicationHandler {
                 win = this.getNewPDFWindow(file)
                 break
             case '.URL':
-                win = this.getNewWebBrowserWindow(file)
+                //win = this.getNewWebBrowserWindow(file)
+                var contents = file.contents as IUrlFileContents
+                if (contents) {
+                    window.open(contents.url, '_blank')
+                }
+                break
+            case ".TXT":
+                win = this.getGenericWindow(file)
+                break
+            case ".DOSBOX":
+                win = this.getNewDosBoxWindow(file)
                 break
         }
 
@@ -28,17 +39,24 @@ class ApplicationHandler implements IApplicationHandler {
     invokeDirectoryHandler = (
         hydratedDirectory: IHydratedDirectory | undefined,
         getHydratedDirectory: (id: string, driveId: string | undefined) => IHydratedDirectory | undefined,
-        onFileDoubleClicked: (id: string, driveId: string | undefined) => void): IWindow | null => {
+        onFileDoubleClicked: (id: string, driveId: string | undefined) => void,
+        onWindowNameChanged: (id: string, newName: string) => void): IWindow | null => {
 
         if (!hydratedDirectory) {
             return null
         }
 
-        const elem = <FileBrowser dir={hydratedDirectory} getHydratedDirectory={getHydratedDirectory} onFileDoubleClicked={onFileDoubleClicked}/>
+        const elem = <FileBrowser
+            dir={hydratedDirectory}
+            getHydratedDirectory={getHydratedDirectory}
+            onFileDoubleClicked={onFileDoubleClicked}
+            onWindowNameChanged={onWindowNameChanged} />
+
+        var windowName = hydratedDirectory?.name ? hydratedDirectory.name : "File Browser"
 
         return {
             id: 'window-temp',
-            name: "File Browser",
+            name: windowName,
             state: WindowState.Normal,
             element: elem,
             selected: true,
@@ -68,7 +86,7 @@ class ApplicationHandler implements IApplicationHandler {
         return null
     }
 
-    getNewWebBrowserWindow = (file: IFile): IWindow | null => {
+    /*getNewWebBrowserWindow = (file: IFile): IWindow | null => {
         const contents = file.contents as IUrlFileContents
         if (contents) {
             const elem = <WebBrowser url={contents.url} />
@@ -83,6 +101,41 @@ class ApplicationHandler implements IApplicationHandler {
                 type: WindowType.File
             }
         }
+        return null
+    }*/
+
+    getGenericWindow = (file: IFile): IWindow | null => {
+        const contents = file.contents as IGenericFileContents
+        if (contents) {
+            return {
+                ...file.windowParams,
+                id: 'window-temp',
+                name: `${file.name}${file.extension}`,
+                state: WindowState.Normal,
+                element: contents.element,
+                selected: true,
+                position: { x: 0, y: 0 },
+                type: WindowType.File
+            }
+        }
+        return null
+    }
+
+    getNewDosBoxWindow = (file: IFile): IWindow | null => {
+        const contents = file.contents as IDosBoxFileContents
+        if (contents) {
+            return {
+                ...file.windowParams,
+                id: 'window-temp',
+                name: `${file.name}${file.extension}`,
+                state: WindowState.Normal,
+                element: <DosBox url={contents.url} />,
+                selected: true,
+                position: { x: 0, y: 0 },
+                type: WindowType.File
+            }
+        }
+
         return null
     }
 }

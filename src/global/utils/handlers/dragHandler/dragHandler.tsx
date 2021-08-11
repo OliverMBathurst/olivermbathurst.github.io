@@ -1,7 +1,5 @@
-import { MARGIN_BOTTOM } from '../../../constants'
+import { MARGIN_BOTTOM, WINDOW_PADDING_RIGHT_LEFT, WINDOW_PADDING_TOP_BOTTOM } from '../../../constants'
 import { ICoordinates, IDragCompletedEvent, IDragHandler, IDragHandlerOptions, IIdPositionModel, IIdReferenceModel } from '../../../interfaces'
-
-let lastClickFire: number = 0
 
 class DragHandler implements IDragHandler {
     id: string
@@ -11,7 +9,6 @@ class DragHandler implements IDragHandler {
     onDragComplete?: (events: IDragCompletedEvent[]) => void
     onDragStarted?: () => void
     onClickOccurred?: (event: MouseEvent) => void
-    onDoubleClickOccurred?: () => void
     positions?: IIdPositionModel[]
     dragStartEventFired: boolean = false
     draggingHasStarted: boolean = false
@@ -40,35 +37,31 @@ class DragHandler implements IDragHandler {
         const {
             id,
             elementRef,
-            movingRef,
+            reference,
             selectedItemsGroup,
             onDragComplete,
             onDragStarted,
-            onClickOccurred,
-            onDoubleClickOccurred,
             position
         } = options
 
         this.id = id
-        this.elementRef = elementRef ?? movingRef
-        this.movingRef = movingRef
+        this.elementRef = elementRef ?? reference
+        this.movingRef = reference
         this.selectedItemsGroup = selectedItemsGroup
         this.onDragComplete = onDragComplete
         this.onDragStarted = onDragStarted
-        this.onClickOccurred = onClickOccurred
-        this.onDoubleClickOccurred = onDoubleClickOccurred
 
         if (position) {
             var { x, y } = position
             this.absX = x
             this.absY = y
-            this.setPositionByRef(x, y, movingRef)
+            this.setPositionByRef(x, y, reference)
         }
     }
 
     onMouseUp = (event: MouseEvent) => {
-        if (this.draggingHasStarted && !this.hasDragged && this.onClickOccurred) {
-            this.onClickOccurred(event)
+        if (this.draggingHasStarted && !this.hasDragged) {
+            this.draggingHasStarted = false
             return
         }
 
@@ -96,16 +89,6 @@ class DragHandler implements IDragHandler {
         if (event.button !== 0) return
         event.preventDefault()
 
-        var seconds = new Date().getTime() / 1000
-        var diff = Math.abs(seconds - lastClickFire)
-        lastClickFire = seconds
-
-        if (diff < 1) {
-            if (this.onDoubleClickOccurred) {
-                this.onDoubleClickOccurred()
-            }
-        }
-
         if (!this.movingRef) {
             return
         }
@@ -119,7 +102,7 @@ class DragHandler implements IDragHandler {
         this.absX = rect.left
         this.absY = rect.top
 
-        this.draggingHasStarted = true
+        this.draggingHasStarted = true 
     }
 
     onMouseMove = (event: MouseEvent) => {
@@ -176,8 +159,8 @@ class DragHandler implements IDragHandler {
 
         if (x < 0) {
             x = 0
-        } else if (x + reference.current.clientWidth > window.innerWidth) {
-            x = window.innerWidth - reference.current.clientWidth
+        } else if (x + reference.current.clientWidth > window.innerWidth - WINDOW_PADDING_RIGHT_LEFT) {
+            x = window.innerWidth - reference.current.clientWidth - WINDOW_PADDING_RIGHT_LEFT
         }
 
         if (!_movingRef || !_movingRef.current) return { x: x, y: y }
@@ -187,8 +170,8 @@ class DragHandler implements IDragHandler {
 
         if (y < 0) {
             y = 0
-        } else if (y + reference.current.clientHeight > window.innerHeight - MARGIN_BOTTOM) {
-            y = window.innerHeight - reference.current.clientHeight - MARGIN_BOTTOM
+        } else if (y + reference.current.clientHeight > window.innerHeight - MARGIN_BOTTOM - WINDOW_PADDING_TOP_BOTTOM) {
+            y = window.innerHeight - reference.current.clientHeight - MARGIN_BOTTOM - WINDOW_PADDING_TOP_BOTTOM
         }
 
         return { x: x, y: y }

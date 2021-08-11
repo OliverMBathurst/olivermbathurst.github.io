@@ -4,7 +4,8 @@
     background: rgba(0, 0, 0, 0.8);
     display: table;
     width: 100%;
-    border-radius: 12px 12px 0px 0px;
+    cursor: move;
+    min-width: 182px;
 
     .icon-container {
         display: table-cell;
@@ -27,5 +28,7 @@
         cursor: default;
         color: white;
         vertical-align: middle;
+        user-select: none;
+        cursor: move;
     }
 }

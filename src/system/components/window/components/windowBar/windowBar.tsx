@@ -1,14 +1,15 @@
 import React, { memo } from 'react'
 import { WindowState } from '../../../../../global/enums'
 import { IWindow } from '../../../../../global/interfaces'
+import { getWindowDisplayIcon } from '../../../../../global/utils/helpers/displayHelper'
 import WindowControls from './components/windowControls'
 import './styles.scss'
 
 interface IWindowBarProps {
     window: IWindow
     reference: React.RefObject<HTMLDivElement>
-    onWindowStateChanged: (id: string, state: WindowState) => void
-    onWindowClicked: (id: string) => void
+    onWindowStateChanged: (state: WindowState) => void
+    onWindowClicked: () => void
 }
 
 const WindowBar = (props: IWindowBarProps) => {
@@ -21,16 +22,14 @@ const WindowBar = (props: IWindowBarProps) => {
 
     return (
         <>
-            <div className="window-bar" onClick={() => onWindowClicked(window.id)} ref={reference}>
+            <div className="window-bar" onClick={() => onWindowClicked()} ref={reference}>
                 <div>
-                    {window.icon &&
-                        <div className="icon-container">
-                            {window.icon}
-                        </div>
-                    }
+                    <div className="icon-container">
+                        {window.icon ? window.icon : getWindowDisplayIcon(window.type)}
+                    </div>
                     <span className="text">{window.name}</span>
                 </div>
-                <WindowControls id={window.id} onWindowStateChanged={onWindowStateChanged} />
+                <WindowControls onWindowStateChanged={onWindowStateChanged} />
             </div>
         </>)
 

@@ -18,10 +18,14 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "downlevelIteration": true
   },
   "rules": {
-    "quotemark": [ true ]
+    "quotemark": [
+      true,
+      "double"
+    ]
   },
   "include": [
     "src"

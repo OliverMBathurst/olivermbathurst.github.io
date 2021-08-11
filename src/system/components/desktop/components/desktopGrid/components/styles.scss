@@ -12,7 +12,7 @@
     border-radius: 5px;
 
     .desktop-item-container {
-        width: 48px;
+        width: 60px;
 
         .desktop-item-name {
             display: inline-block;
@@ -29,6 +29,10 @@
             user-select: none;
             text-overflow: ellipsis;
             overflow: hidden;
+        }
+
+        svg {
+            padding-left: 6px;
         }
     }
 }

@@ -1,30 +1,49 @@
 import { WindowState } from "../../../enums"
-import { IDragCompletedEvent, IWindow, IWindowManager, IWindowSize } from "../../../interfaces"
+import { IDragCompletedEvent, IIdHelper, IWindow, IWindowManager, IWindowSize } from "../../../interfaces"
 import { getMaxWindowHeight, getMaxWindowWidth } from "../../helpers/windowHelper"
 
 class WindowManager implements IWindowManager {
     windows: IWindow[] = []
-    windowCount: number = 0
+    private idHelper: IIdHelper
+
+    constructor(idHelper: IIdHelper) {
+        this.idHelper = idHelper
+    }
+
+    onWindowNameChanged = (id: string, newName: string) => {
+        var windowsCopy = [...this.windows]
+
+        var idx = windowsCopy.findIndex(w => w.id === id)
+        if (idx !== -1) {
+            windowsCopy[idx].name = newName
+            this.windows = windowsCopy
+        }
+        
+        return this.windows
+    }
 
     onWindowStateChanged = (id: string, state: WindowState): IWindow[] => {
         var windowsCopy = [...this.windows]
         var idx = windowsCopy.findIndex(x => x.id === id)
         if (idx !== -1) {
+            var win = {...windowsCopy[idx]}
             switch (state) {
                 case WindowState.Maximized:
-                    windowsCopy[idx].size = { width: getMaxWindowWidth(0), height: getMaxWindowHeight(0) }
-                    windowsCopy[idx].position = { x: 0, y: 0 }
+                    win.size = { width: getMaxWindowWidth(0), height: getMaxWindowHeight(0) }
+                    win.position = { x: 0, y: 0 }
                     break
                 case WindowState.Closed:
                     windowsCopy.splice(idx, 1)
                     break
                 case WindowState.Minimized:
-                    windowsCopy[idx].selected = false
+                    win.selected = false
                     break
             }
 
             if (state !== WindowState.Closed) {
-                windowsCopy[idx].state = state
+                win.previousState = win.state
+                win.state = state
+                windowsCopy[idx] = win
             }            
 
             this.windows = windowsCopy
@@ -88,14 +107,20 @@ class WindowManager implements IWindowManager {
 
             switch (window.state) {
                 case WindowState.Minimized:
-                    window.state = WindowState.Normal
+                    window.state = window.previousState ? window.previousState : WindowState.Normal
+                    window.previousState = WindowState.Minimized
                     for (var win of windowsCopy) {
                         win.selected = false
                     }
                     window.selected = true
                     break;
                 case WindowState.Normal:
+                    window.previousState = WindowState.Normal
+                    window.state = WindowState.Minimized
+                    window.selected = false
+                    break
                 case WindowState.Maximized:
+                    window.previousState = WindowState.Maximized
                     window.state = WindowState.Minimized
                     window.selected = false
                     break;
@@ -129,7 +154,7 @@ class WindowManager implements IWindowManager {
         var windowsCopy = [...this.windows]
 
         window.selected = true
-        window.id = this.getNewWindowId()
+        window.id = this.idHelper.getNewWindowId()
 
         for (var win of windowsCopy) {
             win.selected = false
@@ -149,11 +174,6 @@ class WindowManager implements IWindowManager {
 
         this.windows = windowsCopy
         return this.windows
-    }
-
-    private getNewWindowId = () => {
-        this.windowCount++
-        return `window-${this.windowCount}`
     }
 }
 

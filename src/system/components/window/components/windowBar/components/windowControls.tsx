@@ -6,22 +6,21 @@ import { WindowState } from '../../../../../../global/enums'
 import './styles.scss'
 
 export interface IWindowControlsProps {
-    id: string
-    onWindowStateChanged: (id: string, state: WindowState) => void
+    onWindowStateChanged: (state: WindowState) => void
 }
 
 const WindowControls = (props: IWindowControlsProps) => {
-    const { id, onWindowStateChanged } = props
+    const { onWindowStateChanged } = props
 
     return (
         <div className="window-controls">
-            <div className="window-controls-button" onClick={() => onWindowStateChanged(id, WindowState.Minimized)}>
+            <div className="window-controls-button" onClick={() => onWindowStateChanged(WindowState.Minimized)}>
                 <MinimizeIcon />
             </div>
-            <div className="window-controls-button" onClick={() => onWindowStateChanged(id, WindowState.Maximized)}>
+            <div className="window-controls-button" onClick={() => onWindowStateChanged(WindowState.Maximized)}>
                 <MaximizeIcon />
             </div>
-            <div className="window-controls-button-negative" onClick={() => onWindowStateChanged(id, WindowState.Closed)}>
+            <div className="window-controls-button-negative" onClick={() => onWindowStateChanged(WindowState.Closed)}>
                 <CloseIcon />
             </div>
         </div>)

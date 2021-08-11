@@ -1,4 +1,4 @@
-import { OSItemType, WindowState, WindowType } from "./enums";
+import { HandlerType, OSItemType, WindowState, WindowType } from "./enums";
 
 export interface IWindowSize extends ISize { }
 
@@ -26,6 +26,14 @@ export interface IShortcut extends IDesktopDisplayItem {
     link: string
 }
 
+export interface IGenericFileContents {
+    element: JSX.Element
+}
+
+export interface IDosBoxFileContents {
+    url: string
+}
+
 export interface IUrlFileContents {
     url: string
 }
@@ -44,6 +52,10 @@ export interface IIdDefinedReferenceModel extends IIdentifiable {
 
 interface IDirectory {
     location?: IDirectoryLocationInformation
+}
+
+export interface IExpandHandler {
+    removeListeners: () => void
 }
 
 export interface ISize {
@@ -76,7 +88,13 @@ export interface IApplicationHandler {
     invokeDirectoryHandler: (
         hydratedDirectory: IHydratedDirectory | undefined,
         getHydratedDirectory: (id: string, driveId: string | undefined) => IHydratedDirectory | undefined,
-        onFileDoubleClicked: (id: string, driveId: string | undefined) => void) => IWindow | null
+        onFileDoubleClicked: (id: string, driveId: string | undefined) => void,
+        onWindowNameChanged: (id: string, newName: string) => void) => IWindow | null
+}
+
+export interface IWindowState {
+    position: ICoordinates
+    size: IWindowSize
 }
 
 export interface IDesktopDisplayItem extends IDesktopItem, IDriveItem, ISystemItem {
@@ -131,7 +149,29 @@ export interface IVirtualDirectory extends IDirectory, IDesktopDisplayItem {
     position?: ICoordinates
 }
 
+export interface IClickHandlerOptions extends IIdentifiable {
+    reference: React.RefObject<HTMLDivElement> | undefined
+    onMouseDownOccurred?: (event: MouseEvent) => void
+    onClickOccurred?: (event: MouseEvent) => void
+    onDoubleClickOccurred?: () => void
+}
+
+export interface IRectangle {
+    topLeft: ICoordinates
+    topRight: ICoordinates
+    bottomLeft: ICoordinates
+    bottomRight: ICoordinates
+}
+
+export interface IClickHandler {
+    onMouseDownOccurred?: (event: MouseEvent) => void
+    onClickOccurred?: (event: MouseEvent) => void
+    onDoubleClickOccurred?: () => void
+    removeListeners: () => void
+}
+
 export interface IIdHelper {
+    getNewWindowId: () => string
     getNewDriveId: () => string
     getNewFileId: (driveId: string) => string
     getNewDirectoryId: (driveId: string) => string
@@ -146,6 +186,15 @@ export interface IWindowParams {
     icon?: JSX.Element
 }
 
+export interface IHandlerManager {
+    addDragHandler: (id: string, handler: IDragHandler) => void
+    setDragHandlerSelected: (id: string, selected: IIdDefinedReferenceModel[]) => void
+    addClickHandler: (id: string, handler: IClickHandler) => void
+    addExpandHandler: (id: string, handler: IExpandHandler) => void
+    handlerExists: (id: string, type: HandlerType) => boolean
+    removeHandler: (id: string, type: HandlerType) => void
+}
+
 export interface IDriveManager {
     drives: IDrive[]
     getPrimaryDrive: () => IDrive | undefined
@@ -158,12 +207,10 @@ export interface IDriveManager {
 
 export interface IDragHandlerOptions extends IIdentifiable {
     elementRef?: React.RefObject<HTMLDivElement>
-    movingRef: React.RefObject<HTMLDivElement> | undefined
+    reference: React.RefObject<HTMLDivElement> | undefined
     selectedItemsGroup?: IIdReferenceModel[]
     onDragComplete?: (events: IDragCompletedEvent[]) => void
     onDragStarted?: () => void
-    onClickOccurred?: (event: MouseEvent) => void
-    onDoubleClickOccurred?: () => void
     position?: ICoordinates
 }
 
@@ -171,6 +218,7 @@ export interface IWindow extends IIdentifiable {
     name: string
     position: ICoordinates
     state: WindowState
+    previousState?: WindowState
     size?: IWindowSize
     type: WindowType
     selected: boolean
@@ -180,7 +228,6 @@ export interface IWindow extends IIdentifiable {
 
 export interface IWindowManager {
     windows: IWindow[]
-    windowCount: number
     onWindowSelected: (id: string) => IWindow[]
     onWindowStateChanged: (id: string, state: WindowState) => IWindow[]
     onWindowClicked: (id: string) => IWindow[]
@@ -190,6 +237,7 @@ export interface IWindowManager {
     onTaskbarItemClicked: (id: string) => IWindow[]
     onTaskbarItemDoubleClicked: (id: string) => IWindow[]
     minimizeAllWindows: () => IWindow[]
+    onWindowNameChanged: (id: string, newName: string) => IWindow[]
 }
 
 export interface IDragHandler extends IIdentifiable {

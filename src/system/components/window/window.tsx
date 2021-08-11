@@ -1,14 +1,16 @@
-import React, { memo, useEffect, useRef } from 'react'
-import { WINDOW_BAR_HEIGHT } from '../../../global/constants'
-import { WindowState } from '../../../global/enums'
-import { IDragCompletedEvent, IDragHandlerOptions, IWindow, IWindowSize } from '../../../global/interfaces'
+import React, { cloneElement, memo, useCallback, useEffect, useRef, useState } from 'react'
+import { DEFAULT_WINDOW_HEIGHT, DEFAULT_WINDOW_WIDTH } from '../../../global/constants'
+import { HandlerType, WindowState } from '../../../global/enums'
+import { ICoordinates, IDragCompletedEvent, IDragHandlerOptions, IExpandHandler, IHandlerManager, IWindow, IWindowSize, IWindowState } from '../../../global/interfaces'
 import DragHandler from '../../../global/utils/handlers/dragHandler/dragHandler'
+import ExpandHandler from '../../../global/utils/handlers/expandHandler/expandHandler'
 import { getMaxWindowHeight, getMaxWindowWidth } from '../../../global/utils/helpers/windowHelper'
 import WindowBar from './components/windowBar/windowBar'
 import './styles.scss'
 
 interface IWindowProps {
     window: IWindow
+    handlerManager: IHandlerManager
     onWindowStateChanged: (id: string, state: WindowState) => void
     onWindowClicked: (id: string) => void
     onWindowSizeChanged: (id: string, size: IWindowSize) => void
@@ -19,6 +21,7 @@ interface IWindowProps {
 const Window = (props: IWindowProps) => {
     const {
         window: windowObj,
+        handlerManager,
         onWindowStateChanged,
         onWindowClicked,
         onWindowSizeChanged,
@@ -29,49 +32,152 @@ const Window = (props: IWindowProps) => {
     const containerRef = useRef<HTMLDivElement>(null)
     const windowBarRef = useRef<HTMLDivElement>(null)
     const windowRef = useRef<HTMLDivElement>(null)
+    const lastUnmaximizedState = useRef<IWindowState>()
+    const [currentState, setCurrentState] = useState<WindowState | null>(null)
+    const id = windowObj.id
 
     useEffect(() => {
-        const dragHandlerOptions: IDragHandlerOptions = {
-            id: windowObj.id,
-            elementRef: windowRef,
-            movingRef: windowBarRef,
-            onDragStarted: () => onWindowSelected(windowObj.id),
-            onDragComplete: onWindowPositionChanged,
-            position: windowObj.position
+        return () => {
+            if (handlerManager.handlerExists(id, HandlerType.Drag)) {
+                handlerManager.removeHandler(id, HandlerType.Drag)
+            }
+
+            if (handlerManager.handlerExists(id, HandlerType.Expand)) {
+                handlerManager.removeHandler(id, HandlerType.Expand)
+            }
         }
-        
-        var dragHandler = new DragHandler(dragHandlerOptions)
-        return () => dragHandler.removeListeners()
-    }, [])
+    }, [id, handlerManager])
+
+    useEffect(() => {
+        if (!handlerManager.handlerExists(id, HandlerType.Drag)) {
+            const dragHandlerOptions: IDragHandlerOptions = {
+                id: id,
+                elementRef: windowRef,
+                reference: windowBarRef,
+                onDragStarted: () => onWindowSelected(id),
+                onDragComplete: onWindowPositionChanged,
+                position: windowObj.position
+            }
+
+            handlerManager.addDragHandler(id, new DragHandler(dragHandlerOptions))
+        }
+    }, [
+        id,
+        handlerManager,
+        onWindowSelected,
+        onWindowPositionChanged,
+        windowObj.position
+    ])
+
+    const changeWindowHeight = useCallback((height: number) => {
+        if (windowBarRef.current && windowRef.current && containerRef.current) {
+            windowRef.current.style.height = `${height}px`
+            containerRef.current.style.height = `${height - windowBarRef.current.clientHeight}px`
+
+            if (windowObj?.size?.width) {
+                onWindowSizeChanged(id, { width: windowObj.size.width, height: height })
+            }
+        }
+    }, [id, onWindowSizeChanged, windowObj?.size?.width])
+
+    const changeWindowWidth = useCallback((width: number) => {
+        if (windowBarRef.current && windowRef.current && containerRef.current) {
+            var newWidth = `${width}px`
+
+            windowBarRef.current.style.width = newWidth
+
+            newWidth = `${windowBarRef.current.getBoundingClientRect().width}px`
+
+            windowRef.current.style.width = newWidth
+            containerRef.current.style.width = newWidth
+
+            if (windowObj?.size?.height) {
+                onWindowSizeChanged(id, { width: width, height: windowObj.size.height })
+            }
+        }
+    }, [id, onWindowSizeChanged, windowObj?.size?.height])
+
+    const changeWindowPosition = useCallback((x: number, y: number) => {
+        if (windowRef && windowRef.current) {
+            const rect = windowRef.current.getBoundingClientRect()
+            const left = rect.left, top = rect.top
+
+            windowRef.current.style.left = `${x}px`
+            windowRef.current.style.top = `${y}px`
+
+            if (left !== x || top !== y) {
+                onWindowPositionChanged([{ id: id, position: { x: x, y: y } }])
+            }
+        }
+    }, [id, onWindowPositionChanged])
+
+    const changeWindowSizeAndPosition = useCallback((x: number, y: number, width: number, height: number) => {
+        if (windowBarRef.current && windowRef.current && containerRef.current) {
+            var correctedY = y >= 0 && y <= window.innerHeight ? y : 0
+            var correctedX = x >= 0 && x <= window.innerWidth ? x : 0
+            var wMax = getMaxWindowWidth(correctedX), hMax = getMaxWindowHeight(correctedY)
+
+            var newWidth = width > wMax ? wMax : width
+            var newHeight = height > hMax ? hMax : height
+
+            changeWindowWidth(newWidth)
+            changeWindowHeight(newHeight)
+
+            if (newWidth !== width || newHeight !== height) {
+                onWindowSizeChanged(id, { width: newWidth, height: newHeight })
+            }
+
+            changeWindowPosition(correctedX, correctedY)
+        }
+    }, [id, changeWindowWidth, changeWindowHeight, changeWindowPosition, onWindowSizeChanged])
+
+    useEffect(() => {
+        if (!handlerManager.handlerExists(id, HandlerType.Expand)) {
+            var expandHandler: IExpandHandler = new ExpandHandler(
+                windowRef,
+                (size: IWindowSize) => {
+                    changeWindowHeight(size.height)
+                    changeWindowWidth(size.width)
+                },
+                (position: ICoordinates) => changeWindowPosition(position.x, position.y)
+            )
+            handlerManager.addExpandHandler(id, expandHandler)
+        }
+    }, [
+        id,
+        handlerManager,
+        changeWindowHeight,
+        changeWindowWidth,
+        changeWindowPosition
+    ])
 
     useEffect(() => {
         const handleResize = () => {
-            if (windowObj.position) {
+            if (windowBarRef.current && windowRef.current && containerRef.current) {
                 const { x, y } = windowObj.position
-                var maxWidth = getMaxWindowWidth(x), maxHeight = getMaxWindowHeight(y + WINDOW_BAR_HEIGHT)
-                if (windowRef.current && windowBarRef.current) {
-                    if (windowRef.current.clientWidth > maxWidth) {
-                        var w = `${maxWidth}px`
-                        windowBarRef.current.style.width = w
-                        windowRef.current.style.width = w
-                    }
 
-                    if (windowRef.current.clientHeight > maxHeight) {
-                        windowRef.current.style.height = `${maxHeight}px`
+                if (windowObj.state === WindowState.Maximized) {
+                    changeWindowSizeAndPosition(0, 0, window.innerWidth, window.innerHeight)
+                } else if (windowObj.position) {
+                    var newX = getNewX(x), newY = getNewY(y)
+                    var maxWidth: number = getMaxWindowWidth(x), maxHeight: number = getMaxWindowHeight(y)
+
+                    if (newX !== x || newY !== y) {
+                        changeWindowPosition(newX, newY)
+                        maxWidth = getMaxWindowWidth(newX)
+                        maxHeight = getMaxWindowHeight(newY)
                     }
 
                     if (windowObj.size) {
-                        if (maxWidth > windowRef.current.clientWidth && windowObj.size.width > windowRef.current.clientWidth) {
-                            var newWidth = `${windowObj.size.width > maxWidth ? maxWidth : windowObj.size.width}px`
-                            windowRef.current.style.width = newWidth
-                            windowBarRef.current.style.width = newWidth
+                        if (windowRef.current.clientWidth > maxWidth) {
+                            changeWindowWidth(windowObj.size.width > maxWidth ? maxWidth : windowObj.size.width)
                         }
 
-                        if (maxHeight > windowRef.current.clientHeight && windowObj.size.height > windowRef.current.clientHeight) {
-                            windowRef.current.style.height = `${windowObj.size.height > maxHeight ? maxHeight : windowObj.size.height}px`
+                        if (windowRef.current.clientHeight > maxHeight) {
+                            changeWindowHeight(windowObj.size.height > maxHeight ? maxHeight : windowObj.size.height)
                         }
                     } else {
-                        onWindowSizeChanged(windowObj.id, { width: windowRef.current.clientWidth, height: windowRef.current.clientHeight })
+                        onWindowSizeChanged(id, { width: windowRef.current.clientWidth, height: windowRef.current.clientHeight })
                     }
                 }
             }
@@ -79,53 +185,122 @@ const Window = (props: IWindowProps) => {
 
         window.addEventListener("resize", handleResize)
         return () => window.removeEventListener("resize", handleResize)
-    }, [windowObj.position])
+    }, [
+        id,
+        windowObj.position,
+        windowObj.size,
+        windowObj.state,
+        changeWindowHeight,
+        changeWindowWidth,
+        changeWindowPosition,
+        changeWindowSizeAndPosition,
+        onWindowPositionChanged,
+        onWindowSizeChanged
+    ])
 
     useEffect(() => {
         if (windowRef.current && windowBarRef.current && containerRef.current) {
-            const { x, y } = windowObj.position
+            if (windowObj.state !== currentState) {
+                if (windowObj.state !== WindowState.Minimized) {
+                    if (windowObj.state === WindowState.Maximized) {
+                        changeWindowSizeAndPosition(0, 0, window.innerWidth, window.innerHeight)
+                    } else if (windowObj.state === WindowState.Normal && (windowObj.previousState === WindowState.Minimized || windowObj.previousState === WindowState.Maximized) && lastUnmaximizedState.current) {
+                        const { position, size } = lastUnmaximizedState.current
+                        changeWindowSizeAndPosition(position.x, position.y, size.width, size.height)
+                    } else {
+                        const { x, y } = windowObj.position
+                        const maxWindowWidth = getMaxWindowWidth(x), maxWindowHeight = getMaxWindowHeight(y)
 
-            windowRef.current.style.top = `${y}px`
-            windowRef.current.style.left = `${x}px`
+                        if (windowObj.size) {
+                            const { width, height } = windowObj.size
+                            changeWindowSizeAndPosition(x, y, width > maxWindowWidth ? maxWindowWidth : width, height > maxWindowHeight ? maxWindowHeight : height)
+                        }
+                    }
+                }
 
-            var maxWindowWidth = getMaxWindowWidth(x)
-            var maxWindowHeight = getMaxWindowHeight(y)
-
-            if (windowObj.size) {
-                const { width, height } = windowObj.size
-
-                var overX = width > maxWindowWidth
-                var overY = height > maxWindowHeight
-
-                maxWindowWidth = overX ? maxWindowWidth : width
-                maxWindowHeight = overY ? maxWindowHeight : height
-
-                windowRef.current.style.width = `${overX ? maxWindowWidth : width}px`
-                windowRef.current.style.height = `${overY ? maxWindowHeight : height}px`
-            }
-
-            containerRef.current.style.maxHeight = `${maxWindowHeight - windowBarRef.current.clientHeight}px`
-
-            windowRef.current.style.maxWidth = `${maxWindowWidth}px`
-            windowRef.current.style.maxHeight = `${maxWindowHeight}px`
-
-            if (windowObj.state === WindowState.Maximized) {
-                windowRef.current.style.width = `${maxWindowWidth}px`
-                windowRef.current.style.height = `${maxWindowHeight}px`
-                containerRef.current.style.height = `${maxWindowHeight - windowBarRef.current.clientHeight}px`
+                setCurrentState(windowObj.state)
             }
         }
-    }, [windowObj.id, windowObj.size, windowObj.position])
+    }, [
+        id,
+        windowObj.size,
+        windowObj.position,
+        windowObj.state,
+        windowObj.previousState,
+        currentState,
+        changeWindowSizeAndPosition
+    ])
+
+    const getNewX = (initialPositionX: number): number => {
+        const maxWidth = getMaxWindowWidth(initialPositionX)
+        var newX: number = initialPositionX
+
+        if (windowRef.current && windowBarRef.current && windowRef.current.clientWidth > maxWidth) {
+            if (initialPositionX > 0) {
+                var diffX = windowRef.current.clientWidth - maxWidth
+                newX = initialPositionX >= diffX ? initialPositionX - diffX : 0
+            }
+        }
+
+        return newX
+    }
+
+    const getNewY = (initialPositionY: number): number => {
+        const maxHeight = getMaxWindowHeight(initialPositionY)
+        var newY: number = initialPositionY
+
+        if (windowRef.current && windowRef.current.clientHeight > maxHeight) {
+            if (initialPositionY > 0) {
+                var diffY = windowRef.current.clientHeight - maxHeight
+                newY = initialPositionY >= diffY ? initialPositionY - diffY : 0
+            }
+        }
+
+        return newY
+    }
+
+    const onWindowStateChangedInternal = (state: WindowState) => {
+        if (state === WindowState.Maximized && windowObj.state !== WindowState.Maximized) {
+            var size: IWindowSize | undefined = windowObj.size
+
+            if (windowRef && windowRef.current) {
+                size = {
+                    width: windowRef.current.clientWidth,
+                    height: windowRef.current.clientHeight
+                }
+            } else if (!size) {
+                size = {
+                    width: DEFAULT_WINDOW_WIDTH,
+                    height: DEFAULT_WINDOW_HEIGHT
+                }
+            }
+
+            lastUnmaximizedState.current = {
+                position: windowObj.position,
+                size: size
+            }
+        }
+
+        if (state === WindowState.Maximized && windowObj.state === WindowState.Maximized) {
+            state = WindowState.Normal
+        }
+
+        onWindowStateChanged(id, state)
+    }
+
+    const selectedSuffix = windowObj.selected ? '-selected' : ''
+
+    const windowClassSuffix = windowObj.state === WindowState.Minimized ? '-minimized' : selectedSuffix
 
     return (
-        <div id={`window-${windowObj.id}`} className={`window${windowObj.selected ? '-selected' : ''}`} ref={windowRef}>
+        <div id={`window-${id}`} className={`window${windowClassSuffix}`} ref={windowRef}>
             <WindowBar
                 window={windowObj}
                 reference={windowBarRef}
-                onWindowStateChanged={onWindowStateChanged}
-                onWindowClicked={onWindowClicked} />
-            <div className="window-container" onClick={() => onWindowClicked(windowObj.id)} ref={containerRef}>
-                {windowObj.element}
+                onWindowStateChanged={onWindowStateChangedInternal}
+                onWindowClicked={() => onWindowClicked(id)} />
+            <div className="window-container" onClick={() => onWindowClicked(id)} ref={containerRef}>
+                {cloneElement(windowObj.element, { window: { ...windowObj }})}
             </div>
         </div>)
 }
