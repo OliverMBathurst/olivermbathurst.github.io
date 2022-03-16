@@ -1,4 +1,4 @@
-import { MARGIN_BOTTOM, WINDOW_PADDING_RIGHT_LEFT, WINDOW_PADDING_TOP_BOTTOM } from '../../../constants'
+import { MARGIN_BOTTOM, WINDOW_PADDING_RIGHT_LEFT, WINDOW_PADDING_TOP_BOTTOM } from '../../../constants/window'
 import { ICoordinates, IDragCompletedEvent, IDragHandler, IDragHandlerOptions, IIdPositionModel, IIdReferenceModel } from '../../../interfaces'
 
 class DragHandler implements IDragHandler {
@@ -17,7 +17,7 @@ class DragHandler implements IDragHandler {
     offsetY: number = 0
     absX: number = 0
     absY: number = 0
-    
+
     constructor(options: IDragHandlerOptions) {
         this.id = options.id
         this.setOptions(options)
@@ -102,7 +102,7 @@ class DragHandler implements IDragHandler {
         this.absX = rect.left
         this.absY = rect.top
 
-        this.draggingHasStarted = true 
+        this.draggingHasStarted = true
     }
 
     onMouseMove = (event: MouseEvent) => {
@@ -140,7 +140,7 @@ class DragHandler implements IDragHandler {
                     selectedItem.reference)
 
                 this.setPositionByRef(selectedItemX, selectedItemY, selectedItem.reference)
-                this.positions.push({ id: selectedItem.id, position: { x: selectedItemX, y: selectedItemY }})
+                this.positions.push({ id: selectedItem.id, position: { x: selectedItemX, y: selectedItemY } })
             }
         }
 

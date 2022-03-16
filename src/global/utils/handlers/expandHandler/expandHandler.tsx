@@ -1,5 +1,5 @@
-import { MARGIN_BOTTOM, WINDOW_MIN_HEIGHT } from "../../../constants"
-import { ExpandDirection } from "../../../enums"
+import { MARGIN_BOTTOM, WINDOW_MIN_HEIGHT } from "../../../constants/window"
+import { WindowExpandDirection } from "../../../enums"
 import { ICoordinates, IExpandHandler, IRectangle, IWindowSize } from "../../../interfaces"
 import { getMaxWindowHeight, getMaxWindowWidth } from "../../helpers/windowHelper"
 
@@ -9,23 +9,22 @@ class ExpandHandler implements IExpandHandler {
     private onWindowSizeChanged: (size: IWindowSize) => void
     private expanding: boolean = false
     private expandInitialRect: IRectangle | null = null
-    private expandDirection: ExpandDirection = ExpandDirection.Right
+    private expandDirection: WindowExpandDirection = WindowExpandDirection.Right
 
-    private xChangesEnum = ExpandDirection.Left | ExpandDirection.TopLeft | ExpandDirection.BottomLeft
-    private yChangesEnum = ExpandDirection.Top | ExpandDirection.TopRight | ExpandDirection.TopLeft
-    private heightChangesEnum = ExpandDirection.Bottom | ExpandDirection.BottomRight | ExpandDirection.BottomLeft
-    private widthChangesEnum = ExpandDirection.Right | ExpandDirection.TopRight | ExpandDirection.BottomRight
+    private xChangesEnum = WindowExpandDirection.Left | WindowExpandDirection.TopLeft | WindowExpandDirection.BottomLeft
+    private yChangesEnum = WindowExpandDirection.Top | WindowExpandDirection.TopRight | WindowExpandDirection.TopLeft
+    private heightChangesEnum = WindowExpandDirection.Bottom | WindowExpandDirection.BottomRight | WindowExpandDirection.BottomLeft
+    private widthChangesEnum = WindowExpandDirection.Right | WindowExpandDirection.TopRight | WindowExpandDirection.BottomRight
 
-    private bottomRightConsts = ExpandDirection.TopLeft | ExpandDirection.Left | ExpandDirection.Top
-    private bottomLeftConsts = ExpandDirection.TopRight | ExpandDirection.Right | ExpandDirection.Top
-    private topRightConsts = ExpandDirection.BottomLeft | ExpandDirection.Left | ExpandDirection.Bottom
-    private topLeftConst = ExpandDirection.BottomRight | ExpandDirection.Right | ExpandDirection.Bottom
+    private bottomRightConsts = WindowExpandDirection.TopLeft | WindowExpandDirection.Left | WindowExpandDirection.Top
+    private bottomLeftConsts = WindowExpandDirection.TopRight | WindowExpandDirection.Right | WindowExpandDirection.Top
+    private topRightConsts = WindowExpandDirection.BottomLeft | WindowExpandDirection.Left | WindowExpandDirection.Bottom
+    private topLeftConst = WindowExpandDirection.BottomRight | WindowExpandDirection.Right | WindowExpandDirection.Bottom
 
     constructor(
         elementRef: React.RefObject<HTMLDivElement> | null,
         onWindowSizeChanged: (size: IWindowSize) => void,
-        onWindowPositionChanged: (coordinates: ICoordinates) => void)
-    {
+        onWindowPositionChanged: (coordinates: ICoordinates) => void) {
         this.elementRef = elementRef
         this.onWindowSizeChanged = onWindowSizeChanged
         this.onWindowPositionChanged = onWindowPositionChanged
@@ -95,7 +94,7 @@ class ExpandHandler implements IExpandHandler {
                     legalMove = newX === this.expandInitialRect.topLeft.x && rect.top === this.expandInitialRect.topLeft.y
                 }
             }
-            
+
             if (((newWidth !== originalWidth) || (newHeight !== originalHeight)) && legalMove) {
                 this.onWindowSizeChanged({ width: newWidth, height: newHeight })
 
@@ -115,24 +114,24 @@ class ExpandHandler implements IExpandHandler {
             if (rect) {
                 if (this.getWithinBounds(event.clientY, rect.top)) {
                     if (this.getWithinBounds(event.clientX, rect.left)) {
-                        this.expandDirection = ExpandDirection.TopLeft
+                        this.expandDirection = WindowExpandDirection.TopLeft
                     } else if (this.getWithinBounds(event.clientX, rect.right)) {
-                        this.expandDirection = ExpandDirection.TopRight
+                        this.expandDirection = WindowExpandDirection.TopRight
                     } else {
-                        this.expandDirection = ExpandDirection.Top
+                        this.expandDirection = WindowExpandDirection.Top
                     }
                 } else if (this.getWithinBounds(event.clientY, rect.bottom)) {
                     if (this.getWithinBounds(event.clientX, rect.left)) {
-                        this.expandDirection = ExpandDirection.BottomLeft
+                        this.expandDirection = WindowExpandDirection.BottomLeft
                     } else if (this.getWithinBounds(event.clientX, rect.right)) {
-                        this.expandDirection = ExpandDirection.BottomRight
+                        this.expandDirection = WindowExpandDirection.BottomRight
                     } else {
-                        this.expandDirection = ExpandDirection.Bottom
+                        this.expandDirection = WindowExpandDirection.Bottom
                     }
                 } else if (this.getWithinBounds(event.clientX, rect.left) && event.clientY > rect.top && event.clientY < rect.bottom) {
-                    this.expandDirection = ExpandDirection.Left
+                    this.expandDirection = WindowExpandDirection.Left
                 } else if (this.getWithinBounds(event.clientX, rect.right) && event.clientY > rect.top && event.clientY < rect.bottom) {
-                    this.expandDirection = ExpandDirection.Right
+                    this.expandDirection = WindowExpandDirection.Right
                 }
 
                 this.elementRef.current.style.cursor = this.getCursor(this.expandDirection)
@@ -150,19 +149,19 @@ class ExpandHandler implements IExpandHandler {
         document.removeEventListener('mousemove', this.onMouseMove)
     }
 
-    private getCursor = (direction: ExpandDirection): string => {
+    private getCursor = (direction: WindowExpandDirection): string => {
         switch (direction) {
-            case ExpandDirection.BottomLeft:
-            case ExpandDirection.TopRight:
+            case WindowExpandDirection.BottomLeft:
+            case WindowExpandDirection.TopRight:
                 return 'nesw-resize'
-            case ExpandDirection.BottomRight:
-            case ExpandDirection.TopLeft:
+            case WindowExpandDirection.BottomRight:
+            case WindowExpandDirection.TopLeft:
                 return 'nwse-resize'
-            case ExpandDirection.Bottom:
-            case ExpandDirection.Top:
+            case WindowExpandDirection.Bottom:
+            case WindowExpandDirection.Top:
                 return 'ns-resize'
-            case ExpandDirection.Left:
-            case ExpandDirection.Right:
+            case WindowExpandDirection.Left:
+            case WindowExpandDirection.Right:
                 return 'ew-resize'
             default:
                 return 'ew-resize'

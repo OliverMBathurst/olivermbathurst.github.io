@@ -11,9 +11,3 @@ export const WINDOW_BAR_HEIGHT = 34
 export const DEFAULT_WINDOW_WIDTH = 500
 export const DEFAULT_WINDOW_HEIGHT = 500
 export const WINDOW_MIN_HEIGHT = 35
-
-export const URLS = {
-    gitHub: 'https://github.com/OliverMBathurst',
-    linkedIn: 'https://www.linkedin.com/in/oliverbathurst',
-    cv: 'https://raw.githubusercontent.com/OliverMBathurst/Curriculum-Vitae/master/Oliver%20Bathurst%20CV.pdf'
-}

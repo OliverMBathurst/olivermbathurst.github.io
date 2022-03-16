@@ -5,7 +5,7 @@ const FileIcon = (props: IIconProps) => {
     const { width = 48, height = 48 } = props
 
     return (
-        <svg xmlns="http://www.w3.org/2000/svg"
+        <svg
             viewBox="0 0 48 48"
             width={`${width}px`}
             height={`${height}px`}>

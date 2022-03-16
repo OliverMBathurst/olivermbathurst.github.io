@@ -9,7 +9,6 @@ import HandlerManager from '../global/utils/managers/handlerManager/handlerManag
 import WindowManager from '../global/utils/managers/windowManager/windowManager'
 import Desktop from './components/desktop/desktop'
 import PowerModal from './components/modals/power/powerModal'
-import Overlay from './components/overlay/overlay'
 import StartMenu from './components/startMenu/startMenu'
 import TaskbarItem from './components/taskbar/components/taskbarItem/taskbarItem'
 import Taskbar from './components/taskbar/taskbar'
@@ -25,7 +24,6 @@ const handlerManager: IHandlerManager = new HandlerManager()
 const System = () => {
     const [windows, setWindows] = useState<IWindow[]>([])
     const [systemState, setSystemState] = useState<SystemState>(SystemState.On)
-    const [showOverlay, setShowOverlay] = useState<boolean>(true)
     const [startMenuShow, setStartMenuShow] = useState(false)
 
     const startButtonRef = useRef<HTMLDivElement>(null)
@@ -40,7 +38,7 @@ const System = () => {
         window.addEventListener("keydown", handleKeyDown)
 
         return () => window.removeEventListener("keydown", handleKeyDown)
-    }, [systemState, showOverlay, startMenuShow])
+    }, [systemState, startMenuShow])
 
     const invokeApplicationHandler = (events: IOSItemClickedEvent[]) => {
         for (const event of events) {
@@ -89,7 +87,7 @@ const System = () => {
                 windowManager.addWindow(win)
             }
         }
-       
+
         setWindows(windowManager.windows)
     }
 
@@ -118,10 +116,6 @@ const System = () => {
         <>
             {systemState === SystemState.On ?
                 <>
-                    {showOverlay &&
-                        <Overlay onClick={() => setShowOverlay(false)} />
-                    }
-                    
                     <Desktop
                         handlerManager={handlerManager}
                         getHydratedDirectory={driveManager.getHydratedDirectory}

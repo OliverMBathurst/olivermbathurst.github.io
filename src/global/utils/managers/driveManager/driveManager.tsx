@@ -1,9 +1,6 @@
-import FileIcon from "../../../../assets/icons/fileIcon"
 import InternetIcon from "../../../../assets/icons/internetIcon"
-import { URLS } from "../../../constants"
 import { OSItemType } from "../../../enums"
-import { IDosBoxFileContents, IDrive, IDriveManager, IFile, IGenericFileContents, IHydratedDirectory, IIdHelper, IShortcut, IUrlFileContents, IVirtualDirectory } from "../../../interfaces"
-import { creditsElement } from "../../../styledConstants"
+import { IDrive, IDriveManager, IFile, IHydratedDirectory, IIdHelper, IShortcut, IUrlFileContents, IVirtualDirectory } from "../../../interfaces"
 import Drive from "./components/drive/drive"
 import File from "./components/file/file"
 import HydratedDirectory from "./components/hydratedDirectory/hydratedDirectory"
@@ -17,33 +14,31 @@ class DriveManager implements IDriveManager {
         /*
         * Create dir structure here
         */
-
-        const {
-            cv: cvUri,
-            gitHub: gitHubUri,
-            linkedIn: linkedInUri
-        } = URLS
-
         const driveId = idHelper.getNewDriveId()
 
         var drive: IDrive = new Drive(driveId, 'C', true)
 
+        var cvFileContents: IUrlFileContents = {
+            url: 'https://raw.githubusercontent.com/OliverMBathurst/Curriculum-Vitae/master/Oliver%20Bathurst%20CV.pdf'
+        }
+
+        var gitHubFileContents: IUrlFileContents = {
+            url: 'https://github.com/OliverMBathurst'
+        }
+
+        var linkedInFileContents: IUrlFileContents = {
+            url: 'https://www.linkedin.com/in/oliverbathurst'
+        }
+
         var cv: IFile = new File(
             idHelper.getNewFileId(driveId),
             'CV',
-            '.pdf',
+            '.url',
+            cvFileContents,
             {
-                uri: cvUri
-            },
-            {
-                icon: <FileIcon />
+                icon: <InternetIcon />
             }
         )
-
-        var gitHubFileContents: IUrlFileContents = { url: gitHubUri }
-        var linkedInFileContents: IUrlFileContents = { url: linkedInUri }
-        var creditsFileContents: IGenericFileContents = { element: creditsElement() }
-        var dosBoxDemoFileContents: IDosBoxFileContents = { url: 'https://js-dos.com/6.22/current/test/digger.zip' }
 
         var gitHub: IFile = new File(
             idHelper.getNewFileId(driveId),
@@ -65,20 +60,6 @@ class DriveManager implements IDriveManager {
             }
         )
 
-        var credits: IFile = new File(
-            idHelper.getNewFileId(driveId),
-            'Credits',
-            '.txt',
-            creditsFileContents
-        )
-
-        var dosBoxDemo: IFile = new File(
-            idHelper.getNewFileId(driveId),
-            'Demo',
-            '.dosbox',
-            dosBoxDemoFileContents
-        )
-
         var rootDummyFile: IFile = new File(idHelper.getNewFileId(driveId), 'Dummy', '.pdf', '')
 
         var rootId = idHelper.getNewDirectoryId(driveId)
@@ -87,7 +68,7 @@ class DriveManager implements IDriveManager {
 
         var desktopDirectoryId = idHelper.getNewDirectoryId(driveId)
         var projectsDirectory: IVirtualDirectory = new VirtualDirectory(idHelper.getNewDirectoryId(driveId), 'projects', [], [], [], undefined, { root: false, parentId: desktopDirectoryId })
-        var desktopDirectory: IVirtualDirectory = new VirtualDirectory(desktopDirectoryId, 'desktop', [cv.id, gitHub.id, linkedIn.id, credits.id, dosBoxDemo.id], [projectsDirectory.id], [shortcut.id])
+        var desktopDirectory: IVirtualDirectory = new VirtualDirectory(desktopDirectoryId, 'desktop', [cv.id, gitHub.id, linkedIn.id], [projectsDirectory.id], [shortcut.id])
 
         projectsDirectory.location = { parentId: desktopDirectory.id }
 
@@ -102,7 +83,7 @@ class DriveManager implements IDriveManager {
             driveId: drive.id
         }
 
-        drive.addOrUpdateFiles([cv, gitHub, linkedIn, rootDummyFile, credits, dosBoxDemo])
+        drive.addOrUpdateFiles([cv, gitHub, linkedIn, rootDummyFile])
         drive.addOrUpdateDirectories([rootDirectory, desktopDirectory, projectsDirectory])
         drive.addOrUpdateShortcuts([shortcut])
 
@@ -115,7 +96,7 @@ class DriveManager implements IDriveManager {
 
     getAllFiles = (): IFile[] => {
         var files: IFile[] = []
-        
+
         for (var drive of this.drives) {
             files = files.concat(Array.from(drive.fileRepository.values()))
         }
@@ -138,7 +119,7 @@ class DriveManager implements IDriveManager {
         var files: (IFile | undefined)[] = dir.files.map(f => drive!.fileRepository.get(f))
         var shortcuts: (IShortcut | undefined)[] = dir.shortcuts.map(s => drive!.shortcutRepository.get(s))
         var dirs: (IHydratedDirectory | undefined)[] = dir.directories.map(d => this.getHydratedDirectory(d, driveId))
-        
+
         return new HydratedDirectory(dir.id, dir.name, drive.id, files, dirs, shortcuts, dir.location)
     }
 
@@ -146,7 +127,7 @@ class DriveManager implements IDriveManager {
 
     getShortcut = (id: string, driveId: string | undefined): IShortcut | undefined => driveId ? this.drives.find(d => d.id === driveId)?.shortcutRepository.get(id) : undefined
 
-    getFile = (id: string, driveId: string | undefined): IFile | undefined =>  driveId ? this.drives.find(d => d.id === driveId)?.fileRepository.get(id) : undefined
+    getFile = (id: string, driveId: string | undefined): IFile | undefined => driveId ? this.drives.find(d => d.id === driveId)?.fileRepository.get(id) : undefined
 }
 
 export default DriveManager

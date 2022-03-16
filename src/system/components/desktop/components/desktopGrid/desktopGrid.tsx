@@ -1,5 +1,5 @@
 import React, { createRef, memo, useCallback, useEffect, useRef, useState } from 'react'
-import { DESKTOP_ICON_HEIGHT, DESKTOP_ICON_WIDTH } from '../../../../../global/constants'
+import { DESKTOP_ICON_HEIGHT, DESKTOP_ICON_WIDTH } from '../../../../../global/constants/window'
 import { OSItemType } from '../../../../../global/enums'
 import { ICoordinates, IDesktopDisplayItem, IDragCompletedEvent, IHandlerManager, IHydratedDirectory, IIdDefinedReferenceModel, ILineCoordinates, IOSItemClickedEvent } from '../../../../../global/interfaces'
 import { getAvailableGridPositions } from '../../../../../global/utils/helpers/gridHelper'
@@ -36,7 +36,7 @@ const DesktopGrid = (props: IDesktopGridProps) => {
         }
 
         const directory = getHydratedDirectory(globalThis.desktopDirectory.id, globalThis.desktopDirectory.driveId)
-        
+
         if (!directory) {
             throw new Error('Desktop directory not defined')
         }
@@ -130,7 +130,7 @@ const DesktopGrid = (props: IDesktopGridProps) => {
                         ? item.initialPosition
                         : { x: -100000, y: -100000 }
                 }
-                
+
                 if (!item.position) {
                     var pos = gridPositions[0]
                     item.position = pos
@@ -143,7 +143,7 @@ const DesktopGrid = (props: IDesktopGridProps) => {
                 var closest = [...gridPositions]
                     .sort(coord => Math.abs(x - coord.x))
                     .sort(coord => Math.abs(y - coord.y))[0]
-                    
+
                 splice(closest)
                 item.position = closest
 
@@ -273,7 +273,7 @@ const DesktopGrid = (props: IDesktopGridProps) => {
 
         var height = Math.abs(formatted.xy.y - formatted.x1y1.y)
         var width = Math.abs(formatted.xy.x - formatted.x1y1.x)
-        
+
         return (
             <div className="selection-rectangle" style={{
                 left: formatted.xy.x,

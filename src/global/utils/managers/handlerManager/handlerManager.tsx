@@ -1,4 +1,4 @@
-import { HandlerType } from "../../../enums"
+import { WindowHandlerType } from "../../../enums"
 import { IClickHandler, IDragHandler, IExpandHandler, IHandlerManager, IIdDefinedReferenceModel } from "../../../interfaces"
 
 class HandlerManager implements IHandlerManager {
@@ -24,26 +24,26 @@ class HandlerManager implements IHandlerManager {
         }
     }
 
-    handlerExists = (id: string, type: HandlerType): boolean => {
+    handlerExists = (id: string, type: WindowHandlerType): boolean => {
         switch (type) {
-            case HandlerType.Click:
+            case WindowHandlerType.Click:
                 return this.clickHandlers.has(id)
-            case HandlerType.Drag:
+            case WindowHandlerType.Drag:
                 return this.dragHandlers.has(id)
-            case HandlerType.Expand:
+            case WindowHandlerType.Expand:
                 return this.expandHandlers.has(id)
         }
     }
 
-    removeHandler = (id: string, type: HandlerType) => {
+    removeHandler = (id: string, type: WindowHandlerType) => {
         switch (type) {
-            case HandlerType.Click:
+            case WindowHandlerType.Click:
                 this.clickHandlers.delete(id)
                 break
-            case HandlerType.Drag:
+            case WindowHandlerType.Drag:
                 this.dragHandlers.delete(id)
                 break
-            case HandlerType.Expand:
+            case WindowHandlerType.Expand:
                 this.expandHandlers.delete(id)
                 break
         }

@@ -1,16 +1,12 @@
-import DirectoryIcon from '../../../assets/icons/directoryIcon'
-import DirectoryShortcutIcon from '../../../assets/icons/directoryShortcutIcon'
-import FileIcon from '../../../assets/icons/fileIcon'
-import FileShortcutIcon from '../../../assets/icons/fileShortcutIcon'
+import { DirectoryIcon, FileIcon, FileShortcutIcon } from '../../../assets/icons'
 import { OSItemType, WindowType } from "../../enums"
 
 export const getDisplayIcon = (type: OSItemType, width: number = 48, height: number = 48) => {
     var props = { width: width, height: height }
     switch (type) {
+        case OSItemType.DirectoryShortcut:
         case OSItemType.Directory:
             return <DirectoryIcon {...props} />
-        case OSItemType.DirectoryShortcut:
-            return <DirectoryShortcutIcon {...props} />
         case OSItemType.File:
             return <FileIcon {...props} />
         case OSItemType.FileShortcut:

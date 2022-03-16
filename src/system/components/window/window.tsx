@@ -1,6 +1,6 @@
 import React, { cloneElement, memo, useCallback, useEffect, useRef, useState } from 'react'
-import { DEFAULT_WINDOW_HEIGHT, DEFAULT_WINDOW_WIDTH } from '../../../global/constants'
-import { HandlerType, WindowState } from '../../../global/enums'
+import { DEFAULT_WINDOW_HEIGHT, DEFAULT_WINDOW_WIDTH } from '../../../global/constants/window'
+import { WindowHandlerType, WindowState } from '../../../global/enums'
 import { ICoordinates, IDragCompletedEvent, IDragHandlerOptions, IExpandHandler, IHandlerManager, IWindow, IWindowSize, IWindowState } from '../../../global/interfaces'
 import DragHandler from '../../../global/utils/handlers/dragHandler/dragHandler'
 import ExpandHandler from '../../../global/utils/handlers/expandHandler/expandHandler'
@@ -38,18 +38,18 @@ const Window = (props: IWindowProps) => {
 
     useEffect(() => {
         return () => {
-            if (handlerManager.handlerExists(id, HandlerType.Drag)) {
-                handlerManager.removeHandler(id, HandlerType.Drag)
+            if (handlerManager.handlerExists(id, WindowHandlerType.Drag)) {
+                handlerManager.removeHandler(id, WindowHandlerType.Drag)
             }
 
-            if (handlerManager.handlerExists(id, HandlerType.Expand)) {
-                handlerManager.removeHandler(id, HandlerType.Expand)
+            if (handlerManager.handlerExists(id, WindowHandlerType.Expand)) {
+                handlerManager.removeHandler(id, WindowHandlerType.Expand)
             }
         }
     }, [id, handlerManager])
 
     useEffect(() => {
-        if (!handlerManager.handlerExists(id, HandlerType.Drag)) {
+        if (!handlerManager.handlerExists(id, WindowHandlerType.Drag)) {
             const dragHandlerOptions: IDragHandlerOptions = {
                 id: id,
                 elementRef: windowRef,
@@ -132,7 +132,7 @@ const Window = (props: IWindowProps) => {
     }, [id, changeWindowWidth, changeWindowHeight, changeWindowPosition, onWindowSizeChanged])
 
     useEffect(() => {
-        if (!handlerManager.handlerExists(id, HandlerType.Expand)) {
+        if (!handlerManager.handlerExists(id, WindowHandlerType.Expand)) {
             var expandHandler: IExpandHandler = new ExpandHandler(
                 windowRef,
                 (size: IWindowSize) => {
@@ -300,7 +300,7 @@ const Window = (props: IWindowProps) => {
                 onWindowStateChanged={onWindowStateChangedInternal}
                 onWindowClicked={() => onWindowClicked(id)} />
             <div className="window-container" onClick={() => onWindowClicked(id)} ref={containerRef}>
-                {cloneElement(windowObj.element, { window: { ...windowObj }})}
+                {cloneElement(windowObj.element, { window: { ...windowObj } })}
             </div>
         </div>)
 }

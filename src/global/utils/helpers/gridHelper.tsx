@@ -1,4 +1,4 @@
-import { DESKTOP_ICON_HEIGHT, DESKTOP_ICON_PADDING_LEFT, DESKTOP_ICON_WIDTH } from "../../constants"
+import { DESKTOP_ICON_HEIGHT, DESKTOP_ICON_PADDING_LEFT, DESKTOP_ICON_WIDTH } from "../../constants/window"
 import { ICoordinates } from "../../interfaces"
 
 export const getAvailableGridPositions = (): ICoordinates[] => {
@@ -14,6 +14,6 @@ export const getAvailableGridPositions = (): ICoordinates[] => {
             availablePositions.push({ x: j * totalX, y: i * totalY })
         }
     }
-    
+
     return availablePositions
 }

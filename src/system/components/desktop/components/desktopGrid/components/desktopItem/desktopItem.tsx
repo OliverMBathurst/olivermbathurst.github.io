@@ -1,5 +1,5 @@
 import React, { memo, useEffect } from 'react'
-import { HandlerType, OSItemType } from '../../../../../../../global/enums'
+import { WindowHandlerType, OSItemType } from '../../../../../../../global/enums'
 import { IClickHandler, ICoordinates, IDragCompletedEvent, IDragHandler, IHandlerManager, IIdDefinedReferenceModel } from '../../../../../../../global/interfaces'
 import ClickHandler from '../../../../../../../global/utils/handlers/clickHandler/clickHandler'
 import DragHandler from '../../../../../../../global/utils/handlers/dragHandler/dragHandler'
@@ -41,18 +41,18 @@ const DesktopItem = (props: IDesktopItemProps) => {
 
     useEffect(() => {
         return () => {
-            if (handlerManager.handlerExists(id, HandlerType.Click)) {
-                handlerManager.removeHandler(id, HandlerType.Click)
+            if (handlerManager.handlerExists(id, WindowHandlerType.Click)) {
+                handlerManager.removeHandler(id, WindowHandlerType.Click)
             }
 
-            if (handlerManager.handlerExists(id, HandlerType.Drag)) {
-                handlerManager.removeHandler(id, HandlerType.Drag)
+            if (handlerManager.handlerExists(id, WindowHandlerType.Drag)) {
+                handlerManager.removeHandler(id, WindowHandlerType.Drag)
             }
         }
     }, [id, handlerManager])
 
     useEffect(() => {
-        if (!handlerManager.handlerExists(id, HandlerType.Click)) {
+        if (!handlerManager.handlerExists(id, WindowHandlerType.Click)) {
             var clickHandler: IClickHandler = new ClickHandler({
                 id: id,
                 reference: reference,
@@ -63,7 +63,7 @@ const DesktopItem = (props: IDesktopItemProps) => {
             handlerManager.addClickHandler(id, clickHandler)
         }
 
-        if (!handlerManager.handlerExists(id, HandlerType.Drag)) {
+        if (!handlerManager.handlerExists(id, WindowHandlerType.Drag)) {
             var dragHandler: IDragHandler = new DragHandler({
                 id: id,
                 reference: reference,
