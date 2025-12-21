@@ -1,0 +1,46 @@
+.window__top-bar {
+    width: 100%;
+    justify-content: space-between;
+    display: flex;
+    border-style: solid;
+    border-width: 0.5rem;
+    background-color: black;
+    align-items: center;
+}
+
+.window__top-bar__title {
+    color: white;
+    padding-left: 1rem;
+    text-overflow: ellipsis;
+    overflow: clip;
+}
+
+.window__top-bar__icon,
+.window__top-bar__icon img {
+    height: 1.5rem;
+}
+
+.window__top-bar__controls__button img,
+.window__top-bar__controls__close-button img {
+    height: 1.5rem;
+    width: 1.5rem;
+}
+
+.window__top-bar__controls {
+    display: flex;
+}
+
+.window__top-bar__controls__button,
+.window__top-bar__controls__close-button {
+    cursor: pointer;
+    height: 1.5rem;
+    width: 1.5rem;
+}
+
+.window__top-bar__controls__button:hover {
+    background-color: grey;
+}
+
+.window__top-bar__controls__close-button:hover {
+    background-color: red;
+}

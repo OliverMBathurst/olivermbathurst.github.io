@@ -1,10 +1,17 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import System from './system/system';
+import ReactDOM from 'react-dom/client';
+import { Screen } from './components/screen';
+import { WindowsContextProvider } from './contexts';
+import './index.scss';
 
-ReactDOM.render(
-  <React.StrictMode>
-    <System />
-  </React.StrictMode>,
-  document.getElementById('root')
+const root = ReactDOM.createRoot(
+  document.getElementById('root') as HTMLElement
+);
+
+root.render(
+    <React.StrictMode>
+        <WindowsContextProvider>
+            <Screen />
+        </WindowsContextProvider>
+  </React.StrictMode>
 );

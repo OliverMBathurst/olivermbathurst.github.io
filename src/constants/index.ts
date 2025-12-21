@@ -1,0 +1,6 @@
+export const FILETYPE_TEXT = ".txt"
+export const FILETYPE_PDF = ".pdf"
+export const FILETYPE_EXECUTABLE = ".exe"
+export const FILETYPE_URL_SHORTCUT = ".url"
+export const FILETYPE_URL_SHORTCUT_PROPERTY = "url"
+export const FILETYPE_RENDERABLE_PROPERTY = "render"

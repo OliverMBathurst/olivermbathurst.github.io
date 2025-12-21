@@ -1,0 +1,39 @@
+.taskbar-item,
+.taskbar-item--selected {
+    height: 1.75rem;
+    background: rgba(255,255,255, 0.1);
+    display: flex;
+    min-width: 8.125rem;
+    cursor: pointer;
+    align-items: center;
+}
+
+.taskbar-item {
+    border-bottom: 0.125rem rgba(255,255,255, 0.1) solid;
+}
+
+.taskbar-item--selected {
+    border-bottom: 0.125rem white solid;
+}
+
+.taskbar-item img,
+.taskbar-item--selected img {
+    height: 1rem;
+    width: 1rem;
+}
+
+.taskbar-item__name {
+    padding-left: 0.3125rem;
+    display: flex;
+    color: #d5d1cc;
+    font-size: 0.75rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: middle;
+    user-select: none;
+}
+
+.taskbar-item:hover {
+    background: rgba(255, 255, 255, 0.2);
+}

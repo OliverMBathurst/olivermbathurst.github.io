@@ -1,0 +1,66 @@
+import React from 'react'
+import { useIcon } from '../../../hooks'
+import { CloseIcon, MaximizeIcon, MinimizeIcon } from '../../../icons'
+import { IFile } from '../../../interfaces/file'
+import './windowTopBar.scss'
+
+interface IWindowTopBarProps {
+    fileInfo: IFile,
+    onMaximiseButtonClicked: (e: React.MouseEvent<HTMLImageElement, MouseEvent>) => void;
+    onMinimiseButtonClicked: (e: React.MouseEvent<HTMLImageElement, MouseEvent>) => void;
+    onCloseButtonClicked: (e: React.MouseEvent<HTMLImageElement, MouseEvent>) => void;
+    onWindowTopBarMouseMove: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+    onWindowTopBarMouseUp: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+    onWindowTopBarMouseDown: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+}
+
+const imgProps = {
+    onMouseDown: (e: React.MouseEvent<HTMLImageElement, MouseEvent>) => e.stopPropagation(),
+    onMouseUp: (e: React.MouseEvent<HTMLImageElement, MouseEvent>) => e.stopPropagation(),
+    onMouseMove: (e: React.MouseEvent<HTMLImageElement, MouseEvent>) => e.stopPropagation(),
+}
+
+const WindowTopBar = (props: IWindowTopBarProps) => {
+    const {
+        fileInfo: {
+            name,
+            extension
+        },
+        onWindowTopBarMouseMove,
+        onWindowTopBarMouseUp,
+        onWindowTopBarMouseDown,
+        onMaximiseButtonClicked,
+        onMinimiseButtonClicked,
+        onCloseButtonClicked
+    } = props
+
+    const Icon = useIcon(extension)
+    
+	return (
+        <div
+            className="window__top-bar"
+            onMouseDown={onWindowTopBarMouseDown}
+            onMouseUp={onWindowTopBarMouseUp}
+            onMouseMove={onWindowTopBarMouseMove}
+        >
+            <div className="window__top-bar__icon" onMouseDown={e => e.stopPropagation()}>
+                {Icon}
+            </div>
+            <span className="window__top-bar__title no-select">
+                {`${name}${extension}`}
+            </span>
+            <div className="window__top-bar__controls">
+                <div className="window__top-bar__controls__button">
+                    <MinimizeIcon className="no-select" onClick={onMinimiseButtonClicked} {...imgProps} />
+                </div>
+                <div className="window__top-bar__controls__button">
+                    <MaximizeIcon className="no-select" onClick={onMaximiseButtonClicked} {...imgProps} />
+                </div>
+                <div className="window__top-bar__controls__close-button">
+                    <CloseIcon className="no-select" onClick={onCloseButtonClicked} {...imgProps} />
+                </div>
+            </div>
+        </div>)
+}
+
+export default WindowTopBar

@@ -1,0 +1,17 @@
+.file {
+    width: 6rem;
+    overflow: clip;
+    cursor: pointer;
+    padding: 0rem 0rem 1rem 0.5rem;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.file__name {
+    font-size: 0.75rem;
+    word-wrap: anywhere;
+    text-shadow: 0rem 0rem 0.25rem black;
+}

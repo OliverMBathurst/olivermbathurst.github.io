@@ -1,0 +1,11 @@
+.date-display {
+    font-size: 0.75rem;
+    color: rgba(213, 209, 204, 0.8);
+    user-select: none;
+    display: flex;
+    margin: 0rem 1rem 0rem auto;
+}
+
+.date-display:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
