@@ -3,11 +3,14 @@
     "",
     "\\src",
     "\\src\\components",
-    "\\src\\components\\screenSaver",
-    "\\src\\components\\window\\components",
-    "\\src\\fileContents",
+    "\\src\\components\\taskbar",
+    "\\src\\components\\taskbar\\components",
+    "\\src\\components\\taskbar\\components\\dateDisplay",
+    "\\src\\components\\taskbar\\components\\minimizeAllButton",
+    "\\src\\components\\taskbar\\components\\startButton",
+    "\\src\\components\\taskbar\\components\\taskbarItem",
     "\\src\\files"
   ],
-  "SelectedNode": "\\src\\components\\screenSaver\\screenSaver.tsx",
+  "SelectedNode": "\\src\\components\\taskbar\\components\\taskbarItem\\taskbarItem.scss",
   "PreviewInSolutionExplorer": false
 }

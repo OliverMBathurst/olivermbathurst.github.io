@@ -1,20 +1,20 @@
-import React, { memo } from 'react'
-import './styles.scss'
+import './startButton.scss'
 
 export interface IStartButtonProps {
-    startButtonRef: React.RefObject<HTMLDivElement>
     onStartButtonClicked: () => void
 }
 
 const StartButton = (props: IStartButtonProps) => {
     const {
-        startButtonRef,
         onStartButtonClicked
     } = props
 
     return (
-        <div className="start-menu-button" onClick={onStartButtonClicked} ref={startButtonRef}>
+        <div
+            className="start-button"
+            onClick={onStartButtonClicked}
+        >
         </div>)
 }
 
-export default memo(StartButton)
+export default StartButton

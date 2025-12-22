@@ -4,8 +4,19 @@
     bottom: 0;
     background-color: black;
     opacity: 80%;
-    z-index: 1;
     display: flex;
     justify-content: center;
     align-items: center;
+    height: 3rem;
+}
+
+.taskbar__items-container {
+    display: flex;
+    justify-content: center;
+    flex-grow: 1;
+    overflow: scroll;
+}
+
+.taskbar div:nth-child(n+2 of div.taskbar-item) {
+    margin-left: 0.4rem;
 }

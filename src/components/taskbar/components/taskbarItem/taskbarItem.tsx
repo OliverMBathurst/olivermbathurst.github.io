@@ -25,7 +25,7 @@ const TaskbarItem = (props: ITaskbarItemProps) => {
 
     return (
         <div
-            className={`taskbar-item${selected ? "--selected" : ""}`}
+            className={`taskbar-item ${selected ? "taskbar-item--selected" : ""} `}
             onClick={() => onTaskbarItemClicked(windowId)}
         >
             {Icon}

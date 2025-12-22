@@ -1,6 +1,6 @@
 import { useContext, useMemo } from 'react'
 import { WindowsContext } from '../../contexts'
-import { DateDisplay, MinimizeAllButton, TaskbarItem } from './components'
+import { DateDisplay, MinimizeAllButton, StartButton, TaskbarItem } from './components'
 import './taskbar.scss'
 
 const Taskbar = () => {
@@ -18,7 +18,10 @@ const Taskbar = () => {
 
     return (
         <div className="taskbar">
-            {TaskbarItems}
+            <StartButton onStartButtonClicked={() => { }} />
+            <div className="taskbar__items-container">
+                {TaskbarItems}
+            </div>
             <DateDisplay />
             <MinimizeAllButton onMinimizeAllClicked={onMinimizeAllButtonClicked} />
         </div>)

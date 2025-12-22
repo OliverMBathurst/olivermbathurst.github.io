@@ -76,10 +76,12 @@ const ScreenSaver = () => {
                         }
                     }
                 }, 100)
-            }, 1000)
+            }, 5000)
         }
 
-        onOpacityChange()
+        if (visible) {
+            onOpacityChange()
+        }
 
         return () => {
             clearInterval(interval.current)

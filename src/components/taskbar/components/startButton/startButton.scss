@@ -1,0 +1,11 @@
+﻿.start-button {
+    width: 2.4rem;
+    height: 2.4rem;
+    display: flex;
+    flex-shrink: 0;
+    margin: 0 0.5rem 0 0.25rem;
+}
+
+.start-button:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
