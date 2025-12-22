@@ -6,4 +6,5 @@
 .screen__render-area {
     height: calc(100% - 1.875rem);
     width: inherit;
+    position: relative;
 }

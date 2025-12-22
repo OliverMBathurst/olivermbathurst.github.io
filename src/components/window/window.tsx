@@ -25,6 +25,7 @@ const Window = (props: IWindowProps) => {
 
     const windowRef = useRef<HTMLDivElement | null>(null)
     const windowPositionRef = useRef<{ x: number, y: number } | undefined>(undefined)
+
     const windowPreviousPositioning = useRef<{ top: string, left: string }>({ top: "0", left: "0" })
     const windowIsMovingRef = useRef<boolean>(false)
 
@@ -47,7 +48,7 @@ const Window = (props: IWindowProps) => {
                 div.style.left = "0"
             }
             setPreviousSize(currentSize)
-            setCurrentSize({ width: "100%", height: "inherit" })
+            setCurrentSize({ width: "100%", height: "100%" })
             onWindowStateChanged(id, WindowState.Maximised)
         }
     }
@@ -129,7 +130,7 @@ const Window = (props: IWindowProps) => {
             style={{
                 height: height,
                 width: width,
-                visibility: visibility,
+                visibility: visibility
             }}
             ref={windowRef}
         >

@@ -1,19 +1,21 @@
 .taskbar-item,
 .taskbar-item--selected {
-    height: 1.75rem;
+    height: 1.6rem;
     background: rgba(255,255,255, 0.1);
     display: flex;
     min-width: 8.125rem;
     cursor: pointer;
     align-items: center;
+    border-radius: 0.1875rem;
+    border-width: 0.125rem;
 }
 
 .taskbar-item {
-    border-bottom: 0.125rem rgba(255,255,255, 0.1) solid;
+    border-bottom: 0.125rem rgba(255,255,255, 0) solid;
 }
 
 .taskbar-item--selected {
-    border-bottom: 0.125rem white solid;
+    border-bottom: 0.125rem rgba(255,255,255, 0.3) solid;
 }
 
 .taskbar-item img,

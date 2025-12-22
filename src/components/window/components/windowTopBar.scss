@@ -14,6 +14,10 @@
     overflow: clip;
 }
 
+.window__top-bar__icon {
+    margin-left: 0.5rem;
+}
+
 .window__top-bar__icon,
 .window__top-bar__icon img {
     height: 1.5rem;
@@ -27,6 +31,7 @@
 
 .window__top-bar__controls {
     display: flex;
+    margin-right: 0.5rem;
 }
 
 .window__top-bar__controls__button,
