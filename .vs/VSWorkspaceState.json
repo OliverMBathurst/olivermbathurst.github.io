@@ -3,13 +3,10 @@
     "",
     "\\src",
     "\\src\\components",
-    "\\src\\components\\desktop",
-    "\\src\\components\\desktop\\components",
     "\\src\\components\\screen",
-    "\\src\\components\\window",
-    "\\src\\components\\window\\components",
+    "\\src\\components\\screensaver",
     "\\src\\hooks"
   ],
-  "SelectedNode": "\\src\\hooks\\index.ts",
+  "SelectedNode": "\\src\\components\\screen\\screen.tsx",
   "PreviewInSolutionExplorer": false
 }
