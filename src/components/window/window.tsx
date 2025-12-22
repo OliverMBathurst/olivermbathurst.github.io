@@ -26,7 +26,7 @@ const Window = (props: IWindowProps) => {
     const windowRef = useRef<HTMLDivElement | null>(null)
     const windowPositionRef = useRef<{ x: number, y: number } | undefined>(undefined)
 
-    const windowPreviousPositioning = useRef<{ top: string, left: string }>({ top: "0", left: "0" })
+    const windowPreviousPositioning = useRef<{ top: string, left: string }>({ top: "50%", left: "50%" })
     const windowIsMovingRef = useRef<boolean>(false)
 
     const { removeWindow, onWindowStateChanged, onWindowSelected } = useContext(WindowsContext)
@@ -44,8 +44,8 @@ const Window = (props: IWindowProps) => {
         } else {
             let div = windowRef.current
             if (div) {
-                div.style.top = "0"
-                div.style.left = "0"
+                div.style.top = "50%"
+                div.style.left = "50%"
             }
             setPreviousSize(currentSize)
             setCurrentSize({ width: "100%", height: "100%" })
