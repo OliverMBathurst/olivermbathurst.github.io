@@ -3,11 +3,11 @@
     "",
     "\\src",
     "\\src\\components",
-    "\\src\\components\\desktop",
-    "\\src\\components\\screen",
-    "\\src\\components\\window",
-    "\\src\\components\\window\\components"
+    "\\src\\components\\screenSaver",
+    "\\src\\components\\window\\components",
+    "\\src\\fileContents",
+    "\\src\\files"
   ],
-  "SelectedNode": "\\src\\components\\window\\window.scss",
+  "SelectedNode": "\\src\\components\\screenSaver\\screenSaver.tsx",
   "PreviewInSolutionExplorer": false
 }

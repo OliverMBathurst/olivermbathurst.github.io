@@ -17,6 +17,9 @@ const ScreenSaver = () => {
     const screensaverOneOpacity = useRef<number>(1.0)
     const screensaverOneFading = useRef<boolean>(false)
 
+    const interval = useRef<NodeJS.Timer | undefined>(undefined)
+    const innerInterval = useRef<NodeJS.Timer | undefined>(undefined)
+
     const visible = useVisibility(true)
 
     useEffect(() => {
@@ -29,65 +32,58 @@ const ScreenSaver = () => {
     }, [])
 
     useEffect(() => {
-        let interval: NodeJS.Timer
-        let innerInterval: NodeJS.Timer
+        const onOpacityChange = () => {
+            clearInterval(interval.current)
+            clearInterval(innerInterval.current)
 
-        if (!visible) {
-            return
-        }
+            innerInterval.current = setInterval(() => {
+                interval.current = setInterval(() => {
+                    if (!visible) {
+                        return
+                    }
+                    if (screensaverOneRef.current && screensaverTwoRef.current) {
+                        if (screensaverOneFading.current) {
+                            if (screensaverOneOpacity.current <= 0.0) {
+                                screensaverOneOpacity.current = 0.0
 
-        let timeout: NodeJS.Timeout = setTimeout(() => {
-            const onOpacityChange = () => {
-                clearInterval(interval)
-                clearInterval(innerInterval)
+                                let nextIdx = screensaverIndex.current + 2 < screensaverPaths.length
+                                    ? screensaverIndex.current + 2
+                                    : ((screensaverIndex.current + 2) - screensaverPaths.length)
 
-                innerInterval = setInterval(() => {
-                    interval = setInterval(() => {
-                        if (screensaverOneRef.current && screensaverTwoRef.current) {
-                            if (screensaverOneFading.current) {
-                                if (screensaverOneOpacity.current <= 0.0) {
-                                    screensaverOneOpacity.current = 0.0
-
-                                    let nextIdx = screensaverIndex.current + 2 < screensaverPaths.length
-                                        ? screensaverIndex.current + 2
-                                        : ((screensaverIndex.current + 2) - screensaverPaths.length)
-
-                                    screensaverIndex.current = nextIdx
-                                    screensaverOneRef.current.src = screensaverPaths[nextIdx]
-                                    screensaverOneFading.current = false
-                                    onOpacityChange()
-                                } else {
-                                    screensaverOneOpacity.current = screensaverOneOpacity.current - 0.2
-                                    screensaverOneRef.current.style.opacity = `${screensaverOneOpacity.current}`
-                                }
+                                screensaverIndex.current = nextIdx
+                                screensaverOneRef.current.src = screensaverPaths[nextIdx]
+                                screensaverOneFading.current = false
+                                onOpacityChange()
                             } else {
-                                if (screensaverOneOpacity.current >= 1.0) {
-                                    screensaverOneOpacity.current = 1.0
+                                screensaverOneOpacity.current = screensaverOneOpacity.current - 0.2
+                                screensaverOneRef.current.style.opacity = `${screensaverOneOpacity.current}`
+                            }
+                        } else {
+                            if (screensaverOneOpacity.current >= 1.0) {
+                                screensaverOneOpacity.current = 1.0
 
-                                    let nextIdx = screensaverIndex.current + 3 < screensaverPaths.length
-                                        ? screensaverIndex.current + 3
-                                        : ((screensaverIndex.current + 3) - screensaverPaths.length)
+                                let nextIdx = screensaverIndex.current + 3 < screensaverPaths.length
+                                    ? screensaverIndex.current + 3
+                                    : ((screensaverIndex.current + 3) - screensaverPaths.length)
 
-                                    screensaverTwoRef.current.src = screensaverPaths[nextIdx]
-                                    screensaverOneFading.current = true
-                                    onOpacityChange()
-                                } else {
-                                    screensaverOneOpacity.current = screensaverOneOpacity.current + 0.2
-                                    screensaverOneRef.current.style.opacity = `${screensaverOneOpacity.current}`
-                                }
+                                screensaverTwoRef.current.src = screensaverPaths[nextIdx]
+                                screensaverOneFading.current = true
+                                onOpacityChange()
+                            } else {
+                                screensaverOneOpacity.current = screensaverOneOpacity.current + 0.2
+                                screensaverOneRef.current.style.opacity = `${screensaverOneOpacity.current}`
                             }
                         }
-                    }, 100)
-                }, 3000)
-            }
+                    }
+                }, 100)
+            }, 1000)
+        }
 
-            onOpacityChange()
-        }, 1000)
+        onOpacityChange()
 
         return () => {
-            clearInterval(interval)
-            clearInterval(innerInterval)
-            clearTimeout(timeout)
+            clearInterval(interval.current)
+            clearInterval(innerInterval.current)
         }
     }, [visible])
 

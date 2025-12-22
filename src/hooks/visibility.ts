@@ -4,7 +4,7 @@ export const useVisibility = (initialVisibility: boolean) => {
     const [visible, setVisible] = useState<boolean>(initialVisibility)
 
     const onVisibilityChange = () => {
-        setVisible(!document.hidden)
+        setVisible(document.visibilityState !== "hidden")
     }
 
     useEffect(() => {

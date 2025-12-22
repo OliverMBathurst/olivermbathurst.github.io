@@ -40,6 +40,7 @@ const Window = (props: IWindowProps) => {
                 div.style.left = windowPreviousPositioning.current.left
             }
             setCurrentSize(previousSize)
+            setPreviousSize({ width: "100%", height: "100%" })
             onWindowStateChanged(id, WindowState.Normal)
         } else {
             let div = windowRef.current

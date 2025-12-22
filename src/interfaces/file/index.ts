@@ -13,6 +13,10 @@ export interface IUrlShortcutFile extends IFile {
     url: string
 }
 
+export interface IWindowRenderProps {
+    onMouseOver?: (e: React.MouseEvent<HTMLElement, MouseEvent>) => void;
+}
+
 export interface IWindowFile {
-    render: () => JSX.Element
+    render: (props?: IWindowRenderProps) => JSX.Element
 }
