@@ -1,5 +1,6 @@
 import { useContext, useEffect, useRef } from 'react'
 import { WindowsContext } from '../../contexts'
+import { useVisibility } from '../../hooks'
 import { Desktop } from '../desktop'
 import { Taskbar } from '../taskbar'
 import { Window } from '../window'
@@ -20,6 +21,7 @@ const Screen = () => {
     const screensaverOneFading = useRef<boolean>(false)
 
     const { windowProperties } = useContext(WindowsContext)
+    const visible = useVisibility(true)
 
     useEffect(() => {
         if (screensaverOneRef.current && screensaverTwoRef.current) {
@@ -33,6 +35,10 @@ const Screen = () => {
     useEffect(() => {
         let interval: NodeJS.Timer
         let innerInterval: NodeJS.Timer
+
+        if (!visible) {
+            return
+        }
 
         let timeout: NodeJS.Timeout = setTimeout(() => {
                 const onOpacityChange = () => {
@@ -75,32 +81,33 @@ const Screen = () => {
                                     }
                                 }
                             }
-                        }, 50)
+                        }, 100)
                     }, 3000)
             }
 
             onOpacityChange()
-        }, 500)
+        }, 1000)
 
         return () => {
             clearInterval(interval)
             clearInterval(innerInterval)
             clearTimeout(timeout)
         }
-    }, [])
+    }, [visible])
 
     return (
         <div className="screen">
-            <div className="screen__saver__two">
-                <img className="screen__saver__two__img" alt="Screen-saver" ref={screensaverTwoRef} />
+            <div className="screen__render-area">
+                <div className="screen__saver__two">
+                    <img className="screen__saver__two__img" alt="Screen-saver" ref={screensaverTwoRef} />
+                </div>
+                <div className="screen__saver__one">
+                    <img className="screen__saver__one__img" alt="Screen-saver" ref={screensaverOneRef} />
+                </div>
+                <Desktop />
+                {windowProperties.map(p => <Window key={p.id} properties={p} />)}
             </div>
-            <div className="screen__saver__one">
-                <img className="screen__saver__one__img" alt="Screen-saver" ref={screensaverOneRef} />
-            </div>
-            <Desktop />
             <Taskbar />
-            {windowProperties.map(p => <Window key={p.id} properties={p} />)}
-           
         </div>)
 }
 

@@ -1,7 +1,11 @@
 .screen {
     height: inherit;
     width: inherit;
-    background-size: cover;
+}
+
+.screen__render-area {
+    height: calc(100% - 1.875rem);
+    width: inherit;
 }
 
 .screen__saver__one,

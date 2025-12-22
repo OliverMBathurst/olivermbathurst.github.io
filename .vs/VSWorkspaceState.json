@@ -1,10 +1,15 @@
 {
   "ExpandedNodes": [
     "",
+    "\\src",
     "\\src\\components",
-    "\\src\\interfaces\\file",
-    "\\src\\interfaces\\windows"
+    "\\src\\components\\desktop",
+    "\\src\\components\\desktop\\components",
+    "\\src\\components\\screen",
+    "\\src\\components\\window",
+    "\\src\\components\\window\\components",
+    "\\src\\hooks"
   ],
-  "SelectedNode": "\\src",
+  "SelectedNode": "\\src\\hooks\\index.ts",
   "PreviewInSolutionExplorer": false
 }
