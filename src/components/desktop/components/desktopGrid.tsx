@@ -1,14 +1,21 @@
-import React from 'react'
-import { FileSystemService } from '../../../services'
+import { useContext, useMemo } from 'react'
+import { FileSystemContext } from '../../../contexts'
+import { DirectoryType } from '../../../enums'
+import useFileSystem from '../../../hooks/fileSystem'
 import { File } from '../../file'
 import './desktopGrid.scss'
 
-const fileSystemService = new FileSystemService()
-
 const DesktopGrid = () => {
+    const { searchByDirectoryType } = useFileSystem()
+    const { rootDirectory } = useContext(FileSystemContext)
+
+    const desktopDirectory = useMemo(() => {
+        return searchByDirectoryType(rootDirectory, DirectoryType.Desktop)
+    }, [searchByDirectoryType, rootDirectory])
+
     return (
         <div className="desktop__grid">
-            {fileSystemService.fileInfos.map((fi, i) => <File key={i} fileInfo={fi} />)}
+            {desktopDirectory?.files.map((fi, i) => <File key={i} fileInfo={fi} />)}
         </div>)
 }
 

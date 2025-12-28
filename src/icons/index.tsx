@@ -1,4 +1,4 @@
-﻿import React from 'react'
+import React from 'react'
 import file from '../icons/file.png'
 import textFile from '../icons/textFile.png'
 import executable from '../icons/executable.png'

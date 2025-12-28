@@ -3,14 +3,10 @@
     "",
     "\\src",
     "\\src\\components",
-    "\\src\\components\\taskbar",
-    "\\src\\components\\taskbar\\components",
-    "\\src\\components\\taskbar\\components\\dateDisplay",
-    "\\src\\components\\taskbar\\components\\minimizeAllButton",
-    "\\src\\components\\taskbar\\components\\startButton",
-    "\\src\\components\\taskbar\\components\\taskbarItem",
-    "\\src\\files"
+    "\\src\\components\\desktop\\components",
+    "\\src\\icons",
+    "\\src\\types\\window"
   ],
-  "SelectedNode": "\\src\\components\\taskbar\\components\\taskbarItem\\taskbarItem.scss",
+  "SelectedNode": "\\src\\icons\\index.tsx",
   "PreviewInSolutionExplorer": false
 }

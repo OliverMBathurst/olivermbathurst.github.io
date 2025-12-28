@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Screen } from './components/screen';
-import { WindowsContextProvider } from './contexts';
+import { FileSystemContextProvider, WindowsContextProvider } from './contexts';
 import './index.scss';
 
 const root = ReactDOM.createRoot(
@@ -10,8 +10,10 @@ const root = ReactDOM.createRoot(
 
 root.render(
     <React.StrictMode>
-        <WindowsContextProvider>
-            <Screen />
-        </WindowsContextProvider>
+        <FileSystemContextProvider>
+            <WindowsContextProvider>
+                <Screen />
+            </WindowsContextProvider>
+        </FileSystemContextProvider>
   </React.StrictMode>
 );
