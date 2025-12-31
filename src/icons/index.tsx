@@ -1,5 +1,7 @@
 import React from 'react'
 import file from '../icons/file.png'
+import folder from '../icons/folder.png'
+import drive from '../icons/drive.png'
 import textFile from '../icons/textFile.png'
 import executable from '../icons/executable.png'
 import internet from '../icons/internet.png'
@@ -17,6 +19,10 @@ const ExecutableFileIcon = (props: IIconProps) => <img src={executable} alt="Exe
 const InternetIcon = (props: IIconProps) => <img src={internet} alt="File icon by icon8" {...props} />
 
 const PdfIcon = (props: IIconProps) => <img src={pdf} alt="PDF icon by icon8" {...props} />
+
+const FolderIcon = (props: IIconProps) => <img src={folder} alt="Folder icon by icon8" {...props} />
+
+const DriveIcon = (props: IIconProps) => <img src={drive} alt="Drive icon by icon8" {...props} />
 
 const CloseIcon = (props: IIconProps) =>
 (
@@ -53,7 +59,9 @@ export {
     InternetIcon,
     PdfIcon,
     TextFileIcon,
-    ExecutableFileIcon
+    ExecutableFileIcon,
+    FolderIcon,
+    DriveIcon
 }
 
 export interface IIconProps {

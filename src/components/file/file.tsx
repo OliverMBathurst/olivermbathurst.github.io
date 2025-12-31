@@ -1,37 +1,38 @@
-import React, { useCallback, useContext } from 'react'
+import { useCallback, useContext } from 'react'
 import { FILETYPE_URL_SHORTCUT, FILETYPE_URL_SHORTCUT_PROPERTY } from '../../constants'
 import { WindowsContext } from '../../contexts'
 import { useIcon } from '../../hooks'
-import { FileInfo } from '../../interfaces/file'
 import { IAddWindowProperties } from '../../interfaces/windows'
+import { BranchingNode, Leaf } from '../../types/fs'
 import './file.scss'
 
 interface IFileProps {
-    fileInfo: FileInfo
+    executionContext: BranchingNode,
+    leaf: Leaf
 }
 
 const File = (props: IFileProps) => {
     const {
-        fileInfo
+        leaf
     } = props
 
-    const { name, extension } = fileInfo
+    const { name, extension } = leaf
     const { addWindow } = useContext(WindowsContext)
-    const Icon = useIcon(extension)
+    const Icon = useIcon(leaf)
 
     const onDoubleClick = useCallback(() => {
         const windowProperties: IAddWindowProperties = {
-            fileInfo: fileInfo,
+            context: leaf,
             selected: true
         }
 
-        if (fileInfo.extension === FILETYPE_URL_SHORTCUT
-            && FILETYPE_URL_SHORTCUT_PROPERTY in fileInfo) {
-            window.open(fileInfo.url, '_blank')
+        if (leaf.extension === FILETYPE_URL_SHORTCUT
+            && FILETYPE_URL_SHORTCUT_PROPERTY in leaf) {
+            window.open(leaf.url, '_blank')
         } else {
             addWindow(windowProperties)
         }
-    }, [fileInfo, addWindow])
+    }, [leaf, addWindow])
 
     return (
         <div className="file" onDoubleClick={onDoubleClick}>

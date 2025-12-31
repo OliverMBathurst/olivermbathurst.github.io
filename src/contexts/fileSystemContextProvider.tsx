@@ -1,42 +1,15 @@
 import { createContext, useState } from "react"
-import { DirectoryType } from "../enums"
-import { CV, GitHub, LinkedIn } from "../files"
-import { IDirectory } from "../interfaces/fileSystem"
+import { initialiseFileSystem } from "../helpers"
+import { BranchingNode } from "../types/fs"
 
-const desktopDirectory: IDirectory = {
-    name: "Desktop",
-    type: DirectoryType.Desktop,
-    files: [
-        new CV(),
-        new LinkedIn(),
-        new GitHub(),
-    ],
-    directories: []
-}
-
-const contentsDirectory: IDirectory = {
-    name: "Contents",
-    type: DirectoryType.None,
-    files: [],
-    directories: [desktopDirectory]
-}
-
-const rootDirectory: IDirectory = {
-    name: "Root",
-    type: DirectoryType.Root,
-    files: [],
-    directories: [contentsDirectory]
-}
-
-desktopDirectory.parentDirectory = contentsDirectory
-contentsDirectory.parentDirectory = rootDirectory
+const fs = initialiseFileSystem()
 
 interface IFileSystemContext {
-    rootDirectory: IDirectory
+    root: BranchingNode
 }
 
 export const FileSystemContext = createContext<IFileSystemContext>({
-    rootDirectory: rootDirectory
+    root: fs
 })
 
 interface IFileSystemContextProviderProps {
@@ -46,10 +19,10 @@ interface IFileSystemContextProviderProps {
 const FileSystemContextProvider = (props: IFileSystemContextProviderProps) => {
     const { children } = props
 
-    const [directory] = useState<IDirectory>(rootDirectory)
+    const [node] = useState<BranchingNode>(fs)
 
     return (
-        <FileSystemContext.Provider value={{ rootDirectory: directory }}>
+        <FileSystemContext.Provider value={{ root: node }}>
             {children}
         </FileSystemContext.Provider>
     )

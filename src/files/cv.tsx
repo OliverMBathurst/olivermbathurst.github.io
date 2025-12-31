@@ -1,12 +1,15 @@
 import { FILETYPE_PDF } from '../constants';
-import { IWindowFile, IWindowRenderProps } from "../interfaces/file";
+import { IWindowFile, IWindowRenderProps } from '../interfaces/fs';
+import { AbstractLeaf, Branch, Root } from '../types/fs';
 
-class CV implements IWindowFile {
-    name: string = "My CV";
-    extension: string = FILETYPE_PDF;
+class CV extends AbstractLeaf implements IWindowFile {
+    constructor(parent: Branch | Root) {
+        super("My CV", FILETYPE_PDF, parent)
+    }
+    
     render = (props?: IWindowRenderProps) => (
         <object
-            title="My CV"
+            title={this.name}
             data="/documents/Oliver Bathurst CV.pdf"
             width="100%"
             height="100%"

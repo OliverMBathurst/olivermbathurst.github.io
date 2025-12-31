@@ -1,5 +1,4 @@
-export enum DirectoryType {
+export enum BranchType {
     None,
-    Desktop,
-    Root
+    Desktop
 }

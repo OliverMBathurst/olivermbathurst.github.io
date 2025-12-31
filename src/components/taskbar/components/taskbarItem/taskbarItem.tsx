@@ -1,6 +1,6 @@
 import { useContext } from 'react'
 import { WindowsContext } from '../../../../contexts'
-import { useIcon } from '../../../../hooks'
+import { useDisplayName, useIcon } from '../../../../hooks'
 import { IWindowProperties } from '../../../../interfaces/windows'
 import './taskbarItem.scss'
 
@@ -11,15 +11,13 @@ interface ITaskbarItemProps {
 const TaskbarItem = (props: ITaskbarItemProps) => {
     const { windowProperties } = props
     const {
-        fileInfo: {
-            name,
-            extension
-        },
+        context,
         id: windowId,
         selected
     } = windowProperties
 
-    const Icon = useIcon(extension)
+    const Icon = useIcon(context)
+    const DisplayName = useDisplayName(context)
 
     const { onTaskbarItemClicked } = useContext(WindowsContext)
 
@@ -30,7 +28,7 @@ const TaskbarItem = (props: ITaskbarItemProps) => {
         >
             {Icon}
             <span className="taskbar-item__name">
-                {name}{extension}
+                {DisplayName}
             </span>
         </div>)
 }

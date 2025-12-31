@@ -1,32 +1,37 @@
 import { useContext, useState } from "react"
+import { BRANCHING_NODE_PARENT_PROPERTY, BRANCHING_NODE_TYPE_PROPERTY } from "../constants"
 import { FileSystemContext } from "../contexts"
-import { IDirectory } from "../interfaces/fileSystem"
-import { DirectoryType } from "../enums"
+import { BranchType } from "../enums"
+import { Branch, BranchingNode } from "../types/fs"
 
-const useFileSystem = (directory?: IDirectory) => {
-    const { rootDirectory } = useContext(FileSystemContext)
-    const [currentDirectory, setCurrentDirectory] = useState<IDirectory>(directory ?? rootDirectory)
+const useFileSystem = (node?: BranchingNode) => {
+    const { root } = useContext(FileSystemContext)
+    const [currentNode, setCurrentNode] = useState<BranchingNode>(node ?? root)
 
     const upOneLevel = () => {
-        if (currentDirectory.parentDirectory) {
-            setCurrentDirectory(currentDirectory.parentDirectory)
+        if (!(BRANCHING_NODE_PARENT_PROPERTY in currentNode)) {
+            return
+        }
+
+        if (currentNode.parent) {
+            setCurrentNode(currentNode.parent)
         }
     }
 
-    const enterDirectory = (directoryName: string) => {
-        const foundDirectory = currentDirectory.directories.find(x => x.name === directoryName)
-        if (foundDirectory) {
-            setCurrentDirectory(foundDirectory)
+    const enterBranch = (branchName: string) => {
+        const foundBranch = currentNode.branches.find(x => x.name === branchName)
+        if (foundBranch) {
+            setCurrentNode(foundBranch)
         }
     }
 
-    const searchByDirectoryType = (directory: IDirectory, directoryType: DirectoryType): IDirectory | null => {
-        if (directory.type === directoryType) {
-            return directory
+    const searchForBranchByType = (branch: BranchingNode, branchType: BranchType): Branch | null => {
+        if ((BRANCHING_NODE_TYPE_PROPERTY in branch) && branch.type === branchType) {
+            return branch
         }
 
-        for (let i = 0; i < directory.directories.length; i++) {
-            const foundFolder = searchByDirectoryType(directory.directories[i], directoryType)
+        for (let i = 0; i < branch.branches.length; i++) {
+            const foundFolder = searchForBranchByType(branch.branches[i], branchType)
             if (foundFolder) {
                 return foundFolder
             }
@@ -37,9 +42,9 @@ const useFileSystem = (directory?: IDirectory) => {
 
     return {
         upOneLevel,
-        enterDirectory,
-        currentDirectory,
-        searchByDirectoryType
+        enterBranch,
+        currentNode,
+        searchForBranchByType
     }
 }
 

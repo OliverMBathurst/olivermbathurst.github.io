@@ -1,3 +1,3 @@
 import DesktopGrid from "./desktopGrid";
 
-export { DesktopGrid } 
+export { DesktopGrid }

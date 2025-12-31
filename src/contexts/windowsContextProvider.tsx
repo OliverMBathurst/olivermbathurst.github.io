@@ -30,13 +30,13 @@ const WindowsContextProvider = (props: IWindowsContextProviderProps) => {
     const [windowProperties, setWindowProperties] = useState<IWindowProperties[]>([])
 
     const addWindow = (window: IAddWindowProperties) => {
-        const { fileInfo, size } = window
+        const { context, size } = window
 
         const windowSize = size ?? { width: "31.25rem", height: "31.25rem" }
 
         const newWindowProperties: IWindowProperties = {
-            id: `${Date.now()}-${fileInfo.name}`,
-            fileInfo: fileInfo,
+            id: `${Date.now()}-${context.name}`,
+            context: context,
             selected: true,
             size: windowSize,
             state: WindowState.Normal,

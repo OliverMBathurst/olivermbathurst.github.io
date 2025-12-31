@@ -3,10 +3,14 @@
     "",
     "\\src",
     "\\src\\components",
-    "\\src\\components\\desktop\\components",
-    "\\src\\icons",
-    "\\src\\types\\window"
+    "\\src\\components\\file",
+    "\\src\\hooks",
+    "\\src\\interfaces",
+    "\\src\\interfaces\\file",
+    "\\src\\interfaces\\fileSystem",
+    "\\src\\types",
+    "\\src\\types\\fs"
   ],
-  "SelectedNode": "\\src\\icons\\index.tsx",
+  "SelectedNode": "\\src\\types\\fs",
   "PreviewInSolutionExplorer": false
 }

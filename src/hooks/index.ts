@@ -1,4 +1,5 @@
-import { useIcon } from './icon'
-import { useVisibility } from './visibility'
+import useDisplayName from './display'
+import useIcon from './icon'
+import useVisibility from './visibility'
 
-export { useIcon, useVisibility }
+export { useDisplayName, useIcon, useVisibility }

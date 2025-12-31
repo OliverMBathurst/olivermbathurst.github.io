@@ -1,8 +1,8 @@
-import { FileInfo } from "../file"
+import { Node } from "../../types/fs"
 
 export interface IWindowProperties {
     id: string
-    fileInfo: FileInfo
+    context: Node
     selected: boolean
     size: ISize
     state: WindowState
@@ -10,7 +10,7 @@ export interface IWindowProperties {
 }
 
 export interface IAddWindowProperties {
-    fileInfo: FileInfo
+    context: Node
     selected: boolean
     size?: ISize
 }

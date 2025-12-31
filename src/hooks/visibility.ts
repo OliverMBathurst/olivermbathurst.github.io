@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 
-export const useVisibility = (initialVisibility: boolean) => {
+const useVisibility = (initialVisibility: boolean) => {
     const [visible, setVisible] = useState<boolean>(initialVisibility)
 
     const onVisibilityChange = () => {
@@ -16,4 +16,6 @@ export const useVisibility = (initialVisibility: boolean) => {
     }, [])
 
     return visible
-} 
+}
+
+export default useVisibility

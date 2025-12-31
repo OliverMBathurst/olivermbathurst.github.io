@@ -1,11 +1,11 @@
-import React from 'react'
-import { useIcon } from '../../../hooks'
-import { CloseIcon, MaximizeIcon, MinimizeIcon } from '../../../icons'
-import { IFile } from '../../../interfaces/file'
-import './windowTopBar.scss'
+import React from 'react';
+import { useDisplayName, useIcon } from '../../../hooks';
+import { CloseIcon, MaximizeIcon, MinimizeIcon } from '../../../icons';
+import { Node } from '../../../types/fs';
+import './windowTopBar.scss';
 
 interface IWindowTopBarProps {
-    fileInfo: IFile,
+    context: Node,
     onMaximiseButtonClicked: (e: React.MouseEvent<HTMLImageElement, MouseEvent>) => void;
     onMinimiseButtonClicked: (e: React.MouseEvent<HTMLImageElement, MouseEvent>) => void;
     onCloseButtonClicked: (e: React.MouseEvent<HTMLImageElement, MouseEvent>) => void;
@@ -22,10 +22,7 @@ const imgProps = {
 
 const WindowTopBar = (props: IWindowTopBarProps) => {
     const {
-        fileInfo: {
-            name,
-            extension
-        },
+        context,
         onWindowTopBarMouseMove,
         onWindowTopBarMouseUp,
         onWindowTopBarMouseDown,
@@ -34,7 +31,8 @@ const WindowTopBar = (props: IWindowTopBarProps) => {
         onCloseButtonClicked
     } = props
 
-    const Icon = useIcon(extension)
+    const Icon = useIcon(context)
+    const DisplayName = useDisplayName(context)
     
 	return (
         <div
@@ -47,7 +45,7 @@ const WindowTopBar = (props: IWindowTopBarProps) => {
                 {Icon}
             </div>
             <span className="window__top-bar__title no-select">
-                {`${name}${extension}`}
+                {DisplayName}
             </span>
             <div className="window__top-bar__controls">
                 <div className="window__top-bar__controls__button">

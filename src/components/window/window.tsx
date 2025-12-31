@@ -14,7 +14,7 @@ const Window = (props: IWindowProps) => {
     const {
         properties: {
             id,
-            fileInfo,
+            context,
             size,
             state
         },
@@ -114,12 +114,12 @@ const Window = (props: IWindowProps) => {
     }
 
     const Content = useCallback(() => {
-        if (FILETYPE_RENDERABLE_PROPERTY in fileInfo) {
-            return fileInfo.render()
+        if (FILETYPE_RENDERABLE_PROPERTY in context) {
+            return context.render()
         }
 
         return null
-    }, [fileInfo])
+    }, [context])
 
     const visibility: Visibility = state === WindowState.Minimised
         ? "hidden"
@@ -136,7 +136,7 @@ const Window = (props: IWindowProps) => {
             ref={windowRef}
         >
             <WindowTopBar
-                fileInfo={fileInfo}
+                context={context}
                 onWindowTopBarMouseMove={onWindowTopBarMouseMove}
                 onWindowTopBarMouseUp={onWindowTopBarMouseUp}
                 onWindowTopBarMouseDown={onWindowTopBarMouseDown}
