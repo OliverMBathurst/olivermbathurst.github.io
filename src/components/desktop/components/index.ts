@@ -1,3 +1,5 @@
-import DesktopGrid from "./desktopGrid";
+import { DesktopGrid } from "./desktopGrid"
+import { DesktopItem } from "./desktopItem"
 
-export { DesktopGrid }
+
+export { DesktopGrid, DesktopItem }

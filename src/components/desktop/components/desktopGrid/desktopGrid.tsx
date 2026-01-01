@@ -1,8 +1,10 @@
 import { useContext, useMemo } from 'react'
-import { FileSystemContext } from '../../../contexts'
-import { BranchType } from '../../../enums'
-import useFileSystem from '../../../hooks/fileSystem'
-import { File } from '../../file'
+import { FileSystemContext } from '../../../../contexts'
+import { BranchType } from '../../../../enums'
+import useFileSystem from '../../../../hooks/fileSystem'
+import { File } from '../../../file'
+import { Folder } from '../../../folder'
+import { Shortcut } from '../../../shortcut'
 import './desktopGrid.scss'
 
 const DesktopGrid = () => {
@@ -15,12 +17,18 @@ const DesktopGrid = () => {
 
     return (
         <div className="desktop__grid">
-            {desktopBranch?.leaves.map((l) => {
+            {desktopBranch?.branches.map(b => {
+                return <Folder key={b.name} node={b} />
+            })}
+            {desktopBranch?.shortcuts.map(s => {
+                return <Shortcut key={s.name} node={s} />
+            })}
+            {desktopBranch?.leaves.map(l => {
                 const { name, extension } = l
                 return (
                     <File
                         key={`${name}${extension}`}
-                        leaf={l}
+                        node={l}
                         executionContext={desktopBranch}
                     />
                 )

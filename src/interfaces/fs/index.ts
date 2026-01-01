@@ -1,18 +1,19 @@
 import { JSX } from "react";
 import { BranchType } from "../../enums";
-import { Branch, Leaf, Root } from "../../types/fs";
-
-interface INamed {
-	name: string
-}
+import { Branch, Leaf, Node, Root } from "../../types/fs";
 
 interface ILeafAndBranchNode extends INamed {
 	leaves: Leaf[]
 	branches: Branch[]
+	shortcuts: Node[]
 }
 
 interface IChildNode {
 	parent: Branch | Root | null
+}
+
+export interface INamed {
+	name: string
 }
 
 export interface IRoot extends ILeafAndBranchNode { }

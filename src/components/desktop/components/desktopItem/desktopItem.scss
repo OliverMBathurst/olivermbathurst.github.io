@@ -1,4 +1,4 @@
-.file {
+.desktop-item {
     width: 6rem;
     overflow: clip;
     cursor: pointer;
@@ -10,7 +10,7 @@
     justify-content: center;
 }
 
-.file__name {
+.desktop-item__name {
     font-size: 0.75rem;
     word-wrap: anywhere;
     text-shadow: 0.125rem 0.125rem 0.8125rem black;

@@ -1,16 +1,14 @@
 import { useCallback, useContext } from 'react'
-import { FILETYPE_URL_SHORTCUT, FILETYPE_URL_SHORTCUT_PROPERTY } from '../../constants'
 import { WindowsContext } from '../../contexts'
 import { IAddWindowProperties } from '../../interfaces/windows'
-import { BranchingNode, Leaf } from '../../types/fs'
+import { BranchingNode } from '../../types/fs'
 import { DesktopItem } from '../desktop/components'
 
-interface IFileProps {
-    executionContext: BranchingNode,
-    node: Leaf
+interface IFolderProps {
+    node: BranchingNode
 }
 
-const File = (props: IFileProps) => {
+const Folder = (props: IFolderProps) => {
     const {
         node
     } = props
@@ -23,15 +21,10 @@ const File = (props: IFileProps) => {
             selected: true
         }
 
-        if (node.extension === FILETYPE_URL_SHORTCUT
-            && FILETYPE_URL_SHORTCUT_PROPERTY in node) {
-            window.open(node.url, '_blank')
-        } else {
-            addWindow(windowProperties)
-        }
+        addWindow(windowProperties)
     }, [node, addWindow])
 
     return <DesktopItem node={node} onDoubleClick={onDoubleClick} />
 }
 
-export default File
+export default Folder

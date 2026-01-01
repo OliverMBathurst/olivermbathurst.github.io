@@ -1,4 +1,4 @@
-import { Leaf, Root } from ".";
+import { Leaf, Root, Shortcut } from ".";
 import { BranchType } from "../../enums";
 import { IBranch } from "../../interfaces/fs";
 
@@ -7,6 +7,7 @@ class Branch implements IBranch {
     type: BranchType
     leaves: Leaf[] = []
     branches: Branch[] = []
+    shortcuts: Shortcut[] = []
     parent: Branch | Root | null = null
 
     constructor(
@@ -23,6 +24,10 @@ class Branch implements IBranch {
 
     setBranches(branches: Branch[]) {
         this.branches = branches
+    }
+
+    setShortcuts(shortcuts: Shortcut[]) {
+        this.shortcuts = shortcuts
     }
 
     setParent(parent: Branch | Root) {

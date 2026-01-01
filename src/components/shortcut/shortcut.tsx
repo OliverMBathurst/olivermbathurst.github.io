@@ -1,16 +1,15 @@
 import { useCallback, useContext } from 'react'
-import { FILETYPE_URL_SHORTCUT, FILETYPE_URL_SHORTCUT_PROPERTY } from '../../constants'
+import { FILETYPE_URL_SHORTCUT, FILETYPE_URL_SHORTCUT_PROPERTY, LEAF_EXTENSION_PROPERTY_NAME } from '../../constants'
 import { WindowsContext } from '../../contexts'
 import { IAddWindowProperties } from '../../interfaces/windows'
-import { BranchingNode, Leaf } from '../../types/fs'
+import { Node } from '../../types/fs'
 import { DesktopItem } from '../desktop/components'
 
-interface IFileProps {
-    executionContext: BranchingNode,
-    node: Leaf
+interface IShortcutProps {
+    node: Node
 }
 
-const File = (props: IFileProps) => {
+const Shortcut = (props: IShortcutProps) => {
     const {
         node
     } = props
@@ -23,9 +22,10 @@ const File = (props: IFileProps) => {
             selected: true
         }
 
-        if (node.extension === FILETYPE_URL_SHORTCUT
-            && FILETYPE_URL_SHORTCUT_PROPERTY in node) {
-            window.open(node.url, '_blank')
+        if (FILETYPE_URL_SHORTCUT_PROPERTY in node
+            && LEAF_EXTENSION_PROPERTY_NAME in node
+            && node.extension === FILETYPE_URL_SHORTCUT) {
+                window.open(node.url, '_blank')
         } else {
             addWindow(windowProperties)
         }
@@ -34,4 +34,4 @@ const File = (props: IFileProps) => {
     return <DesktopItem node={node} onDoubleClick={onDoubleClick} />
 }
 
-export default File
+export default Shortcut

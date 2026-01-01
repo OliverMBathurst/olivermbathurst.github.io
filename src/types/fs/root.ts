@@ -1,10 +1,11 @@
-import { Leaf, Branch } from ".";
+import { Branch, Leaf, Shortcut } from ".";
 import { IRoot } from "../../interfaces/fs";
 
 class Root implements IRoot {
     name: string
     leaves: Leaf[] = []
     branches: Branch[] = []
+    shortcuts: Shortcut[] = []
 
     constructor(name: string) {
         this.name = name
@@ -17,6 +18,10 @@ class Root implements IRoot {
 
     setBranches(branches: Branch[]) {
         this.branches = branches
+    }
+
+    setShortcuts(shortcuts: Shortcut[]) {
+        this.shortcuts = shortcuts
     }
 }
 

@@ -1,10 +1,11 @@
 import React, { memo, useCallback, useContext, useRef, useState } from 'react'
-import { FILETYPE_RENDERABLE_PROPERTY } from '../../constants'
+import { BRANCHING_NODE_DETERMINER, FILETYPE_RENDERABLE_PROPERTY } from '../../constants'
 import { WindowsContext } from '../../contexts'
 import { ISize, IWindowProperties, WindowState } from '../../interfaces/windows'
 import { Visibility } from '../../types'
 import { WindowTopBar } from './components'
 import './window.scss'
+import { FileBrowser } from '../fileBrowser'
 
 interface IWindowProps {
     properties: IWindowProperties
@@ -116,6 +117,10 @@ const Window = (props: IWindowProps) => {
     const Content = useCallback(() => {
         if (FILETYPE_RENDERABLE_PROPERTY in context) {
             return context.render()
+        }
+
+        if (BRANCHING_NODE_DETERMINER in context) {
+            return <FileBrowser node={context} />
         }
 
         return null

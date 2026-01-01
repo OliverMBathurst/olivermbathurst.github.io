@@ -4,13 +4,13 @@
     "\\src",
     "\\src\\components",
     "\\src\\components\\desktop",
-    "\\src\\components\\taskbar\\components",
-    "\\src\\components\\taskbar\\components\\taskbarItem",
-    "\\src\\components\\window",
-    "\\src\\components\\window\\components",
-    "\\src\\interfaces\\fs",
-    "\\src\\interfaces\\windows"
+    "\\src\\components\\desktop\\components",
+    "\\src\\components\\desktop\\components\\desktopGrid",
+    "\\src\\components\\fileBrowser",
+    "\\src\\components\\fileBrowser\\components",
+    "\\src\\interfaces",
+    "\\src\\types"
   ],
-  "SelectedNode": "\\src\\components\\window\\components\\windowTopBar.tsx",
+  "SelectedNode": "\\src\\types\\fs\\root.ts",
   "PreviewInSolutionExplorer": false
 }
