@@ -3,14 +3,14 @@
     "",
     "\\src",
     "\\src\\components",
-    "\\src\\components\\file",
-    "\\src\\hooks",
-    "\\src\\interfaces",
-    "\\src\\interfaces\\file",
-    "\\src\\interfaces\\fileSystem",
-    "\\src\\types",
-    "\\src\\types\\fs"
+    "\\src\\components\\desktop",
+    "\\src\\components\\taskbar\\components",
+    "\\src\\components\\taskbar\\components\\taskbarItem",
+    "\\src\\components\\window",
+    "\\src\\components\\window\\components",
+    "\\src\\interfaces\\fs",
+    "\\src\\interfaces\\windows"
   ],
-  "SelectedNode": "\\src\\types\\fs",
+  "SelectedNode": "\\src\\components\\window\\components\\windowTopBar.tsx",
   "PreviewInSolutionExplorer": false
 }

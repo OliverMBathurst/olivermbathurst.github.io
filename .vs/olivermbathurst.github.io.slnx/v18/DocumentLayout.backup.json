@@ -3,16 +3,20 @@
   "WorkspaceRootPath": "C:\\Users\\olive\\Documents\\GitHub\\olivermbathurst.github.io\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\olive\\Documents\\GitHub\\olivermbathurst.github.io\\src\\components\\window\\components\\windowTopBar.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\components\\window\\components\\windowTopBar.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\olive\\Documents\\GitHub\\olivermbathurst.github.io\\src\\contexts\\windowsContextProvider.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\contexts\\windowsContextProvider.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\olive\\Documents\\GitHub\\olivermbathurst.github.io\\src\\components\\window\\window.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\components\\window\\window.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\olive\\Documents\\GitHub\\olivermbathurst.github.io\\src\\interfaces\\windows\\index.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\interfaces\\windows\\index.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\olive\\Documents\\GitHub\\olivermbathurst.github.io\\src\\components\\window\\components\\windowTopBar.scss||{181FE41B-5A5D-479F-9F8F-BF665F4EBC2A}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\components\\window\\components\\windowTopBar.scss||{181FE41B-5A5D-479F-9F8F-BF665F4EBC2A}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\olive\\Documents\\GitHub\\olivermbathurst.github.io\\src\\components\\taskbar\\components\\taskbarItem\\taskbarItem.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\components\\taskbar\\components\\taskbarItem\\taskbarItem.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\olive\\Documents\\GitHub\\olivermbathurst.github.io\\src\\components\\file\\file.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\components\\file\\file.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\olive\\Documents\\GitHub\\olivermbathurst.github.io\\src\\components\\desktop\\components\\desktopGrid.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
@@ -23,28 +27,8 @@
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\components\\desktop\\desktop.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\olive\\Documents\\GitHub\\olivermbathurst.github.io\\src\\components\\file\\file.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\components\\file\\file.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\olive\\Documents\\GitHub\\olivermbathurst.github.io\\src\\components\\file\\index.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\components\\file\\index.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\olive\\Documents\\GitHub\\olivermbathurst.github.io\\src\\types\\fs\\abstractLeaf.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\types\\fs\\abstractLeaf.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\olive\\Documents\\GitHub\\olivermbathurst.github.io\\src\\types\\fs\\index.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\types\\fs\\index.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\olive\\Documents\\GitHub\\olivermbathurst.github.io\\src\\types\\fs\\root.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\types\\fs\\root.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\olive\\Documents\\GitHub\\olivermbathurst.github.io\\src\\types\\fs\\branch.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\types\\fs\\branch.ts||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\olive\\Documents\\GitHub\\olivermbathurst.github.io\\src\\components\\window\\window.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\components\\window\\window.tsx||{0F2454B1-A556-402D-A7D0-1FDE7F99DEE0}"
     }
   ],
   "DocumentGroupContainers": [
@@ -58,13 +42,13 @@
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 6,
               "Title": "window.tsx",
               "DocumentMoniker": "C:\\Users\\olive\\Documents\\GitHub\\olivermbathurst.github.io\\src\\components\\window\\window.tsx",
               "RelativeDocumentMoniker": "src\\components\\window\\window.tsx",
               "ToolTip": "C:\\Users\\olive\\Documents\\GitHub\\olivermbathurst.github.io\\src\\components\\window\\window.tsx",
               "RelativeToolTip": "src\\components\\window\\window.tsx",
-              "ViewState": "AgIAAH8AAAAAAAAAAAAYwIkAAAAZAAAAAAAAAA==",
+              "ViewState": "AgIAAGgAAAAAAAAAAAAAwAcAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
               "WhenOpened": "2025-12-31T18:32:55.083Z",
               "IsPinned": true,
@@ -72,13 +56,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 3,
               "Title": "file.tsx",
               "DocumentMoniker": "C:\\Users\\olive\\Documents\\GitHub\\olivermbathurst.github.io\\src\\components\\file\\file.tsx",
               "RelativeDocumentMoniker": "src\\components\\file\\file.tsx",
               "ToolTip": "C:\\Users\\olive\\Documents\\GitHub\\olivermbathurst.github.io\\src\\components\\file\\file.tsx",
               "RelativeToolTip": "src\\components\\file\\file.tsx",
-              "ViewState": "AgIAAAcAAAAAAAAAAAApwBEAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAA4AAAAAAAAAAAAAwBYAAAAYAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
               "WhenOpened": "2025-12-31T18:30:59.062Z",
               "IsPinned": true,
@@ -87,118 +71,66 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "windowTopBar.tsx",
-              "DocumentMoniker": "C:\\Users\\olive\\Documents\\GitHub\\olivermbathurst.github.io\\src\\components\\window\\components\\windowTopBar.tsx",
-              "RelativeDocumentMoniker": "src\\components\\window\\components\\windowTopBar.tsx",
-              "ToolTip": "C:\\Users\\olive\\Documents\\GitHub\\olivermbathurst.github.io\\src\\components\\window\\components\\windowTopBar.tsx",
-              "RelativeToolTip": "src\\components\\window\\components\\windowTopBar.tsx",
-              "ViewState": "AgIAAAQAAAAAAAAAAAApwB4AAAAcAAAAAAAAAA==",
+              "Title": "windowsContextProvider.tsx",
+              "DocumentMoniker": "C:\\Users\\olive\\Documents\\GitHub\\olivermbathurst.github.io\\src\\contexts\\windowsContextProvider.tsx",
+              "RelativeDocumentMoniker": "src\\contexts\\windowsContextProvider.tsx",
+              "ToolTip": "C:\\Users\\olive\\Documents\\GitHub\\olivermbathurst.github.io\\src\\contexts\\windowsContextProvider.tsx",
+              "RelativeToolTip": "src\\contexts\\windowsContextProvider.tsx",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAbAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
-              "WhenOpened": "2025-12-31T18:37:13.277Z",
+              "WhenOpened": "2025-12-31T18:52:03.746Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "index.ts",
+              "DocumentMoniker": "C:\\Users\\olive\\Documents\\GitHub\\olivermbathurst.github.io\\src\\interfaces\\windows\\index.ts",
+              "RelativeDocumentMoniker": "src\\interfaces\\windows\\index.ts",
+              "ToolTip": "C:\\Users\\olive\\Documents\\GitHub\\olivermbathurst.github.io\\src\\interfaces\\windows\\index.ts",
+              "RelativeToolTip": "src\\interfaces\\windows\\index.ts",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAALAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2025-12-31T18:51:59.469Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "windowTopBar.scss",
-              "DocumentMoniker": "C:\\Users\\olive\\Documents\\GitHub\\olivermbathurst.github.io\\src\\components\\window\\components\\windowTopBar.scss",
-              "RelativeDocumentMoniker": "src\\components\\window\\components\\windowTopBar.scss",
-              "ToolTip": "C:\\Users\\olive\\Documents\\GitHub\\olivermbathurst.github.io\\src\\components\\window\\components\\windowTopBar.scss",
-              "RelativeToolTip": "src\\components\\window\\components\\windowTopBar.scss",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002663|",
-              "WhenOpened": "2025-12-31T18:37:12.477Z",
+              "Title": "taskbarItem.tsx",
+              "DocumentMoniker": "C:\\Users\\olive\\Documents\\GitHub\\olivermbathurst.github.io\\src\\components\\taskbar\\components\\taskbarItem\\taskbarItem.tsx",
+              "RelativeDocumentMoniker": "src\\components\\taskbar\\components\\taskbarItem\\taskbarItem.tsx",
+              "ToolTip": "C:\\Users\\olive\\Documents\\GitHub\\olivermbathurst.github.io\\src\\components\\taskbar\\components\\taskbarItem\\taskbarItem.tsx",
+              "RelativeToolTip": "src\\components\\taskbar\\components\\taskbarItem\\taskbarItem.tsx",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAnAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
+              "WhenOpened": "2025-12-31T18:51:57.766Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "desktop.tsx",
               "DocumentMoniker": "C:\\Users\\olive\\Documents\\GitHub\\olivermbathurst.github.io\\src\\components\\desktop\\desktop.tsx",
               "RelativeDocumentMoniker": "src\\components\\desktop\\desktop.tsx",
               "ToolTip": "C:\\Users\\olive\\Documents\\GitHub\\olivermbathurst.github.io\\src\\components\\desktop\\desktop.tsx",
               "RelativeToolTip": "src\\components\\desktop\\desktop.tsx",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAYAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAWAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
-              "WhenOpened": "2025-12-31T18:36:45.799Z",
+              "WhenOpened": "2025-12-31T18:44:29.091Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "desktopGrid.tsx",
               "DocumentMoniker": "C:\\Users\\olive\\Documents\\GitHub\\olivermbathurst.github.io\\src\\components\\desktop\\components\\desktopGrid.tsx",
               "RelativeDocumentMoniker": "src\\components\\desktop\\components\\desktopGrid.tsx",
               "ToolTip": "C:\\Users\\olive\\Documents\\GitHub\\olivermbathurst.github.io\\src\\components\\desktop\\components\\desktopGrid.tsx",
               "RelativeToolTip": "src\\components\\desktop\\components\\desktopGrid.tsx",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAhAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAZAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
-              "WhenOpened": "2025-12-31T18:31:40.523Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "index.ts",
-              "DocumentMoniker": "C:\\Users\\olive\\Documents\\GitHub\\olivermbathurst.github.io\\src\\components\\file\\index.ts",
-              "RelativeDocumentMoniker": "src\\components\\file\\index.ts",
-              "ToolTip": "C:\\Users\\olive\\Documents\\GitHub\\olivermbathurst.github.io\\src\\components\\file\\index.ts",
-              "RelativeToolTip": "src\\components\\file\\index.ts",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
-              "WhenOpened": "2025-12-31T18:30:58.449Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "branch.ts",
-              "DocumentMoniker": "C:\\Users\\olive\\Documents\\GitHub\\olivermbathurst.github.io\\src\\types\\fs\\branch.ts",
-              "RelativeDocumentMoniker": "src\\types\\fs\\branch.ts",
-              "ToolTip": "C:\\Users\\olive\\Documents\\GitHub\\olivermbathurst.github.io\\src\\types\\fs\\branch.ts",
-              "RelativeToolTip": "src\\types\\fs\\branch.ts",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
-              "WhenOpened": "2025-12-31T18:29:59.076Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "root.ts",
-              "DocumentMoniker": "C:\\Users\\olive\\Documents\\GitHub\\olivermbathurst.github.io\\src\\types\\fs\\root.ts",
-              "RelativeDocumentMoniker": "src\\types\\fs\\root.ts",
-              "ToolTip": "C:\\Users\\olive\\Documents\\GitHub\\olivermbathurst.github.io\\src\\types\\fs\\root.ts",
-              "RelativeToolTip": "src\\types\\fs\\root.ts",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
-              "WhenOpened": "2025-12-31T18:29:58.213Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "index.ts",
-              "DocumentMoniker": "C:\\Users\\olive\\Documents\\GitHub\\olivermbathurst.github.io\\src\\types\\fs\\index.ts",
-              "RelativeDocumentMoniker": "src\\types\\fs\\index.ts",
-              "ToolTip": "C:\\Users\\olive\\Documents\\GitHub\\olivermbathurst.github.io\\src\\types\\fs\\index.ts",
-              "RelativeToolTip": "src\\types\\fs\\index.ts",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
-              "WhenOpened": "2025-12-31T18:29:54.004Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "abstractLeaf.ts",
-              "DocumentMoniker": "C:\\Users\\olive\\Documents\\GitHub\\olivermbathurst.github.io\\src\\types\\fs\\abstractLeaf.ts",
-              "RelativeDocumentMoniker": "src\\types\\fs\\abstractLeaf.ts",
-              "ToolTip": "C:\\Users\\olive\\Documents\\GitHub\\olivermbathurst.github.io\\src\\types\\fs\\abstractLeaf.ts",
-              "RelativeToolTip": "src\\types\\fs\\abstractLeaf.ts",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAbAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003213|",
-              "WhenOpened": "2025-12-31T18:29:52.058Z",
+              "WhenOpened": "2025-12-31T18:43:54.073Z",
               "EditorCaption": ""
             }
           ]
