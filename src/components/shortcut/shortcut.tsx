@@ -1,6 +1,6 @@
 import { useCallback, useContext } from 'react'
-import { FILETYPE_URL_SHORTCUT, FILETYPE_URL_SHORTCUT_PROPERTY, LEAF_EXTENSION_PROPERTY_NAME } from '../../constants'
 import { WindowsContext } from '../../contexts'
+import { resolveNodeSelection } from '../../helpers'
 import { IAddWindowProperties } from '../../interfaces/windows'
 import { Node } from '../../types/fs'
 import { DesktopItem } from '../desktop/components'
@@ -17,18 +17,22 @@ const Shortcut = (props: IShortcutProps) => {
     const { addWindow } = useContext(WindowsContext)
 
     const onDoubleClick = useCallback(() => {
+        const resolvedNodeSelection = resolveNodeSelection(node)
+
+        if (resolvedNodeSelection.alreadyResolved) {
+            return
+        }
+
+        if (!resolvedNodeSelection.resolvedNode) {
+            throw new Error("Failed to resolve Node")
+        }
+
         const windowProperties: IAddWindowProperties = {
-            context: node,
+            context: resolvedNodeSelection.resolvedNode,
             selected: true
         }
 
-        if (FILETYPE_URL_SHORTCUT_PROPERTY in node
-            && LEAF_EXTENSION_PROPERTY_NAME in node
-            && node.extension === FILETYPE_URL_SHORTCUT) {
-                window.open(node.url, '_blank')
-        } else {
-            addWindow(windowProperties)
-        }
+        addWindow(windowProperties)
     }, [node, addWindow])
 
     return <DesktopItem node={node} onDoubleClick={onDoubleClick} />

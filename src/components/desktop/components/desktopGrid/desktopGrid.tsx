@@ -1,6 +1,6 @@
 import { useContext, useMemo } from 'react'
 import { FileSystemContext } from '../../../../contexts'
-import { BranchType } from '../../../../enums'
+import { SpecialBranch } from '../../../../enums'
 import useFileSystem from '../../../../hooks/fileSystem'
 import { File } from '../../../file'
 import { Folder } from '../../../folder'
@@ -12,7 +12,7 @@ const DesktopGrid = () => {
     const { root } = useContext(FileSystemContext)
 
     const desktopBranch = useMemo(() => {
-        return searchForBranchByType(root, BranchType.Desktop)
+        return searchForBranchByType(root, SpecialBranch.Desktop)
     }, [searchForBranchByType, root])
 
     return (

@@ -1,17 +1,23 @@
 import { Node } from ".";
-import { INamed } from "../../interfaces/fs";
+import { IShortcut } from "../../interfaces/fs";
 
-class Shortcut implements INamed {
+class Shortcut implements IShortcut {
+    private _name: string
     node: Node
-    name: string
 
     constructor(
         node: Node,
         name: string
     ) {
         this.node = node
-        this.name = name
+        this._name = name
     }
+
+    get name() {
+        return `${this._name} (Shortcut)`
+    }
+
+    toContextUniqueKey: () => string = () => `${this.name}-${this.node.name}-shortcut`
 }
 
 export default Shortcut

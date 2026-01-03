@@ -3,9 +3,10 @@ import { BRANCHING_NODE_DETERMINER, FILETYPE_RENDERABLE_PROPERTY } from '../../c
 import { WindowsContext } from '../../contexts'
 import { ISize, IWindowProperties, WindowState } from '../../interfaces/windows'
 import { Visibility } from '../../types'
+import { Node } from '../../types/fs'
+import { FileBrowser } from '../fileBrowser'
 import { WindowTopBar } from './components'
 import './window.scss'
-import { FileBrowser } from '../fileBrowser'
 
 interface IWindowProps {
     properties: IWindowProperties
@@ -23,6 +24,7 @@ const Window = (props: IWindowProps) => {
 
     const [previousSize, setPreviousSize] = useState<ISize>(size)
     const [currentSize, setCurrentSize] = useState<ISize>(size)
+    const [windowTopBarContext, setWindowTopBarContext] = useState<Node>(context)
 
     const windowRef = useRef<HTMLDivElement | null>(null)
     const windowPositionRef = useRef<{ x: number, y: number } | undefined>(undefined)
@@ -120,7 +122,7 @@ const Window = (props: IWindowProps) => {
         }
 
         if (BRANCHING_NODE_DETERMINER in context) {
-            return <FileBrowser node={context} />
+            return <FileBrowser node={context} setWindowTopBarContext={setWindowTopBarContext} />
         }
 
         return null
@@ -141,7 +143,7 @@ const Window = (props: IWindowProps) => {
             ref={windowRef}
         >
             <WindowTopBar
-                context={context}
+                context={windowTopBarContext}
                 onWindowTopBarMouseMove={onWindowTopBarMouseMove}
                 onWindowTopBarMouseUp={onWindowTopBarMouseUp}
                 onWindowTopBarMouseDown={onWindowTopBarMouseDown}

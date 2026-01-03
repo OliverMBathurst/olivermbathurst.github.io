@@ -9,8 +9,9 @@ class Root implements IRoot {
 
     constructor(name: string) {
         this.name = name
-        
     }
+
+    toContextUniqueKey: () => string = () => this.name
 
     setLeaves(leaves: Leaf[]) {
         this.leaves = leaves
