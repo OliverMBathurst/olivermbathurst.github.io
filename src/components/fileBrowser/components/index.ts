@@ -1,3 +1,4 @@
 import FileBrowserRow from './fileBrowserRow'
+import UpOneLevelRow from './upOneLevelRow'
 
-export { FileBrowserRow }
+export { FileBrowserRow, UpOneLevelRow }

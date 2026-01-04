@@ -1,3 +1,4 @@
+import { StartMenuIcon } from '../../../../icons'
 import './startButton.scss'
 
 export interface IStartButtonProps {
@@ -14,6 +15,7 @@ const StartButton = (props: IStartButtonProps) => {
             className="start-button"
             onClick={onStartButtonClicked}
         >
+            <StartMenuIcon />
         </div>)
 }
 

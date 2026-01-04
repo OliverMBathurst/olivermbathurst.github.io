@@ -9,6 +9,7 @@ import pdf from '../icons/pdf.png'
 import close from '../icons/close.png'
 import minimise from '../icons/minimise.png'
 import maximise from '../icons/maximise.png'
+import start from '../icons/startMenu.png'
 
 const GenericFileIcon = (props: IIconProps) => <img src={file} alt="File icon by icon8" {...props} />
 
@@ -23,6 +24,8 @@ const PdfIcon = (props: IIconProps) => <img src={pdf} alt="PDF icon by icon8" {.
 const FolderIcon = (props: IIconProps) => <img src={folder} alt="Folder icon by icon8" {...props} />
 
 const DriveIcon = (props: IIconProps) => <img src={drive} alt="Drive icon by icon8" {...props} />
+
+const StartMenuIcon = (props: IIconProps) => <img src={start} alt="Start menu icon by icon8" {...props} />
 
 const CloseIcon = (props: IIconProps) =>
 (
@@ -61,7 +64,8 @@ export {
     TextFileIcon,
     ExecutableFileIcon,
     FolderIcon,
-    DriveIcon
+    DriveIcon,
+    StartMenuIcon
 }
 
 export interface IIconProps {

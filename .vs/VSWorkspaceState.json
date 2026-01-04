@@ -6,11 +6,12 @@
     "\\src\\components\\desktop",
     "\\src\\components\\desktop\\components",
     "\\src\\components\\desktop\\components\\desktopGrid",
-    "\\src\\components\\fileBrowser",
-    "\\src\\components\\fileBrowser\\components",
-    "\\src\\interfaces",
-    "\\src\\types"
+    "\\src\\components\\taskbar",
+    "\\src\\components\\taskbar\\components",
+    "\\src\\components\\taskbar\\components\\taskbarItem",
+    "\\src\\components\\window\\components",
+    "\\src\\hooks"
   ],
-  "SelectedNode": "\\src\\types\\fs\\root.ts",
+  "SelectedNode": "\\src\\components\\taskbar\\taskbar.scss",
   "PreviewInSolutionExplorer": false
 }
