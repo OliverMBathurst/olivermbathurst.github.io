@@ -1,5 +1,5 @@
 import { BRANCHING_NODE_PARENT_PROPERTY, FILETYPE_RENDERABLE_PROPERTY, FILETYPE_URL_SHORTCUT, FILETYPE_URL_SHORTCUT_PROPERTY, LEAF_EXTENSION_PROPERTY_NAME, SHORTCUT_DETERMINER } from "../constants"
-import { NodeType, SpecialBranch } from "../enums"
+import { NodeType, SpecialBranch, WindowExpandDirection } from "../enums"
 import { CV, GitHub, LinkedIn } from "../files"
 import { Branch, BranchingNode, Node, Root, Shortcut } from "../types/fs"
 
@@ -58,4 +58,57 @@ export const resolveNodeSelection = (node: Node): { alreadyResolved: boolean, no
     } else {
         return { alreadyResolved: false, nodeType: NodeType.Root, resolvedNode: node }
     }
+}
+
+export const getCursor = (direction: WindowExpandDirection, defaultCursor: string): string => {
+    switch (direction) {
+        case WindowExpandDirection.BottomLeft:
+        case WindowExpandDirection.TopRight:
+            return 'nesw-resize'
+        case WindowExpandDirection.BottomRight:
+        case WindowExpandDirection.TopLeft:
+            return 'nwse-resize'
+        case WindowExpandDirection.Bottom:
+        case WindowExpandDirection.Top:
+            return 'ns-resize'
+        case WindowExpandDirection.Left:
+        case WindowExpandDirection.Right:
+            return 'ew-resize'
+        default:
+            return defaultCursor
+    }
+}
+
+export const getExpandDirectionByRefAndPosition: (ref: React.RefObject<HTMLDivElement | null>, e: React.MouseEvent<HTMLDivElement, MouseEvent>) => WindowExpandDirection = (ref: React.RefObject<HTMLDivElement | null>, e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    let expandDirection: WindowExpandDirection = WindowExpandDirection.None
+    if (ref && ref.current) {
+        const rect = ref.current.getBoundingClientRect()
+        if (rect) {
+            const getWithinBounds = (a: number, b: number): boolean => Math.abs(Math.round(a) - Math.round(b)) <= 1
+
+            if (getWithinBounds(e.clientY, rect.top)) {
+                if (getWithinBounds(e.clientX, rect.left)) {
+                    expandDirection = WindowExpandDirection.TopLeft
+                } else if (getWithinBounds(e.clientX, rect.right)) {
+                    expandDirection = WindowExpandDirection.TopRight
+                } else {
+                    expandDirection = WindowExpandDirection.Top
+                }
+            } else if (getWithinBounds(e.clientY, rect.bottom)) {
+                if (getWithinBounds(e.clientX, rect.left)) {
+                    expandDirection = WindowExpandDirection.BottomLeft
+                } else if (getWithinBounds(e.clientX, rect.right)) {
+                    expandDirection = WindowExpandDirection.BottomRight
+                } else {
+                    expandDirection = WindowExpandDirection.Bottom
+                }
+            } else if (getWithinBounds(e.clientX, rect.left) && e.clientY > rect.top && e.clientY < rect.bottom) {
+                expandDirection = WindowExpandDirection.Left
+            } else if (getWithinBounds(e.clientX, rect.right) && e.clientY > rect.top && e.clientY < rect.bottom) {
+                expandDirection = WindowExpandDirection.Right
+            }
+        }
+    }
+
+    return expandDirection
 }

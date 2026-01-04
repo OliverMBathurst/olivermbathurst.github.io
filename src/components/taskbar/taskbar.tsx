@@ -10,6 +10,7 @@ const Taskbar = () => {
         return windowProperties.map(wp => {
             return (
                 <TaskbarItem
+                    key={wp.id}
                     windowProperties={wp}
                 />
             )

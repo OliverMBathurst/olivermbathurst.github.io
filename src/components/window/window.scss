@@ -1,5 +1,7 @@
 .window {
     position: absolute;
+    display: flex;
+    flex-direction: column;
     height: 100%;
     background-color: black;
     top: 50%;
@@ -7,7 +9,12 @@
     transform: translate(-50%, -50%);
 }
 
-.window__content {
+.window__inner-content {
+    height: 100%;
+    margin: 0.4rem;
+}
+
+.window__inner-content__content {
     height: calc(100% - 2.5rem);
     width: 100%;
 }

@@ -41,7 +41,7 @@ const WindowTopBar = (props: IWindowTopBarProps) => {
             onMouseUp={onWindowTopBarMouseUp}
             onMouseMove={onWindowTopBarMouseMove}
         >
-            <div className="window__top-bar__icon" onMouseDown={e => e.stopPropagation()}>
+            <div className="window__top-bar__icon no-select" onMouseDown={e => e.stopPropagation()}>
                 {Icon}
             </div>
             <span className="window__top-bar__title no-select">

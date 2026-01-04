@@ -1,6 +1,7 @@
 import React, { memo, useCallback, useContext, useRef, useState } from 'react'
-import { BRANCHING_NODE_DETERMINER, FILETYPE_RENDERABLE_PROPERTY } from '../../constants'
+import { BRANCHING_NODE_DETERMINER, DEFAULT_POINTER, FILETYPE_RENDERABLE_PROPERTY } from '../../constants'
 import { WindowsContext } from '../../contexts'
+import { getCursor, getExpandDirectionByRefAndPosition } from '../../helpers'
 import { ISize, IWindowProperties, WindowState } from '../../interfaces/windows'
 import { Visibility } from '../../types'
 import { Node } from '../../types/fs'
@@ -116,6 +117,13 @@ const Window = (props: IWindowProps) => {
         }
     }
 
+    const onWindowMouseOvered = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+        const expandDirection = getExpandDirectionByRefAndPosition(windowRef, e)
+        if (window && windowRef.current) {
+            windowRef.current.style.cursor = getCursor(expandDirection, DEFAULT_POINTER)
+        }
+    }
+
     const Content = useCallback(() => {
         if (FILETYPE_RENDERABLE_PROPERTY in context) {
             return context.render()
@@ -141,18 +149,21 @@ const Window = (props: IWindowProps) => {
                 visibility: visibility
             }}
             ref={windowRef}
+            onMouseOver={onWindowMouseOvered}
         >
-            <WindowTopBar
-                context={windowTopBarContext}
-                onWindowTopBarMouseMove={onWindowTopBarMouseMove}
-                onWindowTopBarMouseUp={onWindowTopBarMouseUp}
-                onWindowTopBarMouseDown={onWindowTopBarMouseDown}
-                onMaximiseButtonClicked={onMaximiseButtonClicked}
-                onMinimiseButtonClicked={onMinimiseButtonClicked}
-                onCloseButtonClicked={onCloseButtonClicked}
-            />
-            <div className="window__content" onMouseOver={onWindowContentMouseOvered}>
-                <Content />
+            <div className="window__inner-content">
+                <WindowTopBar
+                    context={windowTopBarContext}
+                    onWindowTopBarMouseMove={onWindowTopBarMouseMove}
+                    onWindowTopBarMouseUp={onWindowTopBarMouseUp}
+                    onWindowTopBarMouseDown={onWindowTopBarMouseDown}
+                    onMaximiseButtonClicked={onMaximiseButtonClicked}
+                    onMinimiseButtonClicked={onMinimiseButtonClicked}
+                    onCloseButtonClicked={onCloseButtonClicked}
+                />
+                <div className="window__inner-content__content" onMouseOver={onWindowContentMouseOvered}>
+                    <Content />
+                </div>
             </div>
         </div>)
 }
