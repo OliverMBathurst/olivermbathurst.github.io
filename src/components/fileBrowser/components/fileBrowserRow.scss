@@ -23,4 +23,6 @@
 
 .file-browser__row__name {
 	padding-left: 0.5rem;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
