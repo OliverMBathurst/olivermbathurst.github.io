@@ -10,9 +10,9 @@
 
 .window__top-bar__title {
     color: white;
-    padding-left: 1rem;
     text-overflow: ellipsis;
-    overflow: clip;
+    overflow: hidden;
+    padding: 0rem 1rem 0rem 1rem;
 }
 
 .window__top-bar__icon {

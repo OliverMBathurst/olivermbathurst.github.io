@@ -10,3 +10,4 @@ export const SHORTCUT_DETERMINER = "node"
 export const BRANCHING_NODE_TYPE_PROPERTY = "type"
 export const LEAF_EXTENSION_PROPERTY_NAME = "extension"
 export const DEFAULT_POINTER = "default"
+export const DEFAULT_TASKBAR_HEIGHT_PIXELS = 48

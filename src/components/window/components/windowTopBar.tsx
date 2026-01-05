@@ -6,12 +6,11 @@ import './windowTopBar.scss';
 
 interface IWindowTopBarProps {
     context: Node,
-    onMaximiseButtonClicked: (e: React.MouseEvent<HTMLImageElement, MouseEvent>) => void;
-    onMinimiseButtonClicked: (e: React.MouseEvent<HTMLImageElement, MouseEvent>) => void;
-    onCloseButtonClicked: (e: React.MouseEvent<HTMLImageElement, MouseEvent>) => void;
-    onWindowTopBarMouseMove: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
-    onWindowTopBarMouseUp: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
-    onWindowTopBarMouseDown: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+    onMaximiseButtonClicked: (e: React.MouseEvent<HTMLImageElement, MouseEvent>) => void
+    onMinimiseButtonClicked: (e: React.MouseEvent<HTMLImageElement, MouseEvent>) => void
+    onCloseButtonClicked: (e: React.MouseEvent<HTMLImageElement, MouseEvent>) => void
+    onWindowTopBarMouseDown: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void
+    onWindowTopBarDoubleClicked: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void
 }
 
 const imgProps = {
@@ -23,12 +22,11 @@ const imgProps = {
 const WindowTopBar = (props: IWindowTopBarProps) => {
     const {
         context,
-        onWindowTopBarMouseMove,
-        onWindowTopBarMouseUp,
         onWindowTopBarMouseDown,
         onMaximiseButtonClicked,
         onMinimiseButtonClicked,
-        onCloseButtonClicked
+        onCloseButtonClicked,
+        onWindowTopBarDoubleClicked
     } = props
 
     const Icon = useIcon(context)
@@ -38,8 +36,7 @@ const WindowTopBar = (props: IWindowTopBarProps) => {
         <div
             className="window__top-bar"
             onMouseDown={onWindowTopBarMouseDown}
-            onMouseUp={onWindowTopBarMouseUp}
-            onMouseMove={onWindowTopBarMouseMove}
+            onDoubleClick={onWindowTopBarDoubleClicked}
         >
             <div className="window__top-bar__icon no-select" onMouseDown={e => e.stopPropagation()}>
                 {Icon}
