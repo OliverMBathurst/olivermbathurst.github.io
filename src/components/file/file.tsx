@@ -1,42 +1,39 @@
 import { useCallback, useContext } from 'react'
+import { FILETYPE_URL_SHORTCUT, FILETYPE_URL_SHORTCUT_PROPERTY, LEAF_EXTENSION_PROPERTY_NAME } from '../../constants'
 import { WindowsContext } from '../../contexts'
-import { resolveNodeSelection } from '../../helpers'
 import { IAddWindowProperties } from '../../interfaces/windows'
-import { BranchingNode, Leaf } from '../../types/fs'
+import { BranchingContext, Leaf } from '../../types/fs'
 import { DesktopItem } from '../desktop/components'
 
 interface IFileProps {
-    executionContext: BranchingNode,
-    node: Leaf
+    executionContext: BranchingContext,
+    context: Leaf
 }
 
 const File = (props: IFileProps) => {
     const {
-        node
+        context
     } = props
 
     const { addWindow } = useContext(WindowsContext)
 
     const onDoubleClick = useCallback(() => {
-        const resolvedNodeSelection = resolveNodeSelection(node)
-
-        if (resolvedNodeSelection.alreadyResolved) {
+        if (FILETYPE_URL_SHORTCUT_PROPERTY in context
+            && LEAF_EXTENSION_PROPERTY_NAME in context
+            && context.extension === FILETYPE_URL_SHORTCUT) {
+            window.open(context.url, '_blank')
             return
         }
 
-        if (!resolvedNodeSelection.resolvedNode) {
-            throw new Error("Failed to resolve Node")
-        }
-
         const windowProperties: IAddWindowProperties = {
-            context: resolvedNodeSelection.resolvedNode,
+            context: context,
             selected: true
         }
 
         addWindow(windowProperties)
-    }, [node, addWindow])
+    }, [context, addWindow])
 
-    return <DesktopItem node={node} onDoubleClick={onDoubleClick} />
+    return <DesktopItem context={context} onDoubleClick={onDoubleClick} />
 }
 
 export default File

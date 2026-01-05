@@ -4,9 +4,9 @@ import Branch from "./branch";
 import Root from "./root";
 import Shortcut from "./shortcut";
 
-export type BranchingNode = Root | Branch
+export type BranchingContext = Root | Branch
 
-export type Node = Root | Branch | Leaf | Shortcut
+export type Context = Root | Branch | Leaf | Shortcut
 
 export type Leaf = IUrlShortcutFile | IWindowFile
 

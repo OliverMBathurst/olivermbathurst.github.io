@@ -1,9 +1,8 @@
-import { MouseEvent } from 'react'
 import { FolderIcon } from '../../../icons'
 import './fileBrowserRow.scss'
 
 interface IUpOneLevelRowProps {
-	onRowDoubleClicked: (e: MouseEvent<HTMLDivElement, globalThis.MouseEvent>) => void
+	onRowDoubleClicked: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void
 }
 
 const UpOneLevelRow = (props: IUpOneLevelRowProps) => {
@@ -11,7 +10,7 @@ const UpOneLevelRow = (props: IUpOneLevelRowProps) => {
 	return (
 		<div
 			className="file-browser__row"
-			onDoubleClick={e => onRowDoubleClicked(e)}
+			onDoubleClick={onRowDoubleClicked}
 		>
 			<div className="file-browser__row__icon no-select">
 				<FolderIcon />

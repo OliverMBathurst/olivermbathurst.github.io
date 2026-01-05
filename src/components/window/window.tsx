@@ -1,10 +1,10 @@
 import React, { memo, useCallback, useContext, useEffect, useRef, useState } from 'react'
-import { BRANCHING_NODE_DETERMINER, DEFAULT_POINTER, DEFAULT_TASKBAR_HEIGHT_PIXELS, FILETYPE_RENDERABLE_PROPERTY } from '../../constants'
+import { BRANCHING_CONTEXT_DETERMINER, DEFAULT_POINTER, DEFAULT_TASKBAR_HEIGHT_PIXELS, FILETYPE_RENDERABLE_PROPERTY } from '../../constants'
 import { WindowsContext } from '../../contexts'
 import { WindowExpandDirection } from '../../enums'
 import { ISize, IWindowProperties, WindowState } from '../../interfaces/windows'
 import { Visibility } from '../../types'
-import { Node } from '../../types/fs'
+import { Context } from '../../types/fs'
 import { FileBrowser } from '../fileBrowser'
 import { WindowTopBar } from './components'
 import './window.scss'
@@ -85,7 +85,7 @@ const Window = (props: IWindowProps) => {
     const previousWindowSize = useRef<ISize>(size)
     const currentWindowSize = useRef<ISize>(size)
 
-    const [windowTopBarContext, setWindowTopBarContext] = useState<Node>(context)
+    const [windowTopBarContext, setWindowTopBarContext] = useState<Context>(context)
 
     const windowRef = useRef<HTMLDivElement | null>(null)
     const windowPositionRef = useRef<{ x: number, y: number } | undefined>(undefined)
@@ -321,8 +321,8 @@ const Window = (props: IWindowProps) => {
             return context.render()
         }
 
-        if (BRANCHING_NODE_DETERMINER in context) {
-            return <FileBrowser node={context} setWindowTopBarContext={setWindowTopBarContext} />
+        if (BRANCHING_CONTEXT_DETERMINER in context) {
+            return <FileBrowser context={context} setWindowTopBarContext={setWindowTopBarContext} />
         }
 
         return null

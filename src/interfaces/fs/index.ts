@@ -1,14 +1,14 @@
 import { JSX } from "react";
 import { SpecialBranch } from "../../enums";
-import { Branch, Leaf, Node, Root } from "../../types/fs";
+import { Branch, Leaf, Context, Root } from "../../types/fs";
 
-interface ILeafAndBranchNode extends INamed {
+interface ILeafAndBranchContext extends INamed {
 	leaves: Leaf[]
 	branches: Branch[]
-	shortcuts: Node[]
+	shortcuts: Context[]
 }
 
-interface IChildNode {
+interface IChildContext {
 	parent: Branch | Root | null
 }
 
@@ -19,13 +19,13 @@ export interface INamed {
 	toContextUniqueKey: () => string
 }
 
-export interface IRoot extends ILeafAndBranchNode { }
+export interface IRoot extends ILeafAndBranchContext { }
 
-export interface IBranch extends ILeafAndBranchNode, IChildNode {
+export interface IBranch extends ILeafAndBranchContext, IChildContext {
 	type: SpecialBranch
 }
 
-export interface ILeaf extends IChildNode, INamed {
+export interface ILeaf extends IChildContext, INamed {
 	extension: string
 }
 

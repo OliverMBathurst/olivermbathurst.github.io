@@ -1,8 +1,8 @@
-import { Node } from "../../types/fs"
+import { Context } from "../../types/fs"
 
 export interface IWindowProperties {
     id: string
-    context: Node
+    context: Context
     selected: boolean
     size: ISize
     state: WindowState
@@ -10,7 +10,7 @@ export interface IWindowProperties {
 }
 
 export interface IAddWindowProperties {
-    context: Node
+    context: Context
     selected: boolean
     size?: ISize
 }

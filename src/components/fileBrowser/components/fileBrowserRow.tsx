@@ -1,25 +1,24 @@
-import { MouseEvent } from 'react'
 import { useDisplayName, useIcon } from "../../../hooks"
-import { Node } from "../../../types/fs"
+import { Context } from "../../../types/fs"
 import './fileBrowserRow.scss'
 
 interface IFileBrowserRowProps {
-	node: Node
+	context: Context
 	selected: boolean
-	onRowDoubleClicked: (e: MouseEvent<HTMLDivElement, globalThis.MouseEvent>) => void
-	onRowClicked: (e: MouseEvent<HTMLDivElement, globalThis.MouseEvent>) => void
+	onRowDoubleClicked: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void
+	onRowClicked: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void
 }
 
 const FileBrowserRow = (props: IFileBrowserRowProps) => {
-	const { node, selected, onRowDoubleClicked, onRowClicked } = props
-	const Icon = useIcon(node)
-	const DisplayName = useDisplayName(node)
+	const { context, selected, onRowDoubleClicked, onRowClicked } = props
+	const Icon = useIcon(context)
+	const DisplayName = useDisplayName(context)
 
 	return (
 		<div
 			className={`file-browser__row${selected ? "--selected" : ""}`}
-			onDoubleClick={e => onRowDoubleClicked(e)}
-			onClick={e => onRowClicked(e)}
+			onDoubleClick={onRowDoubleClicked}
+			onClick={onRowClicked}
 		>
 			<div className="file-browser__row__icon no-select">
 				{Icon}

@@ -1,18 +1,17 @@
-import { MouseEvent } from "react"
 import { useDisplayName, useIcon } from "../../../../hooks"
-import { Node } from "../../../../types/fs"
+import { Context } from "../../../../types/fs"
 import './desktopItem.scss'
 
 interface IDesktopItemProps {
-    node: Node
-    onDoubleClick?: (e: MouseEvent<HTMLDivElement, globalThis.MouseEvent>) => void
+    context: Context
+    onDoubleClick?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void
 }
 
 const DesktopItem = (props: IDesktopItemProps) => {
-    const { node, onDoubleClick } = props
+    const { context, onDoubleClick } = props
 
-    const Icon = useIcon(node)
-    const DisplayName = useDisplayName(node)
+    const Icon = useIcon(context)
+    const DisplayName = useDisplayName(context)
 
 
     return (

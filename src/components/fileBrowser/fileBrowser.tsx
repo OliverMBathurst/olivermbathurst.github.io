@@ -1,76 +1,74 @@
-import { MouseEvent, useCallback, useContext, useMemo, useState } from "react"
-import { BRANCHING_NODE_DETERMINER, BRANCHING_NODE_PARENT_PROPERTY } from "../../constants"
+import { useCallback, useContext, useMemo, useState } from "react"
+import { BRANCHING_CONTEXT_DETERMINER, BRANCHING_CONTEXT_PARENT_PROPERTY, FILETYPE_RENDERABLE_PROPERTY, FILETYPE_URL_SHORTCUT, FILETYPE_URL_SHORTCUT_PROPERTY, LEAF_EXTENSION_PROPERTY_NAME, SHORTCUT_DETERMINER } from "../../constants"
 import { WindowsContext } from "../../contexts"
-import { NodeType } from "../../enums"
-import { resolveNodeSelection } from "../../helpers"
 import { IAddWindowProperties } from "../../interfaces/windows"
-import { BranchingNode, Node } from "../../types/fs"
+import { BranchingContext, Context } from "../../types/fs"
 import { FileBrowserRow, UpOneLevelRow } from "./components"
 import './fileBrowser.scss'
 
 interface IFileBrowserProps {
-    node: BranchingNode
-    setWindowTopBarContext: (context: Node) => void
+    context: BranchingContext
+    setWindowTopBarContext: (context: Context) => void
 }
 
 const FileBrowser = (props: IFileBrowserProps) => {
-    const { node, setWindowTopBarContext } = props
+    const { context, setWindowTopBarContext } = props
 
-    const [currentNode, setCurrentNode] = useState<BranchingNode>(node)
+    const [currentContext, setCurrentContext] = useState<BranchingContext>(context)
     const [selected, setSelected] = useState<string[]>([])
 
     const { addWindow } = useContext(WindowsContext)
 
-    if (!(BRANCHING_NODE_DETERMINER in node)) {
-        throw new Error("File Browser invoked on non-branching Node")
+    if (!(BRANCHING_CONTEXT_DETERMINER in context)) {
+        throw new Error("File Browser invoked on non-branching Context")
     }
 
     const Entities = useMemo(() => {
         return [
-            ...currentNode.branches,
-            ...currentNode.shortcuts,
-            ...currentNode.leaves
+            ...currentContext.branches,
+            ...currentContext.shortcuts,
+            ...currentContext.leaves
         ]
-    }, [currentNode])
+    }, [currentContext])
 
-    const onRowDoubleClicked = useCallback((node: Node, _: MouseEvent<HTMLDivElement, globalThis.MouseEvent>) => {
-        const { alreadyResolved, resolvedNode, nodeType } = resolveNodeSelection(node)
-        if (alreadyResolved) {
-            return
+    const onRowDoubleClicked = useCallback((context: Context, _: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+        let resolvedContext: Context = context
+        if (SHORTCUT_DETERMINER in context) {
+            resolvedContext = context.context
         }
 
-        if (!resolvedNode) {
-            throw new Error("Failed to resolve Node")
-        }
-
-        if (nodeType === NodeType.Renderable) {
+        if (FILETYPE_URL_SHORTCUT_PROPERTY in resolvedContext
+            && LEAF_EXTENSION_PROPERTY_NAME in resolvedContext
+            && resolvedContext.extension === FILETYPE_URL_SHORTCUT) {
+            window.open(resolvedContext.url, '_blank')
+        } else if (FILETYPE_RENDERABLE_PROPERTY in resolvedContext) {
             const windowProperties: IAddWindowProperties = {
-                context: resolvedNode,
+                context: resolvedContext,
                 selected: true
             }
 
             addWindow(windowProperties)
-        } else if (BRANCHING_NODE_DETERMINER in resolvedNode) {
-            setCurrentNode(resolvedNode)
-            setWindowTopBarContext(resolvedNode)
+        } else if (BRANCHING_CONTEXT_DETERMINER in resolvedContext) {
+            setCurrentContext(resolvedContext)
+            setWindowTopBarContext(resolvedContext)
         }
     }, [addWindow, setWindowTopBarContext])
 
-    const onRowClicked = useCallback((node: Node, e: MouseEvent<HTMLDivElement, globalThis.MouseEvent>) => {
-        const nodeKey = node.toContextUniqueKey()
+    const onRowClicked = useCallback((context: Context, e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+        const contextKey = context.toContextUniqueKey()
 
         if (e.shiftKey) {
             if (selected.length === 0) {
-                setSelected([nodeKey])
+                setSelected([contextKey])
             } else {
-                if (selected.length === 1 && selected[0] === nodeKey) {
+                if (selected.length === 1 && selected[0] === contextKey) {
                     return
                 }
 
                 const identities = Entities.map(x => x.toContextUniqueKey())
 
                 const initialSelectionIndex = identities.indexOf(selected[0])
-                const newSelectionIndex = identities.indexOf(nodeKey)
+                const newSelectionIndex = identities.indexOf(contextKey)
 
                 const newSelection: string[] = [selected[0]]
 
@@ -87,37 +85,37 @@ const FileBrowser = (props: IFileBrowserProps) => {
                 setSelected(newSelection)
             }
         } else if (e.ctrlKey) {
-            if (selected.indexOf(nodeKey) === -1) {
-                setSelected(s => [...s, nodeKey])
+            if (selected.indexOf(contextKey) === -1) {
+                setSelected(s => [...s, contextKey])
             } else {
-                setSelected(s => [...s].filter(x => x !== nodeKey))
+                setSelected(s => [...s].filter(x => x !== contextKey))
             }
         } else {
-            setSelected([nodeKey])
+            setSelected([contextKey])
         }
     }, [selected, Entities])
 
     const upOneLevel = () => {
-        if (BRANCHING_NODE_PARENT_PROPERTY in currentNode && currentNode.parent) {
-            setCurrentNode(currentNode.parent)
-            setWindowTopBarContext(currentNode.parent)
+        if (BRANCHING_CONTEXT_PARENT_PROPERTY in currentContext && currentContext.parent) {
+            setCurrentContext(currentContext.parent)
+            setWindowTopBarContext(currentContext.parent)
         }
     }
 
     return (
         <div className="file-browser">
-            {BRANCHING_NODE_PARENT_PROPERTY in currentNode && currentNode.parent && (
+            {BRANCHING_CONTEXT_PARENT_PROPERTY in currentContext && currentContext.parent && (
                 <UpOneLevelRow
                     onRowDoubleClicked={upOneLevel}
                 />)
             }
             {Entities.map(e => {
-                const nodeKey = e.toContextUniqueKey()
+                const contextKey = e.toContextUniqueKey()
                 return (
                     <FileBrowserRow
-                        key={nodeKey}
-                        node={e}
-                        selected={selected.indexOf(nodeKey) !== -1}
+                        key={contextKey}
+                        context={e}
+                        selected={selected.indexOf(contextKey) !== -1}
                         onRowClicked={(ev) => onRowClicked(e, ev)}
                         onRowDoubleClicked={(ev) => onRowDoubleClicked(e, ev)}
                     />)

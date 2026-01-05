@@ -1,11 +1,11 @@
 import React from 'react';
 import { useDisplayName, useIcon } from '../../../hooks';
 import { CloseIcon, MaximizeIcon, MinimizeIcon } from '../../../icons';
-import { Node } from '../../../types/fs';
+import { Context } from '../../../types/fs';
 import './windowTopBar.scss';
 
 interface IWindowTopBarProps {
-    context: Node,
+    context: Context,
     onMaximiseButtonClicked: (e: React.MouseEvent<HTMLImageElement, MouseEvent>) => void
     onMinimiseButtonClicked: (e: React.MouseEvent<HTMLImageElement, MouseEvent>) => void
     onCloseButtonClicked: (e: React.MouseEvent<HTMLImageElement, MouseEvent>) => void

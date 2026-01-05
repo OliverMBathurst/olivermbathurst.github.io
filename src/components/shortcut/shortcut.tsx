@@ -1,41 +1,30 @@
 import { useCallback, useContext } from 'react'
 import { WindowsContext } from '../../contexts'
-import { resolveNodeSelection } from '../../helpers'
 import { IAddWindowProperties } from '../../interfaces/windows'
-import { Node } from '../../types/fs'
+import { Shortcut as ShortcutType } from '../../types/fs'
 import { DesktopItem } from '../desktop/components'
 
 interface IShortcutProps {
-    node: Node
+    shortcut: ShortcutType
 }
 
 const Shortcut = (props: IShortcutProps) => {
     const {
-        node
+        shortcut
     } = props
 
     const { addWindow } = useContext(WindowsContext)
 
     const onDoubleClick = useCallback(() => {
-        const resolvedNodeSelection = resolveNodeSelection(node)
-
-        if (resolvedNodeSelection.alreadyResolved) {
-            return
-        }
-
-        if (!resolvedNodeSelection.resolvedNode) {
-            throw new Error("Failed to resolve Node")
-        }
-
         const windowProperties: IAddWindowProperties = {
-            context: resolvedNodeSelection.resolvedNode,
+            context: shortcut.context,
             selected: true
         }
 
         addWindow(windowProperties)
-    }, [node, addWindow])
+    }, [shortcut, addWindow])
 
-    return <DesktopItem node={node} onDoubleClick={onDoubleClick} />
+    return <DesktopItem context={shortcut} onDoubleClick={onDoubleClick} />
 }
 
 export default Shortcut

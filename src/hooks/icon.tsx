@@ -1,16 +1,16 @@
 import { JSX, useMemo } from 'react'
-import { BRANCHING_NODE_TYPE_PROPERTY, FILETYPE_EXECUTABLE, FILETYPE_PDF, FILETYPE_TEXT, FILETYPE_URL_SHORTCUT, LEAF_EXTENSION_PROPERTY_NAME } from "../constants"
+import { BRANCHING_CONTEXT_TYPE_PROPERTY, FILETYPE_EXECUTABLE, FILETYPE_PDF, FILETYPE_TEXT, FILETYPE_URL_SHORTCUT, LEAF_EXTENSION_PROPERTY_NAME } from "../constants"
 import { DriveIcon, ExecutableFileIcon, FolderIcon, GenericFileIcon, InternetIcon, PdfIcon, TextFileIcon } from "../icons"
-import { Node } from '../types/fs'
+import { Context } from '../types/fs'
 
-const useIcon: (node: Node, noSelect?: boolean) => JSX.Element = (node: Node, noSelect: boolean = true) => {
+const useIcon: (context: Context, noSelect?: boolean) => JSX.Element = (context: Context, noSelect: boolean = true) => {
     const Icon = useMemo(() => {
         let props = {
             className: noSelect ? "no-select" : ""
         }
 
-        if (LEAF_EXTENSION_PROPERTY_NAME in node) {
-            switch (node.extension) {
+        if (LEAF_EXTENSION_PROPERTY_NAME in context) {
+            switch (context.extension) {
                 case FILETYPE_PDF:
                     return <PdfIcon {...props} />
                 case FILETYPE_URL_SHORTCUT:
@@ -22,13 +22,13 @@ const useIcon: (node: Node, noSelect?: boolean) => JSX.Element = (node: Node, no
                 default:
                     return <GenericFileIcon />
             }
-        } else if (BRANCHING_NODE_TYPE_PROPERTY in node) {
+        } else if (BRANCHING_CONTEXT_TYPE_PROPERTY in context) {
             return <FolderIcon />
         } else {
             return <DriveIcon />
         }
         
-    }, [node, noSelect])
+    }, [context, noSelect])
 
     return (
         <>

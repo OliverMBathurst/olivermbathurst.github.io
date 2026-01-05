@@ -3,14 +3,6 @@ export enum SpecialBranch {
     Desktop
 }
 
-export enum NodeType {
-    Root,
-    Branch,
-    Url,
-    Shortcut,
-    Renderable
-}
-
 export enum WindowExpandDirection {
     None = 1 << 0,
     Top = 1 << 1,

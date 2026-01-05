@@ -1,19 +1,19 @@
 import { useEffect, useState } from "react"
 import { LEAF_EXTENSION_PROPERTY_NAME } from "../constants"
-import { Node } from "../types/fs"
+import { Context } from "../types/fs"
 
-const useDisplayName = (node: Node) => {
-    const [displayName, setDisplayName] = useState<string>(node.name)
+const useDisplayName = (context: Context) => {
+    const [displayName, setDisplayName] = useState<string>(context.name)
 
     useEffect(() => {
-        let prefix = node.name
+        let prefix = context.name
 
-        if (LEAF_EXTENSION_PROPERTY_NAME in node) {
-            setDisplayName(`${prefix}${node.extension}`)
+        if (LEAF_EXTENSION_PROPERTY_NAME in context) {
+            setDisplayName(`${prefix}${context.extension}`)
         } else {
             setDisplayName(prefix)
         }
-    }, [node])
+    }, [context])
 
     return displayName
 }

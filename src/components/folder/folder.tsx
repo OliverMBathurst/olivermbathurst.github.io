@@ -1,30 +1,30 @@
 import { useCallback, useContext } from 'react'
 import { WindowsContext } from '../../contexts'
 import { IAddWindowProperties } from '../../interfaces/windows'
-import { BranchingNode } from '../../types/fs'
+import { BranchingContext } from '../../types/fs'
 import { DesktopItem } from '../desktop/components'
 
 interface IFolderProps {
-    node: BranchingNode
+    context: BranchingContext
 }
 
 const Folder = (props: IFolderProps) => {
     const {
-        node
+        context
     } = props
 
     const { addWindow } = useContext(WindowsContext)
 
     const onDoubleClick = useCallback(() => {
         const windowProperties: IAddWindowProperties = {
-            context: node,
+            context: context,
             selected: true
         }
 
         addWindow(windowProperties)
-    }, [node, addWindow])
+    }, [context, addWindow])
 
-    return <DesktopItem node={node} onDoubleClick={onDoubleClick} />
+    return <DesktopItem context={context} onDoubleClick={onDoubleClick} />
 }
 
 export default Folder
