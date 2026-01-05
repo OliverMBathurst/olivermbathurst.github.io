@@ -1,6 +1,6 @@
 import { useDisplayName, useIcon } from "../../../hooks"
 import { Context } from "../../../types/fs"
-import './fileBrowserRow.scss'
+import "./fileBrowserRow.scss"
 
 interface IFileBrowserRowProps {
 	context: Context
@@ -20,13 +20,10 @@ const FileBrowserRow = (props: IFileBrowserRowProps) => {
 			onDoubleClick={onRowDoubleClicked}
 			onClick={onRowClicked}
 		>
-			<div className="file-browser__row__icon no-select">
-				{Icon}
-			</div>
-			<div className="file-browser__row__name no-select">
-				{DisplayName}
-			</div>
-		</div>)
+			<div className="file-browser__row__icon no-select">{Icon}</div>
+			<div className="file-browser__row__name no-select">{DisplayName}</div>
+		</div>
+	)
 }
 
 export default FileBrowserRow

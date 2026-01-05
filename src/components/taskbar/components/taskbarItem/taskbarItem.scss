@@ -1,42 +1,42 @@
 .taskbar-item,
 .taskbar-item--selected {
-    height: 2.4rem;
-    background: rgba(255,255,255, 0.1);
-    display: flex;
-    min-width: 8.125rem;
-    cursor: pointer;
-    align-items: center;
-    border-radius: 0.1875rem;
-    border-width: 0.125rem;
+	height: 2.4rem;
+	background: rgba(255, 255, 255, 0.1);
+	display: flex;
+	min-width: 8.125rem;
+	cursor: pointer;
+	align-items: center;
+	border-radius: 0.1875rem;
+	border-width: 0.125rem;
 }
 
 .taskbar-item {
-    border-bottom: 0.125rem rgba(255,255,255, 0) solid;
+	border-bottom: 0.125rem rgba(255, 255, 255, 0) solid;
 }
 
 .taskbar-item--selected {
-    border-bottom: 0.125rem rgba(255,255,255, 0.3) solid;
+	border-bottom: 0.125rem rgba(255, 255, 255, 0.3) solid;
 }
 
 .taskbar-item img,
 .taskbar-item--selected img {
-    height: 1rem;
-    width: 1rem;
-    padding-left: 0.5rem;
+	height: 1rem;
+	width: 1rem;
+	padding-left: 0.5rem;
 }
 
 .taskbar-item__name {
-    padding-left: 0.3125rem;
-    display: flex;
-    color: #d5d1cc;
-    font-size: 0.75rem;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    vertical-align: middle;
-    user-select: none;
+	padding-left: 0.3125rem;
+	display: flex;
+	color: #d5d1cc;
+	font-size: 0.75rem;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	vertical-align: middle;
+	user-select: none;
 }
 
 .taskbar-item:hover {
-    background: rgba(255, 255, 255, 0.2);
+	background: rgba(255, 255, 255, 0.2);
 }

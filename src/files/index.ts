@@ -1,4 +1,4 @@
-import CV from "./cv";
+import CV from "./cv"
 import LinkedIn from "./linkedIn"
 import GitHub from "./gitHub"
 

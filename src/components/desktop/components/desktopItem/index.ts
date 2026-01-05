@@ -1,3 +1,3 @@
-import DesktopItem from "./desktopItem";
+import DesktopItem from "./desktopItem"
 
 export { DesktopItem }

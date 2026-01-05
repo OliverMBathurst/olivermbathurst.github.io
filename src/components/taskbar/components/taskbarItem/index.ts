@@ -1,3 +1,3 @@
-import TaskbarItem from './taskbarItem'
+import TaskbarItem from "./taskbarItem"
 
 export default TaskbarItem

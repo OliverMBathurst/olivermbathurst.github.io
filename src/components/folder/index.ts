@@ -1,3 +1,3 @@
-import Folder from './folder'
+import Folder from "./folder"
 
 export { Folder }

@@ -1,3 +1,3 @@
-import StartButton from './startButton'
+import StartButton from "./startButton"
 
 export default StartButton

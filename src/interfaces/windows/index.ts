@@ -1,32 +1,32 @@
 import { Context } from "../../types/fs"
 
 export interface IWindowProperties {
-    id: string
-    context: Context
-    selected: boolean
-    size: ISize
-    state: WindowState
-    previousState: WindowState | null
+	id: string
+	context: Context
+	selected: boolean
+	size: ISize
+	state: WindowState
+	previousState: WindowState | null
 }
 
 export interface IAddWindowProperties {
-    context: Context
-    selected: boolean
-    size?: ISize
+	context: Context
+	selected: boolean
+	size?: ISize
 }
 
 export enum WindowState {
-    Normal,
-    Minimised,
-    Maximised
+	Normal,
+	Minimised,
+	Maximised,
 }
 
 export interface ISize {
-    width: string
-    height: string
+	width: string
+	height: string
 }
 
 export interface IPosition {
-    top: string
-    left: string
+	top: string
+	left: string
 }

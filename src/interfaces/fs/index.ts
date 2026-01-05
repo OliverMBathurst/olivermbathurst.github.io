@@ -1,6 +1,6 @@
-import { JSX } from "react";
-import { SpecialBranch } from "../../enums";
-import { Branch, Leaf, Context, Root } from "../../types/fs";
+import { JSX } from "react"
+import { SpecialBranch } from "../../enums"
+import { Branch, Leaf, Context, Root } from "../../types/fs"
 
 interface ILeafAndBranchContext extends INamed {
 	leaves: Leaf[]
@@ -12,14 +12,14 @@ interface IChildContext {
 	parent: Branch | Root | null
 }
 
-export interface IShortcut extends INamed { }
+export interface IShortcut extends INamed {}
 
 export interface INamed {
 	name: string
 	toContextUniqueKey: () => string
 }
 
-export interface IRoot extends ILeafAndBranchContext { }
+export interface IRoot extends ILeafAndBranchContext {}
 
 export interface IBranch extends ILeafAndBranchContext, IChildContext {
 	type: SpecialBranch
@@ -38,5 +38,5 @@ export interface IWindowFile extends ILeaf {
 }
 
 export interface IWindowRenderProps {
-	onMouseOver?: (e: React.MouseEvent<HTMLElement, MouseEvent>) => void;
+	onMouseOver?: (e: React.MouseEvent<HTMLElement, MouseEvent>) => void
 }

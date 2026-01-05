@@ -3,25 +3,17 @@ import { SpecialBranch } from "../enums"
 import { CV, GitHub, LinkedIn } from "../files"
 import { Branch, BranchingContext, Root, Shortcut } from "../types/fs"
 
-const desktopBranch = new Branch(
-    "Desktop",
-    SpecialBranch.Desktop
-)
+const desktopBranch = new Branch("Desktop", SpecialBranch.Desktop)
 
-const root = new Root(
-    "Root"
-)
+const root = new Root("Root")
 
 desktopBranch.setLeaves([
-    new CV(desktopBranch),
-    new LinkedIn(desktopBranch),
-    new GitHub(desktopBranch)
+	new CV(desktopBranch),
+	new LinkedIn(desktopBranch),
+	new GitHub(desktopBranch),
 ])
 
-const contentsBranch = new Branch(
-    "Contents",
-    SpecialBranch.None
-)
+const contentsBranch = new Branch("Contents", SpecialBranch.None)
 
 root.setBranches([contentsBranch])
 contentsBranch.setBranches([desktopBranch])
@@ -31,27 +23,27 @@ desktopBranch.setParent(contentsBranch)
 desktopBranch.setShortcuts([new Shortcut(root, "Root")])
 
 interface IFileSystemContext {
-    root: BranchingContext
+	root: BranchingContext
 }
 
 export const FileSystemContext = createContext<IFileSystemContext>({
-    root: root
+	root: root,
 })
 
 interface IFileSystemContextProviderProps {
-    children: React.ReactNode
+	children: React.ReactNode
 }
 
 const FileSystemContextProvider = (props: IFileSystemContextProviderProps) => {
-    const { children } = props
+	const { children } = props
 
-    const [_root] = useState<BranchingContext>(root)
+	const [_root] = useState<BranchingContext>(root)
 
-    return (
-        <FileSystemContext.Provider value={{ root: _root }}>
-            {children}
-        </FileSystemContext.Provider>
-    )
+	return (
+		<FileSystemContext.Provider value={{ root: _root }}>
+			{children}
+		</FileSystemContext.Provider>
+	)
 }
 
 export default FileSystemContextProvider

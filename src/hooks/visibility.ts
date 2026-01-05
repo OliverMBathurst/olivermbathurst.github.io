@@ -1,21 +1,21 @@
 import { useEffect, useState } from "react"
 
 const useVisibility = (initialVisibility: boolean) => {
-    const [visible, setVisible] = useState<boolean>(initialVisibility)
+	const [visible, setVisible] = useState<boolean>(initialVisibility)
 
-    const onVisibilityChange = () => {
-        setVisible(document.visibilityState !== "hidden")
-    }
+	const onVisibilityChange = () => {
+		setVisible(document.visibilityState !== "hidden")
+	}
 
-    useEffect(() => {
-        document.addEventListener('visibilitychange', onVisibilityChange, false)
+	useEffect(() => {
+		document.addEventListener("visibilitychange", onVisibilityChange, false)
 
-        return () => {
-            document.removeEventListener('visibilitychange', onVisibilityChange)
-        }
-    }, [])
+		return () => {
+			document.removeEventListener("visibilitychange", onVisibilityChange)
+		}
+	}, [])
 
-    return visible
+	return visible
 }
 
 export default useVisibility

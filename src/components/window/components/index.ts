@@ -1,3 +1,3 @@
-import WindowTopBar from './windowTopBar'
+import WindowTopBar from "./windowTopBar"
 
 export { WindowTopBar }

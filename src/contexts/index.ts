@@ -1,9 +1,13 @@
-import WindowsContextProvider, { WindowsContext } from './windowsContextProvider'
-import FileSystemContextProvider, { FileSystemContext } from './fileSystemContextProvider'
+import WindowsContextProvider, {
+	WindowsContext,
+} from "./windowsContextProvider"
+import FileSystemContextProvider, {
+	FileSystemContext,
+} from "./fileSystemContextProvider"
 
 export {
-    WindowsContextProvider,
-    WindowsContext,
-    FileSystemContextProvider,
-    FileSystemContext
+	WindowsContextProvider,
+	WindowsContext,
+	FileSystemContextProvider,
+	FileSystemContext,
 }

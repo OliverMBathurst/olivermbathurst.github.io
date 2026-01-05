@@ -1,3 +1,3 @@
-import ScreenSaver from './screenSaver'
+import ScreenSaver from "./screenSaver"
 
 export { ScreenSaver }

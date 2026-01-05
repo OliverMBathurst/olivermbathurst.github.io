@@ -1,3 +1,3 @@
-import Shortcut from './shortcut'
+import Shortcut from "./shortcut"
 
 export { Shortcut }

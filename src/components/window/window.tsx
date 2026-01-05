@@ -1,363 +1,482 @@
-import React, { memo, useCallback, useContext, useEffect, useRef, useState } from 'react'
-import { BRANCHING_CONTEXT_DETERMINER, DEFAULT_POINTER, DEFAULT_TASKBAR_HEIGHT_PIXELS, FILETYPE_RENDERABLE_PROPERTY } from '../../constants'
-import { WindowsContext } from '../../contexts'
-import { WindowExpandDirection } from '../../enums'
-import { ISize, IWindowProperties, WindowState } from '../../interfaces/windows'
-import { Visibility } from '../../types'
-import { Context } from '../../types/fs'
-import { FileBrowser } from '../fileBrowser'
-import { WindowTopBar } from './components'
-import './window.scss'
+import React, {
+	memo,
+	useCallback,
+	useContext,
+	useEffect,
+	useRef,
+	useState,
+} from "react"
+import {
+	BRANCHING_CONTEXT_DETERMINER,
+	DEFAULT_POINTER,
+	DEFAULT_TASKBAR_HEIGHT_PIXELS,
+	FILETYPE_RENDERABLE_PROPERTY,
+} from "../../constants"
+import { WindowsContext } from "../../contexts"
+import { WindowExpandDirection } from "../../enums"
+import { ISize, IWindowProperties, WindowState } from "../../interfaces/windows"
+import { Visibility } from "../../types"
+import { Context } from "../../types/fs"
+import { FileBrowser } from "../fileBrowser"
+import { WindowTopBar } from "./components"
+import "./window.scss"
 
-const xChangesEnum = WindowExpandDirection.Left | WindowExpandDirection.TopLeft | WindowExpandDirection.BottomLeft
-const yChangesEnum = WindowExpandDirection.Top | WindowExpandDirection.TopRight | WindowExpandDirection.TopLeft
-const heightChangesEnum = WindowExpandDirection.Bottom | WindowExpandDirection.BottomRight | WindowExpandDirection.BottomLeft
-const widthChangesEnum = WindowExpandDirection.Right | WindowExpandDirection.TopRight | WindowExpandDirection.BottomRight
+const xChangesEnum =
+	WindowExpandDirection.Left |
+	WindowExpandDirection.TopLeft |
+	WindowExpandDirection.BottomLeft
+const yChangesEnum =
+	WindowExpandDirection.Top |
+	WindowExpandDirection.TopRight |
+	WindowExpandDirection.TopLeft
+const heightChangesEnum =
+	WindowExpandDirection.Bottom |
+	WindowExpandDirection.BottomRight |
+	WindowExpandDirection.BottomLeft
+const widthChangesEnum =
+	WindowExpandDirection.Right |
+	WindowExpandDirection.TopRight |
+	WindowExpandDirection.BottomRight
 
-const getExpandDirectionByRefAndPosition: (ref: React.RefObject<HTMLDivElement | null>, e: React.MouseEvent<HTMLDivElement, MouseEvent>) => WindowExpandDirection = (ref: React.RefObject<HTMLDivElement | null>, e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    let expandDirection: WindowExpandDirection = WindowExpandDirection.None
-    if (ref && ref.current) {
-        const rect = ref.current.getBoundingClientRect()
+const getExpandDirectionByRefAndPosition: (
+	ref: React.RefObject<HTMLDivElement | null>,
+	e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+) => WindowExpandDirection = (
+	ref: React.RefObject<HTMLDivElement | null>,
+	e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+) => {
+	let expandDirection: WindowExpandDirection = WindowExpandDirection.None
+	if (ref && ref.current) {
+		const rect = ref.current.getBoundingClientRect()
 
-        const getWithinBounds = (a: number, b: number): boolean => Math.abs(Math.round(a) - Math.round(b)) <= 20
+		const getWithinBounds = (a: number, b: number): boolean =>
+			Math.abs(Math.round(a) - Math.round(b)) <= 20
 
-        if (rect) {
-            if (getWithinBounds(e.clientY, rect.top)) {
-                if (getWithinBounds(e.clientX, rect.left)) {
-                    expandDirection = WindowExpandDirection.TopLeft
-                } else if (getWithinBounds(e.clientX, rect.right)) {
-                    expandDirection = WindowExpandDirection.TopRight
-                } else {
-                    expandDirection = WindowExpandDirection.Top
-                }
-            } else if (getWithinBounds(e.clientY, rect.bottom)) {
-                if (getWithinBounds(e.clientX, rect.left)) {
-                    expandDirection = WindowExpandDirection.BottomLeft
-                } else if (getWithinBounds(e.clientX, rect.right)) {
-                    expandDirection = WindowExpandDirection.BottomRight
-                } else {
-                    expandDirection = WindowExpandDirection.Bottom
-                }
-            } else if (getWithinBounds(e.clientX, rect.left) && e.clientY > rect.top && e.clientY < rect.bottom) {
-                expandDirection = WindowExpandDirection.Left
-            } else if (getWithinBounds(e.clientX, rect.right) && e.clientY > rect.top && e.clientY < rect.bottom) {
-                expandDirection = WindowExpandDirection.Right
-            }
-        }
-    }
+		if (rect) {
+			if (getWithinBounds(e.clientY, rect.top)) {
+				if (getWithinBounds(e.clientX, rect.left)) {
+					expandDirection = WindowExpandDirection.TopLeft
+				} else if (getWithinBounds(e.clientX, rect.right)) {
+					expandDirection = WindowExpandDirection.TopRight
+				} else {
+					expandDirection = WindowExpandDirection.Top
+				}
+			} else if (getWithinBounds(e.clientY, rect.bottom)) {
+				if (getWithinBounds(e.clientX, rect.left)) {
+					expandDirection = WindowExpandDirection.BottomLeft
+				} else if (getWithinBounds(e.clientX, rect.right)) {
+					expandDirection = WindowExpandDirection.BottomRight
+				} else {
+					expandDirection = WindowExpandDirection.Bottom
+				}
+			} else if (
+				getWithinBounds(e.clientX, rect.left) &&
+				e.clientY > rect.top &&
+				e.clientY < rect.bottom
+			) {
+				expandDirection = WindowExpandDirection.Left
+			} else if (
+				getWithinBounds(e.clientX, rect.right) &&
+				e.clientY > rect.top &&
+				e.clientY < rect.bottom
+			) {
+				expandDirection = WindowExpandDirection.Right
+			}
+		}
+	}
 
-    return expandDirection
+	return expandDirection
 }
 
-const getCursor = (direction: WindowExpandDirection, defaultCursor: string): string => {
-    switch (direction) {
-        case WindowExpandDirection.BottomLeft:
-        case WindowExpandDirection.TopRight:
-            return 'nesw-resize'
-        case WindowExpandDirection.BottomRight:
-        case WindowExpandDirection.TopLeft:
-            return 'nwse-resize'
-        case WindowExpandDirection.Bottom:
-        case WindowExpandDirection.Top:
-            return 'ns-resize'
-        case WindowExpandDirection.Left:
-        case WindowExpandDirection.Right:
-            return 'ew-resize'
-        default:
-            return defaultCursor
-    }
+const getCursor = (
+	direction: WindowExpandDirection,
+	defaultCursor: string,
+): string => {
+	switch (direction) {
+		case WindowExpandDirection.BottomLeft:
+		case WindowExpandDirection.TopRight:
+			return "nesw-resize"
+		case WindowExpandDirection.BottomRight:
+		case WindowExpandDirection.TopLeft:
+			return "nwse-resize"
+		case WindowExpandDirection.Bottom:
+		case WindowExpandDirection.Top:
+			return "ns-resize"
+		case WindowExpandDirection.Left:
+		case WindowExpandDirection.Right:
+			return "ew-resize"
+		default:
+			return defaultCursor
+	}
 }
 
 interface IWindowProps {
-    properties: IWindowProperties
+	properties: IWindowProperties
 }
 
 const Window = (props: IWindowProps) => {
-    const {
-        properties: {
-            id,
-            context,
-            size,
-            state
-        },
-    } = props
+	const {
+		properties: { id, context, size, state },
+	} = props
 
-    const previousWindowSize = useRef<ISize>(size)
-    const currentWindowSize = useRef<ISize>(size)
+	const previousWindowSize = useRef<ISize>(size)
+	const currentWindowSize = useRef<ISize>(size)
 
-    const [windowTopBarContext, setWindowTopBarContext] = useState<Context>(context)
+	const [windowTopBarContext, setWindowTopBarContext] =
+		useState<Context>(context)
 
-    const windowRef = useRef<HTMLDivElement | null>(null)
-    const windowPositionRef = useRef<{ x: number, y: number } | undefined>(undefined)
+	const windowRef = useRef<HTMLDivElement | null>(null)
+	const windowPositionRef = useRef<{ x: number; y: number } | undefined>(
+		undefined,
+	)
 
-    const windowPreviousPositioning = useRef<{ top: string, left: string }>({ top: "50%", left: "50%" })
-    const windowIsMovingRef = useRef<boolean>(false)
+	const windowPreviousPositioning = useRef<{ top: string; left: string }>({
+		top: "50%",
+		left: "50%",
+	})
+	const windowIsMovingRef = useRef<boolean>(false)
 
-    const windowExpanding = useRef<boolean>(false)
-    const windowExpandDirection = useRef<WindowExpandDirection>(WindowExpandDirection.None)
+	const windowExpanding = useRef<boolean>(false)
+	const windowExpandDirection = useRef<WindowExpandDirection>(
+		WindowExpandDirection.None,
+	)
 
-    const { removeWindow, onWindowStateChanged, onWindowSelected } = useContext(WindowsContext)
-    const { width, height } = currentWindowSize.current
+	const { removeWindow, onWindowStateChanged, onWindowSelected } =
+		useContext(WindowsContext)
+	const { width, height } = currentWindowSize.current
 
-    const onMaximiseRequested = () => {
-        if (state === WindowState.Maximised) {
-            let div = windowRef.current
-            if (div) {
-                div.style.top = windowPreviousPositioning.current.top
-                div.style.left = windowPreviousPositioning.current.left
-            }
-            currentWindowSize.current = previousWindowSize.current
-            previousWindowSize.current = { width: "100%", height: "100%" }
-            onWindowStateChanged(id, WindowState.Normal)
-        } else {
-            let div = windowRef.current
-            if (div) {
-                div.style.top = "50%"
-                div.style.left = "50%"
-            }
-            previousWindowSize.current = currentWindowSize.current
-            currentWindowSize.current = { width: "100%", height: "100%" }
-            onWindowStateChanged(id, WindowState.Maximised)
-        }
-    }
+	const onMaximiseRequested = () => {
+		if (state === WindowState.Maximised) {
+			let div = windowRef.current
+			if (div) {
+				div.style.top = windowPreviousPositioning.current.top
+				div.style.left = windowPreviousPositioning.current.left
+			}
+			currentWindowSize.current = previousWindowSize.current
+			previousWindowSize.current = { width: "100%", height: "100%" }
+			onWindowStateChanged(id, WindowState.Normal)
+		} else {
+			let div = windowRef.current
+			if (div) {
+				div.style.top = "50%"
+				div.style.left = "50%"
+			}
+			previousWindowSize.current = currentWindowSize.current
+			currentWindowSize.current = { width: "100%", height: "100%" }
+			onWindowStateChanged(id, WindowState.Maximised)
+		}
+	}
 
-    const onMaximiseButtonClicked = (_: React.MouseEvent<HTMLImageElement, MouseEvent>) => onMaximiseRequested()
+	const onMaximiseButtonClicked = (
+		_: React.MouseEvent<HTMLImageElement, MouseEvent>,
+	) => onMaximiseRequested()
 
-    const onMinimiseButtonClicked = (_: React.MouseEvent<HTMLImageElement, MouseEvent>) => onWindowStateChanged(id, WindowState.Minimised)
+	const onMinimiseButtonClicked = (
+		_: React.MouseEvent<HTMLImageElement, MouseEvent>,
+	) => onWindowStateChanged(id, WindowState.Minimised)
 
-    const onWindowTopBarDoubleClicked = (_: React.MouseEvent<HTMLDivElement, MouseEvent>) => onMaximiseRequested()
+	const onWindowTopBarDoubleClicked = (
+		_: React.MouseEvent<HTMLDivElement, MouseEvent>,
+	) => onMaximiseRequested()
 
-    const onCloseButtonClicked = useCallback((_: React.MouseEvent<HTMLImageElement, MouseEvent>) => removeWindow(id), [removeWindow, id])
+	const onCloseButtonClicked = useCallback(
+		(_: React.MouseEvent<HTMLImageElement, MouseEvent>) => removeWindow(id),
+		[removeWindow, id],
+	)
 
-    const onWindowTopBarMouseDown = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-        onWindowSelected(id)
+	const onWindowTopBarMouseDown = (
+		e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+	) => {
+		onWindowSelected(id)
 
-        windowPositionRef.current = {
-            x: e.clientX,
-            y: e.clientY
-        }
+		windowPositionRef.current = {
+			x: e.clientX,
+			y: e.clientY,
+		}
 
-        windowIsMovingRef.current = true
+		windowIsMovingRef.current = true
 
-        window.onmousemove = onWindowTopBarMouseMove
-    }
+		window.onmousemove = onWindowTopBarMouseMove
+	}
 
-    const onWindowTopBarMouseUp = (_: MouseEvent) => {
-        windowIsMovingRef.current = false
-        window.onmousemove = null
+	const onWindowTopBarMouseUp = (_: MouseEvent) => {
+		windowIsMovingRef.current = false
+		window.onmousemove = null
 
-        if (windowRef.current) {
-            windowPreviousPositioning.current = {
-                top: windowRef.current.style.top,
-                left: windowRef.current.style.left
-            }
-        }
-    }
+		if (windowRef.current) {
+			windowPreviousPositioning.current = {
+				top: windowRef.current.style.top,
+				left: windowRef.current.style.left,
+			}
+		}
+	}
 
-    const onWindowTopBarMouseMove = useCallback((e: MouseEvent | React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-        if (!windowIsMovingRef.current) {
-            return
-        }
+	const onWindowTopBarMouseMove = useCallback(
+		(e: MouseEvent | React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+			if (!windowIsMovingRef.current) {
+				return
+			}
 
-        if (windowPositionRef.current) {
-            e.preventDefault();
-            let pos1 = windowPositionRef.current.x - e.clientX;
-            let pos2 = windowPositionRef.current.y - e.clientY;
-            windowPositionRef.current.x = e.clientX;
-            windowPositionRef.current.y = e.clientY;
+			if (windowPositionRef.current) {
+				e.preventDefault()
+				let pos1 = windowPositionRef.current.x - e.clientX
+				let pos2 = windowPositionRef.current.y - e.clientY
+				windowPositionRef.current.x = e.clientX
+				windowPositionRef.current.y = e.clientY
 
-            let div = windowRef.current
-            if (div) {
-                div.style.top = (div.offsetTop - pos2) / 16 + "rem";
-                div.style.left = (div.offsetLeft - pos1) / 16 + "rem";
+				let div = windowRef.current
+				if (div) {
+					div.style.top = (div.offsetTop - pos2) / 16 + "rem"
+					div.style.left = (div.offsetLeft - pos1) / 16 + "rem"
 
-                if (state === WindowState.Maximised) {
-                    onWindowStateChanged(id, WindowState.Normal)
-                }
-            }
-        }
-    }, [id, state, onWindowStateChanged])
+					if (state === WindowState.Maximised) {
+						onWindowStateChanged(id, WindowState.Normal)
+					}
+				}
+			}
+		},
+		[id, state, onWindowStateChanged],
+	)
 
-    const onWindowMouseOvered = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-        const expandDirection = getExpandDirectionByRefAndPosition(windowRef, e)
-        if (window && windowRef.current) {
-            windowRef.current.style.cursor = getCursor(expandDirection, DEFAULT_POINTER)
-        }
-    }
+	const onWindowMouseOvered = (
+		e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+	) => {
+		const expandDirection = getExpandDirectionByRefAndPosition(windowRef, e)
+		if (window && windowRef.current) {
+			windowRef.current.style.cursor = getCursor(
+				expandDirection,
+				DEFAULT_POINTER,
+			)
+		}
+	}
 
-    const onWindowMouseDown = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-        if (!windowRef.current) {
-            return
-        }
+	const onWindowMouseDown = (
+		e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+	) => {
+		if (!windowRef.current) {
+			return
+		}
 
-        const expandDirection = getExpandDirectionByRefAndPosition(windowRef, e)
-        if (expandDirection === WindowExpandDirection.None) {
-            return
-        }
+		const expandDirection = getExpandDirectionByRefAndPosition(windowRef, e)
+		if (expandDirection === WindowExpandDirection.None) {
+			return
+		}
 
-        windowExpanding.current = true
-        windowExpandDirection.current = expandDirection
+		windowExpanding.current = true
+		windowExpandDirection.current = expandDirection
+	}
 
-    }
+	const onWindowMouseUp = (_: MouseEvent) => {
+		if (windowExpanding.current) {
+			windowExpanding.current = false
+			windowExpandDirection.current = WindowExpandDirection.None
+		}
+	}
 
-    const onWindowMouseUp = (_: MouseEvent) => {
-        if (windowExpanding.current) {
-            windowExpanding.current = false
-            windowExpandDirection.current = WindowExpandDirection.None
-        }
-    }
+	const onWindowMouseMove = useCallback(
+		(e: MouseEvent) => {
+			if (windowExpanding.current && windowRef.current) {
+				const getCorrectedWidth = (
+					xPos: number,
+					width: number,
+					widthDiff: number,
+				): number => {
+					var proposed = width + widthDiff
+					if (xPos + proposed > window.innerWidth) {
+						return window.innerWidth - xPos
+					}
+					return proposed
+				}
 
-    const onWindowMouseMove = useCallback((e: MouseEvent) => {
-        if (windowExpanding.current && windowRef.current) {
-            const getCorrectedWidth = (xPos: number, width: number, widthDiff: number): number => {
-                var proposed = width + widthDiff
-                if (xPos + proposed > window.innerWidth) {
-                    return window.innerWidth - xPos
-                }
-                return proposed
-            }
+				const getCorrectedHeight = (
+					yPos: number,
+					height: number,
+					heightDiff: number,
+				): number => {
+					var proposed = height + heightDiff
+					if (
+						yPos + proposed >
+						window.innerHeight - DEFAULT_TASKBAR_HEIGHT_PIXELS
+					) {
+						return window.innerHeight - DEFAULT_TASKBAR_HEIGHT_PIXELS - yPos
+					}
+					return proposed
+				}
 
-            const getCorrectedHeight = (yPos: number, height: number, heightDiff: number): number => {
-                var proposed = height + heightDiff
-                if (yPos + proposed > (window.innerHeight - DEFAULT_TASKBAR_HEIGHT_PIXELS)) {
-                    return (window.innerHeight - DEFAULT_TASKBAR_HEIGHT_PIXELS) - yPos
-                }
-                return proposed
-            }
+				const getCorrectedX = (x: number): number => {
+					if (!windowRef.current) {
+						return x
+					}
 
-            const getCorrectedX = (x: number): number => {
-                if (!windowRef.current) {
-                    return x
-                }
+					if (x > window.innerWidth - windowRef.current.clientWidth) {
+						return window.innerWidth - windowRef.current.clientWidth
+					}
 
-                if (x > window.innerWidth - windowRef.current.clientWidth) {
-                    return window.innerWidth - windowRef.current.clientWidth
-                }
+					return x < 0 ? 1 : x
+				}
 
-                return x < 0 ? 1 : x
-            }
+				const getCorrectedY = (y: number): number => {
+					if (!windowRef.current) {
+						return y
+					}
 
-            const getCorrectedY = (y: number): number => {
-                if (!windowRef.current) {
-                    return y
-                }
+					if (y > window.innerHeight - 30 - windowRef.current.clientHeight) {
+						return window.innerHeight - 30 - windowRef.current.clientHeight
+					}
 
-                if (y > (window.innerHeight - 30 - windowRef.current.clientHeight)) {
-                    return window.innerHeight - 30 - windowRef.current.clientHeight
-                }
+					return y < 0 ? 1 : y
+				}
 
-                return y < 0 ? 1 : y
-            }
+				const rect = windowRef.current.getBoundingClientRect()
 
-            const rect = windowRef.current.getBoundingClientRect()
+				const originalWidth: number = windowRef.current.clientWidth
+				const originalHeight: number = windowRef.current.clientHeight
+				let newX: number = rect.left
+				let newY: number = rect.top
+				let newWidth: number = windowRef.current.clientWidth
+				let newHeight: number = windowRef.current.clientHeight
 
-            const originalWidth: number = windowRef.current.clientWidth
-            const originalHeight: number = windowRef.current.clientHeight
-            let newX: number = rect.left
-            let newY: number = rect.top
-            let newWidth: number = windowRef.current.clientWidth
-            let newHeight: number = windowRef.current.clientHeight
+				if (
+					(windowExpandDirection.current & xChangesEnum) ===
+					windowExpandDirection.current
+				) {
+					newX = getCorrectedX(e.clientX)
+					newWidth = getCorrectedWidth(
+						newX,
+						windowRef.current.clientWidth,
+						rect.left - newX,
+					)
+				}
 
-            if ((windowExpandDirection.current & xChangesEnum) === windowExpandDirection.current) {
-                newX = getCorrectedX(e.clientX)
-                newWidth = getCorrectedWidth(newX, windowRef.current.clientWidth, rect.left - newX)
-            }
+				if (
+					(windowExpandDirection.current & yChangesEnum) ===
+					windowExpandDirection.current
+				) {
+					newY = getCorrectedY(e.clientY)
+					newHeight = getCorrectedHeight(
+						rect.top,
+						windowRef.current.clientHeight,
+						rect.top - newY,
+					)
+				}
 
-            if ((windowExpandDirection.current & yChangesEnum) === windowExpandDirection.current) {
-                newY = getCorrectedY(e.clientY)
-                newHeight = getCorrectedHeight(rect.top, windowRef.current.clientHeight, rect.top - newY)
-            }
+				if (
+					(windowExpandDirection.current & heightChangesEnum) ===
+					windowExpandDirection.current
+				) {
+					newHeight = getCorrectedHeight(
+						rect.top,
+						windowRef.current.clientHeight,
+						e.clientY - rect.bottom,
+					)
+				}
 
-            if ((windowExpandDirection.current & heightChangesEnum) === windowExpandDirection.current) {
-                newHeight = getCorrectedHeight(rect.top, windowRef.current.clientHeight, e.clientY - rect.bottom)
-            }
+				if (
+					(windowExpandDirection.current & widthChangesEnum) ===
+					windowExpandDirection.current
+				) {
+					newWidth = getCorrectedWidth(
+						rect.left,
+						windowRef.current.clientWidth,
+						e.clientX - rect.right,
+					)
+				}
 
-            if ((windowExpandDirection.current & widthChangesEnum) === windowExpandDirection.current) {
-                newWidth = getCorrectedWidth(rect.left, windowRef.current.clientWidth, e.clientX - rect.right)
-            }
+				if (newWidth !== originalWidth || newHeight !== originalHeight) {
+					previousWindowSize.current = {
+						width: `${originalWidth / 16}rem`,
+						height: `${originalHeight / 16}rem`,
+					}
+					currentWindowSize.current = {
+						width: `${newWidth / 16}rem`,
+						height: `${newHeight / 16}rem`,
+					}
 
-            if (((newWidth !== originalWidth) || (newHeight !== originalHeight))) {
-                previousWindowSize.current = { width: `${originalWidth / 16}rem`, height: `${originalHeight / 16}rem` }
-                currentWindowSize.current = { width: `${newWidth / 16}rem`, height: `${newHeight / 16}rem` }
+					windowRef.current.style.width = `${newWidth / 16}rem`
+					windowRef.current.style.height = `${newHeight / 16}rem`
 
-                windowRef.current.style.width = `${newWidth / 16}rem`
-                windowRef.current.style.height = `${newHeight / 16}rem`
+					if (state === WindowState.Maximised) {
+						onWindowStateChanged(id, WindowState.Normal)
+					}
 
-                if (state === WindowState.Maximised) {
-                    onWindowStateChanged(id, WindowState.Normal)
-                }
+					let changedWidth = windowRef.current.clientWidth
+					let changedHeight = windowRef.current.clientHeight
 
-                let changedWidth = windowRef.current.clientWidth
-                let changedHeight = windowRef.current.clientHeight
+					if (changedWidth === newWidth && changedHeight === newHeight) {
+						windowPositionRef.current = {
+							x: newX,
+							y: newY,
+						}
+					}
+				}
+			}
+		},
+		[id, state, onWindowStateChanged],
+	)
 
-                if (changedWidth === newWidth && changedHeight === newHeight) {
-                    windowPositionRef.current = {
-                        x: newX,
-                        y: newY
-                    }
-                }
-            }
-        }
-    }, [id, state, onWindowStateChanged])
+	useEffect(() => {
+		document.addEventListener("mousemove", onWindowMouseMove)
+		document.addEventListener("mousemove", onWindowTopBarMouseMove)
 
-    useEffect(() => {
-        document.addEventListener('mousemove', onWindowMouseMove)
-        document.addEventListener('mousemove', onWindowTopBarMouseMove)
+		document.addEventListener("mouseup", onWindowMouseUp)
+		document.addEventListener("mouseup", onWindowTopBarMouseUp)
 
-        document.addEventListener('mouseup', onWindowMouseUp)
-        document.addEventListener('mouseup', onWindowTopBarMouseUp)
+		return () => {
+			document.removeEventListener("mousemove", onWindowMouseMove)
+			document.removeEventListener("mousemove", onWindowTopBarMouseMove)
 
-        return () => {
-            document.removeEventListener('mousemove', onWindowMouseMove)
-            document.removeEventListener('mousemove', onWindowTopBarMouseMove)
+			document.removeEventListener("mouseup", onWindowMouseUp)
+			document.removeEventListener("mouseup", onWindowTopBarMouseUp)
+		}
+	}, [onWindowMouseMove, onWindowTopBarMouseMove])
 
-            document.removeEventListener('mouseup', onWindowMouseUp)
-            document.removeEventListener('mouseup', onWindowTopBarMouseUp)
-        }
-    }, [onWindowMouseMove, onWindowTopBarMouseMove])
+	const Content = useCallback(() => {
+		if (FILETYPE_RENDERABLE_PROPERTY in context) {
+			return context.render()
+		}
 
-    const Content = useCallback(() => {
-        if (FILETYPE_RENDERABLE_PROPERTY in context) {
-            return context.render()
-        }
+		if (BRANCHING_CONTEXT_DETERMINER in context) {
+			return (
+				<FileBrowser
+					context={context}
+					setWindowTopBarContext={setWindowTopBarContext}
+				/>
+			)
+		}
 
-        if (BRANCHING_CONTEXT_DETERMINER in context) {
-            return <FileBrowser context={context} setWindowTopBarContext={setWindowTopBarContext} />
-        }
+		return null
+	}, [context])
 
-        return null
-    }, [context])
+	const visibility: Visibility =
+		state === WindowState.Minimised ? "hidden" : "visible"
 
-    const visibility: Visibility = state === WindowState.Minimised
-        ? "hidden"
-        : "visible"
-
-    return (
-        <div
-            className="window"
-            style={{
-                height: height,
-                width: width,
-                visibility: visibility
-            }}
-            ref={windowRef}
-            onMouseOver={onWindowMouseOvered}
-            onMouseDown={onWindowMouseDown}
-        >
-            <div className="window__inner-content">
-                <WindowTopBar
-                    context={windowTopBarContext}
-                    onWindowTopBarMouseDown={onWindowTopBarMouseDown}
-                    onMaximiseButtonClicked={onMaximiseButtonClicked}
-                    onMinimiseButtonClicked={onMinimiseButtonClicked}
-                    onCloseButtonClicked={onCloseButtonClicked}
-                    onWindowTopBarDoubleClicked={onWindowTopBarDoubleClicked}
-                />
-                <div className="window__inner-content__content">
-                    <Content />
-                </div>
-            </div>
-        </div>)
+	return (
+		<div
+			className="window"
+			style={{
+				height: height,
+				width: width,
+				visibility: visibility,
+			}}
+			ref={windowRef}
+			onMouseOver={onWindowMouseOvered}
+			onMouseDown={onWindowMouseDown}
+		>
+			<div className="window__inner-content">
+				<WindowTopBar
+					context={windowTopBarContext}
+					onWindowTopBarMouseDown={onWindowTopBarMouseDown}
+					onMaximiseButtonClicked={onMaximiseButtonClicked}
+					onMinimiseButtonClicked={onMinimiseButtonClicked}
+					onCloseButtonClicked={onCloseButtonClicked}
+					onWindowTopBarDoubleClicked={onWindowTopBarDoubleClicked}
+				/>
+				<div className="window__inner-content__content">
+					<Content />
+				</div>
+			</div>
+		</div>
+	)
 }
 
 export default memo(Window)

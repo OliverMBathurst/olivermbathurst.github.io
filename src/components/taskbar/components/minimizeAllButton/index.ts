@@ -1,3 +1,3 @@
-import MinimizeAllButton from './minimizeAllButton'
+import MinimizeAllButton from "./minimizeAllButton"
 
 export default MinimizeAllButton

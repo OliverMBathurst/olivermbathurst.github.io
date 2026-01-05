@@ -1,17 +1,17 @@
 .desktop-item {
-    width: 6rem;
-    overflow: clip;
-    cursor: pointer;
-    padding: 0rem 0rem 1rem 0.5rem;
-    color: white;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+	width: 6rem;
+	overflow: clip;
+	cursor: pointer;
+	padding: 0rem 0rem 1rem 0.5rem;
+	color: white;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
 }
 
 .desktop-item__name {
-    font-size: 0.75rem;
-    word-wrap: anywhere;
-    text-shadow: 0.125rem 0.125rem 0.8125rem black;
+	font-size: 0.75rem;
+	word-wrap: anywhere;
+	text-shadow: 0.125rem 0.125rem 0.8125rem black;
 }

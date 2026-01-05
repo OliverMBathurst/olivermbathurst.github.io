@@ -1,22 +1,18 @@
-import { StartMenuIcon } from '../../../../icons'
-import './startButton.scss'
+import { StartMenuIcon } from "../../../../icons"
+import "./startButton.scss"
 
 export interface IStartButtonProps {
-    onStartButtonClicked: () => void
+	onStartButtonClicked: () => void
 }
 
 const StartButton = (props: IStartButtonProps) => {
-    const {
-        onStartButtonClicked
-    } = props
+	const { onStartButtonClicked } = props
 
-    return (
-        <div
-            className="start-button"
-            onClick={onStartButtonClicked}
-        >
-            <StartMenuIcon />
-        </div>)
+	return (
+		<div className="start-button" onClick={onStartButtonClicked}>
+			<StartMenuIcon />
+		</div>
+	)
 }
 
 export default StartButton
