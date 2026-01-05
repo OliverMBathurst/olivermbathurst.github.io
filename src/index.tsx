@@ -13,5 +13,5 @@ root.render(
 			<Screen />
 		</WindowsContextProvider>
 	</FileSystemContextProvider>
-</React.StrictMode>,
+</React.StrictMode>
 )
