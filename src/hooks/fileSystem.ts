@@ -1,7 +1,7 @@
 import { useContext, useState } from "react"
 import {
 	BRANCHING_CONTEXT_PARENT_PROPERTY,
-	BRANCHING_CONTEXT_TYPE_PROPERTY,
+	BRANCHING_CONTEXT_TYPE_PROPERTY
 } from "../constants"
 import { FileSystemContext } from "../contexts"
 import { SpecialBranch } from "../enums"
@@ -10,7 +10,7 @@ import { Branch, BranchingContext } from "../types/fs"
 const useFileSystem = (context?: BranchingContext) => {
 	const { root } = useContext(FileSystemContext)
 	const [currentContext, setCurrentContext] = useState<BranchingContext>(
-		context ?? root,
+		context ?? root
 	)
 
 	const upOneLevel = () => {
@@ -25,7 +25,7 @@ const useFileSystem = (context?: BranchingContext) => {
 
 	const enterBranch = (branchName: string) => {
 		const foundBranch = currentContext.branches.find(
-			(x) => x.name === branchName,
+			(x) => x.name === branchName
 		)
 		if (foundBranch) {
 			setCurrentContext(foundBranch)
@@ -34,7 +34,7 @@ const useFileSystem = (context?: BranchingContext) => {
 
 	const searchForBranchByType = (
 		branch: BranchingContext,
-		branchType: SpecialBranch,
+		branchType: SpecialBranch
 	): Branch | null => {
 		if (
 			BRANCHING_CONTEXT_TYPE_PROPERTY in branch &&
@@ -57,7 +57,7 @@ const useFileSystem = (context?: BranchingContext) => {
 		upOneLevel,
 		enterBranch,
 		currentContext,
-		searchForBranchByType,
+		searchForBranchByType
 	}
 }
 

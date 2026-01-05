@@ -4,7 +4,7 @@ import {
 	DateDisplay,
 	MinimizeAllButton,
 	StartButton,
-	TaskbarItem,
+	TaskbarItem
 } from "./components"
 import "./taskbar.scss"
 

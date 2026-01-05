@@ -18,7 +18,7 @@ export interface IAddWindowProperties {
 export enum WindowState {
 	Normal,
 	Minimised,
-	Maximised,
+	Maximised
 }
 
 export interface ISize {

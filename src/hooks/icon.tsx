@@ -5,7 +5,7 @@ import {
 	FILETYPE_PDF,
 	FILETYPE_TEXT,
 	FILETYPE_URL_SHORTCUT,
-	LEAF_EXTENSION_PROPERTY_NAME,
+	LEAF_EXTENSION_PROPERTY_NAME
 } from "../constants"
 import {
 	DriveIcon,
@@ -14,17 +14,17 @@ import {
 	GenericFileIcon,
 	InternetIcon,
 	PdfIcon,
-	TextFileIcon,
+	TextFileIcon
 } from "../icons"
 import { Context } from "../types/fs"
 
 const useIcon: (context: Context, noSelect?: boolean) => JSX.Element = (
 	context: Context,
-	noSelect: boolean = true,
+	noSelect: boolean = true
 ) => {
 	const Icon = useMemo(() => {
 		let props = {
-			className: noSelect ? "no-select" : "",
+			className: noSelect ? "no-select" : ""
 		}
 
 		if (LEAF_EXTENSION_PROPERTY_NAME in context) {

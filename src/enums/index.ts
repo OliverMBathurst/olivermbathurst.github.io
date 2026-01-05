@@ -1,6 +1,6 @@
 export enum SpecialBranch {
 	None,
-	Desktop,
+	Desktop
 }
 
 export enum WindowExpandDirection {
@@ -12,5 +12,5 @@ export enum WindowExpandDirection {
 	TopLeft = 1 << 5,
 	TopRight = 1 << 6,
 	BottomLeft = 1 << 7,
-	BottomRight = 1 << 8,
+	BottomRight = 1 << 8
 }

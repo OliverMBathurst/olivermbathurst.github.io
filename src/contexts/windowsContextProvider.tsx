@@ -2,7 +2,7 @@ import React, { createContext, useState } from "react"
 import {
 	IAddWindowProperties,
 	IWindowProperties,
-	WindowState,
+	WindowState
 } from "../interfaces/windows"
 
 interface IWindowsContext {
@@ -23,7 +23,7 @@ export const WindowsContext: React.Context<IWindowsContext> =
 		onMinimizeAllButtonClicked: () => Function.prototype,
 		onWindowStateChanged: (_: string, __: WindowState) => Function.prototype,
 		onTaskbarItemClicked: (_: string) => Function.prototype,
-		onWindowSelected: (_: string) => Function.prototype,
+		onWindowSelected: (_: string) => Function.prototype
 	})
 
 interface IWindowsContextProviderProps {
@@ -33,7 +33,7 @@ interface IWindowsContextProviderProps {
 const WindowsContextProvider = (props: IWindowsContextProviderProps) => {
 	const { children } = props
 	const [windowProperties, setWindowProperties] = useState<IWindowProperties[]>(
-		[],
+		[]
 	)
 
 	const addWindow = (window: IAddWindowProperties) => {
@@ -47,13 +47,13 @@ const WindowsContextProvider = (props: IWindowsContextProviderProps) => {
 			selected: true,
 			size: windowSize,
 			state: WindowState.Normal,
-			previousState: null,
+			previousState: null
 		}
 
 		const existingWindows = windowProperties.map((wp) => {
 			return {
 				...wp,
-				selected: false,
+				selected: false
 			}
 		})
 
@@ -67,9 +67,9 @@ const WindowsContextProvider = (props: IWindowsContextProviderProps) => {
 					...x,
 					selected: false,
 					previousState: x.state,
-					state: WindowState.Minimised,
+					state: WindowState.Minimised
 				}
-			}),
+			})
 		])
 	}
 
@@ -86,7 +86,7 @@ const WindowsContextProvider = (props: IWindowsContextProviderProps) => {
 				selected:
 					newState === WindowState.Minimised
 						? false
-						: newWindows[targetWindowIndex].selected,
+						: newWindows[targetWindowIndex].selected
 			}
 			newWindows[targetWindowIndex] = newWindow
 			setWindowProperties(newWindows)
@@ -116,7 +116,7 @@ const WindowsContextProvider = (props: IWindowsContextProviderProps) => {
 				newWindows = newWindows.map((w) => {
 					return {
 						...w,
-						selected: false,
+						selected: false
 					}
 				})
 			}
@@ -139,12 +139,12 @@ const WindowsContextProvider = (props: IWindowsContextProviderProps) => {
 		const newWindowProperties = windowProperties.map((wp) => {
 			return {
 				...wp,
-				selected: false,
+				selected: false
 			}
 		})
 
 		const existingWindowIndex = newWindowProperties.findIndex(
-			(wp) => wp.id === windowId,
+			(wp) => wp.id === windowId
 		)
 		if (existingWindowIndex !== -1) {
 			newWindowProperties[existingWindowIndex].selected = true
@@ -164,7 +164,7 @@ const WindowsContextProvider = (props: IWindowsContextProviderProps) => {
 				onMinimizeAllButtonClicked: onMinimizeAllButtonClicked,
 				onWindowStateChanged: onWindowStateChanged,
 				onTaskbarItemClicked: onTaskbarItemClicked,
-				onWindowSelected: onWindowSelected,
+				onWindowSelected: onWindowSelected
 			}}
 		>
 			{children}

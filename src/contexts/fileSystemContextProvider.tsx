@@ -10,7 +10,7 @@ const root = new Root("Root")
 desktopBranch.setLeaves([
 	new CV(desktopBranch),
 	new LinkedIn(desktopBranch),
-	new GitHub(desktopBranch),
+	new GitHub(desktopBranch)
 ])
 
 const contentsBranch = new Branch("Contents", SpecialBranch.None)
@@ -27,7 +27,7 @@ interface IFileSystemContext {
 }
 
 export const FileSystemContext = createContext<IFileSystemContext>({
-	root: root,
+	root: root
 })
 
 interface IFileSystemContextProviderProps {

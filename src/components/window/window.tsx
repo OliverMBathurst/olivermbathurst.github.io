@@ -4,13 +4,13 @@ import React, {
 	useContext,
 	useEffect,
 	useRef,
-	useState,
+	useState
 } from "react"
 import {
 	BRANCHING_CONTEXT_DETERMINER,
 	DEFAULT_POINTER,
 	DEFAULT_TASKBAR_HEIGHT_PIXELS,
-	FILETYPE_RENDERABLE_PROPERTY,
+	FILETYPE_RENDERABLE_PROPERTY
 } from "../../constants"
 import { WindowsContext } from "../../contexts"
 import { WindowExpandDirection } from "../../enums"
@@ -40,10 +40,10 @@ const widthChangesEnum =
 
 const getExpandDirectionByRefAndPosition: (
 	ref: React.RefObject<HTMLDivElement | null>,
-	e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+	e: React.MouseEvent<HTMLDivElement, MouseEvent>
 ) => WindowExpandDirection = (
 	ref: React.RefObject<HTMLDivElement | null>,
-	e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+	e: React.MouseEvent<HTMLDivElement, MouseEvent>
 ) => {
 	let expandDirection: WindowExpandDirection = WindowExpandDirection.None
 	if (ref && ref.current) {
@@ -90,7 +90,7 @@ const getExpandDirectionByRefAndPosition: (
 
 const getCursor = (
 	direction: WindowExpandDirection,
-	defaultCursor: string,
+	defaultCursor: string
 ): string => {
 	switch (direction) {
 		case WindowExpandDirection.BottomLeft:
@@ -116,7 +116,7 @@ interface IWindowProps {
 
 const Window = (props: IWindowProps) => {
 	const {
-		properties: { id, context, size, state },
+		properties: { id, context, size, state }
 	} = props
 
 	const previousWindowSize = useRef<ISize>(size)
@@ -127,18 +127,18 @@ const Window = (props: IWindowProps) => {
 
 	const windowRef = useRef<HTMLDivElement | null>(null)
 	const windowPositionRef = useRef<{ x: number; y: number } | undefined>(
-		undefined,
+		undefined
 	)
 
 	const windowPreviousPositioning = useRef<{ top: string; left: string }>({
 		top: "50%",
-		left: "50%",
+		left: "50%"
 	})
 	const windowIsMovingRef = useRef<boolean>(false)
 
 	const windowExpanding = useRef<boolean>(false)
 	const windowExpandDirection = useRef<WindowExpandDirection>(
-		WindowExpandDirection.None,
+		WindowExpandDirection.None
 	)
 
 	const { removeWindow, onWindowStateChanged, onWindowSelected } =
@@ -168,30 +168,30 @@ const Window = (props: IWindowProps) => {
 	}
 
 	const onMaximiseButtonClicked = (
-		_: React.MouseEvent<HTMLImageElement, MouseEvent>,
+		_: React.MouseEvent<HTMLImageElement, MouseEvent>
 	) => onMaximiseRequested()
 
 	const onMinimiseButtonClicked = (
-		_: React.MouseEvent<HTMLImageElement, MouseEvent>,
+		_: React.MouseEvent<HTMLImageElement, MouseEvent>
 	) => onWindowStateChanged(id, WindowState.Minimised)
 
 	const onWindowTopBarDoubleClicked = (
-		_: React.MouseEvent<HTMLDivElement, MouseEvent>,
+		_: React.MouseEvent<HTMLDivElement, MouseEvent>
 	) => onMaximiseRequested()
 
 	const onCloseButtonClicked = useCallback(
 		(_: React.MouseEvent<HTMLImageElement, MouseEvent>) => removeWindow(id),
-		[removeWindow, id],
+		[removeWindow, id]
 	)
 
 	const onWindowTopBarMouseDown = (
-		e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+		e: React.MouseEvent<HTMLDivElement, MouseEvent>
 	) => {
 		onWindowSelected(id)
 
 		windowPositionRef.current = {
 			x: e.clientX,
-			y: e.clientY,
+			y: e.clientY
 		}
 
 		windowIsMovingRef.current = true
@@ -206,7 +206,7 @@ const Window = (props: IWindowProps) => {
 		if (windowRef.current) {
 			windowPreviousPositioning.current = {
 				top: windowRef.current.style.top,
-				left: windowRef.current.style.left,
+				left: windowRef.current.style.left
 			}
 		}
 	}
@@ -235,23 +235,23 @@ const Window = (props: IWindowProps) => {
 				}
 			}
 		},
-		[id, state, onWindowStateChanged],
+		[id, state, onWindowStateChanged]
 	)
 
 	const onWindowMouseOvered = (
-		e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+		e: React.MouseEvent<HTMLDivElement, MouseEvent>
 	) => {
 		const expandDirection = getExpandDirectionByRefAndPosition(windowRef, e)
 		if (window && windowRef.current) {
 			windowRef.current.style.cursor = getCursor(
 				expandDirection,
-				DEFAULT_POINTER,
+				DEFAULT_POINTER
 			)
 		}
 	}
 
 	const onWindowMouseDown = (
-		e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+		e: React.MouseEvent<HTMLDivElement, MouseEvent>
 	) => {
 		if (!windowRef.current) {
 			return
@@ -279,7 +279,7 @@ const Window = (props: IWindowProps) => {
 				const getCorrectedWidth = (
 					xPos: number,
 					width: number,
-					widthDiff: number,
+					widthDiff: number
 				): number => {
 					var proposed = width + widthDiff
 					if (xPos + proposed > window.innerWidth) {
@@ -291,7 +291,7 @@ const Window = (props: IWindowProps) => {
 				const getCorrectedHeight = (
 					yPos: number,
 					height: number,
-					heightDiff: number,
+					heightDiff: number
 				): number => {
 					var proposed = height + heightDiff
 					if (
@@ -344,7 +344,7 @@ const Window = (props: IWindowProps) => {
 					newWidth = getCorrectedWidth(
 						newX,
 						windowRef.current.clientWidth,
-						rect.left - newX,
+						rect.left - newX
 					)
 				}
 
@@ -356,7 +356,7 @@ const Window = (props: IWindowProps) => {
 					newHeight = getCorrectedHeight(
 						rect.top,
 						windowRef.current.clientHeight,
-						rect.top - newY,
+						rect.top - newY
 					)
 				}
 
@@ -367,7 +367,7 @@ const Window = (props: IWindowProps) => {
 					newHeight = getCorrectedHeight(
 						rect.top,
 						windowRef.current.clientHeight,
-						e.clientY - rect.bottom,
+						e.clientY - rect.bottom
 					)
 				}
 
@@ -378,18 +378,18 @@ const Window = (props: IWindowProps) => {
 					newWidth = getCorrectedWidth(
 						rect.left,
 						windowRef.current.clientWidth,
-						e.clientX - rect.right,
+						e.clientX - rect.right
 					)
 				}
 
 				if (newWidth !== originalWidth || newHeight !== originalHeight) {
 					previousWindowSize.current = {
 						width: `${originalWidth / 16}rem`,
-						height: `${originalHeight / 16}rem`,
+						height: `${originalHeight / 16}rem`
 					}
 					currentWindowSize.current = {
 						width: `${newWidth / 16}rem`,
-						height: `${newHeight / 16}rem`,
+						height: `${newHeight / 16}rem`
 					}
 
 					windowRef.current.style.width = `${newWidth / 16}rem`
@@ -405,13 +405,13 @@ const Window = (props: IWindowProps) => {
 					if (changedWidth === newWidth && changedHeight === newHeight) {
 						windowPositionRef.current = {
 							x: newX,
-							y: newY,
+							y: newY
 						}
 					}
 				}
 			}
 		},
-		[id, state, onWindowStateChanged],
+		[id, state, onWindowStateChanged]
 	)
 
 	useEffect(() => {
@@ -456,7 +456,7 @@ const Window = (props: IWindowProps) => {
 			style={{
 				height: height,
 				width: width,
-				visibility: visibility,
+				visibility: visibility
 			}}
 			ref={windowRef}
 			onMouseOver={onWindowMouseOvered}

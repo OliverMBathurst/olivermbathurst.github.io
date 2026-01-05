@@ -7,19 +7,19 @@ import "./windowTopBar.scss"
 interface IWindowTopBarProps {
 	context: Context
 	onMaximiseButtonClicked: (
-		e: React.MouseEvent<HTMLImageElement, MouseEvent>,
+		e: React.MouseEvent<HTMLImageElement, MouseEvent>
 	) => void
 	onMinimiseButtonClicked: (
-		e: React.MouseEvent<HTMLImageElement, MouseEvent>,
+		e: React.MouseEvent<HTMLImageElement, MouseEvent>
 	) => void
 	onCloseButtonClicked: (
-		e: React.MouseEvent<HTMLImageElement, MouseEvent>,
+		e: React.MouseEvent<HTMLImageElement, MouseEvent>
 	) => void
 	onWindowTopBarMouseDown: (
-		e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+		e: React.MouseEvent<HTMLDivElement, MouseEvent>
 	) => void
 	onWindowTopBarDoubleClicked: (
-		e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+		e: React.MouseEvent<HTMLDivElement, MouseEvent>
 	) => void
 }
 
@@ -29,7 +29,7 @@ const imgProps = {
 	onMouseUp: (e: React.MouseEvent<HTMLImageElement, MouseEvent>) =>
 		e.stopPropagation(),
 	onMouseMove: (e: React.MouseEvent<HTMLImageElement, MouseEvent>) =>
-		e.stopPropagation(),
+		e.stopPropagation()
 }
 
 const WindowTopBar = (props: IWindowTopBarProps) => {
@@ -39,7 +39,7 @@ const WindowTopBar = (props: IWindowTopBarProps) => {
 		onMaximiseButtonClicked,
 		onMinimiseButtonClicked,
 		onCloseButtonClicked,
-		onWindowTopBarDoubleClicked,
+		onWindowTopBarDoubleClicked
 	} = props
 
 	const Icon = useIcon(context)

@@ -66,7 +66,7 @@ export {
 	ExecutableFileIcon,
 	FolderIcon,
 	DriveIcon,
-	StartMenuIcon,
+	StartMenuIcon
 }
 
 export interface IIconProps {

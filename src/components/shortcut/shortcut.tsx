@@ -16,7 +16,7 @@ const Shortcut = (props: IShortcutProps) => {
 	const onDoubleClick = useCallback(() => {
 		const windowProperties: IAddWindowProperties = {
 			context: shortcut.context,
-			selected: true,
+			selected: true
 		}
 
 		addWindow(windowProperties)

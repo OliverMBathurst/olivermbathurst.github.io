@@ -6,7 +6,7 @@ import {
 	FILETYPE_URL_SHORTCUT,
 	FILETYPE_URL_SHORTCUT_PROPERTY,
 	LEAF_EXTENSION_PROPERTY_NAME,
-	SHORTCUT_DETERMINER,
+	SHORTCUT_DETERMINER
 } from "../../constants"
 import { WindowsContext } from "../../contexts"
 import { IAddWindowProperties } from "../../interfaces/windows"
@@ -36,7 +36,7 @@ const FileBrowser = (props: IFileBrowserProps) => {
 		return [
 			...currentContext.branches,
 			...currentContext.shortcuts,
-			...currentContext.leaves,
+			...currentContext.leaves
 		]
 	}, [currentContext])
 
@@ -56,7 +56,7 @@ const FileBrowser = (props: IFileBrowserProps) => {
 			} else if (FILETYPE_RENDERABLE_PROPERTY in resolvedContext) {
 				const windowProperties: IAddWindowProperties = {
 					context: resolvedContext,
-					selected: true,
+					selected: true
 				}
 
 				addWindow(windowProperties)
@@ -65,7 +65,7 @@ const FileBrowser = (props: IFileBrowserProps) => {
 				setWindowTopBarContext(resolvedContext)
 			}
 		},
-		[addWindow, setWindowTopBarContext],
+		[addWindow, setWindowTopBarContext]
 	)
 
 	const onRowClicked = useCallback(
@@ -113,7 +113,7 @@ const FileBrowser = (props: IFileBrowserProps) => {
 				setSelected([contextKey])
 			}
 		},
-		[selected, Entities],
+		[selected, Entities]
 	)
 
 	const upOneLevel = () => {
