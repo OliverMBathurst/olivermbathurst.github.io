@@ -133,31 +133,37 @@ const WindowsContextProvider = (props: IWindowsContextProviderProps) => {
 		let newWindows = [...windowProperties]
 		const targetWindowIndex = newWindows.findIndex((x) => x.id === windowId)
 		if (targetWindowIndex !== -1) {
-			let existingWindow = newWindows[targetWindowIndex]
-			if (existingWindow.state === WindowState.Minimised) {
-				existingWindow.state =
-					existingWindow.previousState ?? WindowState.Normal
-				existingWindow.selected = true
+			let targetWindow = newWindows[targetWindowIndex]
+			if (targetWindow.state === WindowState.Minimised) {
+				targetWindow.state =
+					targetWindow.previousState ?? WindowState.Normal
+				targetWindow.previousState = WindowState.Minimised
+				targetWindow.selected = true
+
 			} else {
-				if (existingWindow.selected) {
-					existingWindow.previousState = existingWindow.state
-					existingWindow.state = WindowState.Minimised
-					existingWindow.selected = false
+				if (targetWindow.selected) {
+					targetWindow.previousState = targetWindow.state
+					targetWindow.state = WindowState.Minimised
+					targetWindow.selected = false
 				} else {
-					existingWindow.selected = true
+					targetWindow.selected = true
 				}
 			}
 
-			if (existingWindow.selected) {
-				newWindows = newWindows.map((w) => {
-					return {
-						...w,
-						selected: false
+			let _lastDeselectedWindowId: string | null = null
+			if (targetWindow.selected) {
+				for (let i = 0; i < newWindows.length; i++) {
+					if (i !== targetWindowIndex) {
+						newWindows[i].selected = false
+						_lastDeselectedWindowId = newWindows[i].id
 					}
-				})
+				}
+			} else {
+				_lastDeselectedWindowId = targetWindow.id
 			}
 
-			newWindows[targetWindowIndex] = { ...existingWindow }
+			setLastDeselectedWindowId(_lastDeselectedWindowId)
+			newWindows[targetWindowIndex] = targetWindow
 			setWindowProperties(newWindows)
 		}
 	}
