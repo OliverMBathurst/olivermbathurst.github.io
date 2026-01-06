@@ -111,6 +111,8 @@ const getCursor = (
 	}
 }
 
+const clickOutsideExclusions: string[] = ["taskbar-item"]
+
 interface IWindowProps {
 	properties: IWindowProperties
 }
@@ -144,9 +146,19 @@ const Window = (props: IWindowProps) => {
 		useContext(WindowsContext)
 	const { width, height } = currentWindowSize.current
 
-	useClickOutside(windowRef, () => {
+	useClickOutside(windowRef, (e) => {
 		if (selected) {
-			onWindowSelected(id, false)
+			let validClick: boolean = true
+			if (e.target instanceof HTMLElement) {
+				const elem = e.target as HTMLElement
+				if (clickOutsideExclusions.some(x => elem.classList.contains(x))) {
+					validClick = false
+				}
+			}
+
+			if (validClick) {
+				onWindowSelected(id, false)
+			}
 		}
 	})
 
@@ -484,7 +496,7 @@ const Window = (props: IWindowProps) => {
 
 	return (
 		<div
-			className="window"
+			className={`window${selected ? " window--selected" : ""}`}
 			style={{
 				height: height,
 				width: width,

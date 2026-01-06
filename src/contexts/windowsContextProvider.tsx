@@ -141,6 +141,11 @@ const WindowsContextProvider = (props: IWindowsContextProviderProps) => {
 				return _windowProperties
 			}
 
+			if (!selected) {
+				_windowProperties[existingWindowIdx].selected = false
+				return _windowProperties
+			}
+
 			const otherWindowsAreSelected = _windowProperties
 				.filter((wp) => wp.id !== windowId)
 				.find((wp) => wp.selected)
