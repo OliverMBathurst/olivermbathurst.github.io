@@ -1,7 +1,7 @@
 import { useContext } from "react"
 import { WindowsContext } from "../../contexts"
 import { Desktop } from "../desktop"
-import { ScreenSaver } from "../screenSaver"
+import { ScreenSaverTwo } from "../screenSaverTwo"
 import { Taskbar } from "../taskbar"
 import { Window } from "../window"
 import "./screen.scss"
@@ -12,7 +12,7 @@ const Screen = () => {
 	return (
 		<div className="screen">
 			<div className="screen__render-area">
-				<ScreenSaver />
+				<ScreenSaverTwo />
 				<Desktop />
 				{windowProperties.map((p) => (
 					<Window key={p.id} properties={p} />

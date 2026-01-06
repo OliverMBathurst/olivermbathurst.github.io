@@ -1,0 +1,40 @@
+.screen-saver-two {
+	height: calc(100% + 3rem);
+	width: 100%;
+	position: absolute;
+}
+
+.screen-saver-two__background {
+	animation: slide 6s ease-in-out infinite alternate;
+	background-image: linear-gradient(-45deg, #b32424 50%, #1f0085 50%);
+	left: -50%;
+	right: -50%;
+	opacity: 0.5;
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	z-index: -1;
+}
+
+.screen-saver-two__background__two {
+	animation-direction: alternate-reverse;
+	animation-duration: 4s;
+}
+
+.screen-saver-two__background__three {
+	animation-duration: 5s;
+}
+
+.screen-saver-two__background__four {
+	animation-duration: 8s;
+}
+
+@keyframes slide {
+	0% {
+		transform: translateX(-25%);
+	}
+
+	100% {
+		transform: translateX(25%);
+	}
+}
