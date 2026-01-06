@@ -11,3 +11,5 @@ export const BRANCHING_CONTEXT_TYPE_PROPERTY = "type"
 export const LEAF_EXTENSION_PROPERTY_NAME = "extension"
 export const DEFAULT_POINTER = "default"
 export const DEFAULT_TASKBAR_HEIGHT_PIXELS = 48
+export const DEFAULT_MIN_WINDOW_HEIGHT_PIXELS = 150
+export const DEFAULT_MIN_WINDOW_WIDTH_PIXELS = 200

@@ -1,16 +1,18 @@
 import React, {
-	memo,
-	useCallback,
-	useContext,
-	useEffect,
-	useRef,
-	useState
+    memo,
+    useCallback,
+    useContext,
+    useEffect,
+    useRef,
+    useState
 } from "react"
 import {
-	BRANCHING_CONTEXT_DETERMINER,
-	DEFAULT_POINTER,
-	DEFAULT_TASKBAR_HEIGHT_PIXELS,
-	FILETYPE_RENDERABLE_PROPERTY
+    BRANCHING_CONTEXT_DETERMINER,
+    DEFAULT_MIN_WINDOW_HEIGHT_PIXELS,
+    DEFAULT_MIN_WINDOW_WIDTH_PIXELS,
+    DEFAULT_POINTER,
+    DEFAULT_TASKBAR_HEIGHT_PIXELS,
+    FILETYPE_RENDERABLE_PROPERTY
 } from "../../constants"
 import { WindowsContext } from "../../contexts"
 import { WindowExpandDirection } from "../../enums"
@@ -131,8 +133,8 @@ const Window = (props: IWindowProps) => {
 	)
 
 	const windowPreviousPositioning = useRef<{ top: string; left: string }>({
-		top: "50%",
-		left: "50%"
+		top: "0",
+		left: "0"
 	})
 	const windowIsMovingRef = useRef<boolean>(false)
 
@@ -320,8 +322,8 @@ const Window = (props: IWindowProps) => {
 						return y
 					}
 
-					if (y > window.innerHeight - 30 - windowRef.current.clientHeight) {
-						return window.innerHeight - 30 - windowRef.current.clientHeight
+					if (y > window.innerHeight - DEFAULT_TASKBAR_HEIGHT_PIXELS - windowRef.current.clientHeight) {
+						return window.innerHeight - DEFAULT_TASKBAR_HEIGHT_PIXELS - windowRef.current.clientHeight
 					}
 
 					return y < 0 ? 1 : y
@@ -383,30 +385,32 @@ const Window = (props: IWindowProps) => {
 				}
 
 				if (newWidth !== originalWidth || newHeight !== originalHeight) {
-					previousWindowSize.current = {
-						width: `${originalWidth / 16}rem`,
-						height: `${originalHeight / 16}rem`
-					}
-					currentWindowSize.current = {
-						width: `${newWidth / 16}rem`,
-						height: `${newHeight / 16}rem`
-					}
+					if (newWidth >= DEFAULT_MIN_WINDOW_WIDTH_PIXELS && newHeight >= DEFAULT_MIN_WINDOW_HEIGHT_PIXELS) {
+						previousWindowSize.current = {
+							width: `${originalWidth / 16}rem`,
+							height: `${originalHeight / 16}rem`
+						}
+						currentWindowSize.current = {
+							width: `${newWidth / 16}rem`,
+							height: `${newHeight / 16}rem`
+						}
 
-					windowRef.current.style.width = `${newWidth / 16}rem`
-					windowRef.current.style.height = `${newHeight / 16}rem`
+						windowRef.current.style.width = `${newWidth / 16}rem`
+						windowRef.current.style.height = `${newHeight / 16}rem`
+
+						if (rect.left !== newX || rect.top !== newY) {
+							windowRef.current.style.top = `${newY / 16}rem`
+							windowRef.current.style.left = `${newX / 16}rem`
+
+							windowPositionRef.current = {
+								x: newX,
+								y: newY
+							}
+						}
+					}
 
 					if (state === WindowState.Maximised) {
 						onWindowStateChanged(id, WindowState.Normal)
-					}
-
-					let changedWidth = windowRef.current.clientWidth
-					let changedHeight = windowRef.current.clientHeight
-
-					if (changedWidth === newWidth && changedHeight === newHeight) {
-						windowPositionRef.current = {
-							x: newX,
-							y: newY
-						}
 					}
 				}
 			}
@@ -450,13 +454,18 @@ const Window = (props: IWindowProps) => {
 	const visibility: Visibility =
 		state === WindowState.Minimised ? "hidden" : "visible"
 
+	const translation = state === WindowState.Maximised
+		? "translate(-50%, -50%)"
+		: "none"
+
 	return (
 		<div
 			className="window"
 			style={{
 				height: height,
 				width: width,
-				visibility: visibility
+				visibility: visibility,
+				transform: translation
 			}}
 			ref={windowRef}
 			onMouseOver={onWindowMouseOvered}
