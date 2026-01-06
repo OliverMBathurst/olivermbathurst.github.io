@@ -88,35 +88,45 @@ const WindowsContextProvider = (props: IWindowsContextProviderProps) => {
 			const _windowProperties = [...wp]
 
 			for (let i = 0; i < _windowProperties.length; i++) {
-				_windowProperties[i].selected = false
-				_windowProperties[i].previousState = _windowProperties[i].state
-				_windowProperties[i].state = WindowState.Minimised
+				_windowProperties[i] = {
+					..._windowProperties[i],
+					selected: false,
+					previousState: _windowProperties[i].state,
+					state: WindowState.Minimised
+				}
 			}
 
 			setLastDeselectedWindowId(_windowProperties[_windowProperties.length - 1].id)
-
 			return _windowProperties
 		})
 	}
 
 	const onWindowStateChanged = (windowId: string, newState: WindowState) => {
-		const newWindows = [...windowProperties]
-		const targetWindowIndex = newWindows.findIndex((x) => x.id === windowId)
-		if (targetWindowIndex !== -1) {
-			let existingWindow = newWindows[targetWindowIndex]
+		setWindowProperties((wp) => {
+			const _windowProperties = [...wp]
+			const targetWindowIndex = _windowProperties.findIndex((x) => x.id === windowId)
+			if (targetWindowIndex !== -1) {
+				let existingWindow = _windowProperties[targetWindowIndex]
 
-			let newWindow = {
-				...existingWindow,
-				previousState: existingWindow.state,
-				state: newState,
-				selected:
-					newState === WindowState.Minimised
-						? false
-						: newWindows[targetWindowIndex].selected
+				const selected = newState === WindowState.Minimised
+					? false
+					: _windowProperties[targetWindowIndex].selected
+
+				const newWindow = {
+					...existingWindow,
+					previousState: existingWindow.state,
+					state: newState,
+					selected: selected
+				}
+
+				_windowProperties[targetWindowIndex] = newWindow
+				if (!selected) {
+					setLastDeselectedWindowId(newWindow.id)
+				}
 			}
-			newWindows[targetWindowIndex] = newWindow
-			setWindowProperties(newWindows)
-		}
+
+			return _windowProperties
+		})
 	}
 
 	const onTaskbarItemClicked = (windowId: string) => {
