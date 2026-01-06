@@ -54,36 +54,49 @@ const WindowsContextProvider = (props: IWindowsContextProviderProps) => {
 			height: defaultWindowSize
 		}
 
+		const _selected = selected ?? true
+
 		const newWindowProperties: IWindowProperties = {
 			id: `${Date.now()}-${context.name}`,
 			context: context,
-			selected: selected ?? true,
+			selected: _selected,
 			size: windowSize,
 			state: WindowState.Normal,
 			previousState: null
 		}
 
-		const existingWindows = windowProperties.map((wp) => {
-			return {
-				...wp,
-				selected: false
-			}
-		})
+		setWindowProperties(wp => {
+			const _windowProperties = [...wp]
 
-		setWindowProperties([...existingWindows, newWindowProperties])
+			let _lastDeselectedWindowId: string | null = null
+			for (let i = 0; i < _windowProperties.length; i++) {
+				_windowProperties[i].selected = false
+				_lastDeselectedWindowId = _windowProperties[i].id
+			}
+
+			if (!_selected) {
+				_lastDeselectedWindowId = newWindowProperties.id
+			}
+
+			setLastDeselectedWindowId(_lastDeselectedWindowId)
+			return [newWindowProperties, ..._windowProperties]
+		})
 	}
 
 	const onMinimizeAllButtonClicked = () => {
-		setWindowProperties([
-			...windowProperties.map((x) => {
-				return {
-					...x,
-					selected: false,
-					previousState: x.state,
-					state: WindowState.Minimised
-				}
-			})
-		])
+		setWindowProperties(wp => {
+			const _windowProperties = [...wp]
+
+			for (let i = 0; i < _windowProperties.length; i++) {
+				_windowProperties[i].selected = false
+				_windowProperties[i].previousState = _windowProperties[i].state
+				_windowProperties[i].state = WindowState.Minimised
+			}
+
+			setLastDeselectedWindowId(_windowProperties[_windowProperties.length - 1].id)
+
+			return _windowProperties
+		})
 	}
 
 	const onWindowStateChanged = (windowId: string, newState: WindowState) => {
