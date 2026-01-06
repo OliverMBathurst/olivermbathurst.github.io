@@ -37,16 +37,16 @@ const WindowsContextProvider = (props: IWindowsContextProviderProps) => {
 	)
 
 	const addWindow = (properties: IAddWindowProperties) => {
-		const { context, size } = properties
+		const { context, size, selected } = properties
 
-		const defaultWindowSize = (window.innerHeight / 2) / 16
+		const defaultWindowSize = window.innerHeight / 2
 
-		const windowSize = size ?? { width: `${defaultWindowSize}rem`, height: `${defaultWindowSize}rem` }
+		const windowSize = size ?? { width: defaultWindowSize, height: defaultWindowSize }
 
 		const newWindowProperties: IWindowProperties = {
 			id: `${Date.now()}-${context.name}`,
 			context: context,
-			selected: true,
+			selected: selected ?? true,
 			size: windowSize,
 			state: WindowState.Normal,
 			previousState: null

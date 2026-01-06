@@ -55,8 +55,7 @@ const FileBrowser = (props: IFileBrowserProps) => {
 				window.open(resolvedContext.url, "_blank")
 			} else if (FILETYPE_RENDERABLE_PROPERTY in resolvedContext) {
 				const windowProperties: IAddWindowProperties = {
-					context: resolvedContext,
-					selected: true
+					context: resolvedContext
 				}
 
 				addWindow(windowProperties)

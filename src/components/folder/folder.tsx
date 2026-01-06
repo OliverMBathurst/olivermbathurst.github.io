@@ -15,8 +15,7 @@ const Folder = (props: IFolderProps) => {
 
 	const onDoubleClick = useCallback(() => {
 		const windowProperties: IAddWindowProperties = {
-			context: context,
-			selected: true
+			context: context
 		}
 
 		addWindow(windowProperties)

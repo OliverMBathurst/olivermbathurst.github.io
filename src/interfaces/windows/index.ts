@@ -11,7 +11,7 @@ export interface IWindowProperties {
 
 export interface IAddWindowProperties {
 	context: Context
-	selected: boolean
+	selected?: boolean
 	size?: ISize
 }
 
@@ -22,8 +22,8 @@ export enum WindowState {
 }
 
 export interface ISize {
-	width: string
-	height: string
+	width: number
+	height: number
 }
 
 export interface IPosition {

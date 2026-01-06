@@ -52,7 +52,7 @@ const getExpandDirectionByRefAndPosition: (
 		const rect = ref.current.getBoundingClientRect()
 
 		const getWithinBounds = (a: number, b: number): boolean =>
-			Math.abs(Math.round(a) - Math.round(b)) <= 20
+			Math.abs(Math.round(a) - Math.round(b)) <= 6
 
 		if (rect) {
 			if (getWithinBounds(e.clientY, rect.top)) {
@@ -136,6 +136,7 @@ const Window = (props: IWindowProps) => {
 		top: "0",
 		left: "0"
 	})
+
 	const windowIsMovingRef = useRef<boolean>(false)
 
 	const windowExpanding = useRef<boolean>(false)
@@ -155,7 +156,7 @@ const Window = (props: IWindowProps) => {
 				div.style.left = windowPreviousPositioning.current.left
 			}
 			currentWindowSize.current = previousWindowSize.current
-			previousWindowSize.current = { width: "100%", height: "100%" }
+			previousWindowSize.current = { width: window.innerWidth, height: window.innerHeight - DEFAULT_TASKBAR_HEIGHT_PIXELS }
 			onWindowStateChanged(id, WindowState.Normal)
 		} else {
 			let div = windowRef.current
@@ -164,7 +165,7 @@ const Window = (props: IWindowProps) => {
 				div.style.left = "50%"
 			}
 			previousWindowSize.current = currentWindowSize.current
-			currentWindowSize.current = { width: "100%", height: "100%" }
+			currentWindowSize.current = { width: window.innerWidth, height: window.innerHeight - DEFAULT_TASKBAR_HEIGHT_PIXELS }
 			onWindowStateChanged(id, WindowState.Maximised)
 		}
 	}
@@ -228,8 +229,8 @@ const Window = (props: IWindowProps) => {
 
 				let div = windowRef.current
 				if (div) {
-					div.style.top = (div.offsetTop - pos2) / 16 + "rem"
-					div.style.left = (div.offsetLeft - pos1) / 16 + "rem"
+					div.style.top = (div.offsetTop - pos2) + "px"
+					div.style.left = (div.offsetLeft - pos1) + "px"
 
 					if (state === WindowState.Maximised) {
 						onWindowStateChanged(id, WindowState.Normal)
@@ -387,20 +388,20 @@ const Window = (props: IWindowProps) => {
 				if (newWidth !== originalWidth || newHeight !== originalHeight) {
 					if (newWidth >= DEFAULT_MIN_WINDOW_WIDTH_PIXELS && newHeight >= DEFAULT_MIN_WINDOW_HEIGHT_PIXELS) {
 						previousWindowSize.current = {
-							width: `${originalWidth / 16}rem`,
-							height: `${originalHeight / 16}rem`
+							width: originalWidth,
+							height: originalHeight
 						}
 						currentWindowSize.current = {
-							width: `${newWidth / 16}rem`,
-							height: `${newHeight / 16}rem`
+							width: newWidth,
+							height: newHeight
 						}
 
-						windowRef.current.style.width = `${newWidth / 16}rem`
-						windowRef.current.style.height = `${newHeight / 16}rem`
+						windowRef.current.style.width = `${newWidth}px`
+						windowRef.current.style.height = `${newHeight}px`
 
 						if (rect.left !== newX || rect.top !== newY) {
-							windowRef.current.style.top = `${newY / 16}rem`
-							windowRef.current.style.left = `${newX / 16}rem`
+							windowRef.current.style.top = `${newY}px`
+							windowRef.current.style.left = `${newX}px`
 
 							windowPositionRef.current = {
 								x: newX,
@@ -417,6 +418,27 @@ const Window = (props: IWindowProps) => {
 		},
 		[id, state, onWindowStateChanged]
 	)
+
+	useEffect(() => {
+		if (windowRef.current) {
+			let x = window.innerWidth / 2
+			let y = (window.innerHeight - DEFAULT_TASKBAR_HEIGHT_PIXELS) / 2
+
+			x -= windowRef.current.clientWidth / 2
+			y -= windowRef.current.clientHeight / 2
+
+			const top = `${y}px`
+			const left = `${x}px`
+
+			windowRef.current.style.top = top
+			windowRef.current.style.left = left
+
+			windowPreviousPositioning.current = {
+				top: top,
+				left: left
+			}
+		}
+	}, [])
 
 	useEffect(() => {
 		document.addEventListener("mousemove", onWindowMouseMove)

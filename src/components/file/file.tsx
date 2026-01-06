@@ -30,8 +30,7 @@ const File = (props: IFileProps) => {
 		}
 
 		const windowProperties: IAddWindowProperties = {
-			context: context,
-			selected: true
+			context: context
 		}
 
 		addWindow(windowProperties)
