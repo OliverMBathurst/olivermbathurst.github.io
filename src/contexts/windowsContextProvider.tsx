@@ -1,13 +1,15 @@
 import React, { createContext, useState } from "react"
 import {
-	IAddWindowProperties,
-	IWindowProperties,
-	WindowState
+    IAddWindowProperties,
+    IWindowProperties,
+    WindowState
 } from "../interfaces/windows"
 import { Context } from "../types/fs"
 
 interface IWindowsContext {
 	windowProperties: IWindowProperties[]
+	lastDeselectedWindowId: string | null,
+	noWindowsSelected: boolean,
 	addWindow: (window: IAddWindowProperties) => void
 	removeWindow: (windowId: string) => void
 	onMinimizeAllButtonClicked: () => void
@@ -20,6 +22,8 @@ interface IWindowsContext {
 export const WindowsContext: React.Context<IWindowsContext> =
 	createContext<IWindowsContext>({
 		windowProperties: [],
+		lastDeselectedWindowId: null,
+		noWindowsSelected: true,
 		addWindow: (_: IAddWindowProperties) => Function.prototype,
 		removeWindow: (_: string) => Function.prototype,
 		onMinimizeAllButtonClicked: () => Function.prototype,
@@ -38,6 +42,7 @@ const WindowsContextProvider = (props: IWindowsContextProviderProps) => {
 	const [windowProperties, setWindowProperties] = useState<IWindowProperties[]>(
 		[]
 	)
+	const [lastDeselectedWindowId, setLastDeselectedWindowId] = useState<string | null>(null)
 
 	const addWindow = (properties: IAddWindowProperties) => {
 		const { context, size, selected } = properties
@@ -147,6 +152,7 @@ const WindowsContextProvider = (props: IWindowsContextProviderProps) => {
 			}
 
 			if (!selected) {
+				setLastDeselectedWindowId(_windowProperties[existingWindowIdx].id)
 				_windowProperties[existingWindowIdx].selected = false
 				return _windowProperties
 			}
@@ -162,17 +168,30 @@ const WindowsContextProvider = (props: IWindowsContextProviderProps) => {
 				return _windowProperties
 			}
 
+			let _lastDeselectedWindowId: string | null = null
 			for (let i = 0; i < _windowProperties.length; i++) {
+				if (i === existingWindowIdx) {
+					_windowProperties[i].selected = true
+					continue
+				}
+
 				_windowProperties[i].selected = false
+				_lastDeselectedWindowId = _windowProperties[i].id
 			}
 
-			_windowProperties[existingWindowIdx].selected = true
+			setLastDeselectedWindowId(_lastDeselectedWindowId)
 			return _windowProperties
 		})
 	}
 
-	const removeWindow = (windowId: string) =>
+	const removeWindow = (windowId: string) => {
+		if (lastDeselectedWindowId === windowId) {
+			setLastDeselectedWindowId(null)
+		}
+
 		setWindowProperties((x) => [...x.filter((x) => x.id !== windowId)])
+	}
+		
 
 	const setWindowContext = (windowId: string, context: Context) => {
 		setWindowProperties((wp) => {
@@ -192,6 +211,8 @@ const WindowsContextProvider = (props: IWindowsContextProviderProps) => {
 		<WindowsContext.Provider
 			value={{
 				windowProperties: windowProperties,
+				lastDeselectedWindowId: lastDeselectedWindowId,
+				noWindowsSelected: windowProperties.every(x => !x.selected),
 				addWindow: addWindow,
 				removeWindow: removeWindow,
 				onMinimizeAllButtonClicked: onMinimizeAllButtonClicked,

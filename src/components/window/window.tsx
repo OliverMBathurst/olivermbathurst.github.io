@@ -136,7 +136,7 @@ const Window = (props: IWindowProps) => {
 		WindowExpandDirection.None
 	)
 
-	const { removeWindow, onWindowStateChanged, onWindowSelected } =
+	const { removeWindow, onWindowStateChanged, onWindowSelected, lastDeselectedWindowId, noWindowsSelected } =
 		useContext(WindowsContext)
 	const { width, height } = currentWindowSize.current
 
@@ -235,7 +235,6 @@ const Window = (props: IWindowProps) => {
 			}
 
 			if (windowPositionRef.current) {
-				//e.preventDefault()
 				let pos1 = windowPositionRef.current.x - e.clientX
 				let pos2 = windowPositionRef.current.y - e.clientY
 				windowPositionRef.current.x = e.clientX
@@ -502,7 +501,7 @@ const Window = (props: IWindowProps) => {
 
 	return (
 		<div
-			className={`window${selected ? " window--selected" : ""}`}
+			className={`window${(selected || (noWindowsSelected && lastDeselectedWindowId === id)) ? " window--selected" : ""}`}
 			style={{
 				height: height,
 				width: width,
