@@ -1,8 +1,8 @@
 import React, { createContext, useState } from "react"
 import {
-    IAddWindowProperties,
-    IWindowProperties,
-    WindowState
+	IAddWindowProperties,
+	IWindowProperties,
+	WindowState
 } from "../interfaces/windows"
 import { Context } from "../types/fs"
 
@@ -13,7 +13,7 @@ interface IWindowsContext {
 	onMinimizeAllButtonClicked: () => void
 	onWindowStateChanged: (windowId: string, newState: WindowState) => void
 	onTaskbarItemClicked: (windowId: string) => void
-	onWindowSelected: (windowId: string, selected: boolean) => void,
+	onWindowSelected: (windowId: string, selected: boolean) => void
 	setWindowContext: (windowId: string, context: Context) => void
 }
 
@@ -44,7 +44,10 @@ const WindowsContextProvider = (props: IWindowsContextProviderProps) => {
 
 		const defaultWindowSize = window.innerHeight / 2
 
-		const windowSize = size ?? { width: defaultWindowSize, height: defaultWindowSize }
+		const windowSize = size ?? {
+			width: defaultWindowSize,
+			height: defaultWindowSize
+		}
 
 		const newWindowProperties: IWindowProperties = {
 			id: `${Date.now()}-${context.name}`,
@@ -132,10 +135,12 @@ const WindowsContextProvider = (props: IWindowsContextProviderProps) => {
 	}
 
 	const onWindowSelected = (windowId: string, selected: boolean) => {
-		setWindowProperties(wp => {
+		setWindowProperties((wp) => {
 			const _windowProperties = [...wp]
 
-			const existingWindowIdx = _windowProperties.findIndex((wp) => wp.id === windowId)
+			const existingWindowIdx = _windowProperties.findIndex(
+				(wp) => wp.id === windowId
+			)
 
 			if (existingWindowIdx === -1) {
 				return _windowProperties
@@ -150,14 +155,17 @@ const WindowsContextProvider = (props: IWindowsContextProviderProps) => {
 				.filter((wp) => wp.id !== windowId)
 				.find((wp) => wp.selected)
 
-			if (_windowProperties[existingWindowIdx].selected && !otherWindowsAreSelected) {
+			if (
+				_windowProperties[existingWindowIdx].selected &&
+				!otherWindowsAreSelected
+			) {
 				return _windowProperties
 			}
 
 			for (let i = 0; i < _windowProperties.length; i++) {
 				_windowProperties[i].selected = false
 			}
-			
+
 			_windowProperties[existingWindowIdx].selected = true
 			return _windowProperties
 		})
@@ -167,9 +175,11 @@ const WindowsContextProvider = (props: IWindowsContextProviderProps) => {
 		setWindowProperties((x) => [...x.filter((x) => x.id !== windowId)])
 
 	const setWindowContext = (windowId: string, context: Context) => {
-		setWindowProperties(wp => {
+		setWindowProperties((wp) => {
 			const _windowProperties = [...wp]
-			const existingWindowIdx = _windowProperties.findIndex(x => x.id === windowId)
+			const existingWindowIdx = _windowProperties.findIndex(
+				(x) => x.id === windowId
+			)
 			if (existingWindowIdx !== -1) {
 				_windowProperties[existingWindowIdx].context = context
 			}

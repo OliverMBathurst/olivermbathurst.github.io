@@ -4,4 +4,10 @@ import useFileSystem from "./fileSystem"
 import useIcon from "./icon"
 import useVisibility from "./visibility"
 
-export { useClickOutside, useDisplayName, useFileSystem, useIcon, useVisibility }
+export {
+	useClickOutside,
+	useDisplayName,
+	useFileSystem,
+	useIcon,
+	useVisibility
+}

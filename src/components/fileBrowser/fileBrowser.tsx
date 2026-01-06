@@ -1,12 +1,12 @@
 import { useCallback, useContext, useMemo, useState } from "react"
 import {
-    BRANCHING_CONTEXT_DETERMINER,
-    BRANCHING_CONTEXT_PARENT_PROPERTY,
-    FILETYPE_RENDERABLE_PROPERTY,
-    FILETYPE_URL_SHORTCUT,
-    FILETYPE_URL_SHORTCUT_PROPERTY,
-    LEAF_EXTENSION_PROPERTY_NAME,
-    SHORTCUT_DETERMINER
+	BRANCHING_CONTEXT_DETERMINER,
+	BRANCHING_CONTEXT_PARENT_PROPERTY,
+	FILETYPE_RENDERABLE_PROPERTY,
+	FILETYPE_URL_SHORTCUT,
+	FILETYPE_URL_SHORTCUT_PROPERTY,
+	LEAF_EXTENSION_PROPERTY_NAME,
+	SHORTCUT_DETERMINER
 } from "../../constants"
 import { WindowsContext } from "../../contexts"
 import { IAddWindowProperties } from "../../interfaces/windows"
@@ -31,11 +31,7 @@ const FileBrowser = (props: IFileBrowserProps) => {
 	}
 
 	const Entities = useMemo(() => {
-		return [
-			...context.branches,
-			...context.shortcuts,
-			...context.leaves
-		]
+		return [...context.branches, ...context.shortcuts, ...context.leaves]
 	}, [context])
 
 	const onRowDoubleClicked = useCallback(
@@ -113,20 +109,16 @@ const FileBrowser = (props: IFileBrowserProps) => {
 	)
 
 	const upOneLevel = () => {
-		if (
-			BRANCHING_CONTEXT_PARENT_PROPERTY in context &&
-			context.parent
-		) {
+		if (BRANCHING_CONTEXT_PARENT_PROPERTY in context && context.parent) {
 			setWindowContext(windowId, context.parent)
 		}
 	}
 
 	return (
 		<div className="file-browser">
-			{BRANCHING_CONTEXT_PARENT_PROPERTY in context &&
-				context.parent && (
-					<UpOneLevelRow onRowDoubleClicked={upOneLevel} />
-				)}
+			{BRANCHING_CONTEXT_PARENT_PROPERTY in context && context.parent && (
+				<UpOneLevelRow onRowDoubleClicked={upOneLevel} />
+			)}
 			{Entities.map((e) => {
 				const contextKey = e.toContextUniqueKey()
 				return (

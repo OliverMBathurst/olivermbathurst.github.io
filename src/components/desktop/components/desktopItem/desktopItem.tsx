@@ -15,9 +15,7 @@ const DesktopItem = (props: IDesktopItemProps) => {
 
 	return (
 		<div className="desktop-item" onDoubleClick={onDoubleClick}>
-			<div className="desktop-item__icon no-select">
-				{Icon}
-			</div>
+			<div className="desktop-item__icon no-select">{Icon}</div>
 			<span className="desktop-item__name no-select">{DisplayName}</span>
 		</div>
 	)

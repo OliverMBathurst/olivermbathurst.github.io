@@ -1,10 +1,4 @@
-import React, {
-    memo,
-    useCallback,
-    useContext,
-    useEffect,
-    useRef
-} from "react"
+import React, { memo, useCallback, useContext, useEffect, useRef } from "react"
 import {
     BRANCHING_CONTEXT_DETERMINER,
     DEFAULT_MIN_WINDOW_HEIGHT_PIXELS,
@@ -15,12 +9,12 @@ import {
 } from "../../constants"
 import { WindowsContext } from "../../contexts"
 import { WindowExpandDirection } from "../../enums"
+import { useClickOutside } from "../../hooks"
 import { ISize, IWindowProperties, WindowState } from "../../interfaces/windows"
 import { Visibility } from "../../types"
 import { FileBrowser } from "../fileBrowser"
 import { WindowTopBar } from "./components"
 import "./window.scss"
-import { useClickOutside } from "../../hooks"
 
 const xChangesEnum =
 	WindowExpandDirection.Left |
@@ -151,7 +145,7 @@ const Window = (props: IWindowProps) => {
 			let validClick: boolean = true
 			if (e.target instanceof HTMLElement) {
 				const elem = e.target as HTMLElement
-				if (clickOutsideExclusions.some(x => elem.classList.contains(x))) {
+				if (clickOutsideExclusions.some((x) => elem.classList.contains(x))) {
 					validClick = false
 				}
 			}
@@ -170,7 +164,10 @@ const Window = (props: IWindowProps) => {
 				div.style.left = windowPreviousPositioning.current.left
 			}
 			currentWindowSize.current = previousWindowSize.current
-			previousWindowSize.current = { width: window.innerWidth, height: window.innerHeight - DEFAULT_TASKBAR_HEIGHT_PIXELS }
+			previousWindowSize.current = {
+				width: window.innerWidth,
+				height: window.innerHeight - DEFAULT_TASKBAR_HEIGHT_PIXELS
+			}
 			onWindowStateChanged(id, WindowState.Normal)
 		} else {
 			let div = windowRef.current
@@ -179,7 +176,10 @@ const Window = (props: IWindowProps) => {
 				div.style.left = "50%"
 			}
 			previousWindowSize.current = currentWindowSize.current
-			currentWindowSize.current = { width: window.innerWidth, height: window.innerHeight - DEFAULT_TASKBAR_HEIGHT_PIXELS }
+			currentWindowSize.current = {
+				width: window.innerWidth,
+				height: window.innerHeight - DEFAULT_TASKBAR_HEIGHT_PIXELS
+			}
 			onWindowStateChanged(id, WindowState.Maximised)
 		}
 	}
@@ -243,8 +243,8 @@ const Window = (props: IWindowProps) => {
 
 				let div = windowRef.current
 				if (div) {
-					div.style.top = (div.offsetTop - pos2) + "px"
-					div.style.left = (div.offsetLeft - pos1) + "px"
+					div.style.top = div.offsetTop - pos2 + "px"
+					div.style.left = div.offsetLeft - pos1 + "px"
 
 					if (state === WindowState.Maximised) {
 						onWindowStateChanged(id, WindowState.Normal)
@@ -337,8 +337,17 @@ const Window = (props: IWindowProps) => {
 						return y
 					}
 
-					if (y > window.innerHeight - DEFAULT_TASKBAR_HEIGHT_PIXELS - windowRef.current.clientHeight) {
-						return window.innerHeight - DEFAULT_TASKBAR_HEIGHT_PIXELS - windowRef.current.clientHeight
+					if (
+						y >
+						window.innerHeight -
+							DEFAULT_TASKBAR_HEIGHT_PIXELS -
+							windowRef.current.clientHeight
+					) {
+						return (
+							window.innerHeight -
+							DEFAULT_TASKBAR_HEIGHT_PIXELS -
+							windowRef.current.clientHeight
+						)
 					}
 
 					return y < 0 ? 1 : y
@@ -400,7 +409,10 @@ const Window = (props: IWindowProps) => {
 				}
 
 				if (newWidth !== originalWidth || newHeight !== originalHeight) {
-					if (newWidth >= DEFAULT_MIN_WINDOW_WIDTH_PIXELS && newHeight >= DEFAULT_MIN_WINDOW_HEIGHT_PIXELS) {
+					if (
+						newWidth >= DEFAULT_MIN_WINDOW_WIDTH_PIXELS &&
+						newHeight >= DEFAULT_MIN_WINDOW_HEIGHT_PIXELS
+					) {
 						previousWindowSize.current = {
 							width: originalWidth,
 							height: originalHeight
@@ -476,12 +488,7 @@ const Window = (props: IWindowProps) => {
 		}
 
 		if (BRANCHING_CONTEXT_DETERMINER in context) {
-			return (
-				<FileBrowser
-					windowId={id}
-					context={context}
-				/>
-			)
+			return <FileBrowser windowId={id} context={context} />
 		}
 
 		return null
@@ -490,9 +497,8 @@ const Window = (props: IWindowProps) => {
 	const visibility: Visibility =
 		state === WindowState.Minimised ? "hidden" : "visible"
 
-	const translation = state === WindowState.Maximised
-		? "translate(-50%, -50%)"
-		: "none"
+	const translation =
+		state === WindowState.Maximised ? "translate(-50%, -50%)" : "none"
 
 	return (
 		<div
