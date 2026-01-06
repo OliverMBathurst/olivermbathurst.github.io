@@ -3,8 +3,7 @@ import React, {
     useCallback,
     useContext,
     useEffect,
-    useRef,
-    useState
+    useRef
 } from "react"
 import {
     BRANCHING_CONTEXT_DETERMINER,
@@ -18,10 +17,10 @@ import { WindowsContext } from "../../contexts"
 import { WindowExpandDirection } from "../../enums"
 import { ISize, IWindowProperties, WindowState } from "../../interfaces/windows"
 import { Visibility } from "../../types"
-import { Context } from "../../types/fs"
 import { FileBrowser } from "../fileBrowser"
 import { WindowTopBar } from "./components"
 import "./window.scss"
+import { useClickOutside } from "../../hooks"
 
 const xChangesEnum =
 	WindowExpandDirection.Left |
@@ -124,9 +123,6 @@ const Window = (props: IWindowProps) => {
 	const previousWindowSize = useRef<ISize>(size)
 	const currentWindowSize = useRef<ISize>(size)
 
-	const [windowTopBarContext, setWindowTopBarContext] =
-		useState<Context>(context)
-
 	const windowRef = useRef<HTMLDivElement | null>(null)
 	const windowPositionRef = useRef<{ x: number; y: number } | undefined>(
 		undefined
@@ -147,6 +143,8 @@ const Window = (props: IWindowProps) => {
 	const { removeWindow, onWindowStateChanged, onWindowSelected } =
 		useContext(WindowsContext)
 	const { width, height } = currentWindowSize.current
+
+	useClickOutside(windowRef, () => onWindowSelected(id, false))
 
 	const onMaximiseRequested = () => {
 		if (state === WindowState.Maximised) {
@@ -190,7 +188,7 @@ const Window = (props: IWindowProps) => {
 	const onWindowTopBarMouseDown = (
 		e: React.MouseEvent<HTMLDivElement, MouseEvent>
 	) => {
-		onWindowSelected(id)
+		onWindowSelected(id, true)
 
 		windowPositionRef.current = {
 			x: e.clientX,
@@ -221,7 +219,7 @@ const Window = (props: IWindowProps) => {
 			}
 
 			if (windowPositionRef.current) {
-				e.preventDefault()
+				//e.preventDefault()
 				let pos1 = windowPositionRef.current.x - e.clientX
 				let pos2 = windowPositionRef.current.y - e.clientY
 				windowPositionRef.current.x = e.clientX
@@ -464,14 +462,14 @@ const Window = (props: IWindowProps) => {
 		if (BRANCHING_CONTEXT_DETERMINER in context) {
 			return (
 				<FileBrowser
+					windowId={id}
 					context={context}
-					setWindowTopBarContext={setWindowTopBarContext}
 				/>
 			)
 		}
 
 		return null
-	}, [context])
+	}, [id, context])
 
 	const visibility: Visibility =
 		state === WindowState.Minimised ? "hidden" : "visible"
@@ -495,7 +493,7 @@ const Window = (props: IWindowProps) => {
 		>
 			<div className="window__inner-content">
 				<WindowTopBar
-					context={windowTopBarContext}
+					context={context}
 					onWindowTopBarMouseDown={onWindowTopBarMouseDown}
 					onMaximiseButtonClicked={onMaximiseButtonClicked}
 					onMinimiseButtonClicked={onMinimiseButtonClicked}

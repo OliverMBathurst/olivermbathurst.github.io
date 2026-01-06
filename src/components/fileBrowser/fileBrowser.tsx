@@ -1,12 +1,12 @@
 import { useCallback, useContext, useMemo, useState } from "react"
 import {
-	BRANCHING_CONTEXT_DETERMINER,
-	BRANCHING_CONTEXT_PARENT_PROPERTY,
-	FILETYPE_RENDERABLE_PROPERTY,
-	FILETYPE_URL_SHORTCUT,
-	FILETYPE_URL_SHORTCUT_PROPERTY,
-	LEAF_EXTENSION_PROPERTY_NAME,
-	SHORTCUT_DETERMINER
+    BRANCHING_CONTEXT_DETERMINER,
+    BRANCHING_CONTEXT_PARENT_PROPERTY,
+    FILETYPE_RENDERABLE_PROPERTY,
+    FILETYPE_URL_SHORTCUT,
+    FILETYPE_URL_SHORTCUT_PROPERTY,
+    LEAF_EXTENSION_PROPERTY_NAME,
+    SHORTCUT_DETERMINER
 } from "../../constants"
 import { WindowsContext } from "../../contexts"
 import { IAddWindowProperties } from "../../interfaces/windows"
@@ -15,18 +15,16 @@ import { FileBrowserRow, UpOneLevelRow } from "./components"
 import "./fileBrowser.scss"
 
 interface IFileBrowserProps {
+	windowId: string
 	context: BranchingContext
-	setWindowTopBarContext: (context: Context) => void
 }
 
 const FileBrowser = (props: IFileBrowserProps) => {
-	const { context, setWindowTopBarContext } = props
+	const { windowId, context } = props
 
-	const [currentContext, setCurrentContext] =
-		useState<BranchingContext>(context)
 	const [selected, setSelected] = useState<string[]>([])
 
-	const { addWindow } = useContext(WindowsContext)
+	const { addWindow, setWindowContext } = useContext(WindowsContext)
 
 	if (!(BRANCHING_CONTEXT_DETERMINER in context)) {
 		throw new Error("File Browser invoked on non-branching Context")
@@ -34,17 +32,17 @@ const FileBrowser = (props: IFileBrowserProps) => {
 
 	const Entities = useMemo(() => {
 		return [
-			...currentContext.branches,
-			...currentContext.shortcuts,
-			...currentContext.leaves
+			...context.branches,
+			...context.shortcuts,
+			...context.leaves
 		]
-	}, [currentContext])
+	}, [context])
 
 	const onRowDoubleClicked = useCallback(
 		(context: Context, _: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
 			let resolvedContext: Context = context
-			if (SHORTCUT_DETERMINER in context) {
-				resolvedContext = context.context
+			if (SHORTCUT_DETERMINER in resolvedContext) {
+				resolvedContext = resolvedContext.context
 			}
 
 			if (
@@ -60,11 +58,10 @@ const FileBrowser = (props: IFileBrowserProps) => {
 
 				addWindow(windowProperties)
 			} else if (BRANCHING_CONTEXT_DETERMINER in resolvedContext) {
-				setCurrentContext(resolvedContext)
-				setWindowTopBarContext(resolvedContext)
+				setWindowContext(windowId, resolvedContext)
 			}
 		},
-		[addWindow, setWindowTopBarContext]
+		[addWindow, windowId, setWindowContext]
 	)
 
 	const onRowClicked = useCallback(
@@ -117,18 +114,17 @@ const FileBrowser = (props: IFileBrowserProps) => {
 
 	const upOneLevel = () => {
 		if (
-			BRANCHING_CONTEXT_PARENT_PROPERTY in currentContext &&
-			currentContext.parent
+			BRANCHING_CONTEXT_PARENT_PROPERTY in context &&
+			context.parent
 		) {
-			setCurrentContext(currentContext.parent)
-			setWindowTopBarContext(currentContext.parent)
+			setWindowContext(windowId, context.parent)
 		}
 	}
 
 	return (
 		<div className="file-browser">
-			{BRANCHING_CONTEXT_PARENT_PROPERTY in currentContext &&
-				currentContext.parent && (
+			{BRANCHING_CONTEXT_PARENT_PROPERTY in context &&
+				context.parent && (
 					<UpOneLevelRow onRowDoubleClicked={upOneLevel} />
 				)}
 			{Entities.map((e) => {
