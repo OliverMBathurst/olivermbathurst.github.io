@@ -131,30 +131,31 @@ const WindowsContextProvider = (props: IWindowsContextProviderProps) => {
 		}
 	}
 
-	const onWindowSelected = (windowId: string, _: boolean) => {
-		const existingWindow = windowProperties.find((wp) => wp.id === windowId)
-		const otherWindowsAreSelected = windowProperties
-			.filter((wp) => wp.id !== windowId)
-			.find((wp) => wp.selected)
+	const onWindowSelected = (windowId: string, selected: boolean) => {
+		setWindowProperties(wp => {
+			const _windowProperties = [...wp]
 
-		if (existingWindow && existingWindow.selected && !otherWindowsAreSelected) {
-			return
-		}
+			const existingWindowIdx = _windowProperties.findIndex((wp) => wp.id === windowId)
 
-		const newWindowProperties = windowProperties.map((wp) => {
-			return {
-				...wp,
-				selected: false
+			if (existingWindowIdx === -1) {
+				return _windowProperties
 			}
-		})
 
-		const existingWindowIndex = newWindowProperties.findIndex(
-			(wp) => wp.id === windowId
-		)
-		if (existingWindowIndex !== -1) {
-			newWindowProperties[existingWindowIndex].selected = true
-			setWindowProperties(newWindowProperties)
-		}
+			const otherWindowsAreSelected = _windowProperties
+				.filter((wp) => wp.id !== windowId)
+				.find((wp) => wp.selected)
+
+			if (_windowProperties[existingWindowIdx].selected && !otherWindowsAreSelected) {
+				return _windowProperties
+			}
+
+			for (let i = 0; i < _windowProperties.length; i++) {
+				_windowProperties[i].selected = false
+			}
+			
+			_windowProperties[existingWindowIdx].selected = true
+			return _windowProperties
+		})
 	}
 
 	const removeWindow = (windowId: string) =>

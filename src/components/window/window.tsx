@@ -117,7 +117,7 @@ interface IWindowProps {
 
 const Window = (props: IWindowProps) => {
 	const {
-		properties: { id, context, size, state }
+		properties: { id, context, size, state, selected }
 	} = props
 
 	const previousWindowSize = useRef<ISize>(size)
@@ -144,7 +144,11 @@ const Window = (props: IWindowProps) => {
 		useContext(WindowsContext)
 	const { width, height } = currentWindowSize.current
 
-	useClickOutside(windowRef, () => onWindowSelected(id, false))
+	useClickOutside(windowRef, () => {
+		if (selected) {
+			onWindowSelected(id, false)
+		}
+	})
 
 	const onMaximiseRequested = () => {
 		if (state === WindowState.Maximised) {
