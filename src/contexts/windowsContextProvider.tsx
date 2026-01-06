@@ -86,8 +86,11 @@ const WindowsContextProvider = (props: IWindowsContextProviderProps) => {
 	const onMinimizeAllButtonClicked = () => {
 		setWindowProperties(wp => {
 			const _windowProperties = [...wp]
-
 			for (let i = 0; i < _windowProperties.length; i++) {
+				if (_windowProperties[i].state === WindowState.Minimised) {
+					continue
+				}
+
 				_windowProperties[i] = {
 					..._windowProperties[i],
 					selected: false,
