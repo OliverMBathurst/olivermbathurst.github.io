@@ -84,6 +84,10 @@ const WindowsContextProvider = (props: IWindowsContextProviderProps) => {
 	}
 
 	const onMinimizeAllButtonClicked = () => {
+		if (windowProperties.length === 0) {
+			return
+		}
+
 		setWindowProperties(wp => {
 			const _windowProperties = [...wp]
 			for (let i = 0; i < _windowProperties.length; i++) {
