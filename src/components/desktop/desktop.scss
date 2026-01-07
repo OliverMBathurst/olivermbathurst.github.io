@@ -5,6 +5,13 @@
 	position: absolute;
 }
 
+.desktop__selection-rectangle {
+	background-color: aqua;
+	opacity: 0.3;
+	position: absolute;
+	border: blue 0.1875rem solid;
+}
+
 .desktop__grid {
 	height: calc(100% - 1rem);
 	width: 100%;

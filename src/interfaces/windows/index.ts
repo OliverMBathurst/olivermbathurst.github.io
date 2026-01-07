@@ -27,6 +27,6 @@ export interface ISize {
 }
 
 export interface IPosition {
-	top: string
-	left: string
+	x: number
+	y: number
 }
