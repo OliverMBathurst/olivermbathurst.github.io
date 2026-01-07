@@ -71,6 +71,7 @@ export {
 
 export interface IIconProps {
 	className?: string
+	draggable?: boolean
 	onClick?: (e: React.MouseEvent<HTMLImageElement, MouseEvent>) => void
 	onMouseDown?: (e: React.MouseEvent<HTMLImageElement, MouseEvent>) => void
 	onMouseUp?: (e: React.MouseEvent<HTMLImageElement, MouseEvent>) => void

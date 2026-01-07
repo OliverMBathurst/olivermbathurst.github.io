@@ -24,7 +24,8 @@ const useIcon: (context: Context, noSelect?: boolean) => JSX.Element = (
 ) => {
 	const Icon = useMemo(() => {
 		let props = {
-			className: noSelect ? "no-select" : ""
+			className: noSelect ? "no-select" : "",
+			draggable: false
 		}
 
 		if (LEAF_EXTENSION_PROPERTY_NAME in context) {
@@ -38,12 +39,12 @@ const useIcon: (context: Context, noSelect?: boolean) => JSX.Element = (
 				case FILETYPE_EXECUTABLE:
 					return <ExecutableFileIcon {...props} />
 				default:
-					return <GenericFileIcon />
+					return <GenericFileIcon {...props} />
 			}
 		} else if (BRANCHING_CONTEXT_TYPE_PROPERTY in context) {
-			return <FolderIcon />
+			return <FolderIcon {...props} />
 		} else {
-			return <DriveIcon />
+			return <DriveIcon {...props} />
 		}
 	}, [context, noSelect])
 
