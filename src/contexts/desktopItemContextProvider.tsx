@@ -9,6 +9,7 @@ interface IDesktopItemContext {
 	onDesktopItemDoubleClicked: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void
 	onDesktopDrop: (e: React.DragEvent<HTMLDivElement>) => void
 	onDesktopDragOver: (e: React.DragEvent<HTMLDivElement>) => void
+	onWindowResized: (e: UIEvent) => void
 }
 
 interface IDesktopItemContextProviderProps {
@@ -22,7 +23,8 @@ export const DesktopItemContext: ReactContext<IDesktopItemContext> = createConte
 	addElementReference: <T extends HTMLElement>(_: T | null, __: Context) => Function.prototype,
 	onDesktopItemDoubleClicked: (_: React.MouseEvent<HTMLDivElement, MouseEvent>) => Function.prototype,
 	onDesktopDrop: (_: React.DragEvent<HTMLDivElement>) => Function.prototype,
-	onDesktopDragOver: (_: React.DragEvent<HTMLDivElement>) => Function.prototype
+	onDesktopDragOver: (_: React.DragEvent<HTMLDivElement>) => Function.prototype,
+	onWindowResized: (_: UIEvent) => Function.prototype
 })
 
 const elementReferences: Record<string, HTMLElement> = { }
@@ -128,6 +130,16 @@ const DesktopItemContextProvider = (props: IDesktopItemContextProviderProps) => 
 		e.preventDefault()
 	}
 
+	const onDesktopResized = () => {
+		const elementKeys = Object.keys(elementReferences)
+		for (let i = 0; i < elementKeys.length; i++) {
+			const elem = elementReferences[elementKeys[i]]
+			if (elem.style.position === "absolute") {
+				elem.style.position = "static"
+			}
+		}
+	}
+
     return (
 		<DesktopItemContext.Provider value={{
 			selectedContextKeys: selectedContextKeys,
@@ -136,7 +148,8 @@ const DesktopItemContextProvider = (props: IDesktopItemContextProviderProps) => 
 			onDesktopItemClicked: onDesktopItemClicked,
 			onDesktopItemDoubleClicked: onDesktopItemDoubleClicked,
 			onDesktopDrop: onDesktopDrop,
-			onDesktopDragOver: onDesktopDragOver
+			onDesktopDragOver: onDesktopDragOver,
+			onWindowResized: onDesktopResized
 		}}>
             {children}
         </DesktopItemContext.Provider>)

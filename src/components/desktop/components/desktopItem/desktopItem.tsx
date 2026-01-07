@@ -1,4 +1,4 @@
-import { useContext } from "react"
+import { useContext, useEffect } from "react"
 import { DesktopItemContext } from "../../../../contexts"
 import { useDisplayName, useIcon } from "../../../../hooks"
 import { Context } from "../../../../types/fs"
@@ -16,13 +16,22 @@ const DesktopItem = (props: IDesktopItemProps) => {
 		selectedContextKeys,
 		addElementReference,
 		onDesktopItemClicked,
-		onDesktopItemDoubleClicked
+		onDesktopItemDoubleClicked,
+		onWindowResized
 	} = useContext(DesktopItemContext)
 
 	const Icon = useIcon(context)
 	const DisplayName = useDisplayName(context)
 	const selected = selectedContextKeys.indexOf(context.toContextUniqueKey()) !== -1
 	const contextKey = context.toContextUniqueKey()
+
+	useEffect(() => {
+		window.addEventListener("resize", onWindowResized)
+
+		return () => {
+			window.removeEventListener("resize", () => onWindowResized)
+		}
+	}, [onWindowResized])
 
 	const onDesktopItemDoubleClickedInternal = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
 		e.stopPropagation()

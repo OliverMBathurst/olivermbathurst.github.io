@@ -146,7 +146,6 @@ const WindowsContextProvider = (props: IWindowsContextProviderProps) => {
 					targetWindow.previousState ?? WindowState.Normal
 				targetWindow.previousState = WindowState.Minimised
 				targetWindow.selected = true
-
 			} else {
 				if (targetWindow.selected) {
 					targetWindow.previousState = targetWindow.state
