@@ -7,6 +7,8 @@ interface IDesktopItemContext {
 	addElementReference: <T extends HTMLElement>(element: T | null, context: Context) => void
 	onDesktopItemClicked: (e: React.MouseEvent<HTMLDivElement, MouseEvent>, context: Context) => void
 	onDesktopItemDoubleClicked: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void
+	onDesktopDrop: (e: React.DragEvent<HTMLDivElement>) => void
+	onDesktopDragOver: (e: React.DragEvent<HTMLDivElement>) => void
 }
 
 interface IDesktopItemContextProviderProps {
@@ -18,7 +20,9 @@ export const DesktopItemContext: ReactContext<IDesktopItemContext> = createConte
 	onDesktopClicked: (_: React.MouseEvent<HTMLDivElement, MouseEvent>) => Function.prototype,
 	onDesktopItemClicked: (_: React.MouseEvent<HTMLDivElement, MouseEvent>, __: Context) => Function.prototype,
 	addElementReference: <T extends HTMLElement>(_: T | null, __: Context) => Function.prototype,
-	onDesktopItemDoubleClicked: (_: React.MouseEvent<HTMLDivElement, MouseEvent>) => Function.prototype
+	onDesktopItemDoubleClicked: (_: React.MouseEvent<HTMLDivElement, MouseEvent>) => Function.prototype,
+	onDesktopDrop: (_: React.DragEvent<HTMLDivElement>) => Function.prototype,
+	onDesktopDragOver: (_: React.DragEvent<HTMLDivElement>) => Function.prototype
 })
 
 const elementReferences: Record<string, HTMLElement> = { }
@@ -66,7 +70,7 @@ const DesktopItemContextProvider = (props: IDesktopItemContextProviderProps) => 
 				const newContextSelections: string[] = [initialContextKey, targetContextKey]
 				const elementKeys = Object.keys(elementReferences)
 
-				for (let i = 1; i < elementKeys.length; i++) {
+				for (let i = 0; i < elementKeys.length; i++) {
 					if (elementKeys[i] === targetContextKey || elementKeys[i] === initialContextKey) {
 						continue
 					}
@@ -109,13 +113,30 @@ const DesktopItemContextProvider = (props: IDesktopItemContextProviderProps) => 
 		elementReferences[contextKey] = element
 	}
 
+	const onDesktopDrop = (e: React.DragEvent<HTMLDivElement>) => {
+		e.preventDefault()
+		const contextKey = e.dataTransfer.getData("text")
+		const elem = elementReferences[contextKey]
+		if (elem) {
+			elem.style.position = "absolute"
+			elem.style.left = `${e.clientX - (elem.clientWidth / 2)}px`
+			elem.style.top = `${e.clientY - (elem.clientHeight / 2)}px`
+		}
+	}
+
+	const onDesktopDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+		e.preventDefault()
+	}
+
     return (
 		<DesktopItemContext.Provider value={{
 			selectedContextKeys: selectedContextKeys,
 			onDesktopClicked: onDesktopClicked,
 			addElementReference: addElementReference,
 			onDesktopItemClicked: onDesktopItemClicked,
-			onDesktopItemDoubleClicked: onDesktopItemDoubleClicked
+			onDesktopItemDoubleClicked: onDesktopItemDoubleClicked,
+			onDesktopDrop: onDesktopDrop,
+			onDesktopDragOver: onDesktopDragOver
 		}}>
             {children}
         </DesktopItemContext.Provider>)

@@ -12,11 +12,17 @@ interface IDesktopItemProps {
 const DesktopItem = (props: IDesktopItemProps) => {
 	const { context, onDoubleClick } = props
 
-	const { selectedContextKeys, addElementReference, onDesktopItemClicked, onDesktopItemDoubleClicked } = useContext(DesktopItemContext)
+	const {
+		selectedContextKeys,
+		addElementReference,
+		onDesktopItemClicked,
+		onDesktopItemDoubleClicked
+	} = useContext(DesktopItemContext)
 
 	const Icon = useIcon(context)
 	const DisplayName = useDisplayName(context)
 	const selected = selectedContextKeys.indexOf(context.toContextUniqueKey()) !== -1
+	const contextKey = context.toContextUniqueKey()
 
 	const onDesktopItemDoubleClickedInternal = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
 		e.stopPropagation()
@@ -29,12 +35,19 @@ const DesktopItem = (props: IDesktopItemProps) => {
 		onDesktopItemClicked(e, context)
 	}
 
+	const onDragStart = (e: React.DragEvent<HTMLDivElement>) => {
+		e.dataTransfer.setData("text", contextKey)
+	}
+
 	return (
 		<div
+			id={contextKey}
 			className={`desktop-item${selected ? "--selected" : ""}`}
 			ref={r => addElementReference(r, context)}
 			onClick={e => onDesktopItemClickedInternal(e, context)}
 			onDoubleClick={e => onDesktopItemDoubleClickedInternal(e)}
+			onDragStart={onDragStart}
+			draggable
 		>
 			<div className="desktop-item__icon no-select">{Icon}</div>
 			<span className="desktop-item__name no-select">{DisplayName}</span>

@@ -10,21 +10,20 @@ import "./desktop.scss"
 const Desktop = () => {
 	const { searchForBranchByType } = useFileSystem()
 	const { root } = useContext(FileSystemContext)
-	const { onDesktopClicked } = useContext(DesktopItemContext)
+	const { onDesktopClicked, onDesktopDragOver, onDesktopDrop } = useContext(DesktopItemContext)
 
 	const desktopBranch = useMemo(() => {
 		return searchForBranchByType(root, SpecialBranch.Desktop)
 	}, [searchForBranchByType, root])
 
-	/*const onDesktopClickedInternal = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-		e.stopPropagation()
-
-
-	}*/
-
 	return (
 		<div className="desktop">
-			<div className="desktop__grid" onClick={onDesktopClicked}>
+			<div
+				className="desktop__grid"
+				onClick={onDesktopClicked}
+				onDrop={onDesktopDrop}
+				onDragOver={onDesktopDragOver}
+			>
 				{desktopBranch?.branches.map((b) => {
 					return (
 						<Folder
