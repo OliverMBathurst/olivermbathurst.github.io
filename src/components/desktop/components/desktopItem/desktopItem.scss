@@ -1,14 +1,26 @@
-.desktop-item {
+.desktop-item,
+.desktop-item--selected {
 	width: 6rem;
 	overflow: clip;
 	cursor: pointer;
-	padding: 0rem 0rem 1rem 0.5rem;
+	margin-bottom: 1rem;
 	color: white;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
+	padding: 0.5rem 0rem 0.5rem 0rem;
 }
+
+.desktop-item--selected {
+	background: hsla(0, 0%, 100%, 0.4);
+}
+
+.desktop-item:hover,
+.desktop-item--selected:hover {
+	background: hsla(0, 0%, 100%, 0.2);
+}
+
 
 .desktop-item__name {
 	font-size: 0.75rem;

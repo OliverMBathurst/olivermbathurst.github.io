@@ -1,13 +1,11 @@
-import WindowsContextProvider, {
-	WindowsContext
-} from "./windowsContextProvider"
+import DesktopItemContextProvider, { DesktopItemContext } from './desktopItemContextProvider'
 import FileSystemContextProvider, {
-	FileSystemContext
+    FileSystemContext
 } from "./fileSystemContextProvider"
+import WindowsContextProvider, {
+    WindowsContext
+} from "./windowsContextProvider"
 
 export {
-	WindowsContextProvider,
-	WindowsContext,
-	FileSystemContextProvider,
-	FileSystemContext
+    DesktopItemContext, DesktopItemContextProvider, FileSystemContext, FileSystemContextProvider, WindowsContext, WindowsContextProvider
 }
