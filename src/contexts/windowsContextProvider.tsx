@@ -1,15 +1,15 @@
 import React, { createContext, useState } from "react"
 import {
-    IAddWindowProperties,
-    IWindowProperties,
-    WindowState
+	IAddWindowProperties,
+	IWindowProperties,
+	WindowState
 } from "../interfaces/windows"
 import { Context } from "../types/fs"
 
 interface IWindowsContext {
 	windowProperties: IWindowProperties[]
-	lastDeselectedWindowId: string | null,
-	noWindowsSelected: boolean,
+	lastDeselectedWindowId: string | null
+	noWindowsSelected: boolean
 	addWindow: (window: IAddWindowProperties) => void
 	removeWindow: (windowId: string) => void
 	onMinimizeAllButtonClicked: () => void
@@ -42,7 +42,9 @@ const WindowsContextProvider = (props: IWindowsContextProviderProps) => {
 	const [windowProperties, setWindowProperties] = useState<IWindowProperties[]>(
 		[]
 	)
-	const [lastDeselectedWindowId, setLastDeselectedWindowId] = useState<string | null>(null)
+	const [lastDeselectedWindowId, setLastDeselectedWindowId] = useState<
+		string | null
+	>(null)
 
 	const addWindow = (properties: IAddWindowProperties) => {
 		const { context, size, selected } = properties
@@ -65,7 +67,7 @@ const WindowsContextProvider = (props: IWindowsContextProviderProps) => {
 			previousState: null
 		}
 
-		setWindowProperties(wp => {
+		setWindowProperties((wp) => {
 			const _windowProperties = [...wp]
 
 			let _lastDeselectedWindowId: string | null = null
@@ -88,7 +90,7 @@ const WindowsContextProvider = (props: IWindowsContextProviderProps) => {
 			return
 		}
 
-		setWindowProperties(wp => {
+		setWindowProperties((wp) => {
 			const _windowProperties = [...wp]
 			for (let i = 0; i < _windowProperties.length; i++) {
 				if (_windowProperties[i].state === WindowState.Minimised) {
@@ -103,7 +105,9 @@ const WindowsContextProvider = (props: IWindowsContextProviderProps) => {
 				}
 			}
 
-			setLastDeselectedWindowId(_windowProperties[_windowProperties.length - 1].id)
+			setLastDeselectedWindowId(
+				_windowProperties[_windowProperties.length - 1].id
+			)
 			return _windowProperties
 		})
 	}
@@ -111,13 +115,16 @@ const WindowsContextProvider = (props: IWindowsContextProviderProps) => {
 	const onWindowStateChanged = (windowId: string, newState: WindowState) => {
 		setWindowProperties((wp) => {
 			const _windowProperties = [...wp]
-			const targetWindowIndex = _windowProperties.findIndex((x) => x.id === windowId)
+			const targetWindowIndex = _windowProperties.findIndex(
+				(x) => x.id === windowId
+			)
 			if (targetWindowIndex !== -1) {
-				let existingWindow = _windowProperties[targetWindowIndex]
+				const existingWindow = _windowProperties[targetWindowIndex]
 
-				const selected = newState === WindowState.Minimised
-					? false
-					: _windowProperties[targetWindowIndex].selected
+				const selected =
+					newState === WindowState.Minimised
+						? false
+						: _windowProperties[targetWindowIndex].selected
 
 				const newWindow = {
 					...existingWindow,
@@ -137,13 +144,12 @@ const WindowsContextProvider = (props: IWindowsContextProviderProps) => {
 	}
 
 	const onTaskbarItemClicked = (windowId: string) => {
-		let newWindows = [...windowProperties]
+		const newWindows = [...windowProperties]
 		const targetWindowIndex = newWindows.findIndex((x) => x.id === windowId)
 		if (targetWindowIndex !== -1) {
-			let targetWindow = newWindows[targetWindowIndex]
+			const targetWindow = newWindows[targetWindowIndex]
 			if (targetWindow.state === WindowState.Minimised) {
-				targetWindow.state =
-					targetWindow.previousState ?? WindowState.Normal
+				targetWindow.state = targetWindow.previousState ?? WindowState.Normal
 				targetWindow.previousState = WindowState.Minimised
 				targetWindow.selected = true
 			} else {
@@ -226,7 +232,6 @@ const WindowsContextProvider = (props: IWindowsContextProviderProps) => {
 
 		setWindowProperties((x) => [...x.filter((x) => x.id !== windowId)])
 	}
-		
 
 	const setWindowContext = (windowId: string, context: Context) => {
 		setWindowProperties((wp) => {
@@ -247,7 +252,7 @@ const WindowsContextProvider = (props: IWindowsContextProviderProps) => {
 			value={{
 				windowProperties: windowProperties,
 				lastDeselectedWindowId: lastDeselectedWindowId,
-				noWindowsSelected: windowProperties.every(x => !x.selected),
+				noWindowsSelected: windowProperties.every((x) => !x.selected),
 				addWindow: addWindow,
 				removeWindow: removeWindow,
 				onMinimizeAllButtonClicked: onMinimizeAllButtonClicked,

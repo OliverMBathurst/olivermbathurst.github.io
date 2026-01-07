@@ -23,7 +23,7 @@ const useIcon: (context: Context, noSelect?: boolean) => JSX.Element = (
 	noSelect: boolean = true
 ) => {
 	const Icon = useMemo(() => {
-		let props = {
+		const props = {
 			className: noSelect ? "no-select" : "",
 			draggable: false
 		}

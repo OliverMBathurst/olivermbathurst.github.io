@@ -1,11 +1,11 @@
 import React, { memo, useCallback, useContext, useEffect, useRef } from "react"
 import {
-    BRANCHING_CONTEXT_DETERMINER,
-    DEFAULT_MIN_WINDOW_HEIGHT_PIXELS,
-    DEFAULT_MIN_WINDOW_WIDTH_PIXELS,
-    DEFAULT_POINTER,
-    DEFAULT_TASKBAR_HEIGHT_PIXELS,
-    FILETYPE_RENDERABLE_PROPERTY
+	BRANCHING_CONTEXT_DETERMINER,
+	DEFAULT_MIN_WINDOW_HEIGHT_PIXELS,
+	DEFAULT_MIN_WINDOW_WIDTH_PIXELS,
+	DEFAULT_POINTER,
+	DEFAULT_TASKBAR_HEIGHT_PIXELS,
+	FILETYPE_RENDERABLE_PROPERTY
 } from "../../constants"
 import { WindowsContext } from "../../contexts"
 import { WindowExpandDirection } from "../../enums"
@@ -136,8 +136,13 @@ const Window = (props: IWindowProps) => {
 		WindowExpandDirection.None
 	)
 
-	const { removeWindow, onWindowStateChanged, onWindowSelected, lastDeselectedWindowId, noWindowsSelected } =
-		useContext(WindowsContext)
+	const {
+		removeWindow,
+		onWindowStateChanged,
+		onWindowSelected,
+		lastDeselectedWindowId,
+		noWindowsSelected
+	} = useContext(WindowsContext)
 	const { width, height } = currentWindowSize.current
 
 	useClickOutside(windowRef, (e) => {
@@ -158,7 +163,7 @@ const Window = (props: IWindowProps) => {
 
 	const onMaximiseRequested = () => {
 		if (state === WindowState.Maximised) {
-			let div = windowRef.current
+			const div = windowRef.current
 			if (div) {
 				div.style.top = windowPreviousPositioning.current.top
 				div.style.left = windowPreviousPositioning.current.left
@@ -170,7 +175,7 @@ const Window = (props: IWindowProps) => {
 			}
 			onWindowStateChanged(id, WindowState.Normal)
 		} else {
-			let div = windowRef.current
+			const div = windowRef.current
 			if (div) {
 				div.style.top = "50%"
 				div.style.left = "50%"
@@ -235,12 +240,12 @@ const Window = (props: IWindowProps) => {
 			}
 
 			if (windowPositionRef.current) {
-				let pos1 = windowPositionRef.current.x - e.clientX
-				let pos2 = windowPositionRef.current.y - e.clientY
+				const pos1 = windowPositionRef.current.x - e.clientX
+				const pos2 = windowPositionRef.current.y - e.clientY
 				windowPositionRef.current.x = e.clientX
 				windowPositionRef.current.y = e.clientY
 
-				let div = windowRef.current
+				const div = windowRef.current
 				if (div) {
 					div.style.top = div.offsetTop - pos2 + "px"
 					div.style.left = div.offsetLeft - pos1 + "px"
@@ -297,7 +302,7 @@ const Window = (props: IWindowProps) => {
 					width: number,
 					widthDiff: number
 				): number => {
-					var proposed = width + widthDiff
+					const proposed = width + widthDiff
 					if (xPos + proposed > window.innerWidth) {
 						return window.innerWidth - xPos
 					}
@@ -309,7 +314,7 @@ const Window = (props: IWindowProps) => {
 					height: number,
 					heightDiff: number
 				): number => {
-					var proposed = height + heightDiff
+					const proposed = height + heightDiff
 					if (
 						yPos + proposed >
 						window.innerHeight - DEFAULT_TASKBAR_HEIGHT_PIXELS
@@ -501,7 +506,7 @@ const Window = (props: IWindowProps) => {
 
 	return (
 		<div
-			className={`window${(selected || (noWindowsSelected && lastDeselectedWindowId === id)) ? " window--selected" : ""}`}
+			className={`window${selected || (noWindowsSelected && lastDeselectedWindowId === id) ? " window--selected" : ""}`}
 			style={{
 				height: height,
 				width: width,

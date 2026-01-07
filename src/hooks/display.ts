@@ -6,7 +6,7 @@ const useDisplayName = (context: Context) => {
 	const [displayName, setDisplayName] = useState<string>(context.name)
 
 	useEffect(() => {
-		let prefix = context.name
+		const prefix = context.name
 
 		if (LEAF_EXTENSION_PROPERTY_NAME in context) {
 			setDisplayName(`${prefix}${context.extension}`)

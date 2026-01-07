@@ -42,7 +42,7 @@ const ScreenSaver = () => {
 							if (screensaverOneOpacity.current <= 0.0) {
 								screensaverOneOpacity.current = 0.0
 
-								let nextIdx =
+								const nextIdx =
 									screensaverIndex.current + 2 < screensaverPaths.length
 										? screensaverIndex.current + 2
 										: screensaverIndex.current + 2 - screensaverPaths.length
@@ -60,7 +60,7 @@ const ScreenSaver = () => {
 							if (screensaverOneOpacity.current >= 1.0) {
 								screensaverOneOpacity.current = 1.0
 
-								let nextIdx =
+								const nextIdx =
 									screensaverIndex.current + 3 < screensaverPaths.length
 										? screensaverIndex.current + 3
 										: screensaverIndex.current + 3 - screensaverPaths.length

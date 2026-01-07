@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react"
+import React, { useContext, useEffect } from "react"
 import { DesktopItemContext } from "../../../../contexts"
 import { useDisplayName, useIcon } from "../../../../hooks"
 import { Context } from "../../../../types/fs"
@@ -22,7 +22,8 @@ const DesktopItem = (props: IDesktopItemProps) => {
 
 	const Icon = useIcon(context)
 	const DisplayName = useDisplayName(context)
-	const selected = selectedContextKeys.indexOf(context.toContextUniqueKey()) !== -1
+	const selected =
+		selectedContextKeys.indexOf(context.toContextUniqueKey()) !== -1
 	const contextKey = context.toContextUniqueKey()
 
 	useEffect(() => {
@@ -33,13 +34,18 @@ const DesktopItem = (props: IDesktopItemProps) => {
 		}
 	}, [onWindowResized])
 
-	const onDesktopItemDoubleClickedInternal = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+	const onDesktopItemDoubleClickedInternal = (
+		e: React.MouseEvent<HTMLDivElement, MouseEvent>
+	) => {
 		e.stopPropagation()
 		onDesktopItemDoubleClicked(e)
 		onDoubleClick(e)
 	}
 
-	const onDesktopItemClickedInternal = (e: React.MouseEvent<HTMLDivElement, MouseEvent>, context: Context) => {
+	const onDesktopItemClickedInternal = (
+		e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+		context: Context
+	) => {
 		e.stopPropagation()
 		onDesktopItemClicked(e, context)
 	}
@@ -52,9 +58,9 @@ const DesktopItem = (props: IDesktopItemProps) => {
 		<div
 			id={contextKey}
 			className={`desktop-item${selected ? "--selected" : ""}`}
-			ref={r => addElementReference(r, context)}
-			onClick={e => onDesktopItemClickedInternal(e, context)}
-			onDoubleClick={e => onDesktopItemDoubleClickedInternal(e)}
+			ref={(r) => addElementReference(r, context)}
+			onClick={(e) => onDesktopItemClickedInternal(e, context)}
+			onDoubleClick={(e) => onDesktopItemDoubleClickedInternal(e)}
 			onDragStart={onDragStart}
 			draggable
 		>

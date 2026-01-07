@@ -11,7 +11,8 @@ import "./desktop.scss"
 const Desktop = () => {
 	const { searchForBranchByType } = useFileSystem()
 	const { root } = useContext(FileSystemContext)
-	const { onDesktopClicked, onDesktopDragOver, onDesktopDrop } = useContext(DesktopItemContext)
+	const { onDesktopClicked, onDesktopDragOver, onDesktopDrop } =
+		useContext(DesktopItemContext)
 
 	const selectionRectangeRef = useRef<HTMLDivElement | null>(null)
 	const selecting = useRef<boolean>(false)
@@ -55,7 +56,11 @@ const Desktop = () => {
 	}
 
 	const onMouseMove = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-		if (selectionRectangeRef.current && selecting.current && selectionRectangeStart.current) {
+		if (
+			selectionRectangeRef.current &&
+			selecting.current &&
+			selectionRectangeStart.current
+		) {
 			const newWidth = Math.abs(selectionRectangeStart.current.x - e.clientX)
 			const newHeight = Math.abs(selectionRectangeStart.current.y - e.clientY)
 
@@ -89,28 +94,14 @@ const Desktop = () => {
 				onDragOver={onDesktopDragOver}
 			>
 				{desktopBranch?.branches.map((b) => {
-					return (
-						<Folder
-							key={b.name}
-							context={b}
-						/>
-					)
+					return <Folder key={b.name} context={b} />
 				})}
 				{desktopBranch?.shortcuts.map((s) => {
-					return (
-						<Shortcut
-							key={s.name}
-							shortcut={s}
-						/>)
+					return <Shortcut key={s.name} shortcut={s} />
 				})}
 				{desktopBranch?.leaves.map((l) => {
 					const { name, extension } = l
-					return (
-						<File
-							key={`${name}${extension}`}
-							context={l}
-						/>
-					)
+					return <File key={`${name}${extension}`} context={l} />
 				})}
 			</div>
 		</div>

@@ -5,8 +5,8 @@ const DateDisplay = () => {
 	const [date, setDate] = useState<string>()
 
 	useEffect(() => {
-		var timeout = setInterval(() => {
-			var newDate: Date = new Date()
+		const timeout = setInterval(() => {
+			const newDate: Date = new Date()
 			newDate.setSeconds(newDate.getSeconds() + newDate.getTimezoneOffset())
 			setDate(newDate.toLocaleTimeString())
 		}, 1000)
