@@ -1,3 +1,4 @@
+import { NO_SELECT_CLASS } from "../../../constants"
 import { useDisplayName, useIcon } from "../../../hooks"
 import { Context } from "../../../types/fs"
 import "./fileBrowserRow.scss"
@@ -20,8 +21,8 @@ const FileBrowserRow = (props: IFileBrowserRowProps) => {
 			onDoubleClick={onRowDoubleClicked}
 			onClick={onRowClicked}
 		>
-			<div className="file-browser__row__icon no-select">{Icon}</div>
-			<div className="file-browser__row__name no-select">{DisplayName}</div>
+			<div className={`file-browser__row__icon ${NO_SELECT_CLASS}`}>{Icon}</div>
+			<div className={`file-browser__row__name ${NO_SELECT_CLASS}`}>{DisplayName}</div>
 		</div>
 	)
 }

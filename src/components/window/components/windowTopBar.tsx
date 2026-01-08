@@ -3,6 +3,7 @@ import { useDisplayName, useIcon } from "../../../hooks"
 import { CloseIcon, MaximizeIcon, MinimizeIcon } from "../../../icons"
 import { Context } from "../../../types/fs"
 import "./windowTopBar.scss"
+import { NO_SELECT_CLASS } from "../../../constants"
 
 interface IWindowTopBarProps {
 	context: Context
@@ -52,30 +53,30 @@ const WindowTopBar = (props: IWindowTopBarProps) => {
 			onDoubleClick={onWindowTopBarDoubleClicked}
 		>
 			<div
-				className="window__top-bar__icon no-select"
+				className={`window__top-bar__icon ${NO_SELECT_CLASS}`}
 				onMouseDown={(e) => e.stopPropagation()}
 			>
 				{Icon}
 			</div>
-			<span className="window__top-bar__title no-select">{DisplayName}</span>
+			<span className={`window__top-bar__title ${NO_SELECT_CLASS}`}>{DisplayName}</span>
 			<div className="window__top-bar__controls">
 				<div className="window__top-bar__controls__button">
 					<MinimizeIcon
-						className="no-select"
+						className={NO_SELECT_CLASS}
 						onClick={onMinimiseButtonClicked}
 						{...imgProps}
 					/>
 				</div>
 				<div className="window__top-bar__controls__button">
 					<MaximizeIcon
-						className="no-select"
+						className={NO_SELECT_CLASS}
 						onClick={onMaximiseButtonClicked}
 						{...imgProps}
 					/>
 				</div>
 				<div className="window__top-bar__controls__close-button">
 					<CloseIcon
-						className="no-select"
+						className={NO_SELECT_CLASS}
 						onClick={onCloseButtonClicked}
 						{...imgProps}
 					/>

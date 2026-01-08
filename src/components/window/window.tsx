@@ -1,11 +1,13 @@
 import React, { memo, useCallback, useContext, useEffect, useRef } from "react"
 import {
-	BRANCHING_CONTEXT_DETERMINER,
-	DEFAULT_MIN_WINDOW_HEIGHT_PIXELS,
-	DEFAULT_MIN_WINDOW_WIDTH_PIXELS,
-	DEFAULT_POINTER,
-	DEFAULT_TASKBAR_HEIGHT_PIXELS,
-	FILETYPE_RENDERABLE_PROPERTY
+    BRANCHING_CONTEXT_DETERMINER,
+    DEFAULT_MIN_WINDOW_HEIGHT_PIXELS,
+    DEFAULT_MIN_WINDOW_WIDTH_PIXELS,
+    DEFAULT_POINTER,
+    DEFAULT_TASKBAR_HEIGHT_PIXELS,
+    FILETYPE_RENDERABLE_PROPERTY,
+    TASKBAR_ITEM_CLASS,
+    TASKBAR_ITEM_NAME_CLASS
 } from "../../constants"
 import { WindowsContext } from "../../contexts"
 import { WindowExpandDirection } from "../../enums"
@@ -105,7 +107,10 @@ const getCursor = (
 	}
 }
 
-const clickOutsideExclusions: string[] = ["taskbar-item"]
+const clickOutsideExclusions: string[] = [
+	TASKBAR_ITEM_CLASS,
+	TASKBAR_ITEM_NAME_CLASS
+]
 
 interface IWindowProps {
 	properties: IWindowProperties

@@ -1,4 +1,5 @@
 import { useContext } from "react"
+import { NO_SELECT_CLASS, TASKBAR_ITEM_CLASS, TASKBAR_ITEM_NAME_CLASS } from "../../../../constants"
 import { WindowsContext } from "../../../../contexts"
 import { useDisplayName, useIcon } from "../../../../hooks"
 import { IWindowProperties } from "../../../../interfaces/windows"
@@ -19,11 +20,11 @@ const TaskbarItem = (props: ITaskbarItemProps) => {
 
 	return (
 		<div
-			className={`taskbar-item${selected ? " taskbar-item--selected" : ""} no-select`}
+			className={`${TASKBAR_ITEM_CLASS}${selected ? " taskbar-item--selected" : ""} ${NO_SELECT_CLASS}`}
 			onClick={() => onTaskbarItemClicked(windowId)}
 		>
 			{Icon}
-			<span className="taskbar-item__name">{DisplayName}</span>
+			<span className={TASKBAR_ITEM_NAME_CLASS}>{DisplayName}</span>
 		</div>
 	)
 }

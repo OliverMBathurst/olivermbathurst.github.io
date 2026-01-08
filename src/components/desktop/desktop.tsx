@@ -1,4 +1,5 @@
 import { useCallback, useContext, useEffect, useMemo, useRef } from "react"
+import { DESKTOP_ITEM_CLASS, DESKTOP_ITEM_ICON_CLASS, DESKTOP_ITEM_NAME_CLASS, NO_SELECT_CLASS } from "../../constants"
 import { DesktopItemContext, FileSystemContext } from "../../contexts"
 import { SpecialBranch } from "../../enums"
 import { useFileSystem } from "../../hooks"
@@ -8,7 +9,12 @@ import { Folder } from "../folder"
 import { Shortcut } from "../shortcut"
 import "./desktop.scss"
 
-const selectionRectangeStartExclusions = ["desktop-item"]
+const selectionRectangeStartExclusions = [
+	DESKTOP_ITEM_CLASS,
+	DESKTOP_ITEM_ICON_CLASS,
+	DESKTOP_ITEM_NAME_CLASS,
+	NO_SELECT_CLASS
+]
 
 const Desktop = () => {
 	const { searchForBranchByType } = useFileSystem()
@@ -40,10 +46,6 @@ const Desktop = () => {
 	}, [onMouseUp])
 
 	const onMouseDown = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-		if (e.target instanceof HTMLImageElement || e.target instanceof HTMLSpanElement) {
-			return
-		}
-
 		if (e.target instanceof HTMLElement) {
 			const elem = e.target as HTMLElement
 			if (selectionRectangeStartExclusions.some(x => elem.classList.contains(x))) {
