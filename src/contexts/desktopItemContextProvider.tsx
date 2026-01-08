@@ -15,7 +15,7 @@ interface IDesktopItemContext {
 		context: Context
 	) => void
 	onDesktopItemDoubleClicked: (
-		e: React.MouseEvent<HTMLDivElement, MouseEvent>
+		e: React.MouseEvent<HTMLDivElement, MouseEvent> | KeyboardEvent
 	) => void
 	onDesktopDrop: (e: React.DragEvent<HTMLDivElement>) => void
 	onDesktopDragOver: (e: React.DragEvent<HTMLDivElement>) => void
@@ -40,7 +40,7 @@ export const DesktopItemContext: ReactContext<IDesktopItemContext> =
 		addElementReference: <T extends HTMLElement>(_: T | null, __: Context) =>
 			Function.prototype,
 		onDesktopItemDoubleClicked: (
-			_: React.MouseEvent<HTMLDivElement, MouseEvent>
+			_: React.MouseEvent<HTMLDivElement, MouseEvent> | KeyboardEvent
 		) => Function.prototype,
 		onDesktopDrop: (_: React.DragEvent<HTMLDivElement>) => Function.prototype,
 		onDesktopDragOver: (_: React.DragEvent<HTMLDivElement>) =>
@@ -145,7 +145,7 @@ const DesktopItemContextProvider = (
 	}
 
 	const onDesktopItemDoubleClicked = (
-		_: React.MouseEvent<HTMLDivElement, MouseEvent>
+		_: React.MouseEvent<HTMLDivElement, MouseEvent> | KeyboardEvent
 	) => {
 		setSelectedContextKeys([])
 	}

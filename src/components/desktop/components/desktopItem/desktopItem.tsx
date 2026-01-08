@@ -12,7 +12,7 @@ import "./desktopItem.scss"
 
 interface IDesktopItemProps {
 	context: Context
-	onDoubleClick: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void
+	onDoubleClick: (e: React.MouseEvent<HTMLDivElement, MouseEvent> | KeyboardEvent) => void
 }
 
 const DesktopItem = (props: IDesktopItemProps) => {
@@ -32,16 +32,33 @@ const DesktopItem = (props: IDesktopItemProps) => {
 		selectedContextKeys.indexOf(context.toContextUniqueKey()) !== -1
 	const contextKey = context.toContextUniqueKey()
 
+	const onDesktopItemKeyDown = (e: KeyboardEvent) => {
+		if (e.key === "Enter" && selected) {
+			setTimeout(() => {
+				onDesktopItemDoubleClicked(e)
+				onDoubleClick(e)
+			}, 100)
+		}
+	}
+
+	useEffect(() => {
+		document.addEventListener("keypress", onDesktopItemKeyDown)
+
+		return () => {
+			document.removeEventListener("keypress", onDesktopItemKeyDown)
+		}
+	}, [onDesktopItemKeyDown])
+
 	useEffect(() => {
 		window.addEventListener("resize", onWindowResized)
 
 		return () => {
-			window.removeEventListener("resize", () => onWindowResized)
+			window.removeEventListener("resize", onWindowResized)
 		}
 	}, [onWindowResized])
 
 	const onDesktopItemDoubleClickedInternal = (
-		e: React.MouseEvent<HTMLDivElement, MouseEvent>
+		e: React.MouseEvent<HTMLDivElement, MouseEvent> | KeyboardEvent
 	) => {
 		e.stopPropagation()
 		onDesktopItemDoubleClicked(e)
@@ -67,6 +84,7 @@ const DesktopItem = (props: IDesktopItemProps) => {
 			ref={(r) => addElementReference(r, context)}
 			onClick={(e) => onDesktopItemClickedInternal(e, context)}
 			onDoubleClick={(e) => onDesktopItemDoubleClickedInternal(e)}
+			
 			onDragStart={onDragStart}
 			draggable
 		>

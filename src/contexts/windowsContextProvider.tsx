@@ -47,27 +47,27 @@ const WindowsContextProvider = (props: IWindowsContextProviderProps) => {
 	>(null)
 
 	const addWindow = (properties: IAddWindowProperties) => {
-		const { context, size, selected } = properties
-
-		const defaultWindowSize = window.innerHeight / 2
-
-		const windowSize = size ?? {
-			width: defaultWindowSize,
-			height: defaultWindowSize
-		}
-
-		const _selected = selected ?? true
-
-		const newWindowProperties: IWindowProperties = {
-			id: `${Date.now()}-${context.name}`,
-			context: context,
-			selected: _selected,
-			size: windowSize,
-			state: WindowState.Normal,
-			previousState: null
-		}
-
 		setWindowProperties((wp) => {
+			const { context, size, selected } = properties
+
+			const defaultWindowSize = window.innerHeight / 2
+
+			const windowSize = size ?? {
+				width: defaultWindowSize,
+				height: defaultWindowSize
+			}
+
+			const _selected = selected ?? true
+
+			const newWindowProperties: IWindowProperties = {
+				id: `${Date.now()}-${context.name}`,
+				context: context,
+				selected: _selected,
+				size: windowSize,
+				state: WindowState.Normal,
+				previousState: null
+			}
+
 			const _windowProperties = [...wp]
 
 			let _lastDeselectedWindowId: string | null = null

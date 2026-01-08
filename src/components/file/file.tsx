@@ -1,8 +1,8 @@
 import { useCallback, useContext } from "react"
 import {
-	FILETYPE_URL_SHORTCUT,
-	FILETYPE_URL_SHORTCUT_PROPERTY,
-	LEAF_EXTENSION_PROPERTY_NAME
+    FILETYPE_URL_SHORTCUT,
+    FILETYPE_URL_SHORTCUT_PROPERTY,
+    LEAF_EXTENSION_PROPERTY_NAME
 } from "../../constants"
 import { WindowsContext } from "../../contexts"
 import { IAddWindowProperties } from "../../interfaces/windows"
