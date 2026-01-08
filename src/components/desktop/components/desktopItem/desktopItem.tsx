@@ -1,9 +1,9 @@
 import React, { useContext, useEffect } from "react"
 import {
-	DESKTOP_ITEM_CLASS,
-	DESKTOP_ITEM_ICON_CLASS,
-	DESKTOP_ITEM_NAME_CLASS,
-	NO_SELECT_CLASS
+    DESKTOP_ITEM_CLASS,
+    DESKTOP_ITEM_ICON_CLASS,
+    DESKTOP_ITEM_NAME_CLASS,
+    NO_SELECT_CLASS
 } from "../../../../constants"
 import { DesktopItemContext } from "../../../../contexts"
 import { useDisplayName, useIcon } from "../../../../hooks"

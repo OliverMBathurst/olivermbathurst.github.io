@@ -3,7 +3,8 @@ import { DEFAULT_TASKBAR_HEIGHT_PIXELS } from "../constants"
 import { Context } from "../types/fs"
 
 interface IDesktopItemContext {
-	selectedContextKeys: string[]
+	selectedContextKeys: string[],
+	elementReferences: Record<string, HTMLElement>,
 	onDesktopClicked: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void
 	addElementReference: <T extends HTMLElement>(
 		element: T | null,
@@ -19,6 +20,7 @@ interface IDesktopItemContext {
 	onDesktopDrop: (e: React.DragEvent<HTMLDivElement>) => void
 	onDesktopDragOver: (e: React.DragEvent<HTMLDivElement>) => void
 	onWindowResized: (e: UIEvent) => void
+	setSelectedContextKeys: (contextKeys: string[]) => void
 }
 
 interface IDesktopItemContextProviderProps {
@@ -28,6 +30,7 @@ interface IDesktopItemContextProviderProps {
 export const DesktopItemContext: ReactContext<IDesktopItemContext> =
 	createContext<IDesktopItemContext>({
 		selectedContextKeys: [],
+		elementReferences: {},
 		onDesktopClicked: (_: React.MouseEvent<HTMLDivElement, MouseEvent>) =>
 			Function.prototype,
 		onDesktopItemClicked: (
@@ -42,7 +45,8 @@ export const DesktopItemContext: ReactContext<IDesktopItemContext> =
 		onDesktopDrop: (_: React.DragEvent<HTMLDivElement>) => Function.prototype,
 		onDesktopDragOver: (_: React.DragEvent<HTMLDivElement>) =>
 			Function.prototype,
-		onWindowResized: (_: UIEvent) => Function.prototype
+		onWindowResized: (_: UIEvent) => Function.prototype,
+		setSelectedContextKeys: (_: string[]) => Function.prototype,
 	})
 
 const elementReferences: Record<string, HTMLElement> = {}
@@ -241,6 +245,21 @@ const DesktopItemContextProvider = (
 		}
 	}
 
+	const onDesktopItemSelected = (e: Context, selected: boolean) => {
+		const contextKey = e.toContextUniqueKey()
+		setSelectedContextKeys(ck => {
+			if (selected) {
+				if (ck.indexOf(contextKey) !== -1) {
+					return ck
+				}
+
+				return [...ck, contextKey]
+			}
+
+			return [...ck.filter(k => k !== contextKey)]
+		})
+	}
+
 	return (
 		<DesktopItemContext.Provider
 			value={{
@@ -251,7 +270,9 @@ const DesktopItemContextProvider = (
 				onDesktopItemDoubleClicked: onDesktopItemDoubleClicked,
 				onDesktopDrop: onDesktopDrop,
 				onDesktopDragOver: onDesktopDragOver,
-				onWindowResized: onDesktopResized
+				onWindowResized: onDesktopResized,
+				setSelectedContextKeys: setSelectedContextKeys,
+				elementReferences: elementReferences
 			}}
 		>
 			{children}

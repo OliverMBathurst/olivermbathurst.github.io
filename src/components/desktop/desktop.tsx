@@ -24,7 +24,7 @@ const selectionRectangeStartExclusions = [
 const Desktop = () => {
 	const { searchForBranchByType } = useFileSystem()
 	const { root } = useContext(FileSystemContext)
-	const { onDesktopClicked, onDesktopDragOver, onDesktopDrop } =
+	const { onDesktopClicked, onDesktopDragOver, onDesktopDrop, elementReferences, setSelectedContextKeys } =
 		useContext(DesktopItemContext)
 
 	const selectionRectangeRef = useRef<HTMLDivElement | null>(null)
@@ -96,6 +96,28 @@ const Desktop = () => {
 
 			selectionRectangeRef.current.style.width = `${newWidth}px`
 			selectionRectangeRef.current.style.height = `${newHeight}px`
+
+			const rectangleIntersection = (r: DOMRect, r1: DOMRect): boolean => {
+				return !(r1.left > r.right ||
+					r1.right < r.left ||
+					r1.top > r.bottom ||
+					r1.bottom < r.top);
+			}
+
+			const newSelectionRectangle = selectionRectangeRef.current.getBoundingClientRect()
+
+			const elementReferenceKeys = Object.keys(elementReferences)
+			const selectedDesktopItemContextKeys = []
+			for (let i = 0; i < elementReferenceKeys.length; i++) {
+				const elem = elementReferences[elementReferenceKeys[i]]
+				const rect = elem.getBoundingClientRect()
+
+				if (rectangleIntersection(rect, newSelectionRectangle)) {
+					selectedDesktopItemContextKeys.push(elementReferenceKeys[i])
+				}
+			}
+
+			setSelectedContextKeys(selectedDesktopItemContextKeys)
 		}
 	}
 
