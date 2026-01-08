@@ -166,42 +166,51 @@ const DesktopItemContextProvider = (
 	const onDesktopDrop = (e: React.DragEvent<HTMLDivElement>) => {
 		e.preventDefault()
 		const contextKey = e.dataTransfer.getData("text")
-		let movables = [contextKey]
+		let movables = [...selectedContextKeys]
 
-		if (selectedContextKeys.length > 0) {
-			movables = movables.concat(selectedContextKeys)
+		if (movables.indexOf(contextKey) === -1) {
+			movables = movables.concat(contextKey)
 		}
+
+		const tasks: {
+			element: HTMLElement,
+			x: number,
+			y: number
+		}[] = []
 
 		for (let i = 0; i < movables.length; i++) {
 			const elem = elementReferences[movables[i]]
 			if (elem) {
 				const rect = elem.getBoundingClientRect()
 
-				const initialX = rect.left
-				const initialY = rect.top
-				const diffX = Math.abs(initialX - e.clientX)
-				const diffY = Math.abs(initialY - e.clientY)
+				let newX: number = e.clientX
+				let newY: number = e.clientY
 
-				console.log("initial X " + rect.left + " initial Y" + rect.top)
-
-				let newX: number = rect.left
-				if (initialX >= e.clientX) {
-					newX -= diffX
+				if (rect.y >= newY) {
+					newY -= rect.y 
 				} else {
-					newX += diffX
+					newY += rect.y
 				}
 
-				let newY: number = rect.top
-				if (initialY >= e.clientY) {
-					newY -= diffY
+				if (rect.x >= newX) {
+					newX -= rect.x
 				} else {
-					newY += diffY
+					newX += rect.x
 				}
 
-				elem.style.position = "absolute"
-				elem.style.left = `${newX}px`
-				elem.style.top = `${newY}px`
+				tasks.push({
+					element: elem,
+					x: newX,
+					y: newY
+				})
 			}
+		}
+
+		for (let i = 0; i < tasks.length; i++) {
+			const { element, x, y } = tasks[i]
+			element.style.position = "absolute"
+			element.style.left = `${x}px`
+			element.style.top = `${y}px`
 		}
 
 		setSelectedContextKeys(movables)
