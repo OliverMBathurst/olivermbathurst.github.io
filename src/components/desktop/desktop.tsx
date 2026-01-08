@@ -8,6 +8,8 @@ import { Folder } from "../folder"
 import { Shortcut } from "../shortcut"
 import "./desktop.scss"
 
+const selectionRectangeStartExclusions = ["desktop-item"]
+
 const Desktop = () => {
 	const { searchForBranchByType } = useFileSystem()
 	const { root } = useContext(FileSystemContext)
@@ -38,6 +40,17 @@ const Desktop = () => {
 	}, [onMouseUp])
 
 	const onMouseDown = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+		if (e.target instanceof HTMLImageElement || e.target instanceof HTMLSpanElement) {
+			return
+		}
+
+		if (e.target instanceof HTMLElement) {
+			const elem = e.target as HTMLElement
+			if (selectionRectangeStartExclusions.some(x => elem.classList.contains(x))) {
+				return
+			}
+		}
+
 		if (selectionRectangeRef.current) {
 			selectionRectangeRef.current.style.width = `0px`
 			selectionRectangeRef.current.style.height = `0px`

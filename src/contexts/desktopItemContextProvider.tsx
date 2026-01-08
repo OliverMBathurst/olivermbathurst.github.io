@@ -18,6 +18,7 @@ interface IDesktopItemContext {
 	onDesktopDrop: (e: React.DragEvent<HTMLDivElement>) => void
 	onDesktopDragOver: (e: React.DragEvent<HTMLDivElement>) => void
 	onWindowResized: (e: UIEvent) => void
+	onDesktopItemMouseDown: (e: React.MouseEvent<HTMLDivElement, MouseEvent>, context: Context) => void
 }
 
 interface IDesktopItemContextProviderProps {
@@ -28,6 +29,8 @@ export const DesktopItemContext: ReactContext<IDesktopItemContext> =
 	createContext<IDesktopItemContext>({
 		selectedContextKeys: [],
 		onDesktopClicked: (_: React.MouseEvent<HTMLDivElement, MouseEvent>) =>
+			Function.prototype,
+		onDesktopItemMouseDown: (_: React.MouseEvent<HTMLDivElement, MouseEvent>, __: Context) =>
 			Function.prototype,
 		onDesktopItemClicked: (
 			_: React.MouseEvent<HTMLDivElement, MouseEvent>,
@@ -165,17 +168,45 @@ const DesktopItemContextProvider = (
 
 	const onDesktopDrop = (e: React.DragEvent<HTMLDivElement>) => {
 		e.preventDefault()
-		const contextKey = e.dataTransfer.getData("text")
-		const elem = elementReferences[contextKey]
-		if (elem) {
-			elem.style.position = "absolute"
-			elem.style.left = `${e.clientX - elem.clientWidth / 2}px`
-			elem.style.top = `${e.clientY - elem.clientHeight / 2}px`
+		for (let i = 0; i < selectedContextKeys.length; i++) {
+			const elem = elementReferences[selectedContextKeys[i]]
+			if (elem) {
+				const rect = elem.getBoundingClientRect()
+
+				const initialX = rect.left
+				const initialY = rect.top
+				const diffX = Math.abs(initialX - e.clientX)
+				const diffY = Math.abs(initialY - e.clientY)
+
+				console.log("initial X " + rect.left + " initial Y" + rect.top)
+
+				let newX: number = rect.left
+				if (initialX >= e.clientX) {
+					newX -= diffX
+				} else {
+					newX += diffX
+				}
+
+				let newY: number = rect.top
+				if (initialY >= e.clientY) {
+					newY -= diffY
+				} else {
+					newY += diffY
+				}
+
+				elem.style.position = "absolute"
+				elem.style.left = `${newX}px`
+				elem.style.top = `${newY}px`
+			}
 		}
 	}
 
 	const onDesktopDragOver = (e: React.DragEvent<HTMLDivElement>) => {
 		e.preventDefault()
+	}
+
+	const onDesktopItemMouseDown = (e: React.MouseEvent<HTMLDivElement, MouseEvent>, context: Context) => {
+		onDesktopItemClicked(e, context)
 	}
 
 	const onDesktopResized = () => {
@@ -198,7 +229,8 @@ const DesktopItemContextProvider = (
 				onDesktopItemDoubleClicked: onDesktopItemDoubleClicked,
 				onDesktopDrop: onDesktopDrop,
 				onDesktopDragOver: onDesktopDragOver,
-				onWindowResized: onDesktopResized
+				onWindowResized: onDesktopResized,
+				onDesktopItemMouseDown: onDesktopItemMouseDown
 			}}
 		>
 			{children}
