@@ -1,4 +1,5 @@
 import React, { Context as ReactContext, createContext, useState } from "react"
+import { DEFAULT_TASKBAR_HEIGHT_PIXELS } from "../constants"
 import { Context } from "../types/fs"
 
 interface IDesktopItemContext {
@@ -196,9 +197,25 @@ const DesktopItemContextProvider = (
 
 		for (let i = 0; i < tasks.length; i++) {
 			const { x, y, element } = tasks[i]
+
+			const leftAbsolute = x + diffX
+			const topAbsolute = y + diffY
+			const bottomAbsolute = topAbsolute + element.offsetHeight
+
+			const middleOffsetX = element.clientWidth / 2
+			const middleOffsetY = element.clientHeight / 2
+
+			if (leftAbsolute < middleOffsetX || (leftAbsolute + middleOffsetX) > window.innerWidth) {
+				continue
+			}
+
+			if (bottomAbsolute - middleOffsetY > (window.innerHeight - DEFAULT_TASKBAR_HEIGHT_PIXELS) || topAbsolute < middleOffsetY) {
+				continue
+			}
+
 			element.style.position = "absolute"
-			element.style.left = `${(x + diffX) - (element.clientWidth / 2)}px`
-			element.style.top = `${(y + diffY) - (element.clientHeight / 2)}px`
+			element.style.left = `${leftAbsolute - middleOffsetX}px`
+			element.style.top = `${topAbsolute - middleOffsetY}px`
 		}
 
 		setSelectedContextKeys(movables)
