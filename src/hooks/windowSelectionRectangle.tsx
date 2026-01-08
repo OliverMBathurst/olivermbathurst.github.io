@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef } from "react"
 import { IPosition } from "../interfaces/windows"
 
-export const useSelectionRectangle = <T extends HTMLElement>(ref: React.RefObject<T | null>, onRectangleChanged: (rect: DOMRect) => void) => {
+export const useWindowSelectionRectangle = <T extends HTMLElement>(ref: React.RefObject<T | null>, onRectangleChanged: (rect: DOMRect) => void) => {
 	const selectionRectangeRef = useRef<HTMLDivElement | null>(null)
 	const selecting = useRef<boolean>(false)
 	const selectionRectangeStart = useRef<IPosition | undefined>(undefined)
@@ -25,8 +25,8 @@ export const useSelectionRectangle = <T extends HTMLElement>(ref: React.RefObjec
 			const elem = ref.current.getBoundingClientRect()
 			
 			selectionRectangeStart.current = {
-				x: e.clientX - elem.left,
-				y: e.clientY - elem.top + 40
+				x: e.clientX - elem.left + 4,
+				y: e.clientY - elem.top + 45
 			}
 
 			selectionRectangeRef.current.style.left = `${selectionRectangeStart.current.x}px`
@@ -44,8 +44,8 @@ export const useSelectionRectangle = <T extends HTMLElement>(ref: React.RefObjec
 				return
 			}
 
-			const xOffset = e.pageX
-			const yOffset = e.pageY
+			const xOffset = e.offsetX + 4
+			const yOffset = e.offsetY + 45
 
 			const newWidth = Math.abs(selectionRectangeStart.current.x - xOffset)
 			const newHeight = Math.abs(selectionRectangeStart.current.y - yOffset)
@@ -105,4 +105,4 @@ export const useSelectionRectangle = <T extends HTMLElement>(ref: React.RefObjec
 	)
 }
 
-export default useSelectionRectangle
+export default useWindowSelectionRectangle
