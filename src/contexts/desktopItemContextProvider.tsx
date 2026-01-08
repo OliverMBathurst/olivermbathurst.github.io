@@ -18,7 +18,6 @@ interface IDesktopItemContext {
 	onDesktopDrop: (e: React.DragEvent<HTMLDivElement>) => void
 	onDesktopDragOver: (e: React.DragEvent<HTMLDivElement>) => void
 	onWindowResized: (e: UIEvent) => void
-	onDesktopItemMouseDown: (e: React.MouseEvent<HTMLDivElement, MouseEvent>, context: Context) => void
 }
 
 interface IDesktopItemContextProviderProps {
@@ -29,8 +28,6 @@ export const DesktopItemContext: ReactContext<IDesktopItemContext> =
 	createContext<IDesktopItemContext>({
 		selectedContextKeys: [],
 		onDesktopClicked: (_: React.MouseEvent<HTMLDivElement, MouseEvent>) =>
-			Function.prototype,
-		onDesktopItemMouseDown: (_: React.MouseEvent<HTMLDivElement, MouseEvent>, __: Context) =>
 			Function.prototype,
 		onDesktopItemClicked: (
 			_: React.MouseEvent<HTMLDivElement, MouseEvent>,
@@ -168,8 +165,15 @@ const DesktopItemContextProvider = (
 
 	const onDesktopDrop = (e: React.DragEvent<HTMLDivElement>) => {
 		e.preventDefault()
-		for (let i = 0; i < selectedContextKeys.length; i++) {
-			const elem = elementReferences[selectedContextKeys[i]]
+		const contextKey = e.dataTransfer.getData("text")
+		let movables = [contextKey]
+
+		if (selectedContextKeys.length > 0) {
+			movables = movables.concat(selectedContextKeys)
+		}
+
+		for (let i = 0; i < movables.length; i++) {
+			const elem = elementReferences[movables[i]]
 			if (elem) {
 				const rect = elem.getBoundingClientRect()
 
@@ -199,14 +203,12 @@ const DesktopItemContextProvider = (
 				elem.style.top = `${newY}px`
 			}
 		}
+
+		setSelectedContextKeys(movables)
 	}
 
 	const onDesktopDragOver = (e: React.DragEvent<HTMLDivElement>) => {
 		e.preventDefault()
-	}
-
-	const onDesktopItemMouseDown = (e: React.MouseEvent<HTMLDivElement, MouseEvent>, context: Context) => {
-		onDesktopItemClicked(e, context)
 	}
 
 	const onDesktopResized = () => {
@@ -229,8 +231,7 @@ const DesktopItemContextProvider = (
 				onDesktopItemDoubleClicked: onDesktopItemDoubleClicked,
 				onDesktopDrop: onDesktopDrop,
 				onDesktopDragOver: onDesktopDragOver,
-				onWindowResized: onDesktopResized,
-				onDesktopItemMouseDown: onDesktopItemMouseDown
+				onWindowResized: onDesktopResized
 			}}
 		>
 			{children}

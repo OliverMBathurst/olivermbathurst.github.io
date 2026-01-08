@@ -17,8 +17,7 @@ const DesktopItem = (props: IDesktopItemProps) => {
 		addElementReference,
 		onDesktopItemClicked,
 		onDesktopItemDoubleClicked,
-		onWindowResized,
-		onDesktopItemMouseDown
+		onWindowResized
 	} = useContext(DesktopItemContext)
 
 	const Icon = useIcon(context)
@@ -53,7 +52,6 @@ const DesktopItem = (props: IDesktopItemProps) => {
 
 	const onDragStart = (e: React.DragEvent<HTMLDivElement>) => {
 		e.dataTransfer.setData("text", contextKey)
-
 	}
 
 	return (
@@ -61,7 +59,6 @@ const DesktopItem = (props: IDesktopItemProps) => {
 			id={contextKey}
 			className={`desktop-item${selected ? " desktop-item--selected" : ""}`}
 			ref={(r) => addElementReference(r, context)}
-			onMouseDown={(e) => onDesktopItemMouseDown(e, context)}
 			onClick={(e) => onDesktopItemClickedInternal(e, context)}
 			onDoubleClick={(e) => onDesktopItemDoubleClickedInternal(e)}
 			onDragStart={onDragStart}
