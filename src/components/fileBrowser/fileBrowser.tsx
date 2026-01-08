@@ -1,14 +1,15 @@
-import { useCallback, useContext, useMemo, useState } from "react"
+import { useCallback, useContext, useMemo, useRef, useState } from "react"
 import {
-	BRANCHING_CONTEXT_DETERMINER,
-	BRANCHING_CONTEXT_PARENT_PROPERTY,
-	FILETYPE_RENDERABLE_PROPERTY,
-	FILETYPE_URL_SHORTCUT,
-	FILETYPE_URL_SHORTCUT_PROPERTY,
-	LEAF_EXTENSION_PROPERTY_NAME,
-	SHORTCUT_DETERMINER
+    BRANCHING_CONTEXT_DETERMINER,
+    BRANCHING_CONTEXT_PARENT_PROPERTY,
+    FILETYPE_RENDERABLE_PROPERTY,
+    FILETYPE_URL_SHORTCUT,
+    FILETYPE_URL_SHORTCUT_PROPERTY,
+    LEAF_EXTENSION_PROPERTY_NAME,
+    SHORTCUT_DETERMINER
 } from "../../constants"
 import { WindowsContext } from "../../contexts"
+import { useWindowSelectionRectangle } from "../../hooks"
 import { IAddWindowProperties } from "../../interfaces/windows"
 import { BranchingContext, Context } from "../../types/fs"
 import { FileBrowserRow, UpOneLevelRow } from "./components"
@@ -23,6 +24,7 @@ const FileBrowser = (props: IFileBrowserProps) => {
 	const { windowId, context } = props
 
 	const [selected, setSelected] = useState<string[]>([])
+	const fileBrowserRef = useRef<HTMLDivElement | null>(null)
 
 	const { addWindow, setWindowContext } = useContext(WindowsContext)
 
@@ -114,8 +116,15 @@ const FileBrowser = (props: IFileBrowserProps) => {
 		}
 	}
 
+	const onSelectionChanged = (selectionRectangle: DOMRect) => {
+		console.log("rectangle changed")
+	}
+
+	const SelectionRectangle = useWindowSelectionRectangle(fileBrowserRef, onSelectionChanged)
+
 	return (
-		<div className="file-browser">
+		<div className="file-browser" ref={fileBrowserRef}>
+			{SelectionRectangle}
 			{BRANCHING_CONTEXT_PARENT_PROPERTY in context && context.parent && (
 				<UpOneLevelRow onRowDoubleClicked={upOneLevel} />
 			)}

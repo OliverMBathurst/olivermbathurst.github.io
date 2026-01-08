@@ -99,7 +99,7 @@ export const useWindowSelectionRectangle = <T extends HTMLElement>(ref: React.Re
 
 	return (
 		<div
-			className="file-browser__selection-rectangle"
+			className="window__selection-rectangle"
 			ref={selectionRectangeRef}
 		/>
 	)
