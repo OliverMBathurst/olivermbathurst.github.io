@@ -172,77 +172,36 @@ const DesktopItemContextProvider = (
 		const diffX: number = e.clientX - rect.x
 		const diffY: number = e.clientY - rect.y
 
-		elem.style.position = "absolute"
-		elem.style.left = `${(rect.x + diffX) - (elem.clientWidth / 2)}px`
-		elem.style.top = `${(rect.y + diffY) - (elem.clientHeight / 2)}px`
-
-
-		/*let movables = [...selectedContextKeys]
-
-		if (movables.indexOf(contextKey) === -1) {
-			movables = movables.concat(contextKey)
-		}
-
 		const tasks: {
-			element: HTMLElement,
 			x: number,
-			y: number
+			y: number,
+			element: HTMLElement
 		}[] = []
 
+		const movables = [...selectedContextKeys]
+		if (movables.indexOf(contextKey) === -1) {
+			movables.push(contextKey)
+		}
+
 		for (let i = 0; i < movables.length; i++) {
-			const elem = elementReferences[movables[i]]
-			if (elem) {
-				const rect = elem.getBoundingClientRect()
+			const movableElement = elementReferences[movables[i]]
+			const movableRectangle = movableElement.getBoundingClientRect()
 
-				let newX: number = e.clientX
-				let newY: number = e.clientY
-
-				const diffX = Math.abs(e.clientX - rect.left)
-				const diffY = Math.abs(e.clientY - rect.top)
-
-				if (newX >= e.clientX) {
-					newX = (newX - e.clientX)
-				} else {
-					newX = (e.clientX - newX)
-				}
-
-				if (newY >= e.clientY) {
-					newY = (newY - e.clientY)
-				} else {
-					newY = (e.clientY - newY)
-				}
-
-				*//*newX = newX + rect.x
-				newY = newY + rect.y*//*
-
-				*//*if (rect.y >= newY) {
-					newY = (rect.y - newY)
-				} else {
-					newY = (newY - rect.y)
-				}
-
-				if (rect.x >= newX) {
-					newX = (rect.x - newX)
-				} else {
-					newX = (newX - rect.x)
-				}*//*
-
-				tasks.push({
-					element: elem,
-					x: newX,
-					y: newY
-				})
-			}
+			tasks.push({
+				x: movableRectangle.x,
+				y: movableRectangle.y,
+				element: movableElement
+			})
 		}
 
 		for (let i = 0; i < tasks.length; i++) {
-			const { element, x, y } = tasks[i]
+			const { x, y, element } = tasks[i]
 			element.style.position = "absolute"
-			element.style.left = `${x}px`
-			element.style.top = `${y}px`
+			element.style.left = `${(x + diffX) - (element.clientWidth / 2)}px`
+			element.style.top = `${(y + diffY) - (element.clientHeight / 2)}px`
 		}
 
-		setSelectedContextKeys(movables)*/
+		setSelectedContextKeys(movables)
 	}
 
 	const onDesktopDragOver = (e: React.DragEvent<HTMLDivElement>) => {
