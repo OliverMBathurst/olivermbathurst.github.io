@@ -1,21 +1,21 @@
 import { JSX, useMemo } from "react"
 import {
-    BRANCHING_CONTEXT_TYPE_PROPERTY,
-    FILETYPE_EXECUTABLE,
-    FILETYPE_PDF,
-    FILETYPE_TEXT,
-    FILETYPE_URL_SHORTCUT,
-    LEAF_EXTENSION_PROPERTY_NAME,
-    NO_SELECT_CLASS
+	BRANCHING_CONTEXT_TYPE_PROPERTY,
+	FILETYPE_EXECUTABLE,
+	FILETYPE_PDF,
+	FILETYPE_TEXT,
+	FILETYPE_URL_SHORTCUT,
+	LEAF_EXTENSION_PROPERTY_NAME,
+	NO_SELECT_CLASS
 } from "../constants"
 import {
-    DriveIcon,
-    ExecutableFileIcon,
-    FolderIcon,
-    GenericFileIcon,
-    InternetIcon,
-    PdfIcon,
-    TextFileIcon
+	DriveIcon,
+	ExecutableFileIcon,
+	FolderIcon,
+	GenericFileIcon,
+	InternetIcon,
+	PdfIcon,
+	TextFileIcon
 } from "../icons"
 import { Context } from "../types/fs"
 

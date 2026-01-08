@@ -58,7 +58,9 @@ const WindowTopBar = (props: IWindowTopBarProps) => {
 			>
 				{Icon}
 			</div>
-			<span className={`window__top-bar__title ${NO_SELECT_CLASS}`}>{DisplayName}</span>
+			<span className={`window__top-bar__title ${NO_SELECT_CLASS}`}>
+				{DisplayName}
+			</span>
 			<div className="window__top-bar__controls">
 				<div className="window__top-bar__controls__button">
 					<MinimizeIcon

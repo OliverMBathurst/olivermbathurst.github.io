@@ -174,8 +174,8 @@ const DesktopItemContextProvider = (
 		const diffY: number = e.clientY - rect.y
 
 		const tasks: {
-			x: number,
-			y: number,
+			x: number
+			y: number
 			element: HTMLElement
 		}[] = []
 
@@ -204,11 +204,18 @@ const DesktopItemContextProvider = (
 			const middleOffsetX = element.clientWidth / 2
 			const middleOffsetY = element.clientHeight / 2
 
-			if (leftAbsolute < middleOffsetX || (leftAbsolute + middleOffsetX) > window.innerWidth) {
+			if (
+				leftAbsolute < middleOffsetX ||
+				leftAbsolute + middleOffsetX > window.innerWidth
+			) {
 				continue
 			}
 
-			if ((topAbsolute + element.offsetHeight) - middleOffsetY > (window.innerHeight - DEFAULT_TASKBAR_HEIGHT_PIXELS) || topAbsolute < middleOffsetY) {
+			if (
+				topAbsolute + element.offsetHeight - middleOffsetY >
+					window.innerHeight - DEFAULT_TASKBAR_HEIGHT_PIXELS ||
+				topAbsolute < middleOffsetY
+			) {
 				continue
 			}
 

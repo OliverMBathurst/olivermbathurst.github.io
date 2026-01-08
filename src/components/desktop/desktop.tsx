@@ -1,5 +1,10 @@
 import { useCallback, useContext, useEffect, useMemo, useRef } from "react"
-import { DESKTOP_ITEM_CLASS, DESKTOP_ITEM_ICON_CLASS, DESKTOP_ITEM_NAME_CLASS, NO_SELECT_CLASS } from "../../constants"
+import {
+	DESKTOP_ITEM_CLASS,
+	DESKTOP_ITEM_ICON_CLASS,
+	DESKTOP_ITEM_NAME_CLASS,
+	NO_SELECT_CLASS
+} from "../../constants"
 import { DesktopItemContext, FileSystemContext } from "../../contexts"
 import { SpecialBranch } from "../../enums"
 import { useFileSystem } from "../../hooks"
@@ -48,7 +53,9 @@ const Desktop = () => {
 	const onMouseDown = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
 		if (e.target instanceof HTMLElement) {
 			const elem = e.target as HTMLElement
-			if (selectionRectangeStartExclusions.some(x => elem.classList.contains(x))) {
+			if (
+				selectionRectangeStartExclusions.some((x) => elem.classList.contains(x))
+			) {
 				return
 			}
 		}

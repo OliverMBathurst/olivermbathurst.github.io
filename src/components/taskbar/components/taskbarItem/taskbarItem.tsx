@@ -1,5 +1,9 @@
 import { useContext } from "react"
-import { NO_SELECT_CLASS, TASKBAR_ITEM_CLASS, TASKBAR_ITEM_NAME_CLASS } from "../../../../constants"
+import {
+	NO_SELECT_CLASS,
+	TASKBAR_ITEM_CLASS,
+	TASKBAR_ITEM_NAME_CLASS
+} from "../../../../constants"
 import { WindowsContext } from "../../../../contexts"
 import { useDisplayName, useIcon } from "../../../../hooks"
 import { IWindowProperties } from "../../../../interfaces/windows"

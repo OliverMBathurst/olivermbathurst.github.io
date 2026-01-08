@@ -22,7 +22,9 @@ const FileBrowserRow = (props: IFileBrowserRowProps) => {
 			onClick={onRowClicked}
 		>
 			<div className={`file-browser__row__icon ${NO_SELECT_CLASS}`}>{Icon}</div>
-			<div className={`file-browser__row__name ${NO_SELECT_CLASS}`}>{DisplayName}</div>
+			<div className={`file-browser__row__name ${NO_SELECT_CLASS}`}>
+				{DisplayName}
+			</div>
 		</div>
 	)
 }
