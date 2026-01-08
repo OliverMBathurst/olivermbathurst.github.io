@@ -166,7 +166,18 @@ const DesktopItemContextProvider = (
 	const onDesktopDrop = (e: React.DragEvent<HTMLDivElement>) => {
 		e.preventDefault()
 		const contextKey = e.dataTransfer.getData("text")
-		let movables = [...selectedContextKeys]
+		const elem = elementReferences[contextKey]
+		const rect = elem.getBoundingClientRect()
+
+		const diffX: number = e.clientX - rect.x
+		const diffY: number = e.clientY - rect.y
+
+		elem.style.position = "absolute"
+		elem.style.left = `${(rect.x + diffX) - (elem.clientWidth / 2)}px`
+		elem.style.top = `${(rect.y + diffY) - (elem.clientHeight / 2)}px`
+
+
+		/*let movables = [...selectedContextKeys]
 
 		if (movables.indexOf(contextKey) === -1) {
 			movables = movables.concat(contextKey)
@@ -186,17 +197,35 @@ const DesktopItemContextProvider = (
 				let newX: number = e.clientX
 				let newY: number = e.clientY
 
-				if (rect.y >= newY) {
-					newY -= rect.y 
+				const diffX = Math.abs(e.clientX - rect.left)
+				const diffY = Math.abs(e.clientY - rect.top)
+
+				if (newX >= e.clientX) {
+					newX = (newX - e.clientX)
 				} else {
-					newY += rect.y
+					newX = (e.clientX - newX)
+				}
+
+				if (newY >= e.clientY) {
+					newY = (newY - e.clientY)
+				} else {
+					newY = (e.clientY - newY)
+				}
+
+				*//*newX = newX + rect.x
+				newY = newY + rect.y*//*
+
+				*//*if (rect.y >= newY) {
+					newY = (rect.y - newY)
+				} else {
+					newY = (newY - rect.y)
 				}
 
 				if (rect.x >= newX) {
-					newX -= rect.x
+					newX = (rect.x - newX)
 				} else {
-					newX += rect.x
-				}
+					newX = (newX - rect.x)
+				}*//*
 
 				tasks.push({
 					element: elem,
@@ -213,7 +242,7 @@ const DesktopItemContextProvider = (
 			element.style.top = `${y}px`
 		}
 
-		setSelectedContextKeys(movables)
+		setSelectedContextKeys(movables)*/
 	}
 
 	const onDesktopDragOver = (e: React.DragEvent<HTMLDivElement>) => {
