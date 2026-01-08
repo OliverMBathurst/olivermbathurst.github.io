@@ -200,7 +200,6 @@ const DesktopItemContextProvider = (
 
 			const leftAbsolute = x + diffX
 			const topAbsolute = y + diffY
-			const bottomAbsolute = topAbsolute + element.offsetHeight
 
 			const middleOffsetX = element.clientWidth / 2
 			const middleOffsetY = element.clientHeight / 2
@@ -209,7 +208,7 @@ const DesktopItemContextProvider = (
 				continue
 			}
 
-			if (bottomAbsolute - middleOffsetY > (window.innerHeight - DEFAULT_TASKBAR_HEIGHT_PIXELS) || topAbsolute < middleOffsetY) {
+			if ((topAbsolute + element.offsetHeight) - middleOffsetY > (window.innerHeight - DEFAULT_TASKBAR_HEIGHT_PIXELS) || topAbsolute < middleOffsetY) {
 				continue
 			}
 
