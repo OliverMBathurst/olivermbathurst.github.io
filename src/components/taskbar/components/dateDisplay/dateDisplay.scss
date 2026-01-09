@@ -10,14 +10,11 @@
 	display: flex;
 	color: white;
 	font-size: 0.75rem;
-	height: 100%;
-	width: 100%;
-	border-radius: 0.1875rem;
+	width: 100%;	
 	padding: 0 0.2rem 0 0.2rem;
 }
 
-.date-display__input:hover,
-.date-display__overlay:hover {
+.date-display:hover {
 	background: rgba(255, 255, 255, 0.1);
 }
 
@@ -29,4 +26,5 @@
 	height: 100%;
 	margin-left: 0.4rem;
 	position: relative;
+	border-radius: 0.1875rem;
 }

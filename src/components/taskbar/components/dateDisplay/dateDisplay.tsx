@@ -19,7 +19,9 @@ const DateDisplay = () => {
 
 	const openDatePicker = () => {
 		if (inputRef.current) {
-			inputRef.current.showPicker()
+			if ("showPicker" in inputRef.current) {
+				inputRef.current.showPicker()
+			}
 		}
 	}
 
