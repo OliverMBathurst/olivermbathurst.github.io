@@ -1,14 +1,23 @@
 .date-display__input {
-	font-size: 0.75rem;
-	background-color: black;
-	color: white;
-	outline: none;
-	border: none;
 	height: 100%;
-	border-radius: 0.1875rem;
+	visibility: hidden;
+	width: 100%;
+	position: absolute;
+	padding: 0;
 }
 
-.date-display__input:hover {
+.date-display__overlay {
+	display: flex;
+	color: white;
+	font-size: 0.75rem;
+	height: 100%;
+	width: 100%;
+	border-radius: 0.1875rem;
+	padding: 0 0.2rem 0 0.2rem;
+}
+
+.date-display__input:hover,
+.date-display__overlay:hover {
 	background: rgba(255, 255, 255, 0.1);
 }
 
@@ -16,7 +25,8 @@
 	display: flex;
 	flex-shrink: 0;
 	align-items: center;
-	height: 2.4rem;
-	padding: 0 0.2rem 0 0.2rem;
+	justify-content: center;
+	height: 100%;
 	margin-left: 0.4rem;
+	position: relative;
 }

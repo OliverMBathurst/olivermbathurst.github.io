@@ -5,7 +5,8 @@ const styles: React.CSSProperties = {
 	backgroundColor: "aqua",
 	opacity: 0.3,
 	position: "absolute",
-	border: "blue 0.1875rem solid"
+	border: "blue 0.1875rem solid",
+	visibility: "hidden"
 }
 
 export const useWindowSelectionRectangle = <T extends HTMLElement>(ref: React.RefObject<T | null>, onRectangleChanged: (rect: DOMRect) => void) => {
