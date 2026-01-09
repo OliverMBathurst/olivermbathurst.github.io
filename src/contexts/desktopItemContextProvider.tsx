@@ -3,8 +3,8 @@ import { DEFAULT_TASKBAR_HEIGHT_PIXELS } from "../constants"
 import { Context } from "../types/fs"
 
 interface IDesktopItemContext {
-	selectedContextKeys: string[],
-	elementReferences: Record<string, HTMLElement>,
+	selectedContextKeys: string[]
+	elementReferences: Record<string, HTMLElement>
 	onDesktopClicked: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void
 	addElementReference: <T extends HTMLElement>(
 		element: T | null,
@@ -46,7 +46,7 @@ export const DesktopItemContext: ReactContext<IDesktopItemContext> =
 		onDesktopDragOver: (_: React.DragEvent<HTMLDivElement>) =>
 			Function.prototype,
 		onWindowResized: (_: UIEvent) => Function.prototype,
-		setSelectedContextKeys: (_: string[]) => Function.prototype,
+		setSelectedContextKeys: (_: string[]) => Function.prototype
 	})
 
 const elementReferences: Record<string, HTMLElement> = {}
@@ -247,7 +247,7 @@ const DesktopItemContextProvider = (
 
 	const onDesktopItemSelected = (e: Context, selected: boolean) => {
 		const contextKey = e.toContextUniqueKey()
-		setSelectedContextKeys(ck => {
+		setSelectedContextKeys((ck) => {
 			if (selected) {
 				if (ck.indexOf(contextKey) !== -1) {
 					return ck
@@ -256,7 +256,7 @@ const DesktopItemContextProvider = (
 				return [...ck, contextKey]
 			}
 
-			return [...ck.filter(k => k !== contextKey)]
+			return [...ck.filter((k) => k !== contextKey)]
 		})
 	}
 

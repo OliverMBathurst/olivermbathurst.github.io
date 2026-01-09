@@ -1,6 +1,6 @@
 import { createContext, useState } from "react"
 import { SpecialBranch } from "../enums"
-import { CV, GitHub, LinkedIn } from "../files"
+import { CV, GitHub, LinkedIn, ThisProject } from "../files"
 import { Branch, BranchingContext, Root, Shortcut } from "../types/fs"
 
 const desktopBranch = new Branch("Desktop", SpecialBranch.Desktop)
@@ -10,7 +10,8 @@ const root = new Root("Root")
 desktopBranch.setLeaves([
 	new CV(desktopBranch),
 	new LinkedIn(desktopBranch),
-	new GitHub(desktopBranch)
+	new GitHub(desktopBranch),
+	new ThisProject(desktopBranch)
 ])
 
 const contentsBranch = new Branch("Contents", SpecialBranch.None)

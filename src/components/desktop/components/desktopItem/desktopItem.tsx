@@ -1,9 +1,9 @@
 import React, { useContext, useEffect } from "react"
 import {
-    DESKTOP_ITEM_CLASS,
-    DESKTOP_ITEM_ICON_CLASS,
-    DESKTOP_ITEM_NAME_CLASS,
-    NO_SELECT_CLASS
+	DESKTOP_ITEM_CLASS,
+	DESKTOP_ITEM_ICON_CLASS,
+	DESKTOP_ITEM_NAME_CLASS,
+	NO_SELECT_CLASS
 } from "../../../../constants"
 import { DesktopItemContext } from "../../../../contexts"
 import { useDisplayName, useIcon } from "../../../../hooks"
@@ -12,7 +12,9 @@ import "./desktopItem.scss"
 
 interface IDesktopItemProps {
 	context: Context
-	onDoubleClick: (e: React.MouseEvent<HTMLDivElement, MouseEvent> | KeyboardEvent) => void
+	onDoubleClick: (
+		e: React.MouseEvent<HTMLDivElement, MouseEvent> | KeyboardEvent
+	) => void
 }
 
 const DesktopItem = (props: IDesktopItemProps) => {
@@ -84,7 +86,6 @@ const DesktopItem = (props: IDesktopItemProps) => {
 			ref={(r) => addElementReference(r, context)}
 			onClick={(e) => onDesktopItemClickedInternal(e, context)}
 			onDoubleClick={(e) => onDesktopItemDoubleClickedInternal(e)}
-			
 			onDragStart={onDragStart}
 			draggable
 		>

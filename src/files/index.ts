@@ -1,5 +1,6 @@
 import CV from "./cv"
-import LinkedIn from "./linkedIn"
 import GitHub from "./gitHub"
+import LinkedIn from "./linkedIn"
+import ThisProject from "./thisProject"
 
-export { CV, LinkedIn, GitHub }
+export { CV, GitHub, LinkedIn, ThisProject }

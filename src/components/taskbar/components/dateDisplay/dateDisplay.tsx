@@ -11,7 +11,9 @@ const DateDisplay = () => {
 	const setDateInternal = () => {
 		const now = new Date()
 		now.setMinutes(now.getMinutes() - now.getTimezoneOffset())
-		const formattedDate = now.toISOString().slice(0, 19)
+		const formattedDate = now
+			.toISOString()
+			.slice(0, 19)
 			.replaceAll("-", "/")
 			.replaceAll("T", " ")
 		setDate(formattedDate)
@@ -42,8 +44,14 @@ const DateDisplay = () => {
 				type="datetime-local"
 				className={DATE_PICKER_ID}
 			/>
-			<span className={`date-display__overlay ${NO_SELECT_CLASS}`} onClick={openDatePicker}>{date}</span>
-		</div>)
+			<span
+				className={`date-display__overlay ${NO_SELECT_CLASS}`}
+				onClick={openDatePicker}
+			>
+				{date}
+			</span>
+		</div>
+	)
 }
 
 export default DateDisplay

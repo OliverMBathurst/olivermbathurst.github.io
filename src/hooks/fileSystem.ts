@@ -5,7 +5,7 @@ import {
 } from "../constants"
 import { FileSystemContext } from "../contexts"
 import { SpecialBranch } from "../enums"
-import { Branch, BranchingContext } from "../types/fs"
+import { Branch, BranchingContext, Leaf } from "../types/fs"
 
 const useFileSystem = (context?: BranchingContext) => {
 	const { root } = useContext(FileSystemContext)
@@ -53,11 +53,22 @@ const useFileSystem = (context?: BranchingContext) => {
 		return null
 	}
 
+	const getFilesOfBranchRecursively = (branch?: Branch): Leaf[] => {
+		const targetBranch = branch ?? root
+		let files: Leaf[] = [...targetBranch.leaves]
+		for (const b of targetBranch.branches) {
+			files = files.concat(getFilesOfBranchRecursively(b))
+		}
+
+		return files
+	}
+
 	return {
 		upOneLevel,
 		enterBranch,
 		currentContext,
-		searchForBranchByType
+		searchForBranchByType,
+		getFilesOfBranchRecursively
 	}
 }
 

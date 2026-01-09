@@ -12,14 +12,20 @@ interface IFileBrowserRowProps {
 }
 
 const FileBrowserRow = (props: IFileBrowserRowProps) => {
-	const { context, selected, setRowReference, onRowDoubleClicked, onRowClicked } = props
+	const {
+		context,
+		selected,
+		setRowReference,
+		onRowDoubleClicked,
+		onRowClicked
+	} = props
 	const Icon = useIcon(context)
 	const DisplayName = useDisplayName(context)
 
 	return (
 		<div
 			className={`file-browser__row${selected ? "--selected" : ""}`}
-			ref={r => setRowReference(r)}
+			ref={(r) => setRowReference(r)}
 			onDoubleClick={onRowDoubleClicked}
 			onClick={onRowClicked}
 		>

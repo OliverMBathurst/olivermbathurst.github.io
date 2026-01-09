@@ -9,7 +9,10 @@ const styles: React.CSSProperties = {
 	visibility: "hidden"
 }
 
-export const useWindowSelectionRectangle = <T extends HTMLElement>(ref: React.RefObject<T | null>, onRectangleChanged: (rect: DOMRect) => void) => {
+export const useWindowSelectionRectangle = <T extends HTMLElement>(
+	ref: React.RefObject<T | null>,
+	onRectangleChanged: (rect: DOMRect) => void
+) => {
 	const selectionRectangeRef = useRef<HTMLDivElement | null>(null)
 	const selecting = useRef<boolean>(false)
 	const selectionRectangeStart = useRef<IPosition | undefined>(undefined)
@@ -31,7 +34,7 @@ export const useWindowSelectionRectangle = <T extends HTMLElement>(ref: React.Re
 			selecting.current = true
 
 			const elem = ref.current.getBoundingClientRect()
-			
+
 			selectionRectangeStart.current = {
 				x: e.clientX - elem.left + 4,
 				y: e.clientY - elem.top + 45
@@ -97,7 +100,7 @@ export const useWindowSelectionRectangle = <T extends HTMLElement>(ref: React.Re
 		if (ref.current) {
 			ref.current.addEventListener("mousemove", onMouseMove)
 		}
-		
+
 		return () => {
 			if (ref.current) {
 				ref.current.removeEventListener("mousemove", onMouseMove)
@@ -105,12 +108,7 @@ export const useWindowSelectionRectangle = <T extends HTMLElement>(ref: React.Re
 		}
 	}, [onMouseDown])
 
-	return (
-		<div
-			style={{ ...styles }}
-			ref={selectionRectangeRef}
-		/>
-	)
+	return <div style={{ ...styles }} ref={selectionRectangeRef} />
 }
 
 export default useWindowSelectionRectangle

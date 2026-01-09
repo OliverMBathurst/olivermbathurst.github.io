@@ -1,12 +1,12 @@
 import { useCallback, useContext, useMemo, useRef, useState } from "react"
 import {
-    BRANCHING_CONTEXT_DETERMINER,
-    BRANCHING_CONTEXT_PARENT_PROPERTY,
-    FILETYPE_RENDERABLE_PROPERTY,
-    FILETYPE_URL_SHORTCUT,
-    FILETYPE_URL_SHORTCUT_PROPERTY,
-    LEAF_EXTENSION_PROPERTY_NAME,
-    SHORTCUT_DETERMINER
+	BRANCHING_CONTEXT_DETERMINER,
+	BRANCHING_CONTEXT_PARENT_PROPERTY,
+	FILETYPE_RENDERABLE_PROPERTY,
+	FILETYPE_URL_SHORTCUT,
+	FILETYPE_URL_SHORTCUT_PROPERTY,
+	LEAF_EXTENSION_PROPERTY_NAME,
+	SHORTCUT_DETERMINER
 } from "../../constants"
 import { WindowsContext } from "../../contexts"
 import { useWindowSelectionRectangle } from "../../hooks"
@@ -23,9 +23,7 @@ interface IFileBrowserProps {
 
 let rowReferences: Record<string, HTMLElement | null> = {}
 
-const clickOutsideExclusions = [
-	"file-browser__row"
-]
+const clickOutsideExclusions = ["file-browser__row"]
 
 const FileBrowser = (props: IFileBrowserProps) => {
 	const { windowId, context } = props
@@ -141,16 +139,30 @@ const FileBrowser = (props: IFileBrowserProps) => {
 		setSelected(selectedContextKeys)
 	}
 
-	const onFileBrowserMouseDown = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-		if (!(e.target instanceof HTMLElement) || !clickOutsideExclusions.some(x => (e.target as HTMLElement).classList.contains(x))) {
+	const onFileBrowserMouseDown = (
+		e: React.MouseEvent<HTMLDivElement, MouseEvent>
+	) => {
+		if (
+			!(e.target instanceof HTMLElement) ||
+			!clickOutsideExclusions.some((x) =>
+				(e.target as HTMLElement).classList.contains(x)
+			)
+		) {
 			setSelected([])
 		}
 	}
 
-	const SelectionRectangle = useWindowSelectionRectangle(fileBrowserRef, onSelectionChanged)
+	const SelectionRectangle = useWindowSelectionRectangle(
+		fileBrowserRef,
+		onSelectionChanged
+	)
 
 	return (
-		<div className="file-browser" ref={fileBrowserRef} onMouseDown={onFileBrowserMouseDown}>
+		<div
+			className="file-browser"
+			ref={fileBrowserRef}
+			onMouseDown={onFileBrowserMouseDown}
+		>
 			{SelectionRectangle}
 			{BRANCHING_CONTEXT_PARENT_PROPERTY in context && context.parent && (
 				<UpOneLevelRow onRowDoubleClicked={upOneLevel} />
@@ -162,7 +174,7 @@ const FileBrowser = (props: IFileBrowserProps) => {
 						key={contextKey}
 						context={e}
 						selected={selected.indexOf(contextKey) !== -1}
-						setRowReference={r => rowReferences[contextKey] = r}
+						setRowReference={(r) => (rowReferences[contextKey] = r)}
 						onRowClicked={(ev) => onRowClicked(e, ev)}
 						onRowDoubleClicked={(ev) => onRowDoubleClicked(e, ev)}
 					/>
