@@ -14,11 +14,18 @@ import { IAddWindowProperties } from "../../interfaces/windows"
 import { BranchingContext, Context } from "../../types/fs"
 import { FileBrowserRow, UpOneLevelRow } from "./components"
 import "./fileBrowser.scss"
+import { doRectanglesIntersect } from "../../helpers/selection"
 
 interface IFileBrowserProps {
 	windowId: string
 	context: BranchingContext
 }
+
+let rowReferences: Record<string, HTMLElement | null> = {}
+
+const clickOutsideExclusions = [
+	"file-browser__row"
+]
 
 const FileBrowser = (props: IFileBrowserProps) => {
 	const { windowId, context } = props
@@ -56,6 +63,7 @@ const FileBrowser = (props: IFileBrowserProps) => {
 
 				addWindow(windowProperties)
 			} else if (BRANCHING_CONTEXT_DETERMINER in resolvedContext) {
+				rowReferences = {}
 				setWindowContext(windowId, resolvedContext)
 			}
 		},
@@ -112,18 +120,37 @@ const FileBrowser = (props: IFileBrowserProps) => {
 
 	const upOneLevel = () => {
 		if (BRANCHING_CONTEXT_PARENT_PROPERTY in context && context.parent) {
+			rowReferences = {}
 			setWindowContext(windowId, context.parent)
 		}
 	}
 
 	const onSelectionChanged = (selectionRectangle: DOMRect) => {
-		console.log("rectangle changed")
+		const rowElementKeys = Object.keys(rowReferences)
+		const selectedContextKeys: string[] = []
+		for (let i = 0; i < rowElementKeys.length; i++) {
+			const rowElement = rowReferences[rowElementKeys[i]]
+			if (rowElement) {
+				const rowRectangle = rowElement.getBoundingClientRect()
+				if (doRectanglesIntersect(selectionRectangle, rowRectangle)) {
+					selectedContextKeys.push(rowElementKeys[i])
+				}
+			}
+		}
+
+		setSelected(selectedContextKeys)
+	}
+
+	const onFileBrowserMouseDown = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+		if (!(e.target instanceof HTMLElement) || !clickOutsideExclusions.some(x => (e.target as HTMLElement).classList.contains(x))) {
+			setSelected([])
+		}
 	}
 
 	const SelectionRectangle = useWindowSelectionRectangle(fileBrowserRef, onSelectionChanged)
 
 	return (
-		<div className="file-browser" ref={fileBrowserRef}>
+		<div className="file-browser" ref={fileBrowserRef} onMouseDown={onFileBrowserMouseDown}>
 			{SelectionRectangle}
 			{BRANCHING_CONTEXT_PARENT_PROPERTY in context && context.parent && (
 				<UpOneLevelRow onRowDoubleClicked={upOneLevel} />
@@ -135,6 +162,7 @@ const FileBrowser = (props: IFileBrowserProps) => {
 						key={contextKey}
 						context={e}
 						selected={selected.indexOf(contextKey) !== -1}
+						setRowReference={r => rowReferences[contextKey] = r}
 						onRowClicked={(ev) => onRowClicked(e, ev)}
 						onRowDoubleClicked={(ev) => onRowDoubleClicked(e, ev)}
 					/>
