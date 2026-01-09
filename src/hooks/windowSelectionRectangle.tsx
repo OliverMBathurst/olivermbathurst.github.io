@@ -1,6 +1,13 @@
 import { useCallback, useEffect, useRef } from "react"
 import { IPosition } from "../interfaces/windows"
 
+const styles: React.CSSProperties = {
+	backgroundColor: "aqua",
+	opacity: 0.3,
+	position: "absolute",
+	border: "blue 0.1875rem solid"
+}
+
 export const useWindowSelectionRectangle = <T extends HTMLElement>(ref: React.RefObject<T | null>, onRectangleChanged: (rect: DOMRect) => void) => {
 	const selectionRectangeRef = useRef<HTMLDivElement | null>(null)
 	const selecting = useRef<boolean>(false)
@@ -99,7 +106,7 @@ export const useWindowSelectionRectangle = <T extends HTMLElement>(ref: React.Re
 
 	return (
 		<div
-			className="window__selection-rectangle"
+			style={{ ...styles }}
 			ref={selectionRectangeRef}
 		/>
 	)

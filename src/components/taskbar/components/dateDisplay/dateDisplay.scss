@@ -1,17 +1,22 @@
-.date-display {
+.date-display__input {
 	font-size: 0.75rem;
-	color: rgba(213, 209, 204, 0.8);
-	user-select: none;
-	display: flex;
-	height: 2.4rem;
-	align-items: center;
+	background-color: black;
+	color: white;
+	outline: none;
+	border: none;
+	height: 100%;
 	border-radius: 0.1875rem;
-	border-width: 0.125rem;
-	padding: 0 0.2rem 0 0.2rem;
-	flex-shrink: 0;
-	margin-left: 0.4rem;
 }
 
-.date-display:hover {
+.date-display__input:hover {
 	background: rgba(255, 255, 255, 0.1);
+}
+
+.date-display {
+	display: flex;
+	flex-shrink: 0;
+	align-items: center;
+	height: 2.4rem;
+	padding: 0 0.2rem 0 0.2rem;
+	margin-left: 0.4rem;
 }
