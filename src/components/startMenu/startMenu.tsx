@@ -24,12 +24,16 @@ const StartMenu = () => {
 		<div className="start-menu">
 			<div className="start-menu__top-container__categories">
 				<div className="start-menu__top-container__categories__apps">
-					<span className={`start-menu__top-container__categories__apps__title ${NO_SELECT_CLASS}`}>
+					<span
+						className={`start-menu__top-container__categories__apps__title ${NO_SELECT_CLASS}`}
+					>
 						Apps
 					</span>
 				</div>
 				<div className="start-menu__top-container__categories__files">
-					<span className={`start-menu__top-container__categories__files__title ${NO_SELECT_CLASS}`}>
+					<span
+						className={`start-menu__top-container__categories__files__title ${NO_SELECT_CLASS}`}
+					>
 						Files
 					</span>
 				</div>
@@ -37,14 +41,20 @@ const StartMenu = () => {
 			<div className="start-menu__top-container">
 				<div className="start-menu__top-container__left"></div>
 				<div className="start-menu__top-container__right">
-					{allLeaves.map(l => {
+					{allLeaves.map((l) => {
 						const Icon = getIcon(l)
 						const DisplayName = getDisplayName(l)
 						const key = getFullPath(l)
 						return (
 							<div className="start-menu__top-container__right__row" key={key}>
-								<div className={`start-menu__top-container__right__row__icon ${NO_SELECT_CLASS}`}>{Icon}</div>
-								<div className={`start-menu__top-container__right__row__name ${NO_SELECT_CLASS}`}>
+								<div
+									className={`start-menu__top-container__right__row__icon ${NO_SELECT_CLASS}`}
+								>
+									{Icon}
+								</div>
+								<div
+									className={`start-menu__top-container__right__row__name ${NO_SELECT_CLASS}`}
+								>
 									{DisplayName}
 								</div>
 							</div>
@@ -54,10 +64,7 @@ const StartMenu = () => {
 			</div>
 			<div className="start-menu__bottom-container">
 				<div className="start-menu__bottom-container__search">
-					<SearchBar
-						type="text"
-						placeholder="Search..."
-					/>
+					<SearchBar type="text" placeholder="Search..." />
 				</div>
 			</div>
 		</div>

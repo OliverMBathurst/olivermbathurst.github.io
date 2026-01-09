@@ -2,10 +2,10 @@ import { useContext, useMemo } from "react"
 import { WindowsContext } from "../../contexts"
 import { SearchBar } from "../searchBar"
 import {
-    DateDisplay,
-    MinimizeAllButton,
-    StartButton,
-    TaskbarItem
+	DateDisplay,
+	MinimizeAllButton,
+	StartButton,
+	TaskbarItem
 } from "./components"
 import "./taskbar.scss"
 

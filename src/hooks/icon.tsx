@@ -1,11 +1,7 @@
 import { JSX, useMemo } from "react"
-import {
-    NO_SELECT_CLASS
-} from "../constants"
+import { NO_SELECT_CLASS } from "../constants"
 import { getIcon } from "../helpers/icons"
-import {
-    IIconProps
-} from "../icons"
+import { IIconProps } from "../icons"
 import { Context } from "../types/fs"
 
 const useIcon: (context: Context, noSelect?: boolean) => JSX.Element = (

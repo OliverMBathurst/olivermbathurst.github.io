@@ -10,7 +10,10 @@ const StartButton = (props: IStartButtonProps) => {
 	const { onStartButtonClicked } = props
 
 	return (
-		<div className={`start-button ${NO_SELECT_CLASS}`} onClick={onStartButtonClicked}>
+		<div
+			className={`start-button ${NO_SELECT_CLASS}`}
+			onClick={onStartButtonClicked}
+		>
 			<StartMenuIcon />
 		</div>
 	)
