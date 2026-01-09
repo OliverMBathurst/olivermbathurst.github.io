@@ -10,6 +10,8 @@ import close from "../icons/close.png"
 import minimise from "../icons/minimise.png"
 import maximise from "../icons/maximise.png"
 import start from "../icons/startMenu.png"
+import search from "../icons/search.png"
+import cancel from "../icons/cancel.png"
 
 const GenericFileIcon = (props: IIconProps) => (
 	<img src={file} alt="File icon by icon8" {...props} />
@@ -55,6 +57,14 @@ const MaximizeIcon = (props: IIconProps) => (
 	<img src={maximise} alt="Maximise icon by icon8" {...props} />
 )
 
+const SearchIcon = (props: IIconProps) => (
+	<img src={search} alt="Search icon by icon8" {...props} />
+)
+
+const CancelIcon = (props: IIconProps) => (
+	<img src={cancel} alt="Cancel icon by icon8" {...props} />
+)
+
 export {
 	GenericFileIcon,
 	CloseIcon,
@@ -66,10 +76,12 @@ export {
 	ExecutableFileIcon,
 	FolderIcon,
 	DriveIcon,
-	StartMenuIcon
+	StartMenuIcon,
+	SearchIcon,
+	CancelIcon
 }
 
-export interface IIconProps {
+export interface IIconProps extends React.ImgHTMLAttributes<HTMLImageElement> {
 	className?: string
 	draggable?: boolean
 	onClick?: (e: React.MouseEvent<HTMLImageElement, MouseEvent>) => void

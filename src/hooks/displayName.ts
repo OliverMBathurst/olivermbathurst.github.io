@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { getDisplayName } from "../helpers/displayName"
+import { getDisplayName } from "../helpers/naming"
 import { Context } from "../types/fs"
 
 const useDisplayName = (context: Context) => {

@@ -6,6 +6,10 @@
 	border-radius: 0.1875rem;
 	border-width: 0.125rem;
 	flex-shrink: 0;
+
+	@media screen and (max-width: 23.125rem) {
+		display: none;
+	}
 }
 
 .minimize-all:hover {

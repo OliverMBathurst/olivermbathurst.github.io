@@ -22,6 +22,4 @@ export const getIcon = (context: Context, props?: IIconProps): JSX.Element | nul
 	} else {
 		return <DriveIcon { ...props } />
 	}
-
-	return null
 }

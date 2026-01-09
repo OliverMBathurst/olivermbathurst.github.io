@@ -1,10 +1,11 @@
-import { useContext, useMemo, useState } from "react"
+import { useContext, useMemo } from "react"
 import { WindowsContext } from "../../contexts"
+import { SearchBar } from "../searchBar"
 import {
-	DateDisplay,
-	MinimizeAllButton,
-	StartButton,
-	TaskbarItem
+    DateDisplay,
+    MinimizeAllButton,
+    StartButton,
+    TaskbarItem
 } from "./components"
 import "./taskbar.scss"
 
@@ -26,6 +27,7 @@ const Taskbar = (props: ITaskbarProps) => {
 	return (
 		<div className="taskbar">
 			<StartButton onStartButtonClicked={onStartButtonClicked} />
+			<SearchBar type="text" placeholder="Search..." />
 			<div className="taskbar__items-container">{TaskbarItems}</div>
 			<DateDisplay />
 			<MinimizeAllButton onMinimizeAllClicked={onMinimizeAllButtonClicked} />

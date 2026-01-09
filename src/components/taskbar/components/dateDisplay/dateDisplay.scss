@@ -27,4 +27,8 @@
 	margin-left: 0.4rem;
 	position: relative;
 	border-radius: 0.1875rem;
+
+	@media screen and (max-width: 23.125rem) {
+		display: none;
+	}
 }

@@ -2,7 +2,7 @@ import { JSX, useMemo } from "react"
 import {
     NO_SELECT_CLASS
 } from "../constants"
-import { getIcon } from "../helpers/icon"
+import { getIcon } from "../helpers/icons"
 import {
     IIconProps
 } from "../icons"
