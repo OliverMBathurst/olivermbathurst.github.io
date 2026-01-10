@@ -6,7 +6,7 @@ export const getFullPath = (context: Context) => {
 	let displayName = getDisplayName(context)
 
 	if (BRANCHING_CONTEXT_PARENT_PROPERTY in context && context.parent) {
-		displayName = `${getFullPath(context.parent)}/${displayName}`
+		displayName = `${getFullPath(context.parent)}\\${displayName}`
 	}
 
 	return displayName

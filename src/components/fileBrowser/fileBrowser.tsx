@@ -1,7 +1,8 @@
 import { useCallback, useContext, useMemo, useRef, useState } from "react"
 import {
     BRANCHING_CONTEXT_DETERMINER,
-    BRANCHING_CONTEXT_PARENT_PROPERTY
+    BRANCHING_CONTEXT_PARENT_PROPERTY,
+    NO_SELECT_CLASS
 } from "../../constants"
 import { WindowsContext } from "../../contexts"
 import { doRectanglesIntersect } from "../../helpers/selections"
@@ -141,7 +142,10 @@ const FileBrowser = (props: IFileBrowserProps) => {
 	}
 
 	const onFileNavigation = (context: Leaf | Shortcut) => {
-		// Break out logic above and use it to add Window
+		const windowProperties = applicationHandlerService.execute(context)
+		if (windowProperties != null) {
+			addWindow(windowProperties)
+		}
 	}
 
 	const SelectionRectangle = useWindowSelectionRectangle(
@@ -178,6 +182,9 @@ const FileBrowser = (props: IFileBrowserProps) => {
 						/>
 					)
 				})}
+			</div>
+			<div className="file-browser__information-pane">
+				<span className={`file-browser__information-pane ${NO_SELECT_CLASS}`}>{`${Entities.length} item${Entities.length !== 1 ? "s" : ""} | ${context.branches.length} folder${context.branches.length !== 1 ? "s" : ""}, ${context.leaves.length + context.shortcuts.length} file${context.leaves.length + context.shortcuts.length !== 1 ? "s" : ""}`}</span>
 			</div>
 		</div>
 	)

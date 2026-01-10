@@ -70,7 +70,7 @@ const useFileSystem = (context?: BranchingContext) => {
 			return root
 		}
 
-		const split = path.split("/")
+		const split = path.split("\\")
 		if (split.length === 1) {
 			if (split[0] === root.name) {
 				return root
@@ -86,6 +86,10 @@ const useFileSystem = (context?: BranchingContext) => {
 		let _context: BranchingContext = root
 		for (let i = 1; i < split.length; i++) {
 			const newContextName = split[i]
+			if (newContextName === "") {
+				return _context
+			}
+
 			const matchingBranch: BranchingContext | undefined = _context.branches.find(x => x.name === newContextName)
 			if (matchingBranch) {
 				_context = matchingBranch
