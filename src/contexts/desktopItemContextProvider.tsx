@@ -202,25 +202,23 @@ const DesktopItemContextProvider = (
 		for (let i = 0; i < tasks.length; i++) {
 			const { x, y, element } = tasks[i]
 
-			const leftAbsolute = x + diffX
-			const topAbsolute = y + diffY
+			let leftAbsolute = x + diffX
+			let topAbsolute = y + diffY
 
 			const middleOffsetX = element.clientWidth / 2
 			const middleOffsetY = element.clientHeight / 2
 
-			if (
-				leftAbsolute < middleOffsetX ||
-				leftAbsolute + middleOffsetX > window.innerWidth
-			) {
-				continue
+			if (leftAbsolute < middleOffsetX) {
+				leftAbsolute = middleOffsetX
+			} else if (leftAbsolute + middleOffsetX > window.innerWidth) {
+				leftAbsolute = window.innerWidth - middleOffsetX
 			}
 
-			if (
-				topAbsolute + element.offsetHeight - middleOffsetY >
-					window.innerHeight - DEFAULT_TASKBAR_HEIGHT_PIXELS ||
-				topAbsolute < middleOffsetY
-			) {
-				continue
+			if (topAbsolute < middleOffsetY) {
+				topAbsolute = middleOffsetY
+			} else if (topAbsolute + element.offsetHeight - middleOffsetY >
+				window.innerHeight - DEFAULT_TASKBAR_HEIGHT_PIXELS) {
+				topAbsolute = window.innerHeight - DEFAULT_TASKBAR_HEIGHT_PIXELS - middleOffsetY
 			}
 
 			element.style.position = "absolute"
