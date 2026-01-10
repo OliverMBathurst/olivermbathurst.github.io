@@ -11,7 +11,8 @@ const styles: React.CSSProperties = {
 
 export const useWindowSelectionRectangle = <T extends HTMLElement>(
 	ref: React.RefObject<T | null>,
-	onRectangleChanged: (rect: DOMRect) => void
+	onRectangleChanged: (rect: DOMRect) => void,
+	exclusiveClassName?: string
 ) => {
 	const selectionRectangeRef = useRef<HTMLDivElement | null>(null)
 	const selecting = useRef<boolean>(false)
@@ -35,9 +36,10 @@ export const useWindowSelectionRectangle = <T extends HTMLElement>(
 
 			const elem = ref.current.getBoundingClientRect()
 
+			// TODO: Fix offsets
 			selectionRectangeStart.current = {
-				x: e.clientX - elem.left + 4,
-				y: e.clientY - elem.top + 45
+				x: e.clientX - elem.left,
+				y: e.clientY - elem.top
 			}
 
 			selectionRectangeRef.current.style.left = `${selectionRectangeStart.current.x}px`
@@ -55,8 +57,8 @@ export const useWindowSelectionRectangle = <T extends HTMLElement>(
 				return
 			}
 
-			const xOffset = e.offsetX + 4
-			const yOffset = e.offsetY + 45
+			const xOffset = e.offsetX
+			const yOffset = e.offsetY
 
 			const newWidth = Math.abs(selectionRectangeStart.current.x - xOffset)
 			const newHeight = Math.abs(selectionRectangeStart.current.y - yOffset)

@@ -1,9 +1,9 @@
 import React from "react"
+import { NO_SELECT_CLASS } from "../../../constants"
 import { useDisplayName, useIcon } from "../../../hooks"
 import { CloseIcon, MaximizeIcon, MinimizeIcon } from "../../../icons"
 import { Context } from "../../../types/fs"
 import "./windowTopBar.scss"
-import { NO_SELECT_CLASS } from "../../../constants"
 
 interface IWindowTopBarProps {
 	context: Context

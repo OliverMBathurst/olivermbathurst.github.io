@@ -1,19 +1,19 @@
 import { useCallback, useContext, useMemo, useRef, useState } from "react"
 import {
-	BRANCHING_CONTEXT_DETERMINER,
-	BRANCHING_CONTEXT_PARENT_PROPERTY,
-	FILETYPE_RENDERABLE_PROPERTY,
-	FILETYPE_URL_SHORTCUT,
-	FILETYPE_URL_SHORTCUT_PROPERTY,
-	LEAF_EXTENSION_PROPERTY_NAME,
-	SHORTCUT_DETERMINER
+    BRANCHING_CONTEXT_DETERMINER,
+    BRANCHING_CONTEXT_PARENT_PROPERTY,
+    FILETYPE_RENDERABLE_PROPERTY,
+    FILETYPE_URL_SHORTCUT,
+    FILETYPE_URL_SHORTCUT_PROPERTY,
+    LEAF_EXTENSION_PROPERTY_NAME,
+    SHORTCUT_DETERMINER
 } from "../../constants"
 import { WindowsContext } from "../../contexts"
 import { doRectanglesIntersect } from "../../helpers/selections"
 import { useWindowSelectionRectangle } from "../../hooks"
 import { IAddWindowProperties } from "../../interfaces/windows"
 import { BranchingContext, Context } from "../../types/fs"
-import { FileBrowserRow, UpOneLevelRow } from "./components"
+import { FileBrowserControls, FileBrowserRow, UpOneLevelRow } from "./components"
 import "./fileBrowser.scss"
 
 interface IFileBrowserProps {
@@ -23,7 +23,7 @@ interface IFileBrowserProps {
 
 let rowReferences: Record<string, HTMLElement | null> = {}
 
-const clickOutsideExclusions = ["file-browser__row"]
+const clickOutsideExclusions = ["file-browser__row", "file-browser-controls"]
 
 const FileBrowser = (props: IFileBrowserProps) => {
 	const { windowId, context } = props
@@ -158,28 +158,31 @@ const FileBrowser = (props: IFileBrowserProps) => {
 	)
 
 	return (
-		<div
-			className="file-browser"
-			ref={fileBrowserRef}
-			onMouseDown={onFileBrowserMouseDown}
-		>
-			{SelectionRectangle}
-			{BRANCHING_CONTEXT_PARENT_PROPERTY in context && context.parent && (
-				<UpOneLevelRow onRowDoubleClicked={upOneLevel} />
-			)}
-			{Entities.map((e) => {
-				const contextKey = e.toContextUniqueKey()
-				return (
-					<FileBrowserRow
-						key={contextKey}
-						context={e}
-						selected={selected.indexOf(contextKey) !== -1}
-						setRowReference={(r) => (rowReferences[contextKey] = r)}
-						onRowClicked={(ev) => onRowClicked(e, ev)}
-						onRowDoubleClicked={(ev) => onRowDoubleClicked(e, ev)}
-					/>
-				)
-			})}
+		<div className="file-browser">
+			<FileBrowserControls context={context} />
+			<div
+				className="file-browser__result-pane"
+				ref={fileBrowserRef}
+				onMouseDown={onFileBrowserMouseDown}
+			>
+				{SelectionRectangle}
+				{BRANCHING_CONTEXT_PARENT_PROPERTY in context && context.parent && (
+					<UpOneLevelRow onRowDoubleClicked={upOneLevel} />
+				)}
+				{Entities.map((e) => {
+					const contextKey = e.toContextUniqueKey()
+					return (
+						<FileBrowserRow
+							key={contextKey}
+							context={e}
+							selected={selected.indexOf(contextKey) !== -1}
+							setRowReference={(r) => (rowReferences[contextKey] = r)}
+							onRowClicked={(ev) => onRowClicked(e, ev)}
+							onRowDoubleClicked={(ev) => onRowDoubleClicked(e, ev)}
+						/>
+					)
+				})}
+			</div>
 		</div>
 	)
 }

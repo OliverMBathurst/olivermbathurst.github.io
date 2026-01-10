@@ -17,7 +17,8 @@
 	height: 2rem;
 	align-items: center;
 	cursor: text;
-	min-width: 14.575rem;
+	flex-shrink: 1;
+	width: 14.575rem;
 
 	@media screen and (max-width: 23.125rem) {
 		display: none;

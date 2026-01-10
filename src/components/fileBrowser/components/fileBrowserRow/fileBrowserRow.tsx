@@ -1,6 +1,6 @@
-import { NO_SELECT_CLASS } from "../../../constants"
-import { useDisplayName, useIcon } from "../../../hooks"
-import { Context } from "../../../types/fs"
+import { NO_SELECT_CLASS } from "../../../../constants"
+import { useDisplayName, useIcon } from "../../../../hooks"
+import { Context } from "../../../../types/fs"
 import "./fileBrowserRow.scss"
 
 interface IFileBrowserRowProps {

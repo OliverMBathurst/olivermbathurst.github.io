@@ -1,4 +1,5 @@
-import FileBrowserRow from "./fileBrowserRow"
-import UpOneLevelRow from "./upOneLevelRow"
+import { FileBrowserControls } from "./fileBrowserControls"
+import { FileBrowserRow } from "./fileBrowserRow"
+import { UpOneLevelRow } from "./upOneLevelRow"
 
-export { FileBrowserRow, UpOneLevelRow }
+export { FileBrowserControls, FileBrowserRow, UpOneLevelRow }

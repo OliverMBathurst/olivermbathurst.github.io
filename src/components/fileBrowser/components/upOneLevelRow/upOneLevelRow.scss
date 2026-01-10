@@ -1,0 +1,22 @@
+.up-one-level-row {
+	display: flex;
+	color: white;
+	align-items: center;
+	font-size: 0.75rem;
+	padding-left: 0.5rem;
+}
+
+.up-one-level-row:hover {
+	background: rgba(255, 255, 255, 0.1);
+}
+
+.up-one-level-row__icon img {
+	height: 1.5rem;
+	width: 1.5rem;
+}
+
+.up-one-level-row__name {
+	padding-left: 0.5rem;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}

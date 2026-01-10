@@ -22,22 +22,6 @@ const StartMenu = () => {
 
 	return (
 		<div className="start-menu">
-			<div className="start-menu__top-container__categories">
-				<div className="start-menu__top-container__categories__apps">
-					<span
-						className={`start-menu__top-container__categories__apps__title ${NO_SELECT_CLASS}`}
-					>
-						Apps
-					</span>
-				</div>
-				<div className="start-menu__top-container__categories__files">
-					<span
-						className={`start-menu__top-container__categories__files__title ${NO_SELECT_CLASS}`}
-					>
-						Files
-					</span>
-				</div>
-			</div>
 			<div className="start-menu__top-container">
 				<div className="start-menu__top-container__left"></div>
 				<div className="start-menu__top-container__right">

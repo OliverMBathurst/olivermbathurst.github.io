@@ -1,7 +1,6 @@
 .window__top-bar {
 	width: 100%;
 	height: 2.5rem;
-	justify-content: space-between;
 	display: flex;
 	background-color: black;
 	align-items: center;
@@ -32,7 +31,7 @@
 
 .window__top-bar__controls {
 	display: flex;
-	margin-right: 0.5rem;
+	margin: 0rem 0.5rem 0rem auto;
 }
 
 .window__top-bar__controls__button,

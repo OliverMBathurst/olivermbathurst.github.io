@@ -1,6 +1,7 @@
 import { useRef, useState } from "react"
 import { CancelIcon, SearchIcon } from "../../icons"
 import "./searchBar.scss"
+import { NO_SELECT_CLASS } from "../../constants"
 
 interface ISearchBarProps extends React.InputHTMLAttributes<HTMLInputElement> {
 	onInputCancelled?: () => void
@@ -43,7 +44,7 @@ const SearchBar = (props: ISearchBarProps) => {
 
 	return (
 		<div className="search-bar" onClick={onSearchBarClicked}>
-			<SearchIcon className="search-bar__search-icon" height={20} width={20} />
+			<SearchIcon className={`search-bar__search-icon ${NO_SELECT_CLASS}`} height={20} width={20} />
 			<input
 				className="search-bar__input"
 				ref={inputRef}
@@ -52,7 +53,7 @@ const SearchBar = (props: ISearchBarProps) => {
 			/>
 			{value && (
 				<CancelIcon
-					className="search-bar__cancel-icon"
+					className={`search-bar__cancel-icon ${NO_SELECT_CLASS}`}
 					height={20}
 					width={20}
 					onClick={onCancelClickedInternal}
