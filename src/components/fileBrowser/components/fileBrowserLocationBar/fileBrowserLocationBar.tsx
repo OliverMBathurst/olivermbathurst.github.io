@@ -1,14 +1,14 @@
 import { useEffect, useRef, useState } from "react"
 import { BRANCHING_CONTEXT_DETERMINER } from "../../../../constants"
 import { getFullPath } from "../../../../helpers/paths"
-import { useClickOutside, useFileSystem } from "../../../../hooks"
-import { BranchingContext, Leaf } from "../../../../types/fs"
+import { useClickOutside, useFileSystem, useIcon } from "../../../../hooks"
+import { BranchingContext, Leaf, Shortcut } from "../../../../types/fs"
 import "./fileBrowserLocationBar.scss"
 
 interface IFileBrowserLocationBarProps {
 	context: BranchingContext
 	onDirectoryChanged: (context: BranchingContext) => void
-	onFileNavigation: (context: Leaf) => void
+	onFileNavigation: (context: Leaf | Shortcut) => void
 }
 
 const FileBrowserLocationBar = (props: IFileBrowserLocationBarProps) => {
@@ -16,6 +16,7 @@ const FileBrowserLocationBar = (props: IFileBrowserLocationBarProps) => {
 	const [displayValue, setDisplayValue] = useState<string>(context.name)
 
 	const { validateFilePath } = useFileSystem(context)
+	const Icon = useIcon(context)
 
 	const inputRef = useRef<HTMLInputElement | null>(null)
 
@@ -60,14 +61,17 @@ const FileBrowserLocationBar = (props: IFileBrowserLocationBarProps) => {
 	}, [onKeyPressInternal])
 
 	return (
-		<input
-			type="text"
-			className="file-browser-location-bar"
-			ref={inputRef}
-			value={displayValue}
-			onFocus={onInputFocusedInternal}
-			onChange={onInputChangedInternal}
-		/>)
+		<div className="file-browser-location-bar">
+			{Icon}
+			<input
+				type="text"
+				className="file-browser-location-bar__input"
+				ref={inputRef}
+				value={displayValue}
+				onFocus={onInputFocusedInternal}
+				onChange={onInputChangedInternal}
+			/>
+		</div>)
 }
 
 export default FileBrowserLocationBar

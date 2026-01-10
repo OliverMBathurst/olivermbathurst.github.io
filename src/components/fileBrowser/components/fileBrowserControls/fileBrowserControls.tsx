@@ -1,4 +1,4 @@
-import { BranchingContext, Leaf } from "../../../../types/fs"
+import { BranchingContext, Leaf, Shortcut } from "../../../../types/fs"
 import { SearchBar } from "../../../searchBar"
 import { FileBrowserLocationBar } from "../fileBrowserLocationBar"
 import "./fileBrowserControls.scss"
@@ -6,7 +6,7 @@ import "./fileBrowserControls.scss"
 interface IFileBrowserControlsProps {
 	context: BranchingContext
 	onDirectoryChanged: (context: BranchingContext) => void
-	onFileNavigation: (context: Leaf) => void
+	onFileNavigation: (context: Leaf | Shortcut) => void
 }
 
 const FileBrowserControls = (props: IFileBrowserControlsProps) => {

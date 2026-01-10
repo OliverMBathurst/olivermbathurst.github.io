@@ -1,7 +1,22 @@
+.file-browser-location-bar__input {
+    background: none;
+    outline: none;
+    border: none;
+    color: white;
+    height: 100%;
+    width: calc(100% - 2.25rem);
+}
+
 .file-browser-location-bar {
     border: 0.125rem solid rgba(255, 255, 255, 0.1);
     border-radius: 0.1875rem;
-    background: none;
-    outline: none;
-    color: white;
+    display: flex;
+    align-items: center;
+}
+
+.file-browser-location-bar > img {
+    width: 1.25rem;
+    height: 1.25rem;
+    padding: 0rem 0.5rem 0rem 0.5rem;
+    display: flex;
 }

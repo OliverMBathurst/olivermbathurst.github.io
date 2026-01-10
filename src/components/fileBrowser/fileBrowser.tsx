@@ -1,18 +1,13 @@
 import { useCallback, useContext, useMemo, useRef, useState } from "react"
 import {
     BRANCHING_CONTEXT_DETERMINER,
-    BRANCHING_CONTEXT_PARENT_PROPERTY,
-    FILETYPE_RENDERABLE_PROPERTY,
-    FILETYPE_URL_SHORTCUT,
-    FILETYPE_URL_SHORTCUT_PROPERTY,
-    LEAF_EXTENSION_PROPERTY_NAME,
-    SHORTCUT_DETERMINER
+    BRANCHING_CONTEXT_PARENT_PROPERTY
 } from "../../constants"
 import { WindowsContext } from "../../contexts"
 import { doRectanglesIntersect } from "../../helpers/selections"
 import { useWindowSelectionRectangle } from "../../hooks"
-import { IAddWindowProperties } from "../../interfaces/windows"
-import { BranchingContext, Context, Leaf } from "../../types/fs"
+import { ApplicationHandlerService } from "../../service"
+import { BranchingContext, Context, Leaf, Shortcut } from "../../types/fs"
 import { FileBrowserControls, FileBrowserRow, UpOneLevelRow } from "./components"
 import "./fileBrowser.scss"
 
@@ -21,15 +16,15 @@ interface IFileBrowserProps {
 	context: BranchingContext
 }
 
-let rowReferences: Record<string, HTMLElement | null> = {}
-
 const clickOutsideExclusions = ["file-browser__row", "file-browser-controls"]
 
-const FileBrowser = (props: IFileBrowserProps) => {
-	const { windowId, context: initialContext } = props
+const applicationHandlerService = new ApplicationHandlerService()
 
-	const [context, setContext] = useState<BranchingContext>(initialContext)
+const FileBrowser = (props: IFileBrowserProps) => {
+	const { windowId, context } = props
 	const [selected, setSelected] = useState<string[]>([])
+	const [rowElementReferences, setRowElementReferences] = useState<Record<string, HTMLElement | null>>({})
+
 	const fileBrowserRef = useRef<HTMLDivElement | null>(null)
 
 	const { addWindow, setWindowContext } = useContext(WindowsContext)
@@ -44,26 +39,14 @@ const FileBrowser = (props: IFileBrowserProps) => {
 
 	const onRowDoubleClicked = useCallback(
 		(context: Context, _: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-			let resolvedContext: Context = context
-			if (SHORTCUT_DETERMINER in resolvedContext) {
-				resolvedContext = resolvedContext.context
-			}
-
-			if (
-				FILETYPE_URL_SHORTCUT_PROPERTY in resolvedContext &&
-				LEAF_EXTENSION_PROPERTY_NAME in resolvedContext &&
-				resolvedContext.extension === FILETYPE_URL_SHORTCUT
-			) {
-				window.open(resolvedContext.url, "_blank")
-			} else if (FILETYPE_RENDERABLE_PROPERTY in resolvedContext) {
-				const windowProperties: IAddWindowProperties = {
-					context: resolvedContext
+			const windowProperties = applicationHandlerService.execute(context)
+			if (windowProperties != null) {
+				if (BRANCHING_CONTEXT_DETERMINER in windowProperties.context) {
+					setRowElementReferences({})
+					setWindowContext(windowId, windowProperties.context)
+				} else {
+					addWindow(windowProperties)
 				}
-
-				addWindow(windowProperties)
-			} else if (BRANCHING_CONTEXT_DETERMINER in resolvedContext) {
-				rowReferences = {}
-				setWindowContext(windowId, resolvedContext)
 			}
 		},
 		[addWindow, windowId, setWindowContext]
@@ -119,16 +102,16 @@ const FileBrowser = (props: IFileBrowserProps) => {
 
 	const upOneLevel = () => {
 		if (BRANCHING_CONTEXT_PARENT_PROPERTY in context && context.parent) {
-			rowReferences = {}
+			setRowElementReferences({})
 			setWindowContext(windowId, context.parent)
 		}
 	}
 
 	const onSelectionChanged = (selectionRectangle: DOMRect) => {
-		const rowElementKeys = Object.keys(rowReferences)
+		const rowElementKeys = Object.keys(rowElementReferences)
 		const selectedContextKeys: string[] = []
 		for (let i = 0; i < rowElementKeys.length; i++) {
-			const rowElement = rowReferences[rowElementKeys[i]]
+			const rowElement = rowElementReferences[rowElementKeys[i]]
 			if (rowElement) {
 				const rowRectangle = rowElement.getBoundingClientRect()
 				if (doRectanglesIntersect(selectionRectangle, rowRectangle)) {
@@ -154,10 +137,10 @@ const FileBrowser = (props: IFileBrowserProps) => {
 	}
 
 	const onDirectoryChanged = (context: BranchingContext) => {
-		setContext(context)
+		setWindowContext(windowId, context)
 	}
 
-	const onFileNavigation = (context: Leaf) => {
+	const onFileNavigation = (context: Leaf | Shortcut) => {
 		// Break out logic above and use it to add Window
 	}
 
@@ -189,7 +172,7 @@ const FileBrowser = (props: IFileBrowserProps) => {
 							key={contextKey}
 							context={e}
 							selected={selected.indexOf(contextKey) !== -1}
-							setRowReference={(r) => (rowReferences[contextKey] = r)}
+							setRowReference={(r) => (rowElementReferences[contextKey] = r)}
 							onRowClicked={(ev) => onRowClicked(e, ev)}
 							onRowDoubleClicked={(ev) => onRowDoubleClicked(e, ev)}
 						/>
