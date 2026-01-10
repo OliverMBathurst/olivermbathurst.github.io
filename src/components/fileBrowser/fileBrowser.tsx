@@ -12,7 +12,7 @@ import { WindowsContext } from "../../contexts"
 import { doRectanglesIntersect } from "../../helpers/selections"
 import { useWindowSelectionRectangle } from "../../hooks"
 import { IAddWindowProperties } from "../../interfaces/windows"
-import { BranchingContext, Context } from "../../types/fs"
+import { BranchingContext, Context, Leaf } from "../../types/fs"
 import { FileBrowserControls, FileBrowserRow, UpOneLevelRow } from "./components"
 import "./fileBrowser.scss"
 
@@ -26,8 +26,9 @@ let rowReferences: Record<string, HTMLElement | null> = {}
 const clickOutsideExclusions = ["file-browser__row", "file-browser-controls"]
 
 const FileBrowser = (props: IFileBrowserProps) => {
-	const { windowId, context } = props
+	const { windowId, context: initialContext } = props
 
+	const [context, setContext] = useState<BranchingContext>(initialContext)
 	const [selected, setSelected] = useState<string[]>([])
 	const fileBrowserRef = useRef<HTMLDivElement | null>(null)
 
@@ -152,6 +153,14 @@ const FileBrowser = (props: IFileBrowserProps) => {
 		}
 	}
 
+	const onDirectoryChanged = (context: BranchingContext) => {
+		setContext(context)
+	}
+
+	const onFileNavigation = (context: Leaf) => {
+		// Break out logic above and use it to add Window
+	}
+
 	const SelectionRectangle = useWindowSelectionRectangle(
 		fileBrowserRef,
 		onSelectionChanged
@@ -159,7 +168,11 @@ const FileBrowser = (props: IFileBrowserProps) => {
 
 	return (
 		<div className="file-browser">
-			<FileBrowserControls context={context} />
+			<FileBrowserControls
+				context={context}
+				onDirectoryChanged={onDirectoryChanged}
+				onFileNavigation={onFileNavigation}
+			/>
 			<div
 				className="file-browser__result-pane"
 				ref={fileBrowserRef}
