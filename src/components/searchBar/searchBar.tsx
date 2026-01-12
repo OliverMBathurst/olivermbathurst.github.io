@@ -1,14 +1,14 @@
 import { useRef, useState } from "react"
+import { NO_SELECT_CLASS } from "../../constants"
 import { CancelIcon, SearchIcon } from "../../icons"
 import "./searchBar.scss"
-import { NO_SELECT_CLASS } from "../../constants"
 
 interface ISearchBarProps extends React.InputHTMLAttributes<HTMLInputElement> {
-	onInputCancelled?: () => void
+	onCancelClicked?: () => void
 }
 
 const SearchBar = (props: ISearchBarProps) => {
-	const { onChange, onInputCancelled, value: initialValue } = props
+	const { onCancelClicked, value: initialValue } = props
 	const [value, setValue] = useState<string | number | readonly string[]>(
 		initialValue ?? ""
 	)
@@ -23,11 +23,9 @@ const SearchBar = (props: ISearchBarProps) => {
 		}
 	}
 
-	const onChangeInternal = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setValue(e.currentTarget.value)
-
-		if (onChange) {
-			onChange(e)
+	const onChangeInternal = (_: React.KeyboardEvent<HTMLInputElement>) => {
+		if (inputRef.current) {
+			setValue(inputRef.current.value)
 		}
 	}
 
@@ -37,10 +35,14 @@ const SearchBar = (props: ISearchBarProps) => {
 			setValue("")
 		}
 
-		if (onInputCancelled) {
-			onInputCancelled()
+		if (onCancelClicked) {
+			onCancelClicked()                                                           
 		}
 	}
+
+	const newProps: ISearchBarProps = { ...props }
+
+	delete newProps.onCancelClicked
 
 	return (
 		<div className="search-bar" onClick={onSearchBarClicked}>
@@ -48,8 +50,8 @@ const SearchBar = (props: ISearchBarProps) => {
 			<input
 				className="search-bar__input"
 				ref={inputRef}
-				onChange={onChangeInternal}
-				{...props}
+				onKeyUp={onChangeInternal}
+				{...newProps}
 			/>
 			{value && (
 				<CancelIcon

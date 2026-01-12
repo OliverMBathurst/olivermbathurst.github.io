@@ -141,12 +141,14 @@ const FileBrowser = (props: IFileBrowserProps) => {
 
 	const onSearchCompleted = (results: ILikenessResult[]) => {
 		elementRowReferences.current = {}
+		setSelected([])
 		setSearchResults(results)
 		setSearching(true)
 	}
 
 	const onSearchCancelled = () => {
 		elementRowReferences.current = {}
+		setSelected([])
 		setSearchResults([])
 		setSearching(false)
 	}
@@ -207,6 +209,7 @@ const FileBrowser = (props: IFileBrowserProps) => {
 						items={searchResults}
 						selectedContextKeys={selected}
 						onRowClicked={onRowClicked}
+						onRowDoubleClicked={onRowDoubleClicked}
 						refCallback={(c, e) => elementRowReferences.current[c.toContextUniqueKey()] = e}
 					/>
 				)}

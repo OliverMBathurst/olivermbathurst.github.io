@@ -12,12 +12,12 @@
 }
 
 .file-browser__row {
-	border: 1px black solid;
+	border: 0.0625rem black solid;
 }
 
 .file-browser__row--selected {
 	background: rgba(255, 255, 255, 0.1);
-	border: 1px grey solid;
+	border: 0.0625rem grey solid;
 }
 
 .file-browser__row__icon img {

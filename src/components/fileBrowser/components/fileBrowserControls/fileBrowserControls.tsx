@@ -43,7 +43,7 @@ const FileBrowserControls = (props: IFileBrowserControlsProps) => {
 			<SearchBar
 				placeholder="Search..."
 				onChange={onSearchInputChanged}
-				onInputCancelled={onSearchCancelled}
+				onCancelClicked={onSearchCancelled}
 			/>
 		</div>)
 }
