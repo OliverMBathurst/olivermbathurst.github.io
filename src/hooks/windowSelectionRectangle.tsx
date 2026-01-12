@@ -11,8 +11,7 @@ const styles: React.CSSProperties = {
 
 export const useWindowSelectionRectangle = <T extends HTMLElement>(
 	ref: React.RefObject<T | null>,
-	onRectangleChanged: (rect: DOMRect) => void,
-	exclusiveClassName?: string
+	onRectangleChanged: (rect: DOMRect) => void
 ) => {
 	const selectionRectangeRef = useRef<HTMLDivElement | null>(null)
 	const selecting = useRef<boolean>(false)

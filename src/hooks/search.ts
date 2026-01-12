@@ -17,17 +17,13 @@ const useSearch = (context: BranchingContext) => {
             }
 
             results.push({
+                context: validatedContext,
                 path: items[i].fullPath,
-                score: checkLikeness(validatedContext.name, term)
+                score: validatedContext.name.toLowerCase().indexOf(term.toLowerCase()) === -1 ? 0 : (term.length / validatedContext.name.length) * 100
             })
         }
 
-        return results
-    }
-
-    const checkLikeness = (name: string, term: string): number => {
-        // TODO return likeness
-        return 0
+        return results.filter(x => x.score > 0)
     }
 
     return {

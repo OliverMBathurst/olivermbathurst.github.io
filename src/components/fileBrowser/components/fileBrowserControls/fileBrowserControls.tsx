@@ -15,7 +15,7 @@ interface IFileBrowserControlsProps {
 }
 
 const FileBrowserControls = (props: IFileBrowserControlsProps) => {
-	const { context, onDirectoryChanged, onFileNavigation, onSearchCompleted } = props
+	const { context, onDirectoryChanged, onFileNavigation, onSearchCompleted, onSearchCancelled } = props
 	const { searchForItems } = useSearch(context)
 
 	const timeout = useRef<number | undefined>(undefined)
@@ -23,9 +23,14 @@ const FileBrowserControls = (props: IFileBrowserControlsProps) => {
 	const onSearchInputChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
 		clearTimeout(timeout.current)
 		timeout.current = setTimeout(() => {
-			const items = searchForItems(e.target.value)
-			onSearchCompleted(items)
-		}, 500)
+			const val = e.target.value
+			if (val === "") {
+				onSearchCancelled()
+			} else {
+				const items = searchForItems(val)
+				onSearchCompleted(items)
+			}
+		}, 300)
 	}
 
 	return (
@@ -35,7 +40,11 @@ const FileBrowserControls = (props: IFileBrowserControlsProps) => {
 				onDirectoryChanged={onDirectoryChanged}
 				onFileNavigation={onFileNavigation}
 			/>
-			<SearchBar placeholder="Search..." onChange={onSearchInputChanged} />
+			<SearchBar
+				placeholder="Search..."
+				onChange={onSearchInputChanged}
+				onInputCancelled={onSearchCancelled}
+			/>
 		</div>)
 }
 

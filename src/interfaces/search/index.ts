@@ -1,4 +1,7 @@
+import { Context } from "../../types/fs"
+
 export interface ILikenessResult {
-    path: string,
+    context: Context
+    path: string
     score: number
 }
