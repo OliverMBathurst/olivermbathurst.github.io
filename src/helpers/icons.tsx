@@ -3,9 +3,11 @@ import {
 	BRANCHING_CONTEXT_TYPE_PROPERTY,
 	FILETYPE_EXECUTABLE,
 	FILETYPE_PDF,
+	FILETYPE_SHORTCUT,
 	FILETYPE_TEXT,
 	FILETYPE_URL_SHORTCUT,
-	LEAF_EXTENSION_PROPERTY_NAME
+	LEAF_EXTENSION_PROPERTY_NAME,
+    SHORTCUT_DETERMINER
 } from "../constants"
 import {
 	PdfIcon,
@@ -14,14 +16,13 @@ import {
 	ExecutableFileIcon,
 	GenericFileIcon,
 	FolderIcon,
-	DriveIcon,
-	IIconProps
+	DriveIcon
 } from "../icons"
 import { Context } from "../types/fs"
 
 export const getIcon = (
 	context: Context,
-	props?: IIconProps
+	props?: React.ImgHTMLAttributes<HTMLImageElement>
 ): JSX.Element | null => {
 	if (LEAF_EXTENSION_PROPERTY_NAME in context) {
 		switch (context.extension) {
@@ -33,6 +34,11 @@ export const getIcon = (
 				return <TextFileIcon {...props} />
 			case FILETYPE_EXECUTABLE:
 				return <ExecutableFileIcon {...props} />
+			case FILETYPE_SHORTCUT:
+				if (SHORTCUT_DETERMINER in context) {
+					return getIcon(context.context, props)
+				}
+				throw new Error("Invalid shortcut")
 			default:
 				return <GenericFileIcon {...props} />
 		}

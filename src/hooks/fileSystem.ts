@@ -1,19 +1,48 @@
-import { useContext, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import {
-    BRANCHING_CONTEXT_DETERMINER,
-	BRANCHING_CONTEXT_PARENT_PROPERTY,
-	BRANCHING_CONTEXT_TYPE_PROPERTY
+    BRANCHING_CONTEXT_PARENT_PROPERTY,
+    BRANCHING_CONTEXT_TYPE_PROPERTY
 } from "../constants"
 import { FileSystemContext } from "../contexts"
 import { SpecialBranch } from "../enums"
-import { Branch, BranchingContext, Context, Leaf } from "../types/fs"
 import { getDisplayName } from "../helpers/naming"
+import { getFullPath } from "../helpers/paths"
+import { IForwardPath } from "../interfaces/fs"
+import { Branch, BranchingContext, Context, Leaf } from "../types/fs"
 
 const useFileSystem = (context?: BranchingContext) => {
-	const { root } = useContext(FileSystemContext)
+	const { root, allContextPaths } = useContext(FileSystemContext)
+
 	const [currentContext, setCurrentContext] = useState<BranchingContext>(
 		context ?? root
 	)
+	const [allForwardContextPaths, setAllForwardContextPaths] = useState<IForwardPath[]>(
+		allContextPaths.map(cp => {
+			return {
+				path: cp,
+				fullPath: cp
+			}
+		}))
+
+	useEffect(() => {
+		const fullPathOfCurrentContext = getFullPath(currentContext)
+		const forwardItems = [...allContextPaths]
+			.filter(p => p.startsWith(fullPathOfCurrentContext))
+			.map(p => {
+				let forwardPath = p.replace(fullPathOfCurrentContext, "")
+
+				if (forwardPath.startsWith("\\")) {
+					forwardPath = forwardPath.replace("\\", "")
+				}
+
+				return {
+					path: forwardPath,
+					fullPath: p
+				}
+			})
+
+		setAllForwardContextPaths(forwardItems)
+	}, [currentContext, allContextPaths])
 
 	const upOneLevel = () => {
 		if (!(BRANCHING_CONTEXT_PARENT_PROPERTY in currentContext)) {
@@ -117,6 +146,7 @@ const useFileSystem = (context?: BranchingContext) => {
 	}
 
 	return {
+		allForwardContextPaths,
 		upOneLevel,
 		enterBranch,
 		currentContext,

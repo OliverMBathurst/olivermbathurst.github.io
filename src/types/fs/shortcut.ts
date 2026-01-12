@@ -1,21 +1,14 @@
-import { Context } from "."
+import { AbstractLeaf, BranchingContext, Context } from "."
+import { FILETYPE_SHORTCUT } from "../../constants"
 import { IShortcut } from "../../interfaces/fs"
 
-class Shortcut implements IShortcut {
-	private _name: string
+class Shortcut extends AbstractLeaf implements IShortcut {
 	context: Context
 
-	constructor(context: Context, name: string) {
+	constructor(parent: BranchingContext, context: Context, name: string) {
+		super(`${name} (Shortcut)`, FILETYPE_SHORTCUT, parent)
 		this.context = context
-		this._name = name
 	}
-
-	get name() {
-		return `${this._name} (Shortcut)`
-	}
-
-	toContextUniqueKey: () => string = () =>
-		`${this.name}-${this.context.name}-shortcut`
 }
 
 export default Shortcut

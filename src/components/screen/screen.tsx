@@ -1,5 +1,5 @@
-import { useContext, useState } from "react"
-import { WindowsContext } from "../../contexts"
+import { useContext, useEffect, useState } from "react"
+import { FileSystemContext, WindowsContext } from "../../contexts"
 import { Desktop } from "../desktop"
 import { ScreenSaverTwo } from "../screenSaverTwo"
 import { StartMenu } from "../startMenu"
@@ -9,8 +9,13 @@ import "./screen.scss"
 
 const Screen = () => {
 	const { windowProperties } = useContext(WindowsContext)
+	const { runIndexer } = useContext(FileSystemContext)
 
 	const [startMenuShow, setStartMenuShow] = useState<boolean>(false)
+
+	useEffect(() => {
+		runIndexer()
+	}, [])
 
 	return (
 		<div className="screen">

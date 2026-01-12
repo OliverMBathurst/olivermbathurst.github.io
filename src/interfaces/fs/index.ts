@@ -12,7 +12,7 @@ interface IChildContext {
 	parent: Branch | Root | null
 }
 
-export interface IShortcut extends INamed {}
+export interface IShortcut extends INamed, IChildContext {}
 
 export interface INamed {
 	name: string
@@ -39,4 +39,9 @@ export interface IWindowFile extends ILeaf {
 
 export interface IWindowRenderProps {
 	onMouseOver?: (e: React.MouseEvent<HTMLElement, MouseEvent>) => void
+}
+
+export interface IForwardPath {
+	path: string,
+	fullPath: string
 }

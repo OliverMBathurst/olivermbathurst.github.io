@@ -11,6 +11,7 @@ import { ApplicationHandlerService } from "../../service"
 import { BranchingContext, Context, Leaf, Shortcut } from "../../types/fs"
 import { FileBrowserControls, FileBrowserRow, UpOneLevelRow } from "./components"
 import "./fileBrowser.scss"
+import { ILikenessResult } from "../../interfaces/search"
 
 interface IFileBrowserProps {
 	windowId: string
@@ -148,6 +149,14 @@ const FileBrowser = (props: IFileBrowserProps) => {
 		}
 	}
 
+	const onSearchCompleted = (results: ILikenessResult[]) => {
+		// Display results
+	}
+
+	const onSearchCancelled = () => {
+		// Display branch items
+	}
+
 	const SelectionRectangle = useWindowSelectionRectangle(
 		fileBrowserRef,
 		onSelectionChanged
@@ -159,6 +168,8 @@ const FileBrowser = (props: IFileBrowserProps) => {
 				context={context}
 				onDirectoryChanged={onDirectoryChanged}
 				onFileNavigation={onFileNavigation}
+				onSearchCompleted={onSearchCompleted}
+				onSearchCancelled={onSearchCancelled}
 			/>
 			<div
 				className="file-browser__result-pane"

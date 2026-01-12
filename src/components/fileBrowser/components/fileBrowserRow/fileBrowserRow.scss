@@ -11,8 +11,13 @@
 	background: rgba(255, 255, 255, 0.1);
 }
 
+.file-browser__row {
+	border: 1px black solid;
+}
+
 .file-browser__row--selected {
 	background: rgba(255, 255, 255, 0.1);
+	border: 1px grey solid;
 }
 
 .file-browser__row__icon img {
@@ -24,4 +29,9 @@
 	padding-left: 0.5rem;
 	overflow: hidden;
 	text-overflow: ellipsis;
+}
+
+.file-browser__row,
+.file-browser__row--selected {
+	margin-top: 0.3rem;
 }
