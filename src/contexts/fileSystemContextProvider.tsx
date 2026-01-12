@@ -50,25 +50,28 @@ const FileSystemContextProvider = (props: IFileSystemContextProviderProps) => {
 		let allItems = [...branch.leaves, ...branch.shortcuts, ...branch.branches]
 
 		for (let i = 0; i < branch.branches.length; i++) {
-			allItems = allItems.concat(getItemsOfBranchRecursively(branch.branches[i]))
+			allItems = allItems.concat(
+				getItemsOfBranchRecursively(branch.branches[i])
+			)
 		}
 
 		return allItems
-	} 
+	}
 
 	const runIndexer = () => {
-		const items = getItemsOfBranchRecursively(_root)
-			.map(r => getFullPath(r))
+		const items = getItemsOfBranchRecursively(_root).map((r) => getFullPath(r))
 
 		setAllContextPaths(items)
 	}
 
 	return (
-		<FileSystemContext.Provider value={{
-			root: _root,
-			runIndexer: runIndexer,
-			allContextPaths: allContextPaths
-		}}>
+		<FileSystemContext.Provider
+			value={{
+				root: _root,
+				runIndexer: runIndexer,
+				allContextPaths: allContextPaths
+			}}
+		>
 			{children}
 		</FileSystemContext.Provider>
 	)

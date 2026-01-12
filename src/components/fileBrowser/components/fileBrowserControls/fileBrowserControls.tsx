@@ -7,15 +7,21 @@ import { FileBrowserLocationBar } from "../fileBrowserLocationBar"
 import "./fileBrowserControls.scss"
 
 interface IFileBrowserControlsProps {
-	context: BranchingContext,
+	context: BranchingContext
 	onSearchCancelled: () => void
-	onSearchCompleted: (results: ILikenessResult[]) => void,
+	onSearchCompleted: (results: ILikenessResult[]) => void
 	onDirectoryChanged: (context: BranchingContext) => void
 	onFileNavigation: (context: Leaf | Shortcut) => void
 }
 
 const FileBrowserControls = (props: IFileBrowserControlsProps) => {
-	const { context, onDirectoryChanged, onFileNavigation, onSearchCompleted, onSearchCancelled } = props
+	const {
+		context,
+		onDirectoryChanged,
+		onFileNavigation,
+		onSearchCompleted,
+		onSearchCancelled
+	} = props
 	const { searchForItems } = useSearch(context)
 
 	const timeout = useRef<number | undefined>(undefined)
@@ -45,7 +51,8 @@ const FileBrowserControls = (props: IFileBrowserControlsProps) => {
 				onChange={onSearchInputChanged}
 				onCancelClicked={onSearchCancelled}
 			/>
-		</div>)
+		</div>
+	)
 }
 
 export default FileBrowserControls

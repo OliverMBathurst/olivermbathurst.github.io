@@ -1,3 +1,3 @@
-import FileBrowserLocationBar from './fileBrowserLocationBar'
+import FileBrowserLocationBar from "./fileBrowserLocationBar"
 
 export { FileBrowserLocationBar }

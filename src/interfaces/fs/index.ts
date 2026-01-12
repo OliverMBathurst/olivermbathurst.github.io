@@ -42,6 +42,6 @@ export interface IWindowRenderProps {
 }
 
 export interface IForwardPath {
-	path: string,
+	path: string
 	fullPath: string
 }

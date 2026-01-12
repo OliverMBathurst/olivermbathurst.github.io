@@ -7,8 +7,11 @@ import useVisibility from "./visibility"
 import useWindowSelectionRectangle from "./windowSelectionRectangle"
 
 export {
-    useClickOutside,
-    useDisplayName,
-    useFileSystem,
-    useIcon, useSearch, useVisibility, useWindowSelectionRectangle
+	useClickOutside,
+	useDisplayName,
+	useFileSystem,
+	useIcon,
+	useSearch,
+	useVisibility,
+	useWindowSelectionRectangle
 }

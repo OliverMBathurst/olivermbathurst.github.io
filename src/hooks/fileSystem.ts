@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react"
 import {
-    BRANCHING_CONTEXT_PARENT_PROPERTY,
-    BRANCHING_CONTEXT_TYPE_PROPERTY
+	BRANCHING_CONTEXT_PARENT_PROPERTY,
+	BRANCHING_CONTEXT_TYPE_PROPERTY
 } from "../constants"
 import { FileSystemContext } from "../contexts"
 import { SpecialBranch } from "../enums"
@@ -16,19 +16,22 @@ const useFileSystem = (context?: BranchingContext) => {
 	const [currentContext, setCurrentContext] = useState<BranchingContext>(
 		context ?? root
 	)
-	const [allForwardContextPaths, setAllForwardContextPaths] = useState<IForwardPath[]>(
-		allContextPaths.map(cp => {
+	const [allForwardContextPaths, setAllForwardContextPaths] = useState<
+		IForwardPath[]
+	>(
+		allContextPaths.map((cp) => {
 			return {
 				path: cp,
 				fullPath: cp
 			}
-		}))
+		})
+	)
 
 	useEffect(() => {
 		const fullPathOfCurrentContext = getFullPath(currentContext)
 		const forwardItems = [...allContextPaths]
-			.filter(p => p.startsWith(fullPathOfCurrentContext))
-			.map(p => {
+			.filter((p) => p.startsWith(fullPathOfCurrentContext))
+			.map((p) => {
 				let forwardPath = p.replace(fullPathOfCurrentContext, "")
 
 				if (forwardPath.startsWith("\\")) {
@@ -119,7 +122,8 @@ const useFileSystem = (context?: BranchingContext) => {
 				return _context
 			}
 
-			const matchingBranch: BranchingContext | undefined = _context.branches.find(x => x.name === newContextName)
+			const matchingBranch: BranchingContext | undefined =
+				_context.branches.find((x) => x.name === newContextName)
 			if (matchingBranch) {
 				_context = matchingBranch
 				continue
@@ -129,12 +133,16 @@ const useFileSystem = (context?: BranchingContext) => {
 				return null
 			}
 
-			const matchingLeaf = _context.leaves.find(x => getDisplayName(x) === newContextName)
+			const matchingLeaf = _context.leaves.find(
+				(x) => getDisplayName(x) === newContextName
+			)
 			if (matchingLeaf) {
 				return matchingLeaf
 			}
 
-			const matchingShortcut = _context.shortcuts.find(x => getDisplayName(x) === newContextName)
+			const matchingShortcut = _context.shortcuts.find(
+				(x) => getDisplayName(x) === newContextName
+			)
 			if (matchingShortcut) {
 				return matchingShortcut
 			}

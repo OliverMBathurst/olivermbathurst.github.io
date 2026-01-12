@@ -28,7 +28,9 @@ const FileBrowserLocationBar = (props: IFileBrowserLocationBarProps) => {
 		setDisplayValue(e.target.value)
 	}
 
-	const onInputFocusedInternal = (_: React.FocusEvent<HTMLInputElement, Element>) => {
+	const onInputFocusedInternal = (
+		_: React.FocusEvent<HTMLInputElement, Element>
+	) => {
 		setDisplayValue(fullPath)
 	}
 
@@ -71,7 +73,8 @@ const FileBrowserLocationBar = (props: IFileBrowserLocationBarProps) => {
 				onFocus={onInputFocusedInternal}
 				onChange={onInputChangedInternal}
 			/>
-		</div>)
+		</div>
+	)
 }
 
 export default FileBrowserLocationBar

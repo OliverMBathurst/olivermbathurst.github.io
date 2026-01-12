@@ -1,19 +1,26 @@
 import { useCallback, useContext, useMemo, useRef, useState } from "react"
 import {
-    BRANCHING_CONTEXT_DETERMINER,
-    BRANCHING_CONTEXT_PARENT_PROPERTY,
-    LEAF_EXTENSION_PROPERTY_NAME,
-    NO_SELECT_CLASS,
-    SHORTCUT_DETERMINER
+	BRANCHING_CONTEXT_DETERMINER,
+	BRANCHING_CONTEXT_PARENT_PROPERTY,
+	LEAF_EXTENSION_PROPERTY_NAME,
+	NO_SELECT_CLASS,
+	SHORTCUT_DETERMINER
 } from "../../constants"
 import { WindowsContext } from "../../contexts"
-import { doRectanglesIntersect, onSelectionRowClicked } from "../../helpers/selections"
+import {
+	doRectanglesIntersect,
+	onSelectionRowClicked
+} from "../../helpers/selections"
 import { useWindowSelectionRectangle } from "../../hooks"
 import { ILikenessResult } from "../../interfaces/search"
 import { ApplicationHandlerService } from "../../service"
 import { BranchingContext, Context, Leaf, Shortcut } from "../../types/fs"
 import { SearchResultPane } from "../searchResultPane"
-import { FileBrowserControls, FileBrowserRow, UpOneLevelRow } from "./components"
+import {
+	FileBrowserControls,
+	FileBrowserRow,
+	UpOneLevelRow
+} from "./components"
 import "./fileBrowser.scss"
 
 interface IFileBrowserProps {
@@ -68,7 +75,7 @@ const FileBrowser = (props: IFileBrowserProps) => {
 					context,
 					selected,
 					searchResults,
-					x => x.context.toContextUniqueKey(),
+					(x) => x.context.toContextUniqueKey(),
 					e
 				)
 			} else {
@@ -76,7 +83,7 @@ const FileBrowser = (props: IFileBrowserProps) => {
 					context,
 					selected,
 					Entities,
-					x => x.toContextUniqueKey(),
+					(x) => x.toContextUniqueKey(),
 					e
 				)
 			}
@@ -122,7 +129,10 @@ const FileBrowser = (props: IFileBrowserProps) => {
 		e: React.MouseEvent<HTMLDivElement, MouseEvent>
 	) => {
 		if (e.currentTarget.className === baseClickExclusion) {
-			if (e.target instanceof HTMLElement && e.target.className === baseClickExclusion) {
+			if (
+				e.target instanceof HTMLElement &&
+				e.target.className === baseClickExclusion
+			) {
 				setSelected([])
 			}
 		}
@@ -166,9 +176,15 @@ const FileBrowser = (props: IFileBrowserProps) => {
 		let branches = []
 
 		if (searching) {
-			leaves = searchResults.filter(x => LEAF_EXTENSION_PROPERTY_NAME in x.context && !(SHORTCUT_DETERMINER in x.context))
-			branches = searchResults.filter(x => BRANCHING_CONTEXT_DETERMINER in x.context)
-			shortcuts = searchResults.filter(x => SHORTCUT_DETERMINER in x.context)
+			leaves = searchResults.filter(
+				(x) =>
+					LEAF_EXTENSION_PROPERTY_NAME in x.context &&
+					!(SHORTCUT_DETERMINER in x.context)
+			)
+			branches = searchResults.filter(
+				(x) => BRANCHING_CONTEXT_DETERMINER in x.context
+			)
+			shortcuts = searchResults.filter((x) => SHORTCUT_DETERMINER in x.context)
 			entitiesLength = leaves.length + branches.length + shortcuts.length
 		} else {
 			leaves = context.leaves
@@ -201,31 +217,36 @@ const FileBrowser = (props: IFileBrowserProps) => {
 				onMouseDown={onFileBrowserMouseDown}
 			>
 				{SelectionRectangle}
-				{BRANCHING_CONTEXT_PARENT_PROPERTY in context && context.parent && !searching && (
-					<UpOneLevelRow onRowDoubleClicked={upOneLevel} />
-				)}
+				{BRANCHING_CONTEXT_PARENT_PROPERTY in context &&
+					context.parent &&
+					!searching && <UpOneLevelRow onRowDoubleClicked={upOneLevel} />}
 				{searching && (
 					<SearchResultPane
 						items={searchResults}
 						selectedContextKeys={selected}
 						onRowClicked={onRowClicked}
 						onRowDoubleClicked={onRowDoubleClicked}
-						refCallback={(c, e) => elementRowReferences.current[c.toContextUniqueKey()] = e}
+						refCallback={(c, e) =>
+							(elementRowReferences.current[c.toContextUniqueKey()] = e)
+						}
 					/>
 				)}
-				{!searching && Entities.map((e) => {
-					const contextKey = e.toContextUniqueKey()
-					return (
-						<FileBrowserRow
-							key={contextKey}
-							context={e}
-							selected={selected.indexOf(contextKey) !== -1}
-							setRowReference={(r) => (elementRowReferences.current[contextKey] = r)}
-							onRowClicked={(ev) => onRowClicked(e, ev)}
-							onRowDoubleClicked={(ev) => onRowDoubleClicked(e, ev)}
-						/>
-					)
-				})}
+				{!searching &&
+					Entities.map((e) => {
+						const contextKey = e.toContextUniqueKey()
+						return (
+							<FileBrowserRow
+								key={contextKey}
+								context={e}
+								selected={selected.indexOf(contextKey) !== -1}
+								setRowReference={(r) =>
+									(elementRowReferences.current[contextKey] = r)
+								}
+								onRowClicked={(ev) => onRowClicked(e, ev)}
+								onRowDoubleClicked={(ev) => onRowDoubleClicked(e, ev)}
+							/>
+						)
+					})}
 			</div>
 			<BaseInformation />
 		</div>

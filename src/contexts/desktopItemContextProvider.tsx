@@ -216,9 +216,12 @@ const DesktopItemContextProvider = (
 
 			if (topAbsolute < middleOffsetY) {
 				topAbsolute = middleOffsetY
-			} else if (topAbsolute + element.offsetHeight - middleOffsetY >
-				window.innerHeight - DEFAULT_TASKBAR_HEIGHT_PIXELS) {
-				topAbsolute = window.innerHeight - DEFAULT_TASKBAR_HEIGHT_PIXELS - middleOffsetY
+			} else if (
+				topAbsolute + element.offsetHeight - middleOffsetY >
+				window.innerHeight - DEFAULT_TASKBAR_HEIGHT_PIXELS
+			) {
+				topAbsolute =
+					window.innerHeight - DEFAULT_TASKBAR_HEIGHT_PIXELS - middleOffsetY
 			}
 
 			element.style.position = "absolute"

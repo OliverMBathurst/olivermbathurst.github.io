@@ -25,7 +25,9 @@ const Screen = () => {
 				{windowProperties.map((p) => (
 					<Window key={p.id} properties={p} />
 				))}
-				{startMenuShow && <StartMenu onClickOutside={() => setStartMenuShow((s) => !s)} />}
+				{startMenuShow && (
+					<StartMenu onClickOutside={() => setStartMenuShow((s) => !s)} />
+				)}
 			</div>
 			<Taskbar onStartButtonClicked={() => setStartMenuShow((s) => !s)} />
 		</div>

@@ -1,3 +1,3 @@
-import FileBrowserRow from './fileBrowserRow'
+import FileBrowserRow from "./fileBrowserRow"
 
 export { FileBrowserRow }

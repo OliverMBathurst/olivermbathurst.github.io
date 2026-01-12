@@ -13,24 +13,27 @@ interface ISearchResultPaneRowProps {
 }
 
 const SearchResultPaneRow = (props: ISearchResultPaneRowProps) => {
-	const { item, selected, refCallback, onRowDoubleClicked, onRowClicked } = props
+	const { item, selected, refCallback, onRowDoubleClicked, onRowClicked } =
+		props
 
 	const Icon = useIcon(item.context)
 	const DisplayName = useDisplayName(item.context)
 
-    return (
+	return (
 		<div
 			className={`search-result-pane__row${selected ? "--selected" : ""}`}
-			ref={r => refCallback(item.context, r)}
+			ref={(r) => refCallback(item.context, r)}
 			onDoubleClick={onRowDoubleClicked}
 			onClick={onRowClicked}
 		>
-			<div className={`search-result-pane__row__icon ${NO_SELECT_CLASS}`}>{Icon}</div>
+			<div className={`search-result-pane__row__icon ${NO_SELECT_CLASS}`}>
+				{Icon}
+			</div>
 			<div className={`search-result-pane__row__name ${NO_SELECT_CLASS}`}>
 				{DisplayName}
 			</div>
 		</div>
-    )
+	)
 }
 
 export default SearchResultPaneRow

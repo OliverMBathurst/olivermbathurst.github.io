@@ -36,7 +36,7 @@ const SearchBar = (props: ISearchBarProps) => {
 		}
 
 		if (onCancelClicked) {
-			onCancelClicked()                                                           
+			onCancelClicked()
 		}
 	}
 
@@ -46,7 +46,11 @@ const SearchBar = (props: ISearchBarProps) => {
 
 	return (
 		<div className="search-bar" onClick={onSearchBarClicked}>
-			<SearchIcon className={`search-bar__search-icon ${NO_SELECT_CLASS}`} height={20} width={20} />
+			<SearchIcon
+				className={`search-bar__search-icon ${NO_SELECT_CLASS}`}
+				height={20}
+				width={20}
+			/>
 			<input
 				className="search-bar__input"
 				ref={inputRef}

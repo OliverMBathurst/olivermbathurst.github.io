@@ -21,9 +21,9 @@ const TextFileIcon = (props: React.ImgHTMLAttributes<HTMLImageElement>) => (
 	<img src={textFile} alt="Text file icon by icon8" {...props} />
 )
 
-const ExecutableFileIcon = (props: React.ImgHTMLAttributes<HTMLImageElement>) => (
-	<img src={executable} alt="Executable file icon by icon8" {...props} />
-)
+const ExecutableFileIcon = (
+	props: React.ImgHTMLAttributes<HTMLImageElement>
+) => <img src={executable} alt="Executable file icon by icon8" {...props} />
 
 const InternetIcon = (props: React.ImgHTMLAttributes<HTMLImageElement>) => (
 	<img src={internet} alt="File icon by icon8" {...props} />
@@ -66,6 +66,17 @@ const CancelIcon = (props: React.ImgHTMLAttributes<HTMLImageElement>) => (
 )
 
 export {
-    CancelIcon, CloseIcon, DriveIcon, ExecutableFileIcon,
-    FolderIcon, GenericFileIcon, InternetIcon, MaximizeIcon, MinimizeIcon, PdfIcon, SearchIcon, StartMenuIcon, TextFileIcon
+	CancelIcon,
+	CloseIcon,
+	DriveIcon,
+	ExecutableFileIcon,
+	FolderIcon,
+	GenericFileIcon,
+	InternetIcon,
+	MaximizeIcon,
+	MinimizeIcon,
+	PdfIcon,
+	SearchIcon,
+	StartMenuIcon,
+	TextFileIcon
 }

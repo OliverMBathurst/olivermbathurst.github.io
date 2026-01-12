@@ -14,14 +14,18 @@ export const onSelectionRowClicked = <T>(
 	selectedContextKeys: string[],
 	items: T[],
 	predicate: (item: T) => string,
-	e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+	e: React.MouseEvent<HTMLDivElement, MouseEvent>
+) => {
 	const contextKey = context.toContextUniqueKey()
 
 	if (e.shiftKey) {
 		if (selectedContextKeys.length === 0) {
 			return [contextKey]
 		} else {
-			if (selectedContextKeys.length === 1 && selectedContextKeys[0] === contextKey) {
+			if (
+				selectedContextKeys.length === 1 &&
+				selectedContextKeys[0] === contextKey
+			) {
 				return [contextKey]
 			}
 
@@ -33,11 +37,7 @@ export const onSelectionRowClicked = <T>(
 			const newSelection: string[] = [selectedContextKeys[0]]
 
 			if (newSelectionIndex > initialSelectionIndex) {
-				for (
-					let i = initialSelectionIndex + 1;
-					i <= newSelectionIndex;
-					i++
-				) {
+				for (let i = initialSelectionIndex + 1; i <= newSelectionIndex; i++) {
 					newSelection.push(identities[i])
 				}
 			} else {

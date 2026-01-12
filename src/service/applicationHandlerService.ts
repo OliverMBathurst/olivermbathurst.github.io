@@ -1,10 +1,15 @@
-import { BRANCHING_CONTEXT_DETERMINER, FILETYPE_RENDERABLE_PROPERTY, FILETYPE_URL_SHORTCUT, FILETYPE_URL_SHORTCUT_PROPERTY, LEAF_EXTENSION_PROPERTY_NAME, SHORTCUT_DETERMINER } from "../constants"
+import {
+	BRANCHING_CONTEXT_DETERMINER,
+	FILETYPE_RENDERABLE_PROPERTY,
+	FILETYPE_URL_SHORTCUT,
+	FILETYPE_URL_SHORTCUT_PROPERTY,
+	LEAF_EXTENSION_PROPERTY_NAME,
+	SHORTCUT_DETERMINER
+} from "../constants"
 import { IAddWindowProperties } from "../interfaces/windows"
 import { Context } from "../types/fs"
 
-interface IApplicationHandlerServiceOptions {
-
-}
+interface IApplicationHandlerServiceOptions {}
 
 class ApplicationHandlerService {
 	execute = (

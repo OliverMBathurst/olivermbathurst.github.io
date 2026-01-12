@@ -1,3 +1,3 @@
-import FileBrowserControls from './fileBrowserControls'
+import FileBrowserControls from "./fileBrowserControls"
 
 export { FileBrowserControls }
