@@ -1,15 +1,15 @@
 import { useCallback, useContext, useMemo, useRef, useState } from "react"
 import {
-    BRANCHING_CONTEXT_DETERMINER,
-    BRANCHING_CONTEXT_PARENT_PROPERTY,
-    LEAF_EXTENSION_PROPERTY_NAME,
-    NO_SELECT_CLASS,
-    SHORTCUT_DETERMINER
+	BRANCHING_CONTEXT_DETERMINER,
+	BRANCHING_CONTEXT_PARENT_PROPERTY,
+	LEAF_EXTENSION_PROPERTY_NAME,
+	NO_SELECT_CLASS,
+	SHORTCUT_DETERMINER
 } from "../../constants"
 import { WindowsContext } from "../../contexts"
 import {
-    doRectanglesIntersect,
-    onSelectionRowClicked
+	doRectanglesIntersect,
+	onSelectionRowClicked
 } from "../../helpers/selections"
 import { useWindowSelectionRectangle } from "../../hooks"
 import { ISearchResult } from "../../interfaces/search"
@@ -17,9 +17,9 @@ import { ApplicationHandlerService } from "../../service"
 import { BranchingContext, Context, Leaf, Shortcut } from "../../types/fs"
 import { SearchResultPane } from "../searchResultPane"
 import {
-    FileBrowserControls,
-    FileBrowserRow,
-    UpOneLevelRow
+	FileBrowserControls,
+	FileBrowserRow,
+	UpOneLevelRow
 } from "./components"
 import "./fileBrowser.scss"
 
@@ -74,19 +74,13 @@ const FileBrowser = (props: IFileBrowserProps) => {
 				selected,
 				searchResult?.items ?? [],
 				Entities,
-				x => x.context.toContextUniqueKey(),
-				x => x.toContextUniqueKey()
+				(x) => x.context.toContextUniqueKey(),
+				(x) => x.toContextUniqueKey()
 			)
 
 			setSelected(newSelectedContextKeys)
 		},
-		[
-			searchResult,
-			onSelectionRowClicked,
-			selected,
-			Entities,
-			setSelected
-		]
+		[searchResult, onSelectionRowClicked, selected, Entities, setSelected]
 	)
 
 	const upOneLevel = () => {

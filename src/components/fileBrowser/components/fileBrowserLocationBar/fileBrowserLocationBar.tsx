@@ -19,12 +19,9 @@ const FileBrowserLocationBar = (props: IFileBrowserLocationBarProps) => {
 
 	const inputRef = useRef<HTMLInputElement | null>(null)
 
-	const Icon = useIcon(
-		context,
-		true,
-		{
-			onClick: () => inputRef.current?.focus()
-		})
+	const Icon = useIcon(context, true, {
+		onClick: () => inputRef.current?.focus()
+	})
 
 	const fullPath = getFullPath(context)
 

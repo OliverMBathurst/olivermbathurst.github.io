@@ -85,8 +85,8 @@ const StartMenu = (props: IStartMenuProps) => {
 				selectedContextKeys,
 				searchResult?.items ?? [],
 				allLeaves,
-				x => x.context.toContextUniqueKey(),
-				x => x.toContextUniqueKey()
+				(x) => x.context.toContextUniqueKey(),
+				(x) => x.toContextUniqueKey()
 			)
 
 			setSelectedContextKeys(newSelectedContextKeys)
@@ -116,31 +116,33 @@ const StartMenu = (props: IStartMenuProps) => {
 							}
 						/>
 					)}
-					{!searchResult && allLeaves.map((l) => {
-						const Icon = getIcon(l)
-						const DisplayName = getDisplayName(l)
-						const selected = selectedContextKeys.indexOf(l.toContextUniqueKey()) !== -1
-						const key = getFullPath(l)
-						return (
-							<div
-								className={`start-menu__top-container__right__row${selected ? "--selected" : ""}`}
-								key={key}
-								onClick={e => onRowClicked(l, e)}
-								onDoubleClick={e => onRowDoubleClicked(l, e)}
-							>
+					{!searchResult &&
+						allLeaves.map((l) => {
+							const Icon = getIcon(l)
+							const DisplayName = getDisplayName(l)
+							const selected =
+								selectedContextKeys.indexOf(l.toContextUniqueKey()) !== -1
+							const key = getFullPath(l)
+							return (
 								<div
-									className={`start-menu__top-container__right__row__icon ${NO_SELECT_CLASS}`}
+									className={`start-menu__top-container__right__row${selected ? "--selected" : ""}`}
+									key={key}
+									onClick={(e) => onRowClicked(l, e)}
+									onDoubleClick={(e) => onRowDoubleClicked(l, e)}
 								>
-									{Icon}
+									<div
+										className={`start-menu__top-container__right__row__icon ${NO_SELECT_CLASS}`}
+									>
+										{Icon}
+									</div>
+									<div
+										className={`start-menu__top-container__right__row__name ${NO_SELECT_CLASS}`}
+									>
+										{DisplayName}
+									</div>
 								</div>
-								<div
-									className={`start-menu__top-container__right__row__name ${NO_SELECT_CLASS}`}
-								>
-									{DisplayName}
-								</div>
-							</div>
-						)
-					})}
+							)
+						})}
 				</div>
 			</div>
 			<div className="start-menu__bottom-container">

@@ -17,7 +17,7 @@ export const onSelectionRowClicked = <T, T2>(
 	items: T[],
 	itemsTwo: T2[],
 	predicate: (item: T) => string,
-	predicateTwo: (item: T2) => string,
+	predicateTwo: (item: T2) => string
 ) => {
 	let newSelectedContextKeys = []
 	if (selectCollectionOne) {
@@ -40,7 +40,6 @@ export const onSelectionRowClicked = <T, T2>(
 
 	return newSelectedContextKeys
 }
-
 
 export const onSelectionRowClickedInternal = <T>(
 	context: Context,

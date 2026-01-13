@@ -15,13 +15,20 @@ interface ISearchResultPaneRowProps {
 }
 
 const SearchResultPaneRow = (props: ISearchResultPaneRowProps) => {
-	const { item: { context, path }, term, selected, refCallback, onRowDoubleClicked, onRowClicked } =
-		props
+	const {
+		item: { context, path },
+		term,
+		selected,
+		refCallback,
+		onRowDoubleClicked,
+		onRowClicked
+	} = props
 
 	const Icon = useIcon(context)
 	const DisplayName = useDisplayName(context)
 
-	const [highlightedDisplayName, setHighlightedDisplayName] = useState<JSX.Element>(<span>{DisplayName}</span>)
+	const [highlightedDisplayName, setHighlightedDisplayName] =
+		useState<JSX.Element>(<span>{DisplayName}</span>)
 
 	useEffect(() => {
 		const idx = DisplayName.toLowerCase().indexOf(term.toLowerCase())
@@ -32,9 +39,18 @@ const SearchResultPaneRow = (props: ISearchResultPaneRowProps) => {
 
 		const highlightSubstring = DisplayName.substring(idx, idx + term.length)
 		const beforeSubstring = DisplayName.substring(0, idx)
-		const afterSubstring = DisplayName.substring(idx + term.length, DisplayName.length)
+		const afterSubstring = DisplayName.substring(
+			idx + term.length,
+			DisplayName.length
+		)
 
-		setHighlightedDisplayName(<span>{beforeSubstring}<b>{highlightSubstring}</b>{afterSubstring}</span>)
+		setHighlightedDisplayName(
+			<span>
+				{beforeSubstring}
+				<b>{highlightSubstring}</b>
+				{afterSubstring}
+			</span>
+		)
 	}, [DisplayName, term])
 
 	return (
@@ -48,14 +64,17 @@ const SearchResultPaneRow = (props: ISearchResultPaneRowProps) => {
 				{Icon}
 			</div>
 			<div className="search-result-pane__row__name">
-				<div className={`search-result-pane__row__name__name ${NO_SELECT_CLASS}`}>
+				<div
+					className={`search-result-pane__row__name__name ${NO_SELECT_CLASS}`}
+				>
 					{highlightedDisplayName}
 				</div>
-				<div className={`search-result-pane__row__name__location ${NO_SELECT_CLASS}`}>
+				<div
+					className={`search-result-pane__row__name__location ${NO_SELECT_CLASS}`}
+				>
 					{path}
 				</div>
 			</div>
-			
 		</div>
 	)
 }
