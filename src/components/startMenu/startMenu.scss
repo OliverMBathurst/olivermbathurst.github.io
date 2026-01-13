@@ -3,16 +3,18 @@
 .start-menu {
 	flex-direction: column;
 	position: absolute;
-	bottom: 0;
-	left: 0;
+	bottom: 0.5rem;
+	left: 0.5rem;
 	color: $ui-text-colour;
 	background-color: $ui-background;
-	font-size: 1rem;
-	opacity: 80%;
-	min-width: 30rem;
+	font-size: 0.75rem;
+	opacity: 90%;
+	min-width: 20rem;
 	min-height: 30rem;
-	max-width: 30rem;
+	max-width: 20rem;
 	max-height: 30rem;
+	border: 0.125rem solid rgba(255, 255, 255, 0.1);
+	border-radius: 0.1875rem;
 
 	@media screen and (max-width: 12.5rem) {
 		visibility: hidden;
@@ -25,13 +27,15 @@
 	@media screen and (max-width: 31.25rem) {
 		min-width: 100%;
 		max-width: 100%;
-		font-size: 0.75rem;
+		bottom: 0;
+		left: 0;
 	}
 
 	@media screen and (max-height: 33rem) {
 		min-height: 100%;
 		max-height: 100%;
-		font-size: 0.75rem;
+		bottom: 0;
+		left: 0;
 	}
 }
 
@@ -67,17 +71,32 @@
 	background: rgba(255, 255, 255, 0.1);
 }
 
+.start-menu__top-container__right__row {
+	border: 0.0625rem $ui-background solid;
+}
+
+.start-menu__top-container__right__row--selected {
+	background: rgba(255, 255, 255, 0.1);
+	border: 0.0625rem grey solid;
+}
+
 .start-menu__top-container__right__row,
+.start-menu__top-container__right__row--selected,
 .start-menu__top-container__left__row {
 	flex-direction: row;
 	align-items: center;
 	display: flex;
-	padding: 0.5rem;
 }
 
 .start-menu__top-container__right__row__icon img {
 	height: 1.5rem;
 	width: 1.5rem;
+}
+
+.start-menu__top-container__right__row,
+.start-menu__top-container__right__row--selected {
+	margin-top: 0.3rem;
+	padding: 0.5rem 0 0.5rem 0;
 }
 
 .start-menu__top-container__right__row__name {

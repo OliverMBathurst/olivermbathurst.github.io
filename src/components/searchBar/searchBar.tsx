@@ -23,7 +23,7 @@ const SearchBar = (props: ISearchBarProps) => {
 		}
 	}
 
-	const onChangeInternal = (_: React.KeyboardEvent<HTMLInputElement>) => {
+	const onKeyUpInternal = (e: React.KeyboardEvent<HTMLInputElement>) => {
 		if (inputRef.current) {
 			setValue(inputRef.current.value)
 		}
@@ -54,7 +54,7 @@ const SearchBar = (props: ISearchBarProps) => {
 			<input
 				className="search-bar__input"
 				ref={inputRef}
-				onKeyUp={onChangeInternal}
+				onKeyUp={onKeyUpInternal}
 				{...newProps}
 			/>
 			{value && (

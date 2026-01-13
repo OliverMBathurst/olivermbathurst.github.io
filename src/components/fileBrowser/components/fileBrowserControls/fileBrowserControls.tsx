@@ -24,11 +24,11 @@ const FileBrowserControls = (props: IFileBrowserControlsProps) => {
 	} = props
 	const { searchForItems } = useSearch(context)
 
-	const timeout = useRef<number | undefined>(undefined)
+	const searchTimeout = useRef<number | undefined>(undefined)
 
 	const onSearchInputChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
-		clearTimeout(timeout.current)
-		timeout.current = setTimeout(() => {
+		clearTimeout(searchTimeout.current)
+		searchTimeout.current = setTimeout(() => {
 			const val = e.target.value
 			if (val === "") {
 				onSearchCancelled()
