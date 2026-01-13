@@ -36,10 +36,8 @@ const FileBrowser = (props: IFileBrowserProps) => {
 	const { windowId, context } = props
 	const [selected, setSelected] = useState<string[]>([])
 	const [searchResult, setSearchResult] = useState<ISearchResult | null>(null)
-	const [searching, setSearching] = useState<boolean>(false)
 
 	const elementRowReferences = useRef<Record<string, HTMLElement | null>>({})
-
 	const fileBrowserRef = useRef<HTMLDivElement | null>(null)
 
 	const { addWindow, setWindowContext } = useContext(WindowsContext)
@@ -69,34 +67,20 @@ const FileBrowser = (props: IFileBrowserProps) => {
 
 	const onRowClicked = useCallback(
 		(context: Context, e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-			let newSelectedContextKeys = []
-			if (searching) {
-				const searchItems = searchResult?.items ?? []
-				if (searchItems.length === 0) {
-					return
-				}
-
-				newSelectedContextKeys = onSelectionRowClicked(
-					context,
-					selected,
-					searchItems,
-					(x) => x.context.toContextUniqueKey(),
-					e
-				)
-			} else {
-				newSelectedContextKeys = onSelectionRowClicked(
-					context,
-					selected,
-					Entities,
-					(x) => x.toContextUniqueKey(),
-					e
-				)
-			}
+			const newSelectedContextKeys = onSelectionRowClicked(
+				context,
+				searchResult !== null,
+				e,
+				selected,
+				searchResult?.items ?? [],
+				Entities,
+				x => x.context.toContextUniqueKey(),
+				x => x.toContextUniqueKey()
+			)
 
 			setSelected(newSelectedContextKeys)
 		},
 		[
-			searching,
 			searchResult,
 			onSelectionRowClicked,
 			selected,
@@ -158,14 +142,12 @@ const FileBrowser = (props: IFileBrowserProps) => {
 		elementRowReferences.current = {}
 		setSelected([])
 		setSearchResult(result)
-		setSearching(true)
 	}
 
 	const onSearchCancelled = () => {
 		elementRowReferences.current = {}
 		setSelected([])
-		setSearchResult(() => { return { term: "", items: [] } })
-		setSearching(false)
+		setSearchResult(null)
 	}
 
 	const SelectionRectangle = useWindowSelectionRectangle(
@@ -180,7 +162,7 @@ const FileBrowser = (props: IFileBrowserProps) => {
 		let shortcuts = []
 		let branches = []
 
-		if (searching) {
+		if (searchResult) {
 			const searchItems = searchResult?.items ?? []
 			leaves = searchItems.filter(
 				(x) =>
@@ -225,8 +207,8 @@ const FileBrowser = (props: IFileBrowserProps) => {
 				{SelectionRectangle}
 				{BRANCHING_CONTEXT_PARENT_PROPERTY in context &&
 					context.parent &&
-					!searching && <UpOneLevelRow onRowDoubleClicked={upOneLevel} />}
-				{searching && (
+					!searchResult && <UpOneLevelRow onRowDoubleClicked={upOneLevel} />}
+				{searchResult && (
 					<SearchResultPane
 						searchResult={searchResult}
 						selectedContextKeys={selected}
@@ -237,7 +219,7 @@ const FileBrowser = (props: IFileBrowserProps) => {
 						}
 					/>
 				)}
-				{!searching &&
+				{!searchResult &&
 					Entities.map((e) => {
 						const contextKey = e.toContextUniqueKey()
 						return (

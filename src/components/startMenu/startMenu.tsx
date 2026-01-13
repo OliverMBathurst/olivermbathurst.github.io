@@ -76,29 +76,18 @@ const StartMenu = (props: IStartMenuProps) => {
 
 	const onRowClicked = useCallback(
 		(context: Context, e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-			let newSelectedContextKeys = []
-			if (searchResult) {
-				const searchItems = searchResult.items
-				if (searchItems.length === 0) {
-					return
-				}
+			const selectionOne = searchResult !== null
 
-				newSelectedContextKeys = onSelectionRowClicked(
-					context,
-					selectedContextKeys,
-					searchItems,
-					(x) => x.context.toContextUniqueKey(),
-					e
-				)
-			} else {
-				newSelectedContextKeys = onSelectionRowClicked(
-					context,
-					selectedContextKeys,
-					allLeaves,
-					(x) => x.toContextUniqueKey(),
-					e
-				)
-			}
+			const newSelectedContextKeys = onSelectionRowClicked(
+				context,
+				selectionOne,
+				e,
+				selectedContextKeys,
+				searchResult?.items ?? [],
+				allLeaves,
+				x => x.context.toContextUniqueKey(),
+				x => x.toContextUniqueKey()
+			)
 
 			setSelectedContextKeys(newSelectedContextKeys)
 		},
