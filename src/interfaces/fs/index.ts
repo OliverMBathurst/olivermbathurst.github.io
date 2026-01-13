@@ -16,6 +16,7 @@ export interface IShortcut extends INamed, IChildContext {}
 
 export interface INamed {
 	name: string
+	fullName: string
 	toContextUniqueKey: () => string
 }
 

@@ -12,6 +12,10 @@ abstract class AbstractLeaf implements ILeaf {
 		this.parent = parent
 	}
 
+	get fullName() {
+		return `${this.name}.${this.extension}`
+	}
+
 	toContextUniqueKey: () => string = () => `${this.name}-${this.extension}`
 }
 

@@ -15,6 +15,10 @@ class Branch implements IBranch {
 		this.type = type
 	}
 
+	get fullName() {
+		return this.name
+	}
+
 	toContextUniqueKey: () => string = () => `${this.name}-${this.type}`
 
 	setLeaves(leaves: Leaf[]) {

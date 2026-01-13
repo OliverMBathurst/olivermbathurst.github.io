@@ -25,10 +25,21 @@
 	width: 1.5rem;
 }
 
-.search-result-pane__row__name {
+.search-result-pane__row__name__name,
+.search-result-pane__row__name__location {
 	padding-left: 0.5rem;
 	overflow: hidden;
 	text-overflow: ellipsis;
+}
+
+.search-result-pane__row__icon,
+.search-result-pane__row__name {
+	padding: 0.3rem 0 0.3rem 0;
+}
+
+.search-result-pane__row__name {
+	display: flex;
+	flex-direction: column;
 }
 
 .search-result-pane__row,

@@ -11,6 +11,10 @@ class Root implements IRoot {
 		this.name = name
 	}
 
+	get fullName() {
+		return this.name
+	}
+
 	toContextUniqueKey: () => string = () => this.name
 
 	setLeaves(leaves: Leaf[]) {

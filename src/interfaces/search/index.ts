@@ -5,3 +5,8 @@ export interface ILikenessResult {
 	path: string
 	score: number
 }
+
+export interface ISearchResult {
+	term: string
+	items: ILikenessResult[]
+}

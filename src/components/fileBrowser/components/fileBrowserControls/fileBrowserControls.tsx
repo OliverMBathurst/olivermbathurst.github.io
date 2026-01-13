@@ -1,6 +1,6 @@
 import { useRef } from "react"
 import { useSearch } from "../../../../hooks"
-import { ILikenessResult } from "../../../../interfaces/search"
+import { ISearchResult } from "../../../../interfaces/search"
 import { BranchingContext, Leaf, Shortcut } from "../../../../types/fs"
 import { SearchBar } from "../../../searchBar"
 import { FileBrowserLocationBar } from "../fileBrowserLocationBar"
@@ -9,7 +9,7 @@ import "./fileBrowserControls.scss"
 interface IFileBrowserControlsProps {
 	context: BranchingContext
 	onSearchCancelled: () => void
-	onSearchCompleted: (results: ILikenessResult[]) => void
+	onSearchCompleted: (results: ISearchResult) => void
 	onDirectoryChanged: (context: BranchingContext) => void
 	onFileNavigation: (context: Leaf | Shortcut) => void
 }
@@ -34,7 +34,10 @@ const FileBrowserControls = (props: IFileBrowserControlsProps) => {
 				onSearchCancelled()
 			} else {
 				const items = searchForItems(val)
-				onSearchCompleted(items)
+				onSearchCompleted({
+					term: val,
+					items
+				})
 			}
 		}, 300)
 	}

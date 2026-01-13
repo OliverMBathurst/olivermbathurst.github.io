@@ -1,25 +1,25 @@
 import { useCallback, useContext, useMemo, useRef, useState } from "react"
 import {
-	BRANCHING_CONTEXT_DETERMINER,
-	BRANCHING_CONTEXT_PARENT_PROPERTY,
-	LEAF_EXTENSION_PROPERTY_NAME,
-	NO_SELECT_CLASS,
-	SHORTCUT_DETERMINER
+    BRANCHING_CONTEXT_DETERMINER,
+    BRANCHING_CONTEXT_PARENT_PROPERTY,
+    LEAF_EXTENSION_PROPERTY_NAME,
+    NO_SELECT_CLASS,
+    SHORTCUT_DETERMINER
 } from "../../constants"
 import { WindowsContext } from "../../contexts"
 import {
-	doRectanglesIntersect,
-	onSelectionRowClicked
+    doRectanglesIntersect,
+    onSelectionRowClicked
 } from "../../helpers/selections"
 import { useWindowSelectionRectangle } from "../../hooks"
-import { ILikenessResult } from "../../interfaces/search"
+import { ISearchResult } from "../../interfaces/search"
 import { ApplicationHandlerService } from "../../service"
 import { BranchingContext, Context, Leaf, Shortcut } from "../../types/fs"
 import { SearchResultPane } from "../searchResultPane"
 import {
-	FileBrowserControls,
-	FileBrowserRow,
-	UpOneLevelRow
+    FileBrowserControls,
+    FileBrowserRow,
+    UpOneLevelRow
 } from "./components"
 import "./fileBrowser.scss"
 
@@ -35,7 +35,7 @@ const applicationHandlerService = new ApplicationHandlerService()
 const FileBrowser = (props: IFileBrowserProps) => {
 	const { windowId, context } = props
 	const [selected, setSelected] = useState<string[]>([])
-	const [searchResults, setSearchResults] = useState<ILikenessResult[]>([])
+	const [searchResult, setSearchResult] = useState<ISearchResult | null>(null)
 	const [searching, setSearching] = useState<boolean>(false)
 
 	const elementRowReferences = useRef<Record<string, HTMLElement | null>>({})
@@ -71,10 +71,15 @@ const FileBrowser = (props: IFileBrowserProps) => {
 		(context: Context, e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
 			let newSelectedContextKeys = []
 			if (searching) {
+				const searchItems = searchResult?.items ?? []
+				if (searchItems.length === 0) {
+					return
+				}
+
 				newSelectedContextKeys = onSelectionRowClicked(
 					context,
 					selected,
-					searchResults,
+					searchItems,
 					(x) => x.context.toContextUniqueKey(),
 					e
 				)
@@ -92,7 +97,7 @@ const FileBrowser = (props: IFileBrowserProps) => {
 		},
 		[
 			searching,
-			searchResults,
+			searchResult,
 			onSelectionRowClicked,
 			selected,
 			Entities,
@@ -149,17 +154,17 @@ const FileBrowser = (props: IFileBrowserProps) => {
 		}
 	}
 
-	const onSearchCompleted = (results: ILikenessResult[]) => {
+	const onSearchCompleted = (result: ISearchResult) => {
 		elementRowReferences.current = {}
 		setSelected([])
-		setSearchResults(results)
+		setSearchResult(result)
 		setSearching(true)
 	}
 
 	const onSearchCancelled = () => {
 		elementRowReferences.current = {}
 		setSelected([])
-		setSearchResults([])
+		setSearchResult(() => { return { term: "", items: [] } })
 		setSearching(false)
 	}
 
@@ -176,15 +181,16 @@ const FileBrowser = (props: IFileBrowserProps) => {
 		let branches = []
 
 		if (searching) {
-			leaves = searchResults.filter(
+			const searchItems = searchResult?.items ?? []
+			leaves = searchItems.filter(
 				(x) =>
 					LEAF_EXTENSION_PROPERTY_NAME in x.context &&
 					!(SHORTCUT_DETERMINER in x.context)
 			)
-			branches = searchResults.filter(
+			branches = searchItems.filter(
 				(x) => BRANCHING_CONTEXT_DETERMINER in x.context
 			)
-			shortcuts = searchResults.filter((x) => SHORTCUT_DETERMINER in x.context)
+			shortcuts = searchItems.filter((x) => SHORTCUT_DETERMINER in x.context)
 			entitiesLength = leaves.length + branches.length + shortcuts.length
 		} else {
 			leaves = context.leaves
@@ -222,7 +228,7 @@ const FileBrowser = (props: IFileBrowserProps) => {
 					!searching && <UpOneLevelRow onRowDoubleClicked={upOneLevel} />}
 				{searching && (
 					<SearchResultPane
-						items={searchResults}
+						searchResult={searchResult}
 						selectedContextKeys={selected}
 						onRowClicked={onRowClicked}
 						onRowDoubleClicked={onRowDoubleClicked}
