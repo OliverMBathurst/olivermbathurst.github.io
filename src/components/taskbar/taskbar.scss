@@ -1,8 +1,10 @@
+@import '../../index.scss';
+
 .taskbar {
 	width: 100%;
 	position: absolute;
 	bottom: 0;
-	background-color: black;
+	background-color: $ui-background;
 	opacity: 80%;
 	display: flex;
 	justify-content: center;

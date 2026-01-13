@@ -1,13 +1,16 @@
+@import '../../../../index.scss';
+
 .file-browser-location-bar__input {
-	background: none;
+	background-color: $ui-input-background;
 	outline: none;
 	border: none;
-	color: white;
+	color: $ui-text-colour;
 	height: 100%;
 	width: calc(100% - 2.25rem);
 }
 
 .file-browser-location-bar {
+	background-color: $ui-input-background;
 	border: 0.125rem solid rgba(255, 255, 255, 0.1);
 	border-radius: 0.1875rem;
 	display: flex;

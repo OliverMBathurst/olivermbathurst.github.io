@@ -1,10 +1,12 @@
+@import '../../index.scss';
+
 .start-menu {
 	flex-direction: column;
 	position: absolute;
 	bottom: 0;
 	left: 0;
-	color: white;
-	background-color: black;
+	color: $ui-text-colour;
+	background-color: $ui-background;
 	font-size: 1rem;
 	opacity: 80%;
 	min-width: 30rem;

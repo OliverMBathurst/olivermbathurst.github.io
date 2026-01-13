@@ -1,7 +1,9 @@
+@import '../../../../index.scss';
+
 .file-browser__row,
 .file-browser__row--selected {
 	display: flex;
-	color: white;
+	color: $ui-text-colour;
 	align-items: center;
 	font-size: 0.75rem;
 	padding-left: 0.5rem;
@@ -12,7 +14,7 @@
 }
 
 .file-browser__row {
-	border: 0.0625rem black solid;
+	border: 0.0625rem $ui-background solid;
 }
 
 .file-browser__row--selected {

@@ -1,16 +1,18 @@
+@import '../../index.scss';
+
 .search-bar__input {
 	display: flex;
-	background: transparent;
+	background: $ui-input-background;
 	outline: none;
 	border: none;
-	color: white;
+	color: $ui-text-colour;
 	width: calc(100% - 4.5rem);
 }
 
 .search-bar {
 	display: flex;
-	background: transparent;
-	color: white;
+	background: $ui-input-background;
+	color: $ui-text-colour;
 	outline: none;
 	border: 0.125rem solid rgba(255, 255, 255, 0.1);
 	border-radius: 0.1875rem;
@@ -36,5 +38,5 @@
 }
 
 .search-bar__input::placeholder {
-	color: white;
+	color: $ui-text-colour;
 }

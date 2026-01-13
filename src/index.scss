@@ -1,6 +1,8 @@
-html,
-body,
-#root {
+$ui-background: #252526;
+$ui-input-background: #333337;
+$ui-text-colour: #F1F1F1;
+
+html, body, #root {
 	height: 100%;
 	width: 100%;
 	overflow: hidden;

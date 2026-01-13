@@ -1,4 +1,6 @@
+@import '../../index.scss';
+
 .search-result-pane__no-items {
-	color: white;
+	color: $ui-text-colour;
 	padding-left: 0.5rem;
 }

@@ -1,9 +1,11 @@
+@import '../../index.scss';
+
 .window {
 	position: absolute;
 	display: flex;
 	flex-direction: column;
 	height: 100%;
-	background-color: black;
+	background-color: $ui-background;
 	min-width: 12.5rem;
 	min-height: 9.375rem;
 }
