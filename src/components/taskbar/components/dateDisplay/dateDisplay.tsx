@@ -4,7 +4,12 @@ import { NO_SELECT_CLASS } from "../../../../constants"
 
 const DATE_PICKER_ID = "date-display__input"
 
-const DateDisplay = () => {
+interface IDateDisplayProps {
+	onDateClicked: () => void
+}
+
+const DateDisplay = (props: IDateDisplayProps) => {
+	const { onDateClicked } = props
 	const [date, setDate] = useState<string>()
 	const inputRef = useRef<HTMLInputElement | null>(null)
 
@@ -17,14 +22,6 @@ const DateDisplay = () => {
 			.replaceAll("-", "/")
 			.replaceAll("T", " ")
 		setDate(formattedDate)
-	}
-
-	const openDatePicker = () => {
-		if (inputRef.current) {
-			if ("showPicker" in inputRef.current) {
-				inputRef.current.showPicker()
-			}
-		}
 	}
 
 	useEffect(() => {
@@ -46,7 +43,7 @@ const DateDisplay = () => {
 			/>
 			<span
 				className={`date-display__overlay ${NO_SELECT_CLASS}`}
-				onClick={openDatePicker}
+				onClick={onDateClicked}
 			>
 				{date}
 			</span>

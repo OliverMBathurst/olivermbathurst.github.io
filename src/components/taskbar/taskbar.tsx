@@ -11,10 +11,11 @@ import "./taskbar.scss"
 
 interface ITaskbarProps {
 	onStartButtonClicked: () => void
+	onDateClicked: () => void
 }
 
 const Taskbar = (props: ITaskbarProps) => {
-	const { onStartButtonClicked } = props
+	const { onStartButtonClicked, onDateClicked } = props
 	const { windowProperties, onMinimizeAllButtonClicked } =
 		useContext(WindowsContext)
 
@@ -29,7 +30,7 @@ const Taskbar = (props: ITaskbarProps) => {
 			<StartButton onStartButtonClicked={onStartButtonClicked} />
 			<SearchBar type="text" placeholder="Search..." />
 			<div className="taskbar__items-container">{TaskbarItems}</div>
-			<DateDisplay />
+			<DateDisplay onDateClicked={onDateClicked} />
 			<MinimizeAllButton onMinimizeAllClicked={onMinimizeAllButtonClicked} />
 		</div>
 	)

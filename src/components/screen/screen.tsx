@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState } from "react"
 import { FileSystemContext, WindowsContext } from "../../contexts"
+import { Calendar } from "../calendar"
 import { Desktop } from "../desktop"
 import { ScreenSaverTwo } from "../screenSaverTwo"
 import { StartMenu } from "../startMenu"
@@ -12,6 +13,7 @@ const Screen = () => {
 	const { runIndexer } = useContext(FileSystemContext)
 
 	const [startMenuShow, setStartMenuShow] = useState<boolean>(false)
+	const [calendarShow, setCalendarShow] = useState<boolean>(false)
 
 	useEffect(() => {
 		runIndexer()
@@ -28,8 +30,14 @@ const Screen = () => {
 				{startMenuShow && (
 					<StartMenu onClickOutside={() => setStartMenuShow((s) => !s)} />
 				)}
+				{calendarShow && (
+					<Calendar />
+				)}
 			</div>
-			<Taskbar onStartButtonClicked={() => setStartMenuShow((s) => !s)} />
+			<Taskbar
+				onStartButtonClicked={() => setStartMenuShow((s) => !s)}
+				onDateClicked={() => setCalendarShow(s => !s)}
+			/>
 		</div>
 	)
 }

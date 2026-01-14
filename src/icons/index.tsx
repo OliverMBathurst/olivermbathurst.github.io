@@ -12,6 +12,8 @@ import pdf from "../icons/pdf.png"
 import search from "../icons/search.png"
 import start from "../icons/startMenu.png"
 import textFile from "../icons/textFile.png"
+import expand from "../icons/expand.png"
+import collapse from "../icons/collapse.png"
 
 const GenericFileIcon = (props: React.ImgHTMLAttributes<HTMLImageElement>) => (
 	<img src={file} alt="File icon by icon8" {...props} />
@@ -65,6 +67,14 @@ const CancelIcon = (props: React.ImgHTMLAttributes<HTMLImageElement>) => (
 	<img src={cancel} alt="Cancel icon by icon8" {...props} />
 )
 
+const ExpandIcon = (props: React.ImgHTMLAttributes<HTMLImageElement>) => (
+	<img src={expand} alt="Expand icon by icon8" {...props} />
+)
+
+const CollapseIcon = (props: React.ImgHTMLAttributes<HTMLImageElement>) => (
+	<img src={collapse} alt="Collapse icon by icon8" {...props} />
+)
+
 export {
 	CancelIcon,
 	CloseIcon,
@@ -78,5 +88,7 @@ export {
 	PdfIcon,
 	SearchIcon,
 	StartMenuIcon,
-	TextFileIcon
+	TextFileIcon,
+	ExpandIcon,
+	CollapseIcon
 }
