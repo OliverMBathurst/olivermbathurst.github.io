@@ -20,10 +20,10 @@
 	margin-left: 0.5rem;
 }
 
-	.window__top-bar__icon,
-	.window__top-bar__icon img {
-		height: 1.5rem;
-	}
+.window__top-bar__icon,
+.window__top-bar__icon img {
+	height: 1.5rem;
+}
 
 .window__top-bar__controls__button img,
 .window__top-bar__controls__close-button img {
@@ -36,6 +36,10 @@
 	margin: 0rem 0.5rem 0rem auto;
 }
 
+.window__top-bar__controls__button {
+	margin-right: 0.4rem;
+}
+
 .window__top-bar__controls__button,
 .window__top-bar__controls__close-button {
 	cursor: pointer;
@@ -44,9 +48,9 @@
 }
 
 .window__top-bar__controls__button:hover {
-	background-color: grey;
+	background-color: $hover-button-background;
 }
 
 .window__top-bar__controls__close-button:hover {
-	background-color: red;
+	background-color: $hover-button-background-close;
 }

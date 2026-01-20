@@ -264,10 +264,25 @@ const Window = (props: IWindowProps) => {
 				windowPositionRef.current.x = e.clientX
 				windowPositionRef.current.y = e.clientY
 
-				const div = windowRef.current
-				if (div) {
-					div.style.top = div.offsetTop - pos2 + "px"
-					div.style.left = div.offsetLeft - pos1 + "px"
+				const elem = windowRef.current
+				if (elem) {
+					let top = elem.offsetTop - pos2
+					let left = elem.offsetLeft - pos1
+
+					if (top < 0) {
+						top = 0
+					} else if (top + elem.clientHeight > window.innerHeight - DEFAULT_TASKBAR_HEIGHT_PIXELS) {
+						top = window.innerHeight - DEFAULT_TASKBAR_HEIGHT_PIXELS - elem.clientHeight
+					}
+
+					if (left < 0) {
+						left = 0
+					} else if (left + elem.clientWidth > window.innerWidth) {
+						left = window.innerWidth - elem.clientWidth
+					}
+
+					elem.style.top = top + "px"
+					elem.style.left = left + "px"
 				}
 			}
 		},
