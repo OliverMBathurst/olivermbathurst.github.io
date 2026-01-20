@@ -1,111 +1,23 @@
 import React, { memo, useCallback, useContext, useEffect, useRef } from "react"
 import {
-	BRANCHING_CONTEXT_DETERMINER,
-	DEFAULT_MIN_WINDOW_HEIGHT_PIXELS,
-	DEFAULT_MIN_WINDOW_WIDTH_PIXELS,
-	DEFAULT_POINTER,
-	DEFAULT_TASKBAR_HEIGHT_PIXELS,
-	FILETYPE_RENDERABLE_PROPERTY,
-	TASKBAR_ITEM_CLASS,
-	TASKBAR_ITEM_NAME_CLASS
+    BRANCHING_CONTEXT_DETERMINER,
+    DEFAULT_MIN_WINDOW_HEIGHT_PIXELS,
+    DEFAULT_MIN_WINDOW_WIDTH_PIXELS,
+    DEFAULT_POINTER,
+    DEFAULT_TASKBAR_HEIGHT_PIXELS,
+    FILETYPE_RENDERABLE_PROPERTY,
+    TASKBAR_ITEM_CLASS,
+    TASKBAR_ITEM_NAME_CLASS
 } from "../../constants"
 import { WindowsContext } from "../../contexts"
 import { WindowExpandDirection } from "../../enums"
+import { getCursor, getExpandDirectionByRefAndPosition, heightChangesEnum, widthChangesEnum, xChangesEnum, yChangesEnum } from "../../helpers/direction"
 import { useClickOutside } from "../../hooks"
 import { ISize, IWindowProperties, WindowState } from "../../interfaces/windows"
 import { Visibility } from "../../types"
 import { FileBrowser } from "../fileBrowser"
 import { WindowTopBar } from "./components"
 import "./window.scss"
-
-const xChangesEnum =
-	WindowExpandDirection.Left |
-	WindowExpandDirection.TopLeft |
-	WindowExpandDirection.BottomLeft
-const yChangesEnum =
-	WindowExpandDirection.Top |
-	WindowExpandDirection.TopRight |
-	WindowExpandDirection.TopLeft
-const heightChangesEnum =
-	WindowExpandDirection.Bottom |
-	WindowExpandDirection.BottomRight |
-	WindowExpandDirection.BottomLeft
-const widthChangesEnum =
-	WindowExpandDirection.Right |
-	WindowExpandDirection.TopRight |
-	WindowExpandDirection.BottomRight
-
-const getExpandDirectionByRefAndPosition: (
-	ref: React.RefObject<HTMLDivElement | null>,
-	e: React.MouseEvent<HTMLDivElement, MouseEvent>
-) => WindowExpandDirection = (
-	ref: React.RefObject<HTMLDivElement | null>,
-	e: React.MouseEvent<HTMLDivElement, MouseEvent>
-) => {
-		let expandDirection: WindowExpandDirection = WindowExpandDirection.None
-		if (ref && ref.current) {
-			const rect = ref.current.getBoundingClientRect()
-
-			const getWithinBounds = (a: number, b: number): boolean =>
-				Math.abs(Math.round(a) - Math.round(b)) <= 6
-
-			if (rect) {
-				if (getWithinBounds(e.clientY, rect.top)) {
-					if (getWithinBounds(e.clientX, rect.left)) {
-						expandDirection = WindowExpandDirection.TopLeft
-					} else if (getWithinBounds(e.clientX, rect.right)) {
-						expandDirection = WindowExpandDirection.TopRight
-					} else {
-						expandDirection = WindowExpandDirection.Top
-					}
-				} else if (getWithinBounds(e.clientY, rect.bottom)) {
-					if (getWithinBounds(e.clientX, rect.left)) {
-						expandDirection = WindowExpandDirection.BottomLeft
-					} else if (getWithinBounds(e.clientX, rect.right)) {
-						expandDirection = WindowExpandDirection.BottomRight
-					} else {
-						expandDirection = WindowExpandDirection.Bottom
-					}
-				} else if (
-					getWithinBounds(e.clientX, rect.left) &&
-					e.clientY > rect.top &&
-					e.clientY < rect.bottom
-				) {
-					expandDirection = WindowExpandDirection.Left
-				} else if (
-					getWithinBounds(e.clientX, rect.right) &&
-					e.clientY > rect.top &&
-					e.clientY < rect.bottom
-				) {
-					expandDirection = WindowExpandDirection.Right
-				}
-			}
-		}
-
-		return expandDirection
-	}
-
-const getCursor = (
-	direction: WindowExpandDirection,
-	defaultCursor: string
-): string => {
-	switch (direction) {
-		case WindowExpandDirection.BottomLeft:
-		case WindowExpandDirection.TopRight:
-			return "nesw-resize"
-		case WindowExpandDirection.BottomRight:
-		case WindowExpandDirection.TopLeft:
-			return "nwse-resize"
-		case WindowExpandDirection.Bottom:
-		case WindowExpandDirection.Top:
-			return "ns-resize"
-		case WindowExpandDirection.Left:
-		case WindowExpandDirection.Right:
-			return "ew-resize"
-		default:
-			return defaultCursor
-	}
-}
 
 const clickOutsideExclusions: string[] = [
 	TASKBAR_ITEM_CLASS,
@@ -292,6 +204,10 @@ const Window = (props: IWindowProps) => {
 	const onWindowMouseOvered = (
 		e: React.MouseEvent<HTMLDivElement, MouseEvent>
 	) => {
+		if (windowIsMovingRef.current || windowExpanding.current) {
+			return
+		}
+
 		const expandDirection = getExpandDirectionByRefAndPosition(windowRef, e)
 		if (window && windowRef.current) {
 			windowRef.current.style.cursor = getCursor(
