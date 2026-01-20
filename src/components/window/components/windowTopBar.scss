@@ -2,9 +2,9 @@
 
 .window__top-bar {
 	width: 100%;
-	height: 2rem;
+	height: 2.5rem;
 	display: flex;
-	background-color: $window-top-bar-background;
+	background-color: $ui-background;
 	align-items: center;
 	cursor: default;
 }
@@ -20,39 +20,31 @@
 	margin-left: 0.5rem;
 }
 
-.window__top-bar__icon,
-.window__top-bar__icon img {
-	height: 1.5rem;
-}
+	.window__top-bar__icon,
+	.window__top-bar__icon img {
+		height: 1.5rem;
+	}
 
 .window__top-bar__controls__button img,
 .window__top-bar__controls__close-button img {
-	height: 1rem;
-	width: 1rem;
+	height: 1.5rem;
+	width: 1.5rem;
 }
 
 .window__top-bar__controls {
 	display: flex;
-	align-self: flex-start;
-	margin: 0rem 0rem 0rem auto;
+	margin: 0rem 0.5rem 0rem auto;
 }
 
 .window__top-bar__controls__button,
 .window__top-bar__controls__close-button {
 	cursor: pointer;
-	height: 2rem;
-	width: 3rem;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
-
-.window__top-bar__controls__button {
-	margin-right: 0.25rem;
+	height: 1.5rem;
+	width: 1.5rem;
 }
 
 .window__top-bar__controls__button:hover {
-	background-color: $hover-button-background;
+	background-color: grey;
 }
 
 .window__top-bar__controls__close-button:hover {

@@ -1,24 +1,111 @@
 import React, { memo, useCallback, useContext, useEffect, useRef } from "react"
 import {
-    BRANCHING_CONTEXT_DETERMINER,
-    DEFAULT_MIN_WINDOW_HEIGHT_PIXELS,
-    DEFAULT_MIN_WINDOW_WIDTH_PIXELS,
-    DEFAULT_POINTER,
-    DEFAULT_TASKBAR_HEIGHT_PIXELS,
-    FILETYPE_RENDERABLE_PROPERTY,
-    TASKBAR_ITEM_CLASS,
-    TASKBAR_ITEM_NAME_CLASS
+	BRANCHING_CONTEXT_DETERMINER,
+	DEFAULT_MIN_WINDOW_HEIGHT_PIXELS,
+	DEFAULT_MIN_WINDOW_WIDTH_PIXELS,
+	DEFAULT_POINTER,
+	DEFAULT_TASKBAR_HEIGHT_PIXELS,
+	FILETYPE_RENDERABLE_PROPERTY,
+	TASKBAR_ITEM_CLASS,
+	TASKBAR_ITEM_NAME_CLASS
 } from "../../constants"
 import { WindowsContext } from "../../contexts"
 import { WindowExpandDirection } from "../../enums"
-import { isMouseDownLeftClick } from "../../helpers/click"
-import { getCursor, getExpandDirectionByRefAndPosition, heightChangesEnum, widthChangesEnum, xChangesEnum, yChangesEnum } from "../../helpers/direction"
 import { useClickOutside } from "../../hooks"
 import { ISize, IWindowProperties, WindowState } from "../../interfaces/windows"
 import { Visibility } from "../../types"
 import { FileBrowser } from "../fileBrowser"
 import { WindowTopBar } from "./components"
 import "./window.scss"
+
+const xChangesEnum =
+	WindowExpandDirection.Left |
+	WindowExpandDirection.TopLeft |
+	WindowExpandDirection.BottomLeft
+const yChangesEnum =
+	WindowExpandDirection.Top |
+	WindowExpandDirection.TopRight |
+	WindowExpandDirection.TopLeft
+const heightChangesEnum =
+	WindowExpandDirection.Bottom |
+	WindowExpandDirection.BottomRight |
+	WindowExpandDirection.BottomLeft
+const widthChangesEnum =
+	WindowExpandDirection.Right |
+	WindowExpandDirection.TopRight |
+	WindowExpandDirection.BottomRight
+
+const getExpandDirectionByRefAndPosition: (
+	ref: React.RefObject<HTMLDivElement | null>,
+	e: React.MouseEvent<HTMLDivElement, MouseEvent>
+) => WindowExpandDirection = (
+	ref: React.RefObject<HTMLDivElement | null>,
+	e: React.MouseEvent<HTMLDivElement, MouseEvent>
+) => {
+		let expandDirection: WindowExpandDirection = WindowExpandDirection.None
+		if (ref && ref.current) {
+			const rect = ref.current.getBoundingClientRect()
+
+			const getWithinBounds = (a: number, b: number): boolean =>
+				Math.abs(Math.round(a) - Math.round(b)) <= 6
+
+			if (rect) {
+				if (getWithinBounds(e.clientY, rect.top)) {
+					if (getWithinBounds(e.clientX, rect.left)) {
+						expandDirection = WindowExpandDirection.TopLeft
+					} else if (getWithinBounds(e.clientX, rect.right)) {
+						expandDirection = WindowExpandDirection.TopRight
+					} else {
+						expandDirection = WindowExpandDirection.Top
+					}
+				} else if (getWithinBounds(e.clientY, rect.bottom)) {
+					if (getWithinBounds(e.clientX, rect.left)) {
+						expandDirection = WindowExpandDirection.BottomLeft
+					} else if (getWithinBounds(e.clientX, rect.right)) {
+						expandDirection = WindowExpandDirection.BottomRight
+					} else {
+						expandDirection = WindowExpandDirection.Bottom
+					}
+				} else if (
+					getWithinBounds(e.clientX, rect.left) &&
+					e.clientY > rect.top &&
+					e.clientY < rect.bottom
+				) {
+					expandDirection = WindowExpandDirection.Left
+				} else if (
+					getWithinBounds(e.clientX, rect.right) &&
+					e.clientY > rect.top &&
+					e.clientY < rect.bottom
+				) {
+					expandDirection = WindowExpandDirection.Right
+				}
+			}
+		}
+
+		return expandDirection
+	}
+
+const getCursor = (
+	direction: WindowExpandDirection,
+	defaultCursor: string
+): string => {
+	switch (direction) {
+		case WindowExpandDirection.BottomLeft:
+		case WindowExpandDirection.TopRight:
+			return "nesw-resize"
+		case WindowExpandDirection.BottomRight:
+		case WindowExpandDirection.TopLeft:
+			return "nwse-resize"
+		case WindowExpandDirection.Bottom:
+		case WindowExpandDirection.Top:
+			return "ns-resize"
+		case WindowExpandDirection.Left:
+		case WindowExpandDirection.Right:
+			return "ew-resize"
+		default:
+			return defaultCursor
+	}
+}
 
 const clickOutsideExclusions: string[] = [
 	TASKBAR_ITEM_CLASS,
@@ -38,7 +125,6 @@ const Window = (props: IWindowProps) => {
 	const currentWindowSize = useRef<ISize>(size)
 
 	const windowRef = useRef<HTMLDivElement | null>(null)
-	const windowTopBarRef = useRef<HTMLDivElement | null>(null)
 	const windowPositionRef = useRef<{ x: number; y: number } | undefined>(
 		undefined
 	)
@@ -56,6 +142,7 @@ const Window = (props: IWindowProps) => {
 	)
 
 	const {
+		removeWindow,
 		onWindowStateChanged,
 		onWindowSelected,
 		lastDeselectedWindowId,
@@ -108,41 +195,30 @@ const Window = (props: IWindowProps) => {
 	}
 
 	const onMaximiseButtonClicked = (
-		_: React.MouseEvent<HTMLDivElement, MouseEvent>
+		_: React.MouseEvent<HTMLImageElement, MouseEvent>
 	) => onMaximiseRequested()
 
 	const onMinimiseButtonClicked = (
-		_: React.MouseEvent<HTMLDivElement, MouseEvent>
+		_: React.MouseEvent<HTMLImageElement, MouseEvent>
 	) => onWindowStateChanged(id, WindowState.Minimised)
 
 	const onWindowTopBarDoubleClicked = (
 		_: React.MouseEvent<HTMLDivElement, MouseEvent>
 	) => onMaximiseRequested()
 
+	const onCloseButtonClicked = useCallback(
+		(_: React.MouseEvent<HTMLImageElement, MouseEvent>) => removeWindow(id),
+		[removeWindow, id]
+	)
+
 	const onWindowTopBarMouseDown = (
 		e: React.MouseEvent<HTMLDivElement, MouseEvent>
 	) => {
-		let validClick: boolean = true
-		if (e.target instanceof HTMLElement) {
-			if (e.target !== e.currentTarget) {
-				validClick = false
-			}
-		}
-
-		if (!validClick) {
-			return
-		}
-
 		if (!selected) {
 			onWindowSelected(id, true)
 		}
 
 		if (state === WindowState.Maximised) {
-			return
-		}
-
-		const expandDirection = getExpandDirectionByRefAndPosition(windowRef, e)
-		if (expandDirection !== WindowExpandDirection.None) {
 			return
 		}
 
@@ -152,11 +228,12 @@ const Window = (props: IWindowProps) => {
 		}
 
 		windowIsMovingRef.current = true
+
 		window.onmousemove = onWindowTopBarMouseMove
 	}
 
 	const onWindowTopBarMouseUp = (_: MouseEvent) => {
-		if (!windowIsMovingRef.current) {
+		if (state === WindowState.Maximised) {
 			return
 		}
 
@@ -173,16 +250,11 @@ const Window = (props: IWindowProps) => {
 
 	const onWindowTopBarMouseMove = useCallback(
 		(e: MouseEvent | React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-			if (windowTopBarRef && windowTopBarRef.current) {
-				const expandDirection = getExpandDirectionByRefAndPosition(windowRef, e)
-				const cursor = getCursor(
-					expandDirection,
-					DEFAULT_POINTER
-				)
-				windowTopBarRef.current.style.cursor = cursor
+			if (!windowIsMovingRef.current) {
+				return
 			}
 
-			if (!windowIsMovingRef.current) {
+			if (state === WindowState.Maximised) {
 				return
 			}
 
@@ -203,32 +275,21 @@ const Window = (props: IWindowProps) => {
 	)
 
 	const onWindowMouseOvered = (
-		e: React.MouseEvent<HTMLDivElement, MouseEvent>,
-		isTopBar: boolean = false
+		e: React.MouseEvent<HTMLDivElement, MouseEvent>
 	) => {
 		const expandDirection = getExpandDirectionByRefAndPosition(windowRef, e)
-		const cursor = getCursor(
-			expandDirection,
-			DEFAULT_POINTER
-		)
-
-		if (isTopBar) {
-			if (windowTopBarRef && windowTopBarRef.current) {
-				windowTopBarRef.current.style.cursor = cursor
-			}
-
-			return
-		}
-
 		if (window && windowRef.current) {
-			windowRef.current.style.cursor = cursor
+			windowRef.current.style.cursor = getCursor(
+				expandDirection,
+				DEFAULT_POINTER
+			)
 		}
 	}
 
 	const onWindowMouseDown = (
 		e: React.MouseEvent<HTMLDivElement, MouseEvent>
 	) => {
-		if (!windowRef.current || !isMouseDownLeftClick(e)) {
+		if (!windowRef.current) {
 			return
 		}
 
@@ -298,8 +359,8 @@ const Window = (props: IWindowProps) => {
 					if (
 						y >
 						window.innerHeight -
-							DEFAULT_TASKBAR_HEIGHT_PIXELS -
-							windowRef.current.clientHeight
+						DEFAULT_TASKBAR_HEIGHT_PIXELS -
+						windowRef.current.clientHeight
 					) {
 						return (
 							window.innerHeight -
@@ -471,19 +532,18 @@ const Window = (props: IWindowProps) => {
 			onMouseOver={onWindowMouseOvered}
 			onMouseDown={onWindowMouseDown}
 		>
-			<WindowTopBar
-				id={id}
-				context={context}
-				refCallback={elem => windowTopBarRef.current = elem}
-				onWindowTopBarMouseDown={onWindowTopBarMouseDown}
-				onWindowTopBarMouseMove={onWindowTopBarMouseMove}
-				onWindowTopBarMouseOvered={(e) => onWindowMouseOvered(e, true)}
-				onMaximiseButtonClicked={onMaximiseButtonClicked}
-				onMinimiseButtonClicked={onMinimiseButtonClicked}
-				onWindowTopBarDoubleClicked={onWindowTopBarDoubleClicked}
-			/>
 			<div className="window__inner-content">
-				<Content />
+				<WindowTopBar
+					context={context}
+					onWindowTopBarMouseDown={onWindowTopBarMouseDown}
+					onMaximiseButtonClicked={onMaximiseButtonClicked}
+					onMinimiseButtonClicked={onMinimiseButtonClicked}
+					onCloseButtonClicked={onCloseButtonClicked}
+					onWindowTopBarDoubleClicked={onWindowTopBarDoubleClicked}
+				/>
+				<div className="window__inner-content__content">
+					<Content />
+				</div>
 			</div>
 		</div>
 	)
