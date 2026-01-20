@@ -1,3 +1,5 @@
+@import '../../../../index.scss';
+
 .taskbar-item,
 .taskbar-item--selected {
 	height: 100%;
@@ -10,11 +12,11 @@
 }
 
 .taskbar-item {
-	background: rgba(255, 255, 255, 0.1);
+	background: $hover-button-background;
 }
 
 .taskbar-item--selected {
-	background: rgba(255, 255, 255, 0.3);
+	background: $hover-button-background-selected;
 }
 
 .taskbar-item img,
@@ -37,5 +39,5 @@
 }
 
 .taskbar-item:hover {
-	background: rgba(255, 255, 255, 0.2);
+	background: $hover-button-background-selected;
 }

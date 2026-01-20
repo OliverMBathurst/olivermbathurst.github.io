@@ -1,0 +1,12 @@
+.image-slideshow__one,
+.image-slideshow__two {
+	height: calc(100% + 3rem);
+	width: 100%;
+	position: absolute;
+}
+
+.image-slideshow__one__image,
+.image-slideshow__two__image {
+	height: 100%;
+	width: 100%;
+}

@@ -11,7 +11,7 @@
 
 .file-browser-location-bar {
 	background-color: $ui-input-background;
-	border: 0.125rem solid rgba(255, 255, 255, 0.1);
+	border: 0.125rem solid $hover-button-background;
 	border-radius: 0.1875rem;
 	display: flex;
 	align-items: center;

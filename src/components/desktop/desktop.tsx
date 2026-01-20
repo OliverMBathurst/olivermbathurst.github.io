@@ -13,6 +13,7 @@ import { File } from "../file"
 import { Folder } from "../folder"
 import { Shortcut } from "../shortcut"
 import "./desktop.scss"
+import { isMouseDownLeftClick } from "../../helpers/click"
 
 const selectionRectangeStartExclusions = [
 	DESKTOP_ITEM_CLASS,
@@ -63,6 +64,10 @@ const Desktop = () => {
 			) {
 				return
 			}
+		}
+
+		if (!isMouseDownLeftClick(e)) {
+			return
 		}
 
 		if (selectionRectangeRef.current) {

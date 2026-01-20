@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef } from "react"
 import { IPosition } from "../interfaces/windows"
+import { isMouseDownLeftClick } from "../helpers/click"
 
 const styles: React.CSSProperties = {
 	backgroundColor: "aqua",
@@ -25,6 +26,10 @@ export const useWindowSelectionRectangle = <T extends HTMLElement>(
 	}, [])
 
 	const onMouseDown = (e: MouseEvent) => {
+		if (!isMouseDownLeftClick(e)) {
+			return
+		}
+
 		if (selectionRectangeRef.current && ref.current) {
 			selectionRectangeRef.current.style.position = `absolute`
 			selectionRectangeRef.current.style.width = `0px`

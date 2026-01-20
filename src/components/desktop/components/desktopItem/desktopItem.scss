@@ -14,12 +14,12 @@
 }
 
 .desktop-item--selected {
-	background: hsla(0, 0%, 100%, 0.4);
+	background: $hover-button-background-selected;
 }
 
 .desktop-item:hover,
 .desktop-item--selected:hover {
-	background: hsla(0, 0%, 100%, 0.2);
+	background: $hover-button-background;
 }
 
 .desktop-item__name {

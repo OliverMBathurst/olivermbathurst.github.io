@@ -10,7 +10,7 @@
 }
 
 .search-result-pane__row:hover {
-	background: rgba(255, 255, 255, 0.1);
+	background: $hover-button-background;
 }
 
 .search-result-pane__row {
@@ -18,7 +18,7 @@
 }
 
 .search-result-pane__row--selected {
-	background: rgba(255, 255, 255, 0.1);
+	background: $hover-button-background;
 	border: 0.0625rem grey solid;
 }
 

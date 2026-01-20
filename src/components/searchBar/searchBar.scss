@@ -14,7 +14,7 @@
 	background: $ui-input-background;
 	color: $ui-text-colour;
 	outline: none;
-	border: 0.125rem solid rgba(255, 255, 255, 0.1);
+	border: 0.125rem solid $hover-button-background;
 	border-radius: 0.1875rem;
 	height: 2rem;
 	align-items: center;

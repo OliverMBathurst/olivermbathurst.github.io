@@ -1,10 +1,10 @@
 import { useRef, useEffect } from "react"
-import { useVisibility } from "../../hooks"
-import "./screenSaver.scss"
+import { useVisibility } from "../../../hooks"
+import "./imageSlideshow.scss"
 
 const screensaverPaths: string[] = ["bg.png", "bg1.png", "bg2.png", "bg3.png"]
 
-const ScreenSaver = () => {
+const ImageSlideshow = () => {
 	const screensaverOneRef = useRef<HTMLImageElement | null>(null)
 	const screensaverTwoRef = useRef<HTMLImageElement | null>(null)
 
@@ -109,4 +109,4 @@ const ScreenSaver = () => {
 	)
 }
 
-export default ScreenSaver
+export default ImageSlideshow

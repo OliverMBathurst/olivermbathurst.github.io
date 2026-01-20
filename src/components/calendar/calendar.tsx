@@ -1,5 +1,7 @@
-import { useMemo, useState } from "react"
-import { NO_SELECT_CLASS } from "../../constants"
+import { useMemo, useRef, useState } from "react"
+import { DATE_DISPLAY_BASE_CLASS, DATE_DISPLAY_OVERLAY_CLASS, NO_SELECT_CLASS } from "../../constants"
+import { chunk } from "../../helpers/collections"
+import { useClickOutside } from "../../hooks"
 import { CollapseIcon, ExpandIcon } from "../../icons"
 import './calendar.scss'
 
@@ -18,20 +20,47 @@ const months: Record<number, string> = {
     11: "December"
 }
 
-const days: Record<number, string> = {
-    0: "Sunday",
-    1: "Monday",
-    2: "Tuesday",
-    3: "Wednesday",
-    4: "Thursday",
-    5: "Friday",
-    6: "Saturday"
-}
+const days: string[] = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday"
+]
 
 const initialDate = new Date()
+const frameSize = 42
+const clickOutsideExclusions = [
+    DATE_DISPLAY_BASE_CLASS,
+    DATE_DISPLAY_OVERLAY_CLASS
+]
 
-const Calendar = () => {
+interface ICalendarProps {
+    onClickOutside: () => void
+}
+
+const Calendar = (props: ICalendarProps) => {
+    const { onClickOutside } = props
+
     const [date, setDate] = useState<{ year: number, month: number }>({ year: initialDate.getFullYear(), month: initialDate.getMonth() })
+
+    const calendarRef = useRef<HTMLDivElement | null>(null)
+
+    useClickOutside(calendarRef, (e) => {
+        let validClick: boolean = true
+        if (e.target instanceof HTMLElement) {
+            const elem = e.target as HTMLElement
+            if (clickOutsideExclusions.some((x) => elem.classList.contains(x))) {
+                validClick = false
+            }
+        }
+
+        if (validClick) {
+            onClickOutside()
+        }
+    })
 
     const frames = useMemo(() => {
         const { year, month } = date
@@ -51,12 +80,6 @@ const Calendar = () => {
             sundays.push(j)
         }
 
-        const weeksBefore = 1
-        let weeksAfter = 1
-        if (sundays.length === 5) {
-            weeksAfter = 0
-        }
-
         let daysInPreviousMonth: number
         if (month === 0) {
             daysInPreviousMonth = new Date(year - 1, 12, 0).getDate()
@@ -74,7 +97,7 @@ const Calendar = () => {
         const firstSundayOfTargetMonth = new Date(year, month, firstSundayDayNumber)
 
         const firstSunday = new Date(year, month, firstSundayDayNumber)
-        firstSunday.setDate(firstSundayOfTargetMonth.getDate() - (7 * weeksBefore))
+        firstSunday.setDate(firstSundayOfTargetMonth.getDate() - 7)
 
         const frame: { dayNumber: number, grey: boolean }[] = []
 
@@ -82,34 +105,17 @@ const Calendar = () => {
             frame.push({ dayNumber: pS, grey: true })
         }
 
-        for (let iS = firstDateOfTargetMonth.getDate(); iS <= firstSundayDayNumber; iS++) {
-            frame.push({ dayNumber: iS, grey: false })
-        }
-
-        for (let d = firstSundayDayNumber + 1; d <= daysInMonth; d++) {
+        for (let d = firstDateOfTargetMonth.getDate(); d <= daysInMonth; d++) {
             frame.push({ dayNumber: d, grey: false })
         }
 
-        const left = 42 - frame.length;
+        const left = frameSize - frame.length;
         for (let nD = 0; nD < left; nD++) {
             frame.push({ dayNumber: nD + 1, grey: true })
         }
 
-        const frames: { dayNumber: number, grey: boolean }[][] = []
-        frames.push([])
-        let fi = 0
-        for (let f = 0; f < frame.length; f++) {
-            if (fi === 7) {
-                frames.push([])
-                fi = 0
-            }
-            frames[frames.length - 1].push(frame[f])
-
-            fi++
-        }
-
-        return frames
-    }, [date])
+        return chunk(frame, 7)
+    }, [date, chunk])
 
     const navigateBackwards = () => {
         const { year, month } = date
@@ -142,7 +148,7 @@ const Calendar = () => {
     }
 
     return (
-        <div className="calendar">
+        <div className="calendar" ref={calendarRef}>
             <div className="calendar__upper-container">
                 <span className={`calendar__upper-container__date-display ${NO_SELECT_CLASS}`}>
                     {months[date.month]}, {date.year}
@@ -158,28 +164,26 @@ const Calendar = () => {
             </div>
             <div className="calendar__lower-container">
                 <table className="calendar__lower-container__table">
-                    <tr className="calendar__lower-container__table__column-names">
-                        <th>{days[0].substring(0, 2)}</th>
-                        <th>{days[1].substring(0, 2)}</th>
-                        <th>{days[2].substring(0, 2)}</th>
-                        <th>{days[3].substring(0, 2)}</th>
-                        <th>{days[4].substring(0, 2)}</th>
-                        <th>{days[5].substring(0, 2)}</th>
-                        <th>{days[6].substring(0, 2)}</th>
-                    </tr>
-                    {frames.map((frame, frameIdx) => {
-                        return (
-                            <tr key={frameIdx}>
-                                {frame.map(cell => {
-                                    const { dayNumber, grey } = cell
-                                    return (
-                                        <td key={`${frameIdx}-${dayNumber}`} className={`calendar__lower-container__table__cell${grey ? "--grey" : ""} ${NO_SELECT_CLASS}`}>
-                                            {dayNumber}
-                                        </td>
-                                    )
-                                })}
-                            </tr>)
-                    })}
+                    <tbody>
+                        <tr className="calendar__lower-container__table__column-names">
+                            {days.map(d => {
+                                return (<th key={d}>{d.substring(0, 2)}</th>)
+                            })}
+                        </tr>
+                        {frames.map((frame, frameIdx) => {
+                            return (
+                                <tr key={frameIdx}>
+                                    {frame.map(cell => {
+                                        const { dayNumber, grey } = cell
+                                        return (
+                                            <td key={`${frameIdx}-${dayNumber}`} className={`calendar__lower-container__table__cell${grey ? "--grey" : ""} ${NO_SELECT_CLASS}`}>
+                                                {dayNumber}
+                                            </td>
+                                        )
+                                    })}
+                                </tr>)
+                        })}
+                    </tbody>
                 </table>
             </div>
         </div>)

@@ -1,8 +1,6 @@
 import { useEffect, useRef, useState } from "react"
+import { DATE_DISPLAY_BASE_CLASS, DATE_DISPLAY_OVERLAY_CLASS, DATE_DISPLAY_PICKER_ID, NO_SELECT_CLASS } from "../../../../constants"
 import "./dateDisplay.scss"
-import { NO_SELECT_CLASS } from "../../../../constants"
-
-const DATE_PICKER_ID = "date-display__input"
 
 interface IDateDisplayProps {
 	onDateClicked: () => void
@@ -34,16 +32,15 @@ const DateDisplay = (props: IDateDisplayProps) => {
 	}, [])
 
 	return (
-		<div className="date-display">
+		<div className={DATE_DISPLAY_BASE_CLASS} onClick={onDateClicked}>
 			<input
 				ref={inputRef}
-				id={DATE_PICKER_ID}
+				id={DATE_DISPLAY_PICKER_ID}
 				type="datetime-local"
-				className={DATE_PICKER_ID}
+				className={DATE_DISPLAY_PICKER_ID}
 			/>
 			<span
-				className={`date-display__overlay ${NO_SELECT_CLASS}`}
-				onClick={onDateClicked}
+				className={`${DATE_DISPLAY_OVERLAY_CLASS} ${NO_SELECT_CLASS}`}
 			>
 				{date}
 			</span>

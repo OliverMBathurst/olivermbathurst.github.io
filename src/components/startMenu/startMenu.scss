@@ -13,7 +13,7 @@
 	min-height: 30rem;
 	max-width: 20rem;
 	max-height: 30rem;
-	border: 0.125rem solid rgba(255, 255, 255, 0.1);
+	border: 0.125rem solid $hover-button-background;
 	border-radius: 0.1875rem;
 
 	@media screen and (max-width: 12.5rem) {
@@ -68,7 +68,7 @@
 }
 
 .start-menu__top-container__right__row:hover {
-	background: rgba(255, 255, 255, 0.1);
+	background: $hover-button-background;
 }
 
 .start-menu__top-container__right__row {
@@ -76,7 +76,7 @@
 }
 
 .start-menu__top-container__right__row--selected {
-	background: rgba(255, 255, 255, 0.1);
+	background: $hover-button-background;
 	border: 0.0625rem grey solid;
 }
 

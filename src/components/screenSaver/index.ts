@@ -1,3 +1,4 @@
-import ScreenSaver from "./screenSaver"
+import { Colours } from "./colours"
+import { ImageSlideshow } from "./imageSlideshow"
 
-export { ScreenSaver }
+export { Colours, ImageSlideshow }

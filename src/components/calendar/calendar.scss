@@ -6,7 +6,7 @@
     opacity: 80%;
     right: 1.45rem;
     bottom: 0.5rem;
-    border: 0.125rem solid rgba(255, 255, 255, 0.1);
+    border: 0.125rem solid $hover-button-background;
     border-radius: 0.1875rem;
     min-width: 20rem;
     min-height: 15rem;
@@ -29,7 +29,7 @@
 }
 
 .calendar__upper-container__controls__control img:hover {
-    background: rgba(255, 255, 255, 0.1);
+    background: $hover-button-background;
 }
 
 .calendar__upper-container,
