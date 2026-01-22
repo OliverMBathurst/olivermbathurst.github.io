@@ -95,28 +95,30 @@ export const useWindowSelectionRectangle = <T extends HTMLElement>(
 			if (selectionRectangeStart.current.y > yOffset) {
 				if (yOffset < parentOffsetTop) {
 					yOffset = parentOffsetTop
+
 				}
 
 				selectionRectangeRef.current.style.top = `${yOffset}px`
 			}
 
-			if (xOffset >= selectionRectangeStart.current.x) {
-				if (elem.left + selectionRectangeStart.current.x + newWidth >= elem.right) {
-					newWidth = elem.right - elem.left - selectionRectangeStart.current.x
-				}
-			} else {
-				if (elem.right - selectionRectangeStart.current.x - newWidth <= 0) {
-					newWidth = elem.right - selectionRectangeStart.current.x
-				}
+			if (xOffset >= selectionRectangeStart.current.x && elem.left + selectionRectangeStart.current.x + newWidth >= elem.right) {
+				newWidth = elem.right - elem.left - selectionRectangeStart.current.x
+			} else if (elem.right - selectionRectangeStart.current.x - newWidth <= 0) {
+				newWidth = elem.right - selectionRectangeStart.current.x
 			}
-			
 
 			if (selectionRectangeStart.current.y + newHeight > elem.bottom) {
 				newHeight = elem.bottom - selectionRectangeStart.current.y
 			}
 
-			selectionRectangeRef.current.style.width = `${newWidth}px`
-			selectionRectangeRef.current.style.height = `${newHeight}px`
+			if (xOffset !== 0) {
+				selectionRectangeRef.current.style.width = `${newWidth}px`
+			}
+
+			if (yOffset !== parentOffsetTop) {
+				selectionRectangeRef.current.style.height = `${newHeight}px`
+			}
+			
 			onRectangleChanged(selectionRectangle)
 		}
 	}
