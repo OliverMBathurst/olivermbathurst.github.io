@@ -94,7 +94,6 @@ export const useWindowSelectionRectangle = <T extends HTMLElement>(
 			if (selectionRectangeStart.current.y > yOffset) {
 				if (yOffset < parentOffsetTop) {
 					yOffset = parentOffsetTop
-
 				}
 
 				selectionRectangeRef.current.style.top = `${yOffset}px`
@@ -106,8 +105,8 @@ export const useWindowSelectionRectangle = <T extends HTMLElement>(
 				newWidth = elem.right - selectionRectangeStart.current.x
 			}
 
-			if (elem.top + yOffset - parentOffsetTop >= elem.bottom) {
-				newHeight = elem.bottom - elem.top - yOffset
+			if (e.clientY >= elem.bottom) {
+				newHeight = elem.bottom - e.clientY
 			}
 
 			if (xOffset !== 0) {
