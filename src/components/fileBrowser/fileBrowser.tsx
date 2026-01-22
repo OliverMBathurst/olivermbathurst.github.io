@@ -6,7 +6,7 @@ import {
 import { FileBrowserContext, WindowsContext } from "../../contexts"
 import {
     doRectanglesIntersect,
-    onSelectionRowClicked
+    onMixedSelectionRowClicked
 } from "../../helpers/selections"
 import { useWindowSelectionRectangle } from "../../hooks"
 import { ISearchResult } from "../../interfaces/search"
@@ -38,7 +38,7 @@ const FileBrowser = (props: IFileBrowserProps) => {
 	const [searchResult, setSearchResult] = useState<ISearchResult | null>(null)
 
 	const elementRowReferences = useRef<Record<string, HTMLElement | null>>({})
-	const fileBrowserRef = useRef<HTMLDivElement | null>(null)
+	const fileBrowserPaneRef = useRef<HTMLDivElement | null>(null)
 
 	const thumbnailDisplay = displaySettings[windowId] ?? true
 
@@ -53,7 +53,7 @@ const FileBrowser = (props: IFileBrowserProps) => {
 	}, [context])
 
 	const onRowDoubleClicked = useCallback(
-		(context: Context, _: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+		(context: Context) => {
 			const windowProperties = applicationHandlerService.execute(context)
 			if (windowProperties != null) {
 				if (BRANCHING_CONTEXT_DETERMINER in windowProperties.context && !windowProperties.openNewInstance) {
@@ -69,7 +69,7 @@ const FileBrowser = (props: IFileBrowserProps) => {
 
 	const onRowClicked = useCallback(
 		(context: Context, e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-			const newSelectedContextKeys = onSelectionRowClicked(
+			const newSelectedContextKeys = onMixedSelectionRowClicked(
 				context,
 				searchResult !== null,
 				e,
@@ -82,7 +82,7 @@ const FileBrowser = (props: IFileBrowserProps) => {
 
 			setSelected(newSelectedContextKeys)
 		},
-		[searchResult, onSelectionRowClicked, selected, Entities, setSelected]
+		[searchResult, onMixedSelectionRowClicked, selected, Entities, setSelected]
 	)
 
 	const upOneLevel = () => {
@@ -119,6 +119,34 @@ const FileBrowser = (props: IFileBrowserProps) => {
 				e.target.className === baseClickExclusion
 			) {
 				setSelected([])
+			}
+		}
+	}
+
+	const onFileBrowserKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+		if (e.key === "Enter" && selected.length > 0) {
+			let entities: Context[] = Entities
+			if (searchResult) {
+				entities = searchResult.items.map(i => i.context)
+			}
+
+			const selectedEntities = entities.filter(e => selected.indexOf(e.toContextUniqueKey()) !== -1)
+			const leaves = selectedEntities.filter(x => !(BRANCHING_CONTEXT_DETERMINER in x))
+			const branches = selectedEntities.filter(x => BRANCHING_CONTEXT_DETERMINER in x)
+
+			for (let i = 0; i < leaves.length; i++) {
+				onRowDoubleClicked(leaves[i])
+			}
+
+			for (let i = 0; i < branches.length - 1; i++) {
+				const addWindowProperties = applicationHandlerService.execute(branches[i])
+				if (addWindowProperties) {
+					addWindow({ ...addWindowProperties, openNewInstance: true })
+				}
+			}
+
+			if (branches.length > 0) {
+				onRowDoubleClicked(branches[branches.length - 1])
 			}
 		}
 	}
@@ -167,7 +195,7 @@ const FileBrowser = (props: IFileBrowserProps) => {
 						(elementRowReferences.current[key] = r)
 					}
 					onRowClicked={(ev, c) => onRowClicked(c, ev)}
-					onRowDoubleClicked={(ev, c) => onRowDoubleClicked(c, ev)}
+					onRowDoubleClicked={(_, c) => onRowDoubleClicked(c)}
 				/>)
 		}
 
@@ -184,7 +212,7 @@ const FileBrowser = (props: IFileBrowserProps) => {
 								(elementRowReferences.current[contextKey] = r)
 							}
 							onRowClicked={(ev) => onRowClicked(e, ev)}
-							onRowDoubleClicked={(ev) => onRowDoubleClicked(e, ev)}
+							onRowDoubleClicked={(_) => onRowDoubleClicked(e)}
 						/>
 					)
 				})}
@@ -193,7 +221,7 @@ const FileBrowser = (props: IFileBrowserProps) => {
 	}, [searchResult, Entities, thumbnailDisplay, selected, onRowClicked, onRowDoubleClicked])
 
 	const SelectionRectangle = useWindowSelectionRectangle(
-		fileBrowserRef,
+		fileBrowserPaneRef,
 		onSelectionChanged
 	)
 
@@ -208,8 +236,10 @@ const FileBrowser = (props: IFileBrowserProps) => {
 			/>
 			<div
 				className="file-browser__result-pane"
-				ref={fileBrowserRef}
+				ref={fileBrowserPaneRef}
 				onMouseDown={onFileBrowserMouseDown}
+				onKeyDown={onFileBrowserKeyDown}
+				tabIndex={0}
 			>
 				{SelectionRectangle}
 				{BRANCHING_CONTEXT_PARENT_PROPERTY in context &&

@@ -6,7 +6,6 @@ const styles: React.CSSProperties = {
 	backgroundColor: "aqua",
 	opacity: 0.3,
 	position: "absolute",
-	border: "blue 0.1875rem solid",
 	visibility: "hidden"
 }
 
@@ -40,10 +39,17 @@ export const useWindowSelectionRectangle = <T extends HTMLElement>(
 
 			const elem = ref.current.getBoundingClientRect()
 
-			// TODO: Fix offsets
+			const parent = selectionRectangeRef.current.parentElement
+			let parentOffsetTop = 0
+			let parentOffsetLeft = 0
+			if (parent) {
+				parentOffsetTop = parent.offsetTop
+				parentOffsetLeft = parent.offsetLeft
+			}
+
 			selectionRectangeStart.current = {
-				x: e.clientX - elem.left,
-				y: e.clientY - elem.top
+				x: e.clientX - elem.left + parentOffsetLeft,
+				y: e.clientY - elem.top + parentOffsetTop
 			}
 
 			selectionRectangeRef.current.style.left = `${selectionRectangeStart.current.x}px`
@@ -61,24 +67,50 @@ export const useWindowSelectionRectangle = <T extends HTMLElement>(
 				return
 			}
 
-			const xOffset = e.offsetX
-			const yOffset = e.offsetY
+			const elem = ref.current.getBoundingClientRect()
+			const selectionRectangle = selectionRectangeRef.current.getBoundingClientRect()
 
-			const newWidth = Math.abs(selectionRectangeStart.current.x - xOffset)
-			const newHeight = Math.abs(selectionRectangeStart.current.y - yOffset)
+			const parent = selectionRectangeRef.current.parentElement
+			let parentOffsetTop = 0
+			let parentOffsetLeft = 0
+			if (parent) {
+				parentOffsetTop = parent.offsetTop
+				parentOffsetLeft = parent.offsetLeft
+			}
+
+			let xOffset = e.clientX - elem.left + parentOffsetLeft
+			let yOffset = e.clientY - elem.top + parentOffsetTop
+
+			let newWidth = Math.abs(selectionRectangeStart.current.x - xOffset)
+			let newHeight = Math.abs(selectionRectangeStart.current.y - yOffset)
 
 			if (selectionRectangeStart.current.x > xOffset) {
+				if (xOffset < 0) {
+					xOffset = 0
+				}
+
 				selectionRectangeRef.current.style.left = `${xOffset}px`
 			}
 
 			if (selectionRectangeStart.current.y > yOffset) {
+				if (yOffset < parentOffsetTop) {
+					yOffset = parentOffsetTop
+				}
+
 				selectionRectangeRef.current.style.top = `${yOffset}px`
+			}
+
+			if (elem.left + selectionRectangeStart.current.x + newWidth > elem.right) {
+				newWidth = elem.right - elem.left - selectionRectangeStart.current.x
+			}
+
+			if (selectionRectangeStart.current.y + newHeight > elem.bottom) {
+				newHeight = elem.bottom - selectionRectangeStart.current.y
 			}
 
 			selectionRectangeRef.current.style.width = `${newWidth}px`
 			selectionRectangeRef.current.style.height = `${newHeight}px`
-
-			onRectangleChanged(selectionRectangeRef.current.getBoundingClientRect())
+			onRectangleChanged(selectionRectangle)
 		}
 	}
 

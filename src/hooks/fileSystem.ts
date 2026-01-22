@@ -7,45 +7,37 @@ import { FileSystemContext } from "../contexts"
 import { SpecialBranch } from "../enums"
 import { getDisplayName } from "../helpers/naming"
 import { getFullPath } from "../helpers/paths"
-import { IForwardPath } from "../interfaces/fs"
+import { IForwardContext } from "../interfaces/fs"
 import { Branch, BranchingContext, Context, Leaf } from "../types/fs"
 
 const useFileSystem = (context?: BranchingContext) => {
-	const { root, allContextPaths } = useContext(FileSystemContext)
+	const { root, nonRootContextInformation } = useContext(FileSystemContext)
 
 	const [currentContext, setCurrentContext] = useState<BranchingContext>(
 		context ?? root
 	)
-	const [allForwardContextPaths, setAllForwardContextPaths] = useState<
-		IForwardPath[]
-	>(
-		allContextPaths.map((cp) => {
-			return {
-				path: cp,
-				fullPath: cp
-			}
-		})
-	)
+	const [forwardContexts, setAllForwardContexts] = useState<IForwardContext[]>([])
 
 	useEffect(() => {
 		const fullPathOfCurrentContext = getFullPath(currentContext)
-		const forwardItems = [...allContextPaths]
-			.filter((p) => p.startsWith(fullPathOfCurrentContext))
-			.map((p) => {
-				let forwardPath = p.replace(fullPathOfCurrentContext, "")
+		const forwardContexts = [...nonRootContextInformation]
+			.filter((ci) => ci.fullPath.startsWith(fullPathOfCurrentContext))
+			.map((ci) => {
+				let forwardPath = ci.fullPath.replace(fullPathOfCurrentContext, "")
 
 				if (forwardPath.startsWith("\\")) {
 					forwardPath = forwardPath.replace("\\", "")
 				}
 
 				return {
-					path: forwardPath,
-					fullPath: p
+					forwardPath: forwardPath,
+					fullPath: ci.fullPath,
+					context: ci.context
 				}
 			})
 
-		setAllForwardContextPaths(forwardItems)
-	}, [currentContext, allContextPaths])
+		setAllForwardContexts(forwardContexts)
+	}, [currentContext, nonRootContextInformation])
 
 	const upOneLevel = () => {
 		if (!(BRANCHING_CONTEXT_PARENT_PROPERTY in currentContext)) {
@@ -154,7 +146,7 @@ const useFileSystem = (context?: BranchingContext) => {
 	}
 
 	return {
-		allForwardContextPaths,
+		forwardContexts,
 		upOneLevel,
 		enterBranch,
 		currentContext,

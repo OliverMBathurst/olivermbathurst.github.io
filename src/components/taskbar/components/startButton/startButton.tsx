@@ -1,4 +1,4 @@
-import { NO_SELECT_CLASS } from "../../../../constants"
+import { NO_SELECT_CLASS, TASKBAR_START_BUTTON_CLASS } from "../../../../constants"
 import { StartMenuIcon } from "../../../../icons"
 import "./startButton.scss"
 
@@ -11,7 +11,7 @@ const StartButton = (props: IStartButtonProps) => {
 
 	return (
 		<div
-			className={`start-button ${NO_SELECT_CLASS}`}
+			className={`${TASKBAR_START_BUTTON_CLASS} ${NO_SELECT_CLASS}`}
 			onClick={onStartButtonClicked}
 		>
 			<StartMenuIcon />

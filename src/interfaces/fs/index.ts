@@ -1,6 +1,6 @@
 import { JSX } from "react"
 import { SpecialBranch } from "../../enums"
-import { Branch, BranchingContext, Context, Leaf } from "../../types/fs"
+import { Branch, BranchingContext, Context, Leaf, Shortcut } from "../../types/fs"
 import { IAddWindowProperties } from "../windows"
 
 interface ILeafAndBranchContext extends INamed {
@@ -11,6 +11,11 @@ interface ILeafAndBranchContext extends INamed {
 
 interface IChildContext {
 	parent: BranchingContext | null
+}
+
+export interface INonRootContextInformation {
+	context: Branch | Leaf | Shortcut
+	fullPath: string
 }
 
 export interface IShortcut extends INamed, IChildContext {}
@@ -48,7 +53,8 @@ export interface IWindowRenderProps {
 	onMouseOver?: (e: React.MouseEvent<HTMLElement, MouseEvent>) => void
 }
 
-export interface IForwardPath {
-	path: string
+export interface IForwardContext {
+	forwardPath: string
 	fullPath: string
+	context: Context
 }

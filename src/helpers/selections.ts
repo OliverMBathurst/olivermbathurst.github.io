@@ -11,6 +11,22 @@ export const doRectanglesIntersect = (r: DOMRect, r1: DOMRect): boolean => {
 
 export const onSelectionRowClicked = <T, T2>(
 	context: Context,
+	e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+	selectedContextKeys: string[],
+	items: T[],
+	predicate: (item: T) => string
+) => {
+	 return onSelectionRowClickedInternal(
+		context,
+		selectedContextKeys,
+		items,
+		predicate,
+		e
+	)
+}
+
+export const onMixedSelectionRowClicked = <T, T2>(
+	context: Context,
 	selectCollectionOne: boolean,
 	e: React.MouseEvent<HTMLDivElement, MouseEvent>,
 	selectedContextKeys: string[],

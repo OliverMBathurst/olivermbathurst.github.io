@@ -7,6 +7,9 @@ $hover-button-background-selected: hsla(0, 0%, 100%, 0.4);
 $window-top-bar-background: #000000;
 $hover-button-background-close: red;
 $window-top-bar: #00000070;
+$window-border: 0.125rem solid $hover-button-background;
+$window-border-radius: 0.125rem;
+$window-box-shadow: 0.125rem 0.125rem 1.5625rem 0.0625rem #000000;
 
 html, body, #root {
 	height: 100%;

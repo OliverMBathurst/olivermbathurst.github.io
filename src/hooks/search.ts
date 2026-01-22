@@ -3,28 +3,24 @@ import { BranchingContext } from "../types/fs"
 import useFileSystem from "./fileSystem"
 
 const useSearch = (context: BranchingContext) => {
-	const { allForwardContextPaths, validateFilePath } = useFileSystem(context)
+	const { forwardContexts } = useFileSystem(context)
 
 	const searchForItems = (term: string): ILikenessResult[] => {
-		const items = allForwardContextPaths
+		const items = forwardContexts
 		const results: ILikenessResult[] = []
 
 		for (let i = 0; i < items.length; i++) {
-			const validatedContext = validateFilePath(items[i].fullPath)
-
-			if (!validatedContext) {
-				continue
-			}
+			const { context, fullPath } = items[i]
 
 			results.push({
-				context: validatedContext,
-				path: items[i].fullPath,
+				context: context,
+				path: fullPath,
 				score:
-					validatedContext.fullName
+					context.fullName
 						.toLowerCase()
 						.indexOf(term.toLowerCase()) === -1
 						? 0
-						: (term.length / validatedContext.fullName.length) * 100
+						: (term.length / context.fullName.length) * 100
 			})
 		}
 

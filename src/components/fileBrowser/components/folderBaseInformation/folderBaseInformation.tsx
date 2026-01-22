@@ -56,7 +56,7 @@ const FolderBaseInformation = (props: IFolderBaseInformationProps) => {
 
 	return (
 		<div className="base-information-pane">
-			<span className={NO_SELECT_CLASS}>
+			<span className={`base-information-pane__text ${NO_SELECT_CLASS}`}>
 				{`${selectedLength > 0 ? `Selected: ${selectedLength} item${selectedLength !== 1 ? "s" : ""} of ` : ""}${entitiesLength} item${entitiesLength !== 1 ? "s" : ""} | ${branches.length} folder${branches.length !== 1 ? "s" : ""} | ${leaves.length + shortcuts.length} file${leaves.length + shortcuts.length !== 1 ? "s" : ""}`}
 			</span>
 			<ThumbsIcon
