@@ -1,12 +1,13 @@
 import { createContext, useState } from "react"
 import { SpecialBranch } from "../enums"
-import { CV, GitHub, LinkedIn, ThisProject } from "../files"
-import { Branch, BranchingContext, Root, Shortcut } from "../types/fs"
+import { CV, FileBrowser, GitHub, LinkedIn, ThisProject } from "../files"
 import { getFullPath } from "../helpers/paths"
+import { Branch, BranchingContext, Root, Shortcut } from "../types/fs"
 
 const desktopBranch = new Branch("Desktop", SpecialBranch.Desktop)
-
 const root = new Root("Root")
+const applicationsBranch = new Branch("Applications", SpecialBranch.None)
+const contentsBranch = new Branch("Contents", SpecialBranch.None)
 
 desktopBranch.setLeaves([
 	new CV(desktopBranch),
@@ -15,11 +16,12 @@ desktopBranch.setLeaves([
 	new ThisProject(desktopBranch)
 ])
 
-const contentsBranch = new Branch("Contents", SpecialBranch.None)
+applicationsBranch.setLeaves([new FileBrowser(applicationsBranch)])
 
 root.setBranches([contentsBranch])
-contentsBranch.setBranches([desktopBranch])
+contentsBranch.setBranches([desktopBranch, applicationsBranch])
 
+applicationsBranch.setParent(contentsBranch)
 contentsBranch.setParent(root)
 desktopBranch.setParent(contentsBranch)
 desktopBranch.setShortcuts([new Shortcut(desktopBranch, root, "Root")])

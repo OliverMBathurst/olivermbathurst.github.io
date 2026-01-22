@@ -1,9 +1,16 @@
+@import '../../../../index.scss';
+
 .file-browser-controls {
 	display: flex;
 	padding: 0.5rem;
+	background-color: $window-top-bar;
 }
 
 .file-browser-controls > .file-browser-location-bar {
 	margin-right: 0.5rem;
 	width: 80%;
+}
+
+.file-browser-controls > .search-bar {
+	height: 1.3rem; 
 }

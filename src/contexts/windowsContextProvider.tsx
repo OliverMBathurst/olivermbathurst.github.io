@@ -1,8 +1,10 @@
-import React, { createContext, useState } from "react"
+import React, { createContext, useEffect, useState } from "react"
+import { DEFAULT_DOCUMENT_TITLE } from "../constants"
+import { changeFavicon } from "../helpers/icons"
 import {
-	IAddWindowProperties,
-	IWindowProperties,
-	WindowState
+    IAddWindowProperties,
+    IWindowProperties,
+    WindowState
 } from "../interfaces/windows"
 import { Context } from "../types/fs"
 
@@ -45,6 +47,18 @@ const WindowsContextProvider = (props: IWindowsContextProviderProps) => {
 	const [lastDeselectedWindowId, setLastDeselectedWindowId] = useState<
 		string | null
 	>(null)
+
+	useEffect(() => {
+		const selectedWindowProperties = windowProperties.find(x => x.selected)
+		if (selectedWindowProperties) {
+			document.title = selectedWindowProperties.context.fullName
+			changeFavicon(selectedWindowProperties.context)
+		} else {
+			document.title = DEFAULT_DOCUMENT_TITLE
+			changeFavicon(null)
+		}
+
+	}, [windowProperties, changeFavicon])
 
 	const addWindow = (properties: IAddWindowProperties) => {
 		setWindowProperties((wp) => {

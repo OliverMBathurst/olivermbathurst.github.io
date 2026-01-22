@@ -1,25 +1,25 @@
 @import "../../../../index.scss";
 
 .file-browser-location-bar__input {
-	background-color: $ui-input-background;
+	background-color: transparent;
 	outline: none;
 	border: none;
 	color: $ui-text-colour;
-	height: 100%;
 	width: calc(100% - 2.25rem);
 }
 
 .file-browser-location-bar {
-	background-color: $ui-input-background;
+	background-color: transparent;
 	border: 0.125rem solid $hover-button-background;
 	border-radius: 0.1875rem;
 	display: flex;
 	align-items: center;
+	height: 1.3rem;
 }
 
 .file-browser-location-bar > img {
-	width: 1.25rem;
-	height: 1.25rem;
+	width: 1rem;
+	height: 1rem;
 	padding: 0rem 0.5rem 0rem 0.5rem;
 	display: flex;
 }

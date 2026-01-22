@@ -1,9 +1,9 @@
 import { FILETYPE_PDF } from "../constants"
 import { IWindowFile, IWindowRenderProps } from "../interfaces/fs"
-import { AbstractLeaf, Branch, Root } from "../types/fs"
+import { AbstractLeaf, BranchingContext } from "../types/fs"
 
 class CV extends AbstractLeaf implements IWindowFile {
-	constructor(parent: Branch | Root) {
+	constructor(parent: BranchingContext) {
 		super("My CV", FILETYPE_PDF, parent)
 	}
 

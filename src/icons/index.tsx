@@ -1,8 +1,10 @@
 import React from "react"
 import cancel from "../icons/cancel.png"
 import close from "../icons/close.png"
+import collapse from "../icons/collapse.png"
 import drive from "../icons/drive.png"
 import executable from "../icons/executable.png"
+import expand from "../icons/expand.png"
 import file from "../icons/file.png"
 import folder from "../icons/folder.png"
 import internet from "../icons/internet.png"
@@ -12,8 +14,7 @@ import pdf from "../icons/pdf.png"
 import search from "../icons/search.png"
 import start from "../icons/startMenu.png"
 import textFile from "../icons/textFile.png"
-import expand from "../icons/expand.png"
-import collapse from "../icons/collapse.png"
+import thumbs from "../icons/thumbs.png"
 
 const GenericFileIcon = (props: React.ImgHTMLAttributes<HTMLImageElement>) => (
 	<img src={file} alt="File icon by icon8" {...props} />
@@ -75,20 +76,26 @@ const CollapseIcon = (props: React.ImgHTMLAttributes<HTMLImageElement>) => (
 	<img src={collapse} alt="Collapse icon by icon8" {...props} />
 )
 
+const CustomIcon = (props: React.ImgHTMLAttributes<HTMLImageElement>) => (
+	<img alt="Custom icon by icon8" {...props} />
+)
+
+const ThumbsIcon = (props: React.ImgHTMLAttributes<HTMLImageElement>) => (
+	<img src={thumbs} alt="Custom icon by icon8" {...props} />
+)
+
 export {
-	CancelIcon,
-	CloseIcon,
-	DriveIcon,
-	ExecutableFileIcon,
-	FolderIcon,
-	GenericFileIcon,
-	InternetIcon,
-	MaximizeIcon,
-	MinimizeIcon,
-	PdfIcon,
-	SearchIcon,
-	StartMenuIcon,
+    CancelIcon,
+    CloseIcon, CollapseIcon,
+    CustomIcon, DriveIcon,
+    ExecutableFileIcon, ExpandIcon, FolderIcon,
+    GenericFileIcon,
+    InternetIcon,
+    MaximizeIcon,
+    MinimizeIcon,
+    PdfIcon,
+    SearchIcon,
+    StartMenuIcon,
 	TextFileIcon,
-	ExpandIcon,
-	CollapseIcon
+	ThumbsIcon
 }

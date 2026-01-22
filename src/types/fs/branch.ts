@@ -1,4 +1,4 @@
-import { Leaf, Root, Shortcut } from "."
+import { BranchingContext, Leaf, Shortcut } from "."
 import { SpecialBranch } from "../../enums"
 import { IBranch } from "../../interfaces/fs"
 
@@ -8,7 +8,7 @@ class Branch implements IBranch {
 	leaves: Leaf[] = []
 	branches: Branch[] = []
 	shortcuts: Shortcut[] = []
-	parent: Branch | Root | null = null
+	parent: BranchingContext | null = null
 
 	constructor(name: string, type: SpecialBranch) {
 		this.name = name
@@ -33,7 +33,7 @@ class Branch implements IBranch {
 		this.shortcuts = shortcuts
 	}
 
-	setParent(parent: Branch | Root) {
+	setParent(parent: BranchingContext) {
 		this.parent = parent
 	}
 }

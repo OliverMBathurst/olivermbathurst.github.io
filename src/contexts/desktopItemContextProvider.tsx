@@ -172,6 +172,10 @@ const DesktopItemContextProvider = (
 		e.preventDefault()
 		const contextKey = e.dataTransfer.getData("text")
 		const elem = elementReferences[contextKey]
+		if (!elem) {
+			return
+		}
+
 		const rect = elem.getBoundingClientRect()
 
 		const diffX: number = e.clientX - rect.x

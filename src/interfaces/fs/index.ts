@@ -1,6 +1,7 @@
 import { JSX } from "react"
 import { SpecialBranch } from "../../enums"
-import { Branch, Leaf, Context, Root } from "../../types/fs"
+import { Branch, BranchingContext, Context, Leaf } from "../../types/fs"
+import { IAddWindowProperties } from "../windows"
 
 interface ILeafAndBranchContext extends INamed {
 	leaves: Leaf[]
@@ -9,7 +10,7 @@ interface ILeafAndBranchContext extends INamed {
 }
 
 interface IChildContext {
-	parent: Branch | Root | null
+	parent: BranchingContext | null
 }
 
 export interface IShortcut extends INamed, IChildContext {}
@@ -28,6 +29,7 @@ export interface IBranch extends ILeafAndBranchContext, IChildContext {
 
 export interface ILeaf extends IChildContext, INamed {
 	extension: string
+	icon: string | null
 }
 
 export interface IUrlShortcutFile extends ILeaf {
@@ -36,6 +38,10 @@ export interface IUrlShortcutFile extends ILeaf {
 
 export interface IWindowFile extends ILeaf {
 	render: (props?: IWindowRenderProps) => JSX.Element
+}
+
+export interface IBranchFile extends ILeaf {
+	getBranchingContext: (context: BranchingContext) => IAddWindowProperties
 }
 
 export interface IWindowRenderProps {

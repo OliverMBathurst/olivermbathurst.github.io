@@ -10,12 +10,8 @@
 	height: 100%;
 	width: 100%;
 	display: flex;
-	flex-direction: column;
+	align-content: flex-start;
 	cursor: default;
+	flex-wrap: wrap;
 	overflow: scroll;
-}
-
-.file-browser__information-pane {
-	color: $ui-text-colour;
-	font-size: 0.75rem;
 }

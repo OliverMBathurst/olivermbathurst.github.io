@@ -1,0 +1,25 @@
+@import "../../../../index.scss";
+
+.base-information-pane {
+    height: 2rem;
+    background-color: rgba(169, 169, 169, 0.12);
+    color: $ui-text-colour;
+    font-size: 0.75rem;
+    display: flex;
+    align-items: center;
+}
+
+.base-information-pane img {
+    margin-left: auto;
+    display: flex;
+}
+
+.base-information-pane__thumbs,
+.base-information-pane__thumbs--selected {
+    width: 1.25rem;
+    height: 1.25rem;
+}
+
+.base-information-pane__thumbs--selected {
+    background-color: $hover-button-background-selected;
+}

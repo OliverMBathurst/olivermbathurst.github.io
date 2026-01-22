@@ -2,9 +2,10 @@ import React from "react"
 import ReactDOM from "react-dom/client"
 import { Screen } from "./components/screen"
 import {
-	DesktopItemContextProvider,
-	FileSystemContextProvider,
-	WindowsContextProvider
+    DesktopItemContextProvider,
+    FileBrowserContextProvider,
+    FileSystemContextProvider,
+    WindowsContextProvider
 } from "./contexts"
 import "./index.scss"
 
@@ -15,7 +16,9 @@ root.render(
 		<FileSystemContextProvider>
 			<WindowsContextProvider>
 				<DesktopItemContextProvider>
-					<Screen />
+					<FileBrowserContextProvider>
+						<Screen />
+					</FileBrowserContextProvider>
 				</DesktopItemContextProvider>
 			</WindowsContextProvider>
 		</FileSystemContextProvider>

@@ -1,0 +1,109 @@
+@import "../../../../index.scss";
+
+.file-browser-grid-view {
+    width: 100%;
+    color: $ui-text-colour;
+    margin: 0rem 0.5rem 0rem 0.5rem;
+    font-size: 0.75rem;
+    width: calc(100% - 1rem);
+}
+
+.file-browser-grid-view__content {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.file-browser-grid-view__content__row,
+.file-browser-grid-view__content__row--selected {
+    height: 1.5rem;
+}
+
+.file-browser-grid-view__content__row,
+.file-browser-grid-view__content__row--selected,
+.file-browser-grid-view__head {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.file-browser-grid-view__head {
+    height: 2rem;
+}
+
+.file-browser-grid-view__head__row {
+    text-align: left;
+}
+
+.file-browser-grid-view__head__row__cell {
+    font-weight: normal;
+}
+
+.file-browser-grid-view__content__row__cell__date,
+.file-browser-grid-view__head__date {
+    min-width: 7.25rem;
+}
+
+.file-browser-grid-view__content__row__cell__name,
+.file-browser-grid-view__head__name {
+    min-width: 5.5rem;
+}
+
+.file-browser-grid-view__content__row__cell__type,
+.file-browser-grid-view__head__type,
+.file-browser-grid-view__content__row__cell__size,
+.file-browser-grid-view__head__size {
+    min-width: 3.9375rem;
+}
+
+.file-browser-grid-view__content__row__cell__name,
+.file-browser-grid-view__content__row__cell__date,
+.file-browser-grid-view__content__row__cell__type,
+.file-browser-grid-view__content__row__cell__size,
+.file-browser-grid-view__head__name,
+.file-browser-grid-view__head__date,
+.file-browser-grid-view__head__type,
+.file-browser-grid-view__head__size {
+    display: flex;
+    align-items: center;
+    width: 9rem;
+    flex-grow: 1;
+    padding-left: 0.5rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.file-browser-grid-view__content__row__cell__name span,
+.file-browser-grid-view__content__row__cell__date span,
+.file-browser-grid-view__content__row__cell__type span,
+.file-browser-grid-view__content__row__cell__size span,
+.file-browser-grid-view__head__name span,
+.file-browser-grid-view__head__date span,
+.file-browser-grid-view__head__type span,
+.file-browser-grid-view__head__size span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.file-browser-grid-view__head__name:hover,
+.file-browser-grid-view__head__date:hover,
+.file-browser-grid-view__head__type:hover,
+.file-browser-grid-view__head__size:hover {
+    background: $hover-button-background;
+}
+
+.file-browser-grid-view__content__row:hover,
+.file-browser-grid-view__head__row__cell:hover {
+    background: $hover-button-background;
+}
+
+.file-browser-grid-view__content__row--selected {
+    background: $hover-button-background;
+}
+
+.file-browser-grid-view__content__row__cell__name img {
+    height: 1.25rem;
+    width: 1.25rem;
+}

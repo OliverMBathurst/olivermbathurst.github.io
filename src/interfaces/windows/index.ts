@@ -11,6 +11,7 @@ export interface IWindowProperties {
 
 export interface IAddWindowProperties {
 	context: Context
+	openNewInstance?: boolean
 	selected?: boolean
 	size?: ISize
 }

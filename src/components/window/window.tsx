@@ -240,6 +240,12 @@ const Window = (props: IWindowProps) => {
 		}
 	}
 
+	const onWindowContentClicked = (_: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+		if (!selected) {
+			onWindowSelected(id, true)
+		}
+	}
+
 	const onWindowMouseMove = useCallback(
 		(e: MouseEvent) => {
 			if (windowExpanding.current && windowRef.current) {
@@ -472,7 +478,7 @@ const Window = (props: IWindowProps) => {
 					onCloseButtonClicked={onCloseButtonClicked}
 					onWindowTopBarDoubleClicked={onWindowTopBarDoubleClicked}
 				/>
-				<div className="window__inner-content__content">
+				<div className="window__inner-content__content" onClick={onWindowContentClicked}>
 					<Content />
 				</div>
 			</div>

@@ -3,37 +3,31 @@
 .file-browser__row,
 .file-browser__row--selected {
 	display: flex;
+	flex-direction: column;
 	color: $ui-text-colour;
 	align-items: center;
 	font-size: 0.75rem;
-	padding-left: 0.5rem;
+	width: 5rem;
+	max-width: 5rem;
+	margin: 0.3rem 0rem 0rem 0.5rem;
+	height: fit-content;
 }
 
 .file-browser__row:hover {
 	background: $hover-button-background;
 }
 
-.file-browser__row {
-	border: 0.0625rem $ui-background solid;
-}
-
 .file-browser__row--selected {
 	background: $hover-button-background;
-	border: 0.0625rem grey solid;
 }
 
 .file-browser__row__icon img {
-	height: 1.5rem;
-	width: 1.5rem;
+	height: 4rem;
+	width: 4rem;
 }
 
 .file-browser__row__name {
-	padding-left: 0.5rem;
-	overflow: hidden;
-	text-overflow: ellipsis;
-}
-
-.file-browser__row,
-.file-browser__row--selected {
-	margin-top: 0.3rem;
+	padding: 0rem 0.5rem 0.5rem 0.5rem;
+	word-wrap: anywhere;
+	text-align: center;
 }

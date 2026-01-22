@@ -2,7 +2,7 @@
 
 .search-bar__input {
 	display: flex;
-	background: $ui-input-background;
+	background-color: transparent;
 	outline: none;
 	border: none;
 	color: $ui-text-colour;
@@ -11,7 +11,7 @@
 
 .search-bar {
 	display: flex;
-	background: $ui-input-background;
+	background-color: transparent;
 	color: $ui-text-colour;
 	outline: none;
 	border: 0.125rem solid $hover-button-background;
