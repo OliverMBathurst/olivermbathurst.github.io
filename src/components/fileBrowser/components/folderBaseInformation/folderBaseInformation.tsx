@@ -60,7 +60,7 @@ const FolderBaseInformation = (props: IFolderBaseInformationProps) => {
 				{`${selectedLength > 0 ? `Selected: ${selectedLength} item${selectedLength !== 1 ? "s" : ""} of ` : ""}${entitiesLength} item${entitiesLength !== 1 ? "s" : ""} | ${branches.length} folder${branches.length !== 1 ? "s" : ""} | ${leaves.length + shortcuts.length} file${leaves.length + shortcuts.length !== 1 ? "s" : ""}`}
 			</span>
 			<ThumbsIcon
-				className={`base-information-pane__thumbs${thumbnailDisplay ? "--selected" : ""}`}
+				className={`base-information-pane__thumbs${thumbnailDisplay ? "--selected" : ""} ${NO_SELECT_CLASS}`}
 				onClick={toggleDisplayMode}
 			/>
 		</div>

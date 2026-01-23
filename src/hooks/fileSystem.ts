@@ -7,7 +7,7 @@ import { FileSystemContext } from "../contexts"
 import { SpecialBranch } from "../enums"
 import { getDisplayName } from "../helpers/naming"
 import { getFullPath } from "../helpers/paths"
-import { IForwardContext } from "../interfaces/fs"
+import { IForwardContextInformation } from "../interfaces/fs"
 import { Branch, BranchingContext, Context, Leaf } from "../types/fs"
 
 const useFileSystem = (context?: BranchingContext) => {
@@ -16,7 +16,7 @@ const useFileSystem = (context?: BranchingContext) => {
 	const [currentContext, setCurrentContext] = useState<BranchingContext>(
 		context ?? root
 	)
-	const [forwardContexts, setAllForwardContexts] = useState<IForwardContext[]>([])
+	const [forwardContexts, setAllForwardContexts] = useState<IForwardContextInformation[]>([])
 
 	useEffect(() => {
 		const fullPathOfCurrentContext = getFullPath(currentContext)

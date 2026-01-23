@@ -53,7 +53,7 @@ export interface IWindowRenderProps {
 	onMouseOver?: (e: React.MouseEvent<HTMLElement, MouseEvent>) => void
 }
 
-export interface IForwardContext {
+export interface IForwardContextInformation {
 	forwardPath: string
 	fullPath: string
 	context: Context

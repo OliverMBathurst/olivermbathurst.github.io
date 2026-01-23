@@ -1,12 +1,11 @@
 import { useCallback, useContext, useRef, useState } from "react"
-import { NO_SELECT_CLASS, TASKBAR_START_BUTTON_CLASS } from "../../constants"
+import { TASKBAR_START_BUTTON_CLASS } from "../../constants"
 import { FileSystemContext, WindowsContext } from "../../contexts"
-import { getIcon } from "../../helpers/icons"
-import { getDisplayName } from "../../helpers/naming"
 import { onSelectionRowClicked } from "../../helpers/selections"
 import { useClickOutside, useFileSystem } from "../../hooks"
 import { ApplicationHandlerService } from "../../service"
 import { Context } from "../../types/fs"
+import { StartMenuRow } from "./components"
 import "./startMenu.scss"
 
 interface IStartMenuProps {
@@ -79,30 +78,22 @@ const StartMenu = (props: IStartMenuProps) => {
 			<div className="start-menu__top-container">
 				<div className="start-menu__top-container__left"></div>
 				<div className="start-menu__top-container__right">
-					{forwardContexts.map((fc) => {
+					{forwardContexts.map(fc => {
 						const { context, fullPath } = fc
-						const Icon = getIcon(context)
-						const DisplayName = getDisplayName(context)
-						const selected =
-							selectedContextKeys.indexOf(context.toContextUniqueKey()) !== -1
+						const prefix = `root-`
+
 						return (
-							<div
-								className={`start-menu__top-container__right__row${selected ? "--selected" : ""}`}
-								key={fullPath}
-								onClick={(e) => onRowClicked(context, e)}
-								onDoubleClick={(e) => onRowDoubleClicked(context, e)}
-							>
-								<div
-									className={`start-menu__top-container__right__row__icon ${NO_SELECT_CLASS}`}
-								>
-									{Icon}
-								</div>
-								<div
-									className={`start-menu__top-container__right__row__name ${NO_SELECT_CLASS}`}
-								>
-									{DisplayName}
-								</div>
-							</div>
+							<StartMenuRow
+								index={0}
+								key={"init-" + prefix + fullPath}
+								prefix={prefix}
+								fullPath={fullPath}
+								context={context}
+								selectedContextKeys={selectedContextKeys}
+								setSelectedContextKeys={setSelectedContextKeys}
+								onRowClicked={onRowClicked}
+								onRowDoubleClicked={onRowDoubleClicked}
+							/>
 						)
 					})}
 				</div>

@@ -1,0 +1,28 @@
+@import "../../../../index.scss";
+
+.start-menu__row:hover {
+	background: $hover-button-background;
+}
+
+.start-menu__row--selected {
+	background: $hover-button-background;
+}
+
+.start-menu__row,
+.start-menu__row--selected {
+	flex-direction: row;
+	align-items: center;
+	display: flex;
+	padding-left: 0.5rem;
+}
+
+.start-menu__row__icon img {
+	height: 1.5rem;
+	width: 1.5rem;
+}
+
+.start-menu__row__name {
+	padding-left: 0.5rem;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}

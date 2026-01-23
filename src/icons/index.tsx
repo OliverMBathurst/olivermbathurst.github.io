@@ -15,6 +15,9 @@ import search from "../icons/search.png"
 import start from "../icons/startMenu.png"
 import textFile from "../icons/textFile.png"
 import thumbs from "../icons/thumbs.png"
+import upArrow from "../icons/up-arrow.png"
+import leftArrow from "../icons/left-arrow.png"
+import rightArrow from "../icons/right-arrow.png"
 
 const GenericFileIcon = (props: React.ImgHTMLAttributes<HTMLImageElement>) => (
 	<img src={file} alt="File icon by icon8" {...props} />
@@ -84,6 +87,18 @@ const ThumbsIcon = (props: React.ImgHTMLAttributes<HTMLImageElement>) => (
 	<img src={thumbs} alt="Custom icon by icon8" {...props} />
 )
 
+const UpArrowIcon = (props: React.ImgHTMLAttributes<HTMLImageElement>) => (
+	<img src={upArrow} alt="Up arrow icon by icon8" {...props} />
+)
+
+const LeftArrowIcon = (props: React.ImgHTMLAttributes<HTMLImageElement>) => (
+	<img src={leftArrow} alt="Left arrow icon by icon8" {...props} />
+)
+
+const RightArrowIcon = (props: React.ImgHTMLAttributes<HTMLImageElement>) => (
+	<img src={rightArrow} alt="Right arrow icon by icon8" {...props} />
+)
+
 export {
     CancelIcon,
     CloseIcon, CollapseIcon,
@@ -97,5 +112,8 @@ export {
     SearchIcon,
     StartMenuIcon,
 	TextFileIcon,
-	ThumbsIcon
+	ThumbsIcon,
+	UpArrowIcon,
+	LeftArrowIcon,
+	RightArrowIcon
 }
