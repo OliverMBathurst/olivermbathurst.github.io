@@ -2,7 +2,6 @@ import { IStartMenuFileRowProps } from ".."
 import { NO_SELECT_CLASS } from "../../../../constants"
 import { getIcon } from "../../../../helpers/icons"
 import { getDisplayName } from "../../../../helpers/naming"
-import { useClick } from "../../../../hooks"
 import "./startMenuFileRow.scss"
 
 const StartMenuFileRow = (props: IStartMenuFileRowProps) => {
@@ -25,16 +24,13 @@ const StartMenuFileRow = (props: IStartMenuFileRowProps) => {
 		paddingLeft: `${(2 * index) / 16}rem`
 	}
 
-	const click = useClick(
-		(e) => onRowClicked(prefix, e),
-		(e) => onFileRowDoubleClicked(context, e));
-
 	return (
 		<div
 			className={`start-menu-file-row${selected ? "--selected" : ""}`}
 			key={key}
 			style={style}
-			onClick={click}
+			onClick={(e) => onRowClicked(prefix, e)}
+			onDoubleClick={(e) => onFileRowDoubleClicked(context, e)}
 		>
 			<div
 				className={`start-menu-file-row__icon ${NO_SELECT_CLASS}`}

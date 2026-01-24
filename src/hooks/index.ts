@@ -5,7 +5,6 @@ import useIcon from "./icon"
 import useSearch from "./search"
 import useVisibility from "./visibility"
 import useWindowSelectionRectangle from "./windowSelectionRectangle"
-import useClick from "./click"
 
 export {
 	useClickOutside,
@@ -14,6 +13,5 @@ export {
 	useIcon,
 	useSearch,
 	useVisibility,
-	useWindowSelectionRectangle,
-	useClick
+	useWindowSelectionRectangle
 }
