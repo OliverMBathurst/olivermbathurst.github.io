@@ -1,8 +1,8 @@
 import { IStartMenuFolderRowProps, StartMenuFileRow } from ".."
-import { NO_SELECT_CLASS } from "../../../../../../constants"
-import { getIcon } from "../../../../../../helpers/icons"
-import { getDisplayName } from "../../../../../../helpers/naming"
-import { CollapseIcon, ExpandIcon } from "../../../../../../icons"
+import { NO_SELECT_CLASS } from "../../../../constants"
+import { getIcon } from "../../../../helpers/icons"
+import { getDisplayName } from "../../../../helpers/naming"
+import { CollapseIcon, ExpandIcon } from "../../../../icons"
 import "./startMenuFolderRow.scss"
 
 const StartMenuFolderRow = (props: IStartMenuFolderRowProps) => {

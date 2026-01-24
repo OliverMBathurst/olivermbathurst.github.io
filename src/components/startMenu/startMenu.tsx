@@ -7,7 +7,7 @@ import { onSelectionRowClicked } from "../../helpers/selections"
 import { useClickOutside, useFileSystem } from "../../hooks"
 import { IForwardContextInformation } from "../../interfaces/fs"
 import { Context, Leaf, Shortcut } from "../../types/fs"
-import { StartMenuFileRow, StartMenuFolderRow } from "./components/startMenuRow"
+import { StartMenuFileRow, StartMenuFolderRow } from "./components"
 import "./startMenu.scss"
 
 interface IStartMenuProps {
