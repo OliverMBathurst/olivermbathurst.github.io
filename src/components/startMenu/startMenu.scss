@@ -74,6 +74,12 @@
 	background: $hover-button-background;
 }
 
+.start-menu__top-container__right__branches__text {
+	font-weight: 600;
+	margin-bottom: 0.5rem;
+	display: flex;
+}
+
 .start-menu__top-container__right__row,
 .start-menu__top-container__right__row--selected,
 .start-menu__top-container__left__row {

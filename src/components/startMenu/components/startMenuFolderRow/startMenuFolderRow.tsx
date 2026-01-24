@@ -10,17 +10,17 @@ const StartMenuFolderRow = (props: IStartMenuFolderRowProps) => {
 		index,
 		context,
 		prefix,
-		fullPath,
 		openedFolders,
-		selectedContextKeys,
+		selectedContextKey,
 		onFolderRowClicked,
-		onFileRowClicked
+		onFileRowClicked,
+		onFileRowDoubleClicked
 	} = props
 
 	const Icon = getIcon(context)
 	const DisplayName = getDisplayName(context)
-	const key = prefix + fullPath
-	const opened = openedFolders.indexOf(key) !== -1
+	const key = prefix
+	const opened = openedFolders.indexOf(prefix) !== -1
 
 	const style: React.CSSProperties = {
 		paddingLeft: `${(2 * index) / 16}rem`
@@ -34,15 +34,15 @@ const StartMenuFolderRow = (props: IStartMenuFolderRowProps) => {
 		let items = [...context.branches].map(b => {
 			return (
 				<StartMenuFolderRow
-					key={`expanded-` + prefix + b.name}
+					key={`expanded-${key}\\${b.fullName}`}
 					index={index + 1}
 					context={b}
-					prefix={prefix + "branch-"}
-					fullPath={fullPath}
+					prefix={`${key}\\${b.fullName}`}
 					openedFolders={openedFolders}
-					selectedContextKeys={selectedContextKeys}
+					selectedContextKey={selectedContextKey}
 					onFolderRowClicked={onFolderRowClicked}
 					onFileRowClicked={onFileRowClicked}
+					onFileRowDoubleClicked={onFileRowDoubleClicked}
 				/>
 			)
 		})
@@ -50,13 +50,13 @@ const StartMenuFolderRow = (props: IStartMenuFolderRowProps) => {
 		items = items.concat([...context.leaves, ...context.shortcuts].map(c => {
 			return (
 				<StartMenuFileRow
-					key={`expanded-` + prefix + c.name}
+					key={`expanded-${key}\\${c.fullName}`}
 					index={index + 1}
 					context={c}
-					prefix={prefix + "leaf-"}
-					fullPath={fullPath}
-					selectedContextKeys={selectedContextKeys}
+					prefix={`${key}\\${c.fullName}`}
+					selectedContextKey={selectedContextKey}
 					onRowClicked={onFileRowClicked}
+					onFileRowDoubleClicked={onFileRowDoubleClicked}
 				/>
 			)
 		}))
@@ -88,7 +88,6 @@ const StartMenuFolderRow = (props: IStartMenuFolderRowProps) => {
 			</div>
 			{opened && <ExpandedItems />}
 		</>
-		
 	)
 }
 
