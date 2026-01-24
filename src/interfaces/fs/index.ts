@@ -58,3 +58,10 @@ export interface IForwardContextInformation {
 	fullPath: string
 	context: Context
 }
+
+
+export interface IForwardContext<T extends Context> {
+	forwardPath: string
+	fullPath: string
+	context: T
+}
