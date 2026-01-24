@@ -9,9 +9,9 @@ export const doRectanglesIntersect = (r: DOMRect, r1: DOMRect): boolean => {
 	)
 }
 
-export const onSelectionRowClicked = <T, T2>(
+export const onSelectionRowClicked = <T, T2 extends HTMLElement>(
 	context: Context,
-	e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+	e: React.MouseEvent<T2, MouseEvent>,
 	selectedContextKeys: string[],
 	items: T[],
 	predicate: (item: T) => string
@@ -57,12 +57,12 @@ export const onMixedSelectionRowClicked = <T, T2>(
 	return newSelectedContextKeys
 }
 
-export const onSelectionRowClickedInternal = <T>(
+export const onSelectionRowClickedInternal = <T, T2 extends HTMLElement>(
 	context: Context,
 	selectedContextKeys: string[],
 	items: T[],
 	predicate: (item: T) => string,
-	e: React.MouseEvent<HTMLDivElement, MouseEvent>
+	e: React.MouseEvent<T2, MouseEvent>
 ) => {
 	const contextKey = context.toContextUniqueKey()
 

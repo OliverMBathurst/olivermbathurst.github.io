@@ -11,8 +11,7 @@ interface IStartMenuRowProps {
 	fullPath: string
 	selectedContextKeys: string[]
 	setSelectedContextKeys: (selectedContextKeys: string[]) => void
-	onRowClicked: (context: Context, e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void
-	onRowDoubleClicked: (context: Context, e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void
+	onRowClicked: (context: Context, e: React.MouseEvent<HTMLElement, MouseEvent>) => void
 }
 
 const StartMenuRow = (props: IStartMenuRowProps) => {
@@ -23,8 +22,7 @@ const StartMenuRow = (props: IStartMenuRowProps) => {
 		fullPath,
 		selectedContextKeys,
 		setSelectedContextKeys,
-		onRowClicked,
-		onRowDoubleClicked
+		onRowClicked
 	} = props
 
 	const [openedFolders, setOpenedFolders] = useState<string[]>([])
@@ -50,10 +48,8 @@ const StartMenuRow = (props: IStartMenuRowProps) => {
 				fullPath={fullPath}
 				openedFolders={openedFolders}
 				selectedContextKeys={selectedContextKeys}
-				setSelectedContextKeys={setSelectedContextKeys}
 				onFolderRowClicked={onFolderClicked}
 				onFileRowClicked={onRowClicked}
-				onRowDoubleClicked={onRowDoubleClicked}
 			/>)
 	}
 
@@ -65,7 +61,6 @@ const StartMenuRow = (props: IStartMenuRowProps) => {
 			fullPath={fullPath}
 			selectedContextKeys={selectedContextKeys}
 			onRowClicked={onRowClicked}
-			onRowDoubleClicked={onRowDoubleClicked}
 		/>)
 }
 

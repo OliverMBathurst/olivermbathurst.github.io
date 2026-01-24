@@ -1,0 +1,20 @@
+@import '../../../../index.scss';
+
+.file-browser-navigation-controls {
+    display: flex;
+}
+
+.file-browser-navigation-controls__icon img,
+.file-browser-navigation-controls__icon--disabled img {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+.file-browser-navigation-controls__icon:hover,
+.file-browser-navigation-controls__icon--disabled:hover {
+    background-color: $hover-button-background;
+}
+
+.file-browser-navigation-controls__icon--disabled {
+    opacity: 0.8;
+}

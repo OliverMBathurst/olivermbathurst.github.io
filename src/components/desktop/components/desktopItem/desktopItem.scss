@@ -14,12 +14,12 @@
 }
 
 .desktop-item--selected {
-	background: $hover-button-background-selected;
+	background-color: $hover-button-background-selected;
 }
 
 .desktop-item:hover,
 .desktop-item--selected:hover {
-	background: $hover-button-background;
+	background-color: $hover-button-background;
 }
 
 .desktop-item__name {

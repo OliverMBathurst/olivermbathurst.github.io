@@ -1,5 +1,4 @@
-import { IStartMenuFolderRowProps } from ".."
-import { StartMenuRow } from "../.."
+import { IStartMenuFolderRowProps, StartMenuFileRow } from ".."
 import { NO_SELECT_CLASS } from "../../../../../../constants"
 import { getIcon } from "../../../../../../helpers/icons"
 import { getDisplayName } from "../../../../../../helpers/naming"
@@ -14,9 +13,7 @@ const StartMenuFolderRow = (props: IStartMenuFolderRowProps) => {
 		fullPath,
 		openedFolders,
 		selectedContextKeys,
-		setSelectedContextKeys,
 		onFolderRowClicked,
-		onRowDoubleClicked,
 		onFileRowClicked
 	} = props
 
@@ -44,26 +41,22 @@ const StartMenuFolderRow = (props: IStartMenuFolderRowProps) => {
 					fullPath={fullPath}
 					openedFolders={openedFolders}
 					selectedContextKeys={selectedContextKeys}
-					setSelectedContextKeys={setSelectedContextKeys}
 					onFolderRowClicked={onFolderRowClicked}
 					onFileRowClicked={onFileRowClicked}
-					onRowDoubleClicked={onRowDoubleClicked}
 				/>
 			)
 		})
 
 		items = items.concat([...context.leaves, ...context.shortcuts].map(c => {
 			return (
-				<StartMenuRow
+				<StartMenuFileRow
 					key={`expanded-` + prefix + c.name}
 					index={index + 1}
 					context={c}
 					prefix={prefix + "leaf-"}
 					fullPath={fullPath}
 					selectedContextKeys={selectedContextKeys}
-					setSelectedContextKeys={setSelectedContextKeys}
 					onRowClicked={onFileRowClicked}
-					onRowDoubleClicked={onRowDoubleClicked}
 				/>
 			)
 		}))

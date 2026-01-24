@@ -16,12 +16,8 @@ const clickOutsideExclusions = [
 	TASKBAR_START_BUTTON_CLASS
 ]
 
-const applicationHandlerService = new ApplicationHandlerService()
-
 const StartMenu = (props: IStartMenuProps) => {
 	const { onClickOutside } = props
-
-	const { addWindow } = useContext(WindowsContext)
 	const { root } = useContext(FileSystemContext)
 	const { forwardContexts } = useFileSystem(root)
 
@@ -43,18 +39,8 @@ const StartMenu = (props: IStartMenuProps) => {
 		}
 	})
 
-	const onRowDoubleClicked = useCallback(
-		(context: Context, _: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-			const windowProperties = applicationHandlerService.execute(context)
-			if (windowProperties != null) {
-				addWindow(windowProperties)
-			}
-		},
-		[addWindow]
-	)
-
 	const onRowClicked = useCallback(
-		(context: Context, e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+		(context: Context, e: React.MouseEvent<HTMLElement, MouseEvent>) => {
 			const newSelectedContextKeys = onSelectionRowClicked(
 				context,
 				e,
@@ -92,7 +78,6 @@ const StartMenu = (props: IStartMenuProps) => {
 								selectedContextKeys={selectedContextKeys}
 								setSelectedContextKeys={setSelectedContextKeys}
 								onRowClicked={onRowClicked}
-								onRowDoubleClicked={onRowDoubleClicked}
 							/>
 						)
 					})}

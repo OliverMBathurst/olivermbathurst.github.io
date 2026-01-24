@@ -37,6 +37,18 @@ const FileBrowser = (props: IFileBrowserProps) => {
 	const [selected, setSelected] = useState<string[]>([])
 	const [searchResult, setSearchResult] = useState<ISearchResult | null>(null)
 
+	const {
+		addNavigationHistory,
+		addToHistoryPointer,
+		subtractFromHistoryPointer,
+		navigationHistory,
+		historyPointers,
+		setNavigationHistoryForWindow
+	} = useContext(FileBrowserContext)
+
+	const nav = navigationHistory[windowId] ?? []
+	const point = historyPointers[windowId] ?? 0
+
 	const elementRowReferences = useRef<Record<string, HTMLElement | null>>({})
 	const fileBrowserPaneRef = useRef<HTMLDivElement | null>(null)
 
@@ -58,13 +70,14 @@ const FileBrowser = (props: IFileBrowserProps) => {
 			if (windowProperties != null) {
 				if (BRANCHING_CONTEXT_DETERMINER in windowProperties.context && !windowProperties.openNewInstance) {
 					elementRowReferences.current = {}
+					addNavigationHistory(windowId, windowProperties.context)
 					setWindowContext(windowId, windowProperties.context)
 				} else {
 					addWindow(windowProperties)
 				}
 			}
 		},
-		[addWindow, windowId, setWindowContext]
+		[addWindow, windowId, setWindowContext, addNavigationHistory]
 	)
 
 	const onRowClicked = useCallback(
@@ -84,13 +97,6 @@ const FileBrowser = (props: IFileBrowserProps) => {
 		},
 		[searchResult, onMixedSelectionRowClicked, selected, Entities, setSelected]
 	)
-
-	const upOneLevel = () => {
-		if (BRANCHING_CONTEXT_PARENT_PROPERTY in context && context.parent) {
-			elementRowReferences.current = {}
-			setWindowContext(windowId, context.parent)
-		}
-	}
 
 	const onSelectionChanged = (selectionRectangle: DOMRect) => {
 		const elems = elementRowReferences.current
@@ -151,7 +157,39 @@ const FileBrowser = (props: IFileBrowserProps) => {
 		}
 	}
 
+	const onBacktrack = () => {
+		elementRowReferences.current = {}
+		const hp = point - 1
+		subtractFromHistoryPointer(windowId)
+		setWindowContext(windowId, nav[hp])
+	}
+
+	const onForwards = () => {
+		elementRowReferences.current = {}
+		const hp = point + 1
+		addToHistoryPointer(windowId)
+		setWindowContext(windowId, nav[hp])
+	}
+
+	const onUpOneLevel = () => {
+		if (BRANCHING_CONTEXT_PARENT_PROPERTY in context && context.parent) {
+			elementRowReferences.current = {}
+			const parentContext = context.parent
+			const hp = point - 1
+			subtractFromHistoryPointer(windowId)
+
+			setNavigationHistoryForWindow(windowId, nh => {
+				const prev = [...nh]
+				prev[hp] = parentContext
+				return prev
+			})
+
+			setWindowContext(windowId, parentContext)
+		}
+	}
+
 	const onDirectoryChanged = (context: BranchingContext) => {
+		addNavigationHistory(windowId, context)
 		setWindowContext(windowId, context)
 	}
 
@@ -228,11 +266,15 @@ const FileBrowser = (props: IFileBrowserProps) => {
 	return (
 		<div className="file-browser">
 			<FileBrowserControls
+				windowId={windowId}
 				context={context}
 				onDirectoryChanged={onDirectoryChanged}
 				onFileNavigation={onFileNavigation}
 				onSearchCompleted={onSearchCompleted}
 				onSearchCancelled={onSearchCancelled}
+				onBacktrack={onBacktrack}
+				onForwards={onForwards}
+				onUpOneLevel={onUpOneLevel}
 			/>
 			<div
 				className="file-browser__result-pane"
@@ -245,7 +287,7 @@ const FileBrowser = (props: IFileBrowserProps) => {
 				{BRANCHING_CONTEXT_PARENT_PROPERTY in context &&
 					context.parent &&
 					thumbnailDisplay &&
-					!searchResult && <UpOneLevelRow onRowDoubleClicked={upOneLevel} />}
+					!searchResult && <UpOneLevelRow onRowDoubleClicked={onUpOneLevel} />}
 				{searchResult && (
 					<SearchResultPane
 						searchResult={searchResult}

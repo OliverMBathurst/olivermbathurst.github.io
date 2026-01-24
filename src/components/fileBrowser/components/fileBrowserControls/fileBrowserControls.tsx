@@ -4,10 +4,15 @@ import { ISearchResult } from "../../../../interfaces/search"
 import { BranchingContext, Leaf, Shortcut } from "../../../../types/fs"
 import { SearchBar } from "../../../searchBar"
 import { FileBrowserLocationBar } from "../fileBrowserLocationBar"
+import { FileBrowserNavigationControls } from "../fileBrowserNavigationControls"
 import "./fileBrowserControls.scss"
 
 interface IFileBrowserControlsProps {
 	context: BranchingContext
+	windowId: string
+	onBacktrack: () => void
+	onForwards: () => void
+	onUpOneLevel: () => void
 	onSearchCancelled: () => void
 	onSearchCompleted: (results: ISearchResult) => void
 	onDirectoryChanged: (context: BranchingContext) => void
@@ -17,10 +22,14 @@ interface IFileBrowserControlsProps {
 const FileBrowserControls = (props: IFileBrowserControlsProps) => {
 	const {
 		context,
+		windowId,
 		onDirectoryChanged,
 		onFileNavigation,
 		onSearchCompleted,
-		onSearchCancelled
+		onSearchCancelled,
+		onBacktrack,
+		onForwards,
+		onUpOneLevel
 	} = props
 	const { searchForItems } = useSearch(context)
 
@@ -44,6 +53,13 @@ const FileBrowserControls = (props: IFileBrowserControlsProps) => {
 
 	return (
 		<div className="file-browser-controls">
+			<FileBrowserNavigationControls
+				context={context}
+				windowId={windowId}
+				onBacktrack={onBacktrack}
+				onForwards={onForwards}
+				onUpOneLevel={onUpOneLevel}
+			/>
 			<FileBrowserLocationBar
 				context={context}
 				onDirectoryChanged={onDirectoryChanged}
