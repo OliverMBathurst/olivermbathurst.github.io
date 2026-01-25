@@ -5,22 +5,30 @@ interface IFileBrowserContext {
     displaySettings: Record<string, boolean>
     historyPointers: Record<string, number>
     navigationHistory: Record<string, BranchingContext[]>
+    treeSelectedContextKeys: Record<string, string[]>
+    treeOpenFolderContextKeys: Record<string, string[]>
     toggleDisplaySetting: (windowId: string) => void
     addNavigationHistory: (windowId: string, context: BranchingContext) => void
     addToHistoryPointer: (windowId: string) => void
     subtractFromHistoryPointer: (windowId: string) => void
     setNavigationHistoryForWindow: (windowId: string, updateFn: (history: BranchingContext[]) => BranchingContext[]) => void
+    setTreeOpenFolderContextKeysForWindow: (windowId: string, updateFn: (contextKeys: string[]) => string[]) => void
+    setSelectedTreeContextKeysForWindow: (windowId: string, updateFn: (contextKeys: string[]) => string[]) => void
 }
 
 export const FileBrowserContext = createContext<IFileBrowserContext>({
     displaySettings: {},
     historyPointers: {},
     navigationHistory: {},
+    treeSelectedContextKeys: {},
+    treeOpenFolderContextKeys: {},
     toggleDisplaySetting: (_: string) => Function.prototype,
     addNavigationHistory: (_: string, __: BranchingContext) => Function.prototype,
     addToHistoryPointer: (_: string) => Function.prototype,
     subtractFromHistoryPointer: (_: string) => Function.prototype,
-    setNavigationHistoryForWindow: (_: string, __: (history: BranchingContext[]) => BranchingContext[]) => Function.prototype
+    setNavigationHistoryForWindow: (_: string, __: (history: BranchingContext[]) => BranchingContext[]) => Function.prototype,
+    setSelectedTreeContextKeysForWindow: (_: string, __: (contextKeys: string[]) => string[]) => Function.prototype,
+    setTreeOpenFolderContextKeysForWindow: (_: string, __: (contextKeys: string[]) => string[]) => Function.prototype
 })
 
 interface IFileBrowserContextProviderProps {
@@ -33,6 +41,8 @@ const FileBrowserContextProvider = (props: IFileBrowserContextProviderProps) => 
     const [displaySettings, setDisplaySettings] = useState<Record<string, boolean>>({})
     const [navigationHistory, setNavigationHistory] = useState<Record<string, BranchingContext[]>>({})
     const [historyPointers, setHistoryPointers] = useState<Record<string, number>>({})
+    const [treeSelectedContextKeys, setTreeSelectedContextKeys] = useState<Record<string, string[]>>({})
+    const [treeOpenFolderContextKeys, setTreeOpenFolderContextKeys] = useState<Record<string, string[]>>({})
 
     const setDisplaySettingsInternal = (windowId: string) => {
         const prev = displaySettings[windowId] ?? true
@@ -109,16 +119,44 @@ const FileBrowserContextProvider = (props: IFileBrowserContextProviderProps) => 
         })
     }
 
+    const setSelectedTreeContextKeysForWindow = (windowId: string, updateFn: (contextKeys: string[]) => string[]) => {
+        let prev = treeSelectedContextKeys[windowId] ?? []
+        prev = updateFn(prev)
+
+        setTreeSelectedContextKeys(ck => {
+            return {
+                ...ck,
+                [windowId]: prev
+            }
+        })
+    }
+
+    const setTreeOpenFolderContextKeysForWindow = (windowId: string, updateFn: (contextKeys: string[]) => string[]) => {
+        let prev = treeOpenFolderContextKeys[windowId] ?? []
+        prev = updateFn(prev)
+
+        setTreeOpenFolderContextKeys(ck => {
+            return {
+                ...ck,
+                [windowId]: prev
+            }
+        })
+    }
+
     return (
         <FileBrowserContext.Provider value={{
-            displaySettings: displaySettings,
+            displaySettings,
             navigationHistory,
             historyPointers,
+            treeOpenFolderContextKeys,
             toggleDisplaySetting: setDisplaySettingsInternal,
             addNavigationHistory,
             addToHistoryPointer,
             subtractFromHistoryPointer,
-            setNavigationHistoryForWindow
+            setNavigationHistoryForWindow,
+            treeSelectedContextKeys,
+            setSelectedTreeContextKeysForWindow,
+            setTreeOpenFolderContextKeysForWindow
         }}>
             {children}
         </FileBrowserContext.Provider>

@@ -20,6 +20,7 @@ import {
     FolderBaseInformation,
     UpOneLevelRow
 } from "./components"
+import { FileBrowserTree } from "./components/fileBrowserTree"
 import "./fileBrowser.scss"
 
 interface IFileBrowserProps {
@@ -276,30 +277,38 @@ const FileBrowser = (props: IFileBrowserProps) => {
 				onForwards={onForwards}
 				onUpOneLevel={onUpOneLevel}
 			/>
-			<div
-				className="file-browser__result-pane"
-				ref={fileBrowserPaneRef}
-				onMouseDown={onFileBrowserMouseDown}
-				onKeyDown={onFileBrowserKeyDown}
-				tabIndex={0}
-			>
-				{SelectionRectangle}
-				{BRANCHING_CONTEXT_PARENT_PROPERTY in context &&
-					context.parent &&
-					thumbnailDisplay &&
-					!searchResult && <UpOneLevelRow onRowDoubleClicked={onUpOneLevel} />}
-				{searchResult && (
-					<SearchResultPane
-						searchResult={searchResult}
-						selectedContextKeys={selected}
-						onRowClicked={onRowClicked}
-						onRowDoubleClicked={onRowDoubleClicked}
-						refCallback={(c, e) =>
-							(elementRowReferences.current[c.toContextUniqueKey()] = e)
-						}
+			<div className="file-browser__content">
+				<div className="file-browser__content__tree-pane">
+					<FileBrowserTree
+						windowId={windowId}
+						onDirectoryChanged={onDirectoryChanged}
 					/>
-				)}
-				{Display}
+				</div>
+				<div
+					className="file-browser__content__result-pane"
+					ref={fileBrowserPaneRef}
+					onMouseDown={onFileBrowserMouseDown}
+					onKeyDown={onFileBrowserKeyDown}
+					tabIndex={0}
+				>
+					{SelectionRectangle}
+					{BRANCHING_CONTEXT_PARENT_PROPERTY in context &&
+						context.parent &&
+						thumbnailDisplay &&
+						!searchResult && <UpOneLevelRow onRowDoubleClicked={onUpOneLevel} />}
+					{searchResult && (
+						<SearchResultPane
+							searchResult={searchResult}
+							selectedContextKeys={selected}
+							onRowClicked={onRowClicked}
+							onRowDoubleClicked={onRowDoubleClicked}
+							refCallback={(c, e) =>
+								(elementRowReferences.current[c.toContextUniqueKey()] = e)
+							}
+						/>
+					)}
+					{Display}
+				</div>
 			</div>
 			<FolderBaseInformation
 				context={context}

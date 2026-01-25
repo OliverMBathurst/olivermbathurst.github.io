@@ -17,6 +17,10 @@
 	margin: 0 0.4rem 0 0.4rem;
 }
 
+.taskbar > .search-bar {
+	flex-grow: 0;
+}
+
 .taskbar__items-container {
 	height: 100%;
 	display: flex;

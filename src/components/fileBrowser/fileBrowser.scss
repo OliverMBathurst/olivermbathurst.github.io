@@ -6,12 +6,25 @@
 	flex-direction: column;
 }
 
-.file-browser__result-pane {
-	height: 100%;
-	width: 100%;
+.file-browser__content {
 	display: flex;
+	height: 100%;
+}
+
+.file-browser__content__tree-pane {
+	width: 35%;
+	border-right: 0.25rem solid rgba(169, 169, 169, 0.12);
+}
+
+.file-browser__content__tree-pane,
+.file-browser__content__result-pane {
+	display: flex;
+}
+
+.file-browser__content__result-pane {
+	display: flex;
+	overflow: scroll;
 	align-content: flex-start;
 	cursor: default;
 	flex-wrap: wrap;
-	overflow: scroll;
 }
