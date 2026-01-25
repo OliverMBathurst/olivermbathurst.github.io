@@ -1,24 +1,24 @@
 import { JSX } from "react"
 import {
-    BRANCHING_CONTEXT_TYPE_PROPERTY,
-    DEFAULT_FAVICON_HREF,
-    FILETYPE_EXECUTABLE,
-    FILETYPE_PDF,
-    FILETYPE_SHORTCUT,
-    FILETYPE_TEXT,
-    FILETYPE_URL_SHORTCUT,
-    LEAF_EXTENSION_PROPERTY_NAME,
-    SHORTCUT_DETERMINER
+	BRANCHING_CONTEXT_TYPE_PROPERTY,
+	DEFAULT_FAVICON_HREF,
+	FILETYPE_EXECUTABLE,
+	FILETYPE_PDF,
+	FILETYPE_SHORTCUT,
+	FILETYPE_TEXT,
+	FILETYPE_URL_SHORTCUT,
+	LEAF_EXTENSION_PROPERTY_NAME,
+	SHORTCUT_DETERMINER
 } from "../constants"
 import {
-    CustomIcon,
-    DriveIcon,
-    ExecutableFileIcon,
-    FolderIcon,
-    GenericFileIcon,
-    InternetIcon,
-    PdfIcon,
-    TextFileIcon
+	CustomIcon,
+	DriveIcon,
+	ExecutableFileIcon,
+	FolderIcon,
+	GenericFileIcon,
+	InternetIcon,
+	PdfIcon,
+	TextFileIcon
 } from "../icons"
 import { Context } from "../types/fs"
 
@@ -66,9 +66,7 @@ export const getIcon = (
 	}
 }
 
-const getIconPath = (
-	context: Context | null
-): string | null => {
+const getIconPath = (context: Context | null): string | null => {
 	const prefix = "../src/icons/"
 	const suffix = ".png"
 
@@ -103,10 +101,10 @@ export const changeFavicon = (context: Context | null) => {
 
 	const link = document.querySelector("link[rel~='icon']")
 	if (!link) {
-		const _link = document.createElement('link')
-		_link.rel = 'icon'
+		const _link = document.createElement("link")
+		_link.rel = "icon"
 		_link.href = iconPath
-		document.getElementsByTagName('head')[0].appendChild(_link)
+		document.getElementsByTagName("head")[0].appendChild(_link)
 	}
 
 	if (link instanceof HTMLLinkElement) {

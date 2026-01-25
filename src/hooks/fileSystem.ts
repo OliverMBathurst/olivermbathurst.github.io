@@ -16,7 +16,9 @@ const useFileSystem = (context?: BranchingContext) => {
 	const [currentContext, setCurrentContext] = useState<BranchingContext>(
 		context ?? root
 	)
-	const [forwardContexts, setAllForwardContexts] = useState<IForwardContextInformation[]>([])
+	const [forwardContexts, setAllForwardContexts] = useState<
+		IForwardContextInformation[]
+	>([])
 
 	useEffect(() => {
 		const fullPathOfCurrentContext = getFullPath(currentContext)

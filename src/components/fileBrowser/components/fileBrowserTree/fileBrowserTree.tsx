@@ -12,7 +12,7 @@ interface IFileBrowserTreeProps {
 const FileBrowserTree = (props: IFileBrowserTreeProps) => {
 	const { windowId, onDirectoryChanged } = props
 	const { setSelectedTreeContextKeysForWindow } = useContext(FileBrowserContext)
-    const { root } = useContext(FileSystemContext)
+	const { root } = useContext(FileSystemContext)
 
 	const onFolderClicked = (fullPath: string, context: BranchingContext) => {
 		setSelectedTreeContextKeysForWindow(windowId, (_) => [fullPath])
@@ -30,8 +30,7 @@ const FileBrowserTree = (props: IFileBrowserTreeProps) => {
 				onFolderRowClicked={onFolderClicked}
 			/>
 		</div>
-    )
+	)
 }
-
 
 export default FileBrowserTree

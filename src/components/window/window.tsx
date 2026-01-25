@@ -1,17 +1,24 @@
 import React, { memo, useCallback, useContext, useEffect, useRef } from "react"
 import {
-    BRANCHING_CONTEXT_DETERMINER,
-    DEFAULT_MIN_WINDOW_HEIGHT_PIXELS,
-    DEFAULT_MIN_WINDOW_WIDTH_PIXELS,
-    DEFAULT_POINTER,
-    DEFAULT_TASKBAR_HEIGHT_PIXELS,
-    FILETYPE_RENDERABLE_PROPERTY,
-    TASKBAR_ITEM_CLASS,
-    TASKBAR_ITEM_NAME_CLASS
+	BRANCHING_CONTEXT_DETERMINER,
+	DEFAULT_MIN_WINDOW_HEIGHT_PIXELS,
+	DEFAULT_MIN_WINDOW_WIDTH_PIXELS,
+	DEFAULT_POINTER,
+	DEFAULT_TASKBAR_HEIGHT_PIXELS,
+	FILETYPE_RENDERABLE_PROPERTY,
+	TASKBAR_ITEM_CLASS,
+	TASKBAR_ITEM_NAME_CLASS
 } from "../../constants"
 import { WindowsContext } from "../../contexts"
 import { WindowExpandDirection } from "../../enums"
-import { getCursor, getExpandDirectionByRefAndPosition, heightChangesEnum, widthChangesEnum, xChangesEnum, yChangesEnum } from "../../helpers/direction"
+import {
+	getCursor,
+	getExpandDirectionByRefAndPosition,
+	heightChangesEnum,
+	widthChangesEnum,
+	xChangesEnum,
+	yChangesEnum
+} from "../../helpers/direction"
 import { useClickOutside } from "../../hooks"
 import { ISize, IWindowProperties, WindowState } from "../../interfaces/windows"
 import { Visibility } from "../../types"
@@ -183,8 +190,14 @@ const Window = (props: IWindowProps) => {
 
 					if (top < 0) {
 						top = 0
-					} else if (top + elem.clientHeight > window.innerHeight - DEFAULT_TASKBAR_HEIGHT_PIXELS) {
-						top = window.innerHeight - DEFAULT_TASKBAR_HEIGHT_PIXELS - elem.clientHeight
+					} else if (
+						top + elem.clientHeight >
+						window.innerHeight - DEFAULT_TASKBAR_HEIGHT_PIXELS
+					) {
+						top =
+							window.innerHeight -
+							DEFAULT_TASKBAR_HEIGHT_PIXELS -
+							elem.clientHeight
 					}
 
 					if (left < 0) {
@@ -240,7 +253,9 @@ const Window = (props: IWindowProps) => {
 		}
 	}
 
-	const onWindowContentClicked = (_: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+	const onWindowContentClicked = (
+		_: React.MouseEvent<HTMLDivElement, MouseEvent>
+	) => {
 		if (!selected) {
 			onWindowSelected(id, true)
 		}
@@ -296,8 +311,8 @@ const Window = (props: IWindowProps) => {
 					if (
 						y >
 						window.innerHeight -
-						DEFAULT_TASKBAR_HEIGHT_PIXELS -
-						windowRef.current.clientHeight
+							DEFAULT_TASKBAR_HEIGHT_PIXELS -
+							windowRef.current.clientHeight
 					) {
 						return (
 							window.innerHeight -
@@ -478,7 +493,10 @@ const Window = (props: IWindowProps) => {
 					onCloseButtonClicked={onCloseButtonClicked}
 					onWindowTopBarDoubleClicked={onWindowTopBarDoubleClicked}
 				/>
-				<div className="window__inner-content__content" onClick={onWindowContentClicked}>
+				<div
+					className="window__inner-content__content"
+					onClick={onWindowContentClicked}
+				>
 					<Content />
 				</div>
 			</div>

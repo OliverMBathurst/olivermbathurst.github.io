@@ -31,9 +31,7 @@ const DesktopItem = (props: IDesktopItemProps) => {
 	const Icon = useIcon(context)
 	const DisplayName = useDisplayName(context)
 	const contextKey = context.toContextUniqueKey()
-	const selected =
-		selectedContextKeys.indexOf(contextKey) !== -1
-	
+	const selected = selectedContextKeys.indexOf(contextKey) !== -1
 
 	const onDesktopItemKeyDown = (e: KeyboardEvent) => {
 		if (e.key === "Enter" && selected) {

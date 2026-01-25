@@ -46,12 +46,20 @@ const FileSystemContextProvider = (props: IFileSystemContextProviderProps) => {
 	const { children } = props
 
 	const [_root] = useState<BranchingContext>(root)
-	const [nonRootContextInformation, setNonRootContextInformation] = useState<INonRootContextInformation[]>([])
+	const [nonRootContextInformation, setNonRootContextInformation] = useState<
+		INonRootContextInformation[]
+	>([])
 
-	const getItemsOfBranchRecursively = (branch: BranchingContext): INonRootContextInformation[] => {
+	const getItemsOfBranchRecursively = (
+		branch: BranchingContext
+	): INonRootContextInformation[] => {
 		const branchPrefix = branch.name
 
-		let allItems = [...branch.leaves, ...branch.shortcuts, ...branch.branches].map(c => {
+		let allItems = [
+			...branch.leaves,
+			...branch.shortcuts,
+			...branch.branches
+		].map((c) => {
 			return {
 				context: c,
 				fullPath: `${branchPrefix}\\${c.fullName}`
@@ -60,7 +68,7 @@ const FileSystemContextProvider = (props: IFileSystemContextProviderProps) => {
 
 		for (let i = 0; i < branch.branches.length; i++) {
 			allItems = allItems.concat(
-				getItemsOfBranchRecursively(branch.branches[i]).map(ci => {
+				getItemsOfBranchRecursively(branch.branches[i]).map((ci) => {
 					return {
 						context: ci.context,
 						fullPath: `${branchPrefix}\\${ci.fullPath}`

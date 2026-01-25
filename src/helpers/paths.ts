@@ -12,7 +12,6 @@ export const getFullPath = (context: Context) => {
 	return displayName
 }
 
-
 export const getRoot = (context: Context) => {
 	if (!(BRANCHING_CONTEXT_PARENT_PROPERTY in context)) {
 		return null

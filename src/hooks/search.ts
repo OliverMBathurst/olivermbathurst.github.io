@@ -16,9 +16,7 @@ const useSearch = (context: BranchingContext) => {
 				context: context,
 				path: fullPath,
 				score:
-					context.fullName
-						.toLowerCase()
-						.indexOf(term.toLowerCase()) === -1
+					context.fullName.toLowerCase().indexOf(term.toLowerCase()) === -1
 						? 0
 						: (term.length / context.fullName.length) * 100
 			})

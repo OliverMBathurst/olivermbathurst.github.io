@@ -2,10 +2,10 @@ import React from "react"
 import ReactDOM from "react-dom/client"
 import { Screen } from "./components/screen"
 import {
-    DesktopItemContextProvider,
-    FileBrowserContextProvider,
-    FileSystemContextProvider,
-    WindowsContextProvider
+	DesktopItemContextProvider,
+	FileBrowserContextProvider,
+	FileSystemContextProvider,
+	WindowsContextProvider
 } from "./contexts"
 import "./index.scss"
 

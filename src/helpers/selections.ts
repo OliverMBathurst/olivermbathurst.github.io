@@ -16,7 +16,7 @@ export const onSelectionRowClicked = <T, T2 extends HTMLElement>(
 	items: T[],
 	predicate: (item: T) => string
 ) => {
-	 return onSelectionRowClickedInternal(
+	return onSelectionRowClickedInternal(
 		context,
 		selectedContextKeys,
 		items,

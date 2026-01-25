@@ -1,6 +1,12 @@
 import { JSX } from "react"
 import { SpecialBranch } from "../../enums"
-import { Branch, BranchingContext, Context, Leaf, Shortcut } from "../../types/fs"
+import {
+	Branch,
+	BranchingContext,
+	Context,
+	Leaf,
+	Shortcut
+} from "../../types/fs"
 import { IAddWindowProperties } from "../windows"
 
 interface ILeafAndBranchContext extends INamed {
@@ -58,7 +64,6 @@ export interface IForwardContextInformation {
 	fullPath: string
 	context: Context
 }
-
 
 export interface IForwardContext<T extends Context> {
 	forwardPath: string

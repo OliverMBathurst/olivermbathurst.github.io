@@ -1,12 +1,12 @@
 import { useCallback, useContext, useMemo, useRef, useState } from "react"
 import {
-    BRANCHING_CONTEXT_DETERMINER,
-    BRANCHING_CONTEXT_PARENT_PROPERTY
+	BRANCHING_CONTEXT_DETERMINER,
+	BRANCHING_CONTEXT_PARENT_PROPERTY
 } from "../../constants"
 import { FileBrowserContext, WindowsContext } from "../../contexts"
 import {
-    doRectanglesIntersect,
-    onMixedSelectionRowClicked
+	doRectanglesIntersect,
+	onMixedSelectionRowClicked
 } from "../../helpers/selections"
 import { useWindowSelectionRectangle } from "../../hooks"
 import { ISearchResult } from "../../interfaces/search"
@@ -14,11 +14,11 @@ import { ApplicationHandlerService } from "../../service"
 import { BranchingContext, Context, Leaf, Shortcut } from "../../types/fs"
 import { SearchResultPane } from "../searchResultPane"
 import {
-    FileBrowserControls,
-    FileBrowserGridView,
-    FileBrowserRow,
-    FolderBaseInformation,
-    UpOneLevelRow
+	FileBrowserControls,
+	FileBrowserGridView,
+	FileBrowserRow,
+	FolderBaseInformation,
+	UpOneLevelRow
 } from "./components"
 import { FileBrowserTree } from "./components/fileBrowserTree"
 import "./fileBrowser.scss"
@@ -34,7 +34,8 @@ const applicationHandlerService = new ApplicationHandlerService()
 
 const FileBrowser = (props: IFileBrowserProps) => {
 	const { windowId, context } = props
-	const { displaySettings, toggleDisplaySetting } = useContext(FileBrowserContext)
+	const { displaySettings, toggleDisplaySetting } =
+		useContext(FileBrowserContext)
 	const [selected, setSelected] = useState<string[]>([])
 	const [searchResult, setSearchResult] = useState<ISearchResult | null>(null)
 
@@ -69,7 +70,10 @@ const FileBrowser = (props: IFileBrowserProps) => {
 		(context: Context) => {
 			const windowProperties = applicationHandlerService.execute(context)
 			if (windowProperties != null) {
-				if (BRANCHING_CONTEXT_DETERMINER in windowProperties.context && !windowProperties.openNewInstance) {
+				if (
+					BRANCHING_CONTEXT_DETERMINER in windowProperties.context &&
+					!windowProperties.openNewInstance
+				) {
 					elementRowReferences.current = {}
 					addNavigationHistory(windowId, windowProperties.context)
 					setWindowContext(windowId, windowProperties.context)
@@ -134,19 +138,27 @@ const FileBrowser = (props: IFileBrowserProps) => {
 		if (e.key === "Enter" && selected.length > 0) {
 			let entities: Context[] = Entities
 			if (searchResult) {
-				entities = searchResult.items.map(i => i.context)
+				entities = searchResult.items.map((i) => i.context)
 			}
 
-			const selectedEntities = entities.filter(e => selected.indexOf(e.toContextUniqueKey()) !== -1)
-			const leaves = selectedEntities.filter(x => !(BRANCHING_CONTEXT_DETERMINER in x))
-			const branches = selectedEntities.filter(x => BRANCHING_CONTEXT_DETERMINER in x)
+			const selectedEntities = entities.filter(
+				(e) => selected.indexOf(e.toContextUniqueKey()) !== -1
+			)
+			const leaves = selectedEntities.filter(
+				(x) => !(BRANCHING_CONTEXT_DETERMINER in x)
+			)
+			const branches = selectedEntities.filter(
+				(x) => BRANCHING_CONTEXT_DETERMINER in x
+			)
 
 			for (let i = 0; i < leaves.length; i++) {
 				onRowDoubleClicked(leaves[i])
 			}
 
 			for (let i = 0; i < branches.length - 1; i++) {
-				const addWindowProperties = applicationHandlerService.execute(branches[i])
+				const addWindowProperties = applicationHandlerService.execute(
+					branches[i]
+				)
 				if (addWindowProperties) {
 					addWindow({ ...addWindowProperties, openNewInstance: true })
 				}
@@ -179,7 +191,7 @@ const FileBrowser = (props: IFileBrowserProps) => {
 			const hp = point - 1
 			subtractFromHistoryPointer(windowId)
 
-			setNavigationHistoryForWindow(windowId, nh => {
+			setNavigationHistoryForWindow(windowId, (nh) => {
 				const prev = [...nh]
 				prev[hp] = parentContext
 				return prev
@@ -230,12 +242,11 @@ const FileBrowser = (props: IFileBrowserProps) => {
 				<FileBrowserGridView
 					entities={Entities}
 					selected={selected}
-					setRowReference={(r, key) =>
-						(elementRowReferences.current[key] = r)
-					}
+					setRowReference={(r, key) => (elementRowReferences.current[key] = r)}
 					onRowClicked={(ev, c) => onRowClicked(c, ev)}
 					onRowDoubleClicked={(_, c) => onRowDoubleClicked(c)}
-				/>)
+				/>
+			)
 		}
 
 		return (
@@ -257,7 +268,14 @@ const FileBrowser = (props: IFileBrowserProps) => {
 				})}
 			</>
 		)
-	}, [searchResult, Entities, thumbnailDisplay, selected, onRowClicked, onRowDoubleClicked])
+	}, [
+		searchResult,
+		Entities,
+		thumbnailDisplay,
+		selected,
+		onRowClicked,
+		onRowDoubleClicked
+	])
 
 	const SelectionRectangle = useWindowSelectionRectangle(
 		fileBrowserPaneRef,
@@ -295,7 +313,9 @@ const FileBrowser = (props: IFileBrowserProps) => {
 					{BRANCHING_CONTEXT_PARENT_PROPERTY in context &&
 						context.parent &&
 						thumbnailDisplay &&
-						!searchResult && <UpOneLevelRow onRowDoubleClicked={onUpOneLevel} />}
+						!searchResult && (
+							<UpOneLevelRow onRowDoubleClicked={onUpOneLevel} />
+						)}
 					{searchResult && (
 						<SearchResultPane
 							searchResult={searchResult}

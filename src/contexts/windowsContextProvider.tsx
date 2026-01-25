@@ -2,9 +2,9 @@ import React, { createContext, useEffect, useState } from "react"
 import { DEFAULT_DOCUMENT_TITLE } from "../constants"
 import { changeFavicon } from "../helpers/icons"
 import {
-    IAddWindowProperties,
-    IWindowProperties,
-    WindowState
+	IAddWindowProperties,
+	IWindowProperties,
+	WindowState
 } from "../interfaces/windows"
 import { Context } from "../types/fs"
 
@@ -49,7 +49,7 @@ const WindowsContextProvider = (props: IWindowsContextProviderProps) => {
 	>(null)
 
 	useEffect(() => {
-		const selectedWindowProperties = windowProperties.find(x => x.selected)
+		const selectedWindowProperties = windowProperties.find((x) => x.selected)
 		if (selectedWindowProperties) {
 			document.title = selectedWindowProperties.context.fullName
 			changeFavicon(selectedWindowProperties.context)
@@ -57,7 +57,6 @@ const WindowsContextProvider = (props: IWindowsContextProviderProps) => {
 			document.title = DEFAULT_DOCUMENT_TITLE
 			changeFavicon(null)
 		}
-
 	}, [windowProperties, changeFavicon])
 
 	const addWindow = (properties: IAddWindowProperties) => {

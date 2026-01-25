@@ -44,12 +44,12 @@ const Screen = () => {
 					<StartMenu onClickOutside={() => setStartMenuShow((s) => !s)} />
 				)}
 				{calendarShow && (
-					<Calendar onClickOutside={() => setCalendarShow(s => !s)} />
+					<Calendar onClickOutside={() => setCalendarShow((s) => !s)} />
 				)}
 			</div>
 			<Taskbar
 				onStartButtonClicked={() => setStartMenuShow((s) => !s)}
-				onDateClicked={() => setCalendarShow(s => !s)}
+				onDateClicked={() => setCalendarShow((s) => !s)}
 			/>
 		</div>
 	)

@@ -1,7 +1,7 @@
-import { FILETYPE_EXECUTABLE } from "../constants";
-import { IBranchFile } from "../interfaces/fs";
-import { IAddWindowProperties } from "../interfaces/windows";
-import { AbstractLeaf, BranchingContext } from "../types/fs";
+import { FILETYPE_EXECUTABLE } from "../constants"
+import { IBranchFile } from "../interfaces/fs"
+import { IAddWindowProperties } from "../interfaces/windows"
+import { AbstractLeaf, BranchingContext } from "../types/fs"
 
 const imagePath = "/src/icons/folder.png"
 

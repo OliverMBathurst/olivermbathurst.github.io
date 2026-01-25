@@ -1,5 +1,10 @@
 import { useEffect, useRef, useState } from "react"
-import { DATE_DISPLAY_BASE_CLASS, DATE_DISPLAY_OVERLAY_CLASS, DATE_DISPLAY_PICKER_ID, NO_SELECT_CLASS } from "../../../../constants"
+import {
+	DATE_DISPLAY_BASE_CLASS,
+	DATE_DISPLAY_OVERLAY_CLASS,
+	DATE_DISPLAY_PICKER_ID,
+	NO_SELECT_CLASS
+} from "../../../../constants"
 import "./dateDisplay.scss"
 
 interface IDateDisplayProps {
@@ -39,9 +44,7 @@ const DateDisplay = (props: IDateDisplayProps) => {
 				type="datetime-local"
 				className={DATE_DISPLAY_PICKER_ID}
 			/>
-			<span
-				className={`${DATE_DISPLAY_OVERLAY_CLASS} ${NO_SELECT_CLASS}`}
-			>
+			<span className={`${DATE_DISPLAY_OVERLAY_CLASS} ${NO_SELECT_CLASS}`}>
 				{date}
 			</span>
 		</div>

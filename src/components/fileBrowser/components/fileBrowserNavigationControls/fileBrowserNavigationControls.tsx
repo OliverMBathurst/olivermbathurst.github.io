@@ -1,5 +1,8 @@
 import { useContext } from "react"
-import { BRANCHING_CONTEXT_PARENT_PROPERTY, NO_SELECT_CLASS } from "../../../../constants"
+import {
+	BRANCHING_CONTEXT_PARENT_PROPERTY,
+	NO_SELECT_CLASS
+} from "../../../../constants"
 import { FileBrowserContext } from "../../../../contexts"
 import { LeftArrowIcon, RightArrowIcon, UpArrowIcon } from "../../../../icons"
 import { BranchingContext } from "../../../../types/fs"
@@ -13,14 +16,10 @@ interface IFileBrowserNavigationControlsProps {
 	onUpOneLevel: () => void
 }
 
-const FileBrowserNavigationControls = (props: IFileBrowserNavigationControlsProps) => {
-	const {
-		context,
-		windowId,
-		onBacktrack,
-		onForwards,
-		onUpOneLevel
-	} = props
+const FileBrowserNavigationControls = (
+	props: IFileBrowserNavigationControlsProps
+) => {
+	const { context, windowId, onBacktrack, onForwards, onUpOneLevel } = props
 
 	const { historyPointers, navigationHistory } = useContext(FileBrowserContext)
 

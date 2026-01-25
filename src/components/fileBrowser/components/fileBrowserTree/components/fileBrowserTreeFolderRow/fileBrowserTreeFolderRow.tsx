@@ -12,17 +12,15 @@ interface IStartMenuFolderRowProps {
 	index: number
 	context: BranchingContext
 	prefix: string
-	onFolderRowClicked: (fullPath: string, context: BranchingContext, e: React.MouseEvent<HTMLElement, MouseEvent>) => void
+	onFolderRowClicked: (
+		fullPath: string,
+		context: BranchingContext,
+		e: React.MouseEvent<HTMLElement, MouseEvent>
+	) => void
 }
 
 const FileBrowserTreeFolderRow = (props: IStartMenuFolderRowProps) => {
-	const {
-		windowId,
-		index,
-		context,
-		prefix,
-		onFolderRowClicked
-	} = props
+	const { windowId, index, context, prefix, onFolderRowClicked } = props
 
 	const {
 		treeSelectedContextKeys,
@@ -43,7 +41,7 @@ const FileBrowserTreeFolderRow = (props: IStartMenuFolderRowProps) => {
 	const hasChildren = context.branches.length > 0
 
 	const style: React.CSSProperties = {
-		paddingLeft: `${((2 * index) / 16) + (!hasChildren ? 1.9 : 0.25)}rem`
+		paddingLeft: `${(2 * index) / 16 + (!hasChildren ? 1.9 : 0.25)}rem`
 	}
 
 	const ExpandedItems = () => {
@@ -51,7 +49,7 @@ const FileBrowserTreeFolderRow = (props: IStartMenuFolderRowProps) => {
 			return null
 		}
 
-		return context.branches.map(b => {
+		return context.branches.map((b) => {
 			return (
 				<FileBrowserTreeFolderRow
 					windowId={windowId}
@@ -65,17 +63,21 @@ const FileBrowserTreeFolderRow = (props: IStartMenuFolderRowProps) => {
 		})
 	}
 
-	const onFolderRowClickedInternal = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+	const onFolderRowClickedInternal = (
+		e: React.MouseEvent<HTMLElement, MouseEvent>
+	) => {
 		onFolderRowClicked(key, context, e)
 	}
 
-	const onExpansionButtonClickedInternal = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+	const onExpansionButtonClickedInternal = (
+		e: React.MouseEvent<HTMLElement, MouseEvent>
+	) => {
 		setTreeOpenFolderContextKeysForWindow(windowId, (oF) => {
 			if (oF.indexOf(key) === -1) {
 				return [...oF, key]
 			}
 
-			return [...oF].filter(o => o !== key)
+			return [...oF].filter((o) => o !== key)
 		})
 	}
 

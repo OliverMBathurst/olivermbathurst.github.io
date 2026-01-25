@@ -1,5 +1,10 @@
 import { useMemo } from "react"
-import { BRANCHING_CONTEXT_DETERMINER, LEAF_EXTENSION_PROPERTY_NAME, NO_SELECT_CLASS, SHORTCUT_DETERMINER } from "../../../../constants"
+import {
+	BRANCHING_CONTEXT_DETERMINER,
+	LEAF_EXTENSION_PROPERTY_NAME,
+	NO_SELECT_CLASS,
+	SHORTCUT_DETERMINER
+} from "../../../../constants"
 import { ThumbsIcon } from "../../../../icons"
 import { ISearchResult } from "../../../../interfaces/search"
 import { Branch, BranchingContext, Leaf, Shortcut } from "../../../../types/fs"
@@ -15,7 +20,14 @@ interface IFolderBaseInformationProps {
 }
 
 const FolderBaseInformation = (props: IFolderBaseInformationProps) => {
-	const { context, entities, selected, searchResult, thumbnailDisplay, toggleDisplayMode } = props
+	const {
+		context,
+		entities,
+		selected,
+		searchResult,
+		thumbnailDisplay,
+		toggleDisplayMode
+	} = props
 
 	const Information = useMemo(() => {
 		let entitiesLength = 0
@@ -52,7 +64,8 @@ const FolderBaseInformation = (props: IFolderBaseInformationProps) => {
 		}
 	}, [searchResult, selected, entities])
 
-	const { entitiesLength, branches, leaves, shortcuts, selectedLength } = Information
+	const { entitiesLength, branches, leaves, shortcuts, selectedLength } =
+		Information
 
 	return (
 		<div className="base-information-pane">

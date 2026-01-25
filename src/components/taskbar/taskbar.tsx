@@ -8,10 +8,10 @@ import { Context } from "../../types/fs"
 import { SearchBar } from "../searchBar"
 import { SearchResultPane } from "../searchResultPane"
 import {
-    DateDisplay,
-    MinimizeAllButton,
-    StartButton,
-    TaskbarItem
+	DateDisplay,
+	MinimizeAllButton,
+	StartButton,
+	TaskbarItem
 } from "./components"
 import "./taskbar.scss"
 
@@ -117,7 +117,11 @@ const Taskbar = (props: ITaskbarProps) => {
 			)}
 			<div className="taskbar">
 				<StartButton onStartButtonClicked={onStartButtonClicked} />
-				<SearchBar type="text" placeholder="Search..." onChange={onSearchInputChanged} />
+				<SearchBar
+					type="text"
+					placeholder="Search..."
+					onChange={onSearchInputChanged}
+				/>
 				<div className="taskbar__items-container">{TaskbarItems}</div>
 				<DateDisplay onDateClicked={onDateClicked} />
 				<MinimizeAllButton onMinimizeAllClicked={onMinimizeAllButtonClicked} />

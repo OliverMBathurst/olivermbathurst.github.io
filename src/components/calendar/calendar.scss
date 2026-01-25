@@ -1,51 +1,52 @@
 @import "../../index.scss";
 
 .calendar {
-    background-color: $ui-background;
-    position: absolute;
-    opacity: 80%;
-    right: 1.45rem;
-    bottom: 0.5rem;
-    min-width: 20rem;
-    min-height: 15rem;
-    height: 15rem;
-    width: 20rem;
+	background-color: $ui-background;
+	position: absolute;
+	opacity: 80%;
+	right: 1.45rem;
+	bottom: 0.5rem;
+	min-width: 20rem;
+	min-height: 15rem;
+	height: 15rem;
+	width: 20rem;
 }
 
 .calendar__upper-container,
 .calendar__upper-container__controls {
-    display: flex;
+	display: flex;
 }
 
 .calendar__upper-container__controls {
-    margin-left: auto;
-    padding-right: 0.5rem;
+	margin-left: auto;
+	padding-right: 0.5rem;
 }
 
 .calendar__upper-container__controls__control:last-of-type {
-    margin-left: 0.3rem;
+	margin-left: 0.3rem;
 }
 
 .calendar__upper-container__controls__control img:hover {
-    background: $hover-button-background;
+	background: $hover-button-background;
 }
 
 .calendar__upper-container,
 .calendar__lower-container__table__column-names,
 .calendar__lower-container__table__cell {
-    color: $ui-text-colour;
+	color: $ui-text-colour;
 }
 
 .calendar__lower-container__table {
-    width: 100%;
-    height: 100%;
-    text-align: center;
+	width: 100%;
+	height: 100%;
+	text-align: center;
 }
 
-.calendar__upper-container, .calendar__lower-container {
-    padding: 0.5rem 0.5rem 0 0.5rem;
+.calendar__upper-container,
+.calendar__lower-container {
+	padding: 0.5rem 0.5rem 0 0.5rem;
 }
 
 .calendar__lower-container__table__cell--grey {
-    color: $ui-text-color-background;
+	color: $ui-text-color-background;
 }
