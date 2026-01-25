@@ -8,7 +8,7 @@
 
 .file-browser__content {
 	display: flex;
-	height: 100%;
+	flex-grow: 1;
 }
 
 .file-browser__content__tree-pane {

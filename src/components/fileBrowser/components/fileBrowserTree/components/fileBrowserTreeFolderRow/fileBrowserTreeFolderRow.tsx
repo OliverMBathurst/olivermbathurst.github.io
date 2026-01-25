@@ -1,12 +1,19 @@
 import { useContext } from "react"
-import { IStartMenuFolderRowProps } from ".."
 import { NO_SELECT_CLASS } from "../../../../../../constants"
 import { FileBrowserContext } from "../../../../../../contexts"
 import { getIcon } from "../../../../../../helpers/icons"
 import { getDisplayName } from "../../../../../../helpers/naming"
 import { CollapseIcon, ExpandIcon } from "../../../../../../icons"
-import { FileBrowserTreeFileRow } from "..//fileBrowserTreeFileRow"
+import { BranchingContext } from "../../../../../../types/fs"
 import "./fileBrowserTreeFolderRow.scss"
+
+interface IStartMenuFolderRowProps {
+	windowId: string
+	index: number
+	context: BranchingContext
+	prefix: string
+	onFolderRowClicked: (fullPath: string, context: BranchingContext, e: React.MouseEvent<HTMLElement, MouseEvent>) => void
+}
 
 const FileBrowserTreeFolderRow = (props: IStartMenuFolderRowProps) => {
 	const {
@@ -14,9 +21,7 @@ const FileBrowserTreeFolderRow = (props: IStartMenuFolderRowProps) => {
 		index,
 		context,
 		prefix,
-		onFolderRowClicked,
-		onFileRowClicked,
-		onFileRowDoubleClicked
+		onFolderRowClicked
 	} = props
 
 	const {
@@ -35,8 +40,10 @@ const FileBrowserTreeFolderRow = (props: IStartMenuFolderRowProps) => {
 	const opened = openFolders.indexOf(key) !== -1
 	const selected = contextKeysForWindow.indexOf(key) !== -1
 
+	const hasChildren = context.branches.length > 0
+
 	const style: React.CSSProperties = {
-		paddingLeft: `${((2 * index) / 16) + 0.25}rem`
+		paddingLeft: `${((2 * index) / 16) + (!hasChildren ? 1.9 : 0.25)}rem`
 	}
 
 	const ExpandedItems = () => {
@@ -44,7 +51,7 @@ const FileBrowserTreeFolderRow = (props: IStartMenuFolderRowProps) => {
 			return null
 		}
 
-		let items = [...context.branches].map(b => {
+		return context.branches.map(b => {
 			return (
 				<FileBrowserTreeFolderRow
 					windowId={windowId}
@@ -53,27 +60,9 @@ const FileBrowserTreeFolderRow = (props: IStartMenuFolderRowProps) => {
 					context={b}
 					prefix={`${key}\\${b.fullName}`}
 					onFolderRowClicked={onFolderRowClicked}
-					onFileRowClicked={onFileRowClicked}
-					onFileRowDoubleClicked={onFileRowDoubleClicked}
 				/>
 			)
 		})
-
-		items = items.concat([...context.leaves, ...context.shortcuts].map(c => {
-			return (
-				<FileBrowserTreeFileRow
-					windowId={windowId}
-					key={`expanded-${key}\\${c.fullName}`}
-					index={index + 1}
-					context={c}
-					prefix={`${key}\\${c.fullName}`}
-					onRowClicked={onFileRowClicked}
-					onFileRowDoubleClicked={onFileRowDoubleClicked}
-				/>
-			)
-		}))
-
-		return items
 	}
 
 	const onFolderRowClickedInternal = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
@@ -98,12 +87,14 @@ const FileBrowserTreeFolderRow = (props: IStartMenuFolderRowProps) => {
 				style={style}
 				onClick={onFolderRowClickedInternal}
 			>
-				<div
-					className={`file-browser-tree__folder-row__arrow-container ${NO_SELECT_CLASS}`}
-					onClick={onExpansionButtonClickedInternal}
-				>
-					{opened ? <CollapseIcon /> : <ExpandIcon />}
-				</div>
+				{hasChildren && (
+					<div
+						className={`file-browser-tree__folder-row__arrow-container ${NO_SELECT_CLASS}`}
+						onClick={onExpansionButtonClickedInternal}
+					>
+						{opened ? <CollapseIcon /> : <ExpandIcon />}
+					</div>
+				)}
 				<div
 					className={`file-browser-tree__folder-row__icon ${NO_SELECT_CLASS}`}
 				>

@@ -1,5 +1,5 @@
 import { useContext } from "react"
-import { BRANCHING_CONTEXT_PARENT_PROPERTY } from "../../../../constants"
+import { BRANCHING_CONTEXT_PARENT_PROPERTY, NO_SELECT_CLASS } from "../../../../constants"
 import { FileBrowserContext } from "../../../../contexts"
 import { LeftArrowIcon, RightArrowIcon, UpArrowIcon } from "../../../../icons"
 import { BranchingContext } from "../../../../types/fs"
@@ -52,19 +52,19 @@ const FileBrowserNavigationControls = (props: IFileBrowserNavigationControlsProp
 	return (
 		<div className="file-browser-navigation-controls">
 			<div
-				className={`file-browser-navigation-controls__icon${backwardsDisabled ? "--disabled" : ""}`}
+				className={`file-browser-navigation-controls__icon${backwardsDisabled ? "--disabled" : ""} ${NO_SELECT_CLASS}`}
 				onClick={onBackwardsClicked}
 			>
 				<LeftArrowIcon />
 			</div>
 			<div
-				className={`file-browser-navigation-controls__icon${forwardsDisabled ? "--disabled" : ""}`}
+				className={`file-browser-navigation-controls__icon${forwardsDisabled ? "--disabled" : ""} ${NO_SELECT_CLASS}`}
 				onClick={onForwardsClicked}
 			>
 				<RightArrowIcon />
 			</div>
 			<div
-				className={`file-browser-navigation-controls__icon${upDisabled ? "--disabled" : ""}`}
+				className={`file-browser-navigation-controls__icon${upDisabled ? "--disabled" : ""} ${NO_SELECT_CLASS}`}
 				onClick={onUpClicked}
 			>
 				<UpArrowIcon />

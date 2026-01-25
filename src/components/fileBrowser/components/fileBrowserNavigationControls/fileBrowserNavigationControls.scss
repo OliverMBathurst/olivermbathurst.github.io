@@ -1,6 +1,13 @@
 @import '../../../../index.scss';
 
 .file-browser-navigation-controls {
+    align-items: center;
+    margin-right: 0.5rem;
+}
+
+.file-browser-navigation-controls,
+.file-browser-navigation-controls__icon,
+.file-browser-navigation-controls__icon--disabled {
     display: flex;
 }
 
