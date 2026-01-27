@@ -3,7 +3,7 @@ export enum SpecialBranch {
 	Desktop
 }
 
-export enum WindowExpandDirection {
+export enum ExpandDirection {
 	None = 1 << 0,
 	Top = 1 << 1,
 	Bottom = 1 << 2,

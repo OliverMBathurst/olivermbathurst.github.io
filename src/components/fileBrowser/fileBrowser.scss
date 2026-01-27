@@ -12,7 +12,9 @@
 }
 
 .file-browser__content__tree-pane {
-	width: 35%;
+	width: 100%;
+	min-width: 11rem;
+	height: 100%;
 	border-right: 0.25rem solid rgba(169, 169, 169, 0.12);
 }
 
@@ -27,4 +29,5 @@
 	align-content: flex-start;
 	cursor: default;
 	flex-wrap: wrap;
+	flex-grow: 1;
 }

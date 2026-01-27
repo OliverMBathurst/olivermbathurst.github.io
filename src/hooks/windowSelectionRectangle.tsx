@@ -11,7 +11,8 @@ const styles: React.CSSProperties = {
 
 export const useWindowSelectionRectangle = <T extends HTMLElement>(
 	ref: React.RefObject<T | null>,
-	onRectangleChanged: (rect: DOMRect) => void
+	onRectangleChanged: (rect: DOMRect) => void,
+	applicableClassNames: string[]
 ) => {
 	const selectionRectangeRef = useRef<HTMLDivElement | null>(null)
 	const selecting = useRef<boolean>(false)
@@ -26,6 +27,10 @@ export const useWindowSelectionRectangle = <T extends HTMLElement>(
 
 	const onMouseDown = (e: MouseEvent) => {
 		if (!isMouseDownLeftClick(e)) {
+			return
+		}
+
+		if (!(e.target instanceof HTMLElement) || applicableClassNames.indexOf(e.target.className) === -1) {
 			return
 		}
 
@@ -101,12 +106,11 @@ export const useWindowSelectionRectangle = <T extends HTMLElement>(
 
 			if (
 				xOffset >= selectionRectangeStart.current.x &&
-				elem.left + selectionRectangeStart.current.x + newWidth >= elem.right
+				elem.left + selectionRectangeStart.current.x + newWidth >= elem.right + parentOffsetLeft
 			) {
-				newWidth = elem.right - elem.left - selectionRectangeStart.current.x
+				newWidth = elem.right - elem.left - selectionRectangeStart.current.x - parentOffsetLeft
 			} else if (
-				elem.right - selectionRectangeStart.current.x - newWidth <=
-				0
+				elem.right - selectionRectangeStart.current.x - newWidth <= 0
 			) {
 				newWidth = elem.right - selectionRectangeStart.current.x
 			}

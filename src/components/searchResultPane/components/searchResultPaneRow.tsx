@@ -35,6 +35,7 @@ const SearchResultPaneRow = (props: ISearchResultPaneRowProps) => {
 
 		if (idx === -1) {
 			setHighlightedDisplayName(<span>{DisplayName}</span>)
+			return
 		}
 
 		const highlightSubstring = DisplayName.substring(idx, idx + term.length)

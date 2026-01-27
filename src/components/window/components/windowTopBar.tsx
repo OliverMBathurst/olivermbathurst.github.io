@@ -62,24 +62,21 @@ const WindowTopBar = (props: IWindowTopBarProps) => {
 				{DisplayName}
 			</span>
 			<div className="window__top-bar__controls">
-				<div className="window__top-bar__controls__button">
+				<div className="window__top-bar__controls__button" onClick={onMinimiseButtonClicked}>
 					<MinimizeIcon
 						className={NO_SELECT_CLASS}
-						onClick={onMinimiseButtonClicked}
 						{...imgProps}
 					/>
 				</div>
-				<div className="window__top-bar__controls__button">
+				<div className="window__top-bar__controls__button" onClick={onMaximiseButtonClicked}>
 					<MaximizeIcon
 						className={NO_SELECT_CLASS}
-						onClick={onMaximiseButtonClicked}
 						{...imgProps}
 					/>
 				</div>
-				<div className="window__top-bar__controls__close-button">
+				<div className="window__top-bar__controls__close-button" onClick={onCloseButtonClicked}>
 					<CloseIcon
 						className={NO_SELECT_CLASS}
-						onClick={onCloseButtonClicked}
 						{...imgProps}
 					/>
 				</div>

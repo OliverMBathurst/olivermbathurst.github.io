@@ -3,7 +3,6 @@ export const FILETYPE_PDF = ".pdf"
 export const FILETYPE_SHORTCUT = ".lnk"
 export const FILETYPE_EXECUTABLE = ".exe"
 export const FILETYPE_URL_SHORTCUT = ".url"
-
 export const FILETYPE_URL_SHORTCUT_PROPERTY = "url"
 export const FILETYPE_RENDERABLE_PROPERTY = "render"
 export const BRANCHING_CONTEXT_PARENT_PROPERTY = "parent"
@@ -16,7 +15,9 @@ export const DEFAULT_POINTER = "default"
 export const DEFAULT_TASKBAR_HEIGHT_PIXELS = 48
 export const DEFAULT_MIN_WINDOW_HEIGHT_PIXELS = 150
 export const DEFAULT_MIN_WINDOW_WIDTH_PIXELS = 200
+export const FILE_BROWSER_TREE_MIN_WIDTH = 176
 export const TASKBAR_ITEM_CLASS = "taskbar-item"
+export const TASKBAR_ITEM_SELECTED_CLASS = "taskbar-item--selected"
 export const TASKBAR_ITEM_NAME_CLASS = "taskbar-item__name"
 export const DESKTOP_ITEM_CLASS = "desktop-item"
 export const DESKTOP_ITEM_ICON_CLASS = "desktop-item__icon"
@@ -26,6 +27,6 @@ export const DATE_DISPLAY_BASE_CLASS = "date-display"
 export const TASKBAR_START_BUTTON_CLASS = "start-button"
 export const DATE_DISPLAY_OVERLAY_CLASS = "date-display__overlay"
 export const DATE_DISPLAY_PICKER_ID = "date-display__input"
-
 export const DEFAULT_DOCUMENT_TITLE = "Oliver Bathurst"
 export const DEFAULT_FAVICON_HREF = "/favicon.ico?v=2"
+export const CALENDAR_YEAR_RANGE_YEARS = 100

@@ -1,23 +1,24 @@
 import React, { memo, useCallback, useContext, useEffect, useRef } from "react"
 import {
-	BRANCHING_CONTEXT_DETERMINER,
-	DEFAULT_MIN_WINDOW_HEIGHT_PIXELS,
-	DEFAULT_MIN_WINDOW_WIDTH_PIXELS,
-	DEFAULT_POINTER,
-	DEFAULT_TASKBAR_HEIGHT_PIXELS,
-	FILETYPE_RENDERABLE_PROPERTY,
-	TASKBAR_ITEM_CLASS,
-	TASKBAR_ITEM_NAME_CLASS
+    BRANCHING_CONTEXT_DETERMINER,
+    DEFAULT_MIN_WINDOW_HEIGHT_PIXELS,
+    DEFAULT_MIN_WINDOW_WIDTH_PIXELS,
+    DEFAULT_POINTER,
+    DEFAULT_TASKBAR_HEIGHT_PIXELS,
+    FILETYPE_RENDERABLE_PROPERTY,
+    TASKBAR_ITEM_CLASS,
+    TASKBAR_ITEM_NAME_CLASS,
+    TASKBAR_ITEM_SELECTED_CLASS
 } from "../../constants"
 import { WindowsContext } from "../../contexts"
-import { WindowExpandDirection } from "../../enums"
+import { ExpandDirection } from "../../enums"
 import {
-	getCursor,
-	getExpandDirectionByRefAndPosition,
-	heightChangesEnum,
-	widthChangesEnum,
-	xChangesEnum,
-	yChangesEnum
+    getCursor,
+    getExpandDirectionByRefAndPosition,
+    heightChangesEnum,
+    widthChangesEnum,
+    xChangesEnum,
+    yChangesEnum
 } from "../../helpers/direction"
 import { useClickOutside } from "../../hooks"
 import { ISize, IWindowProperties, WindowState } from "../../interfaces/windows"
@@ -28,6 +29,7 @@ import "./window.scss"
 
 const clickOutsideExclusions: string[] = [
 	TASKBAR_ITEM_CLASS,
+	TASKBAR_ITEM_SELECTED_CLASS,
 	TASKBAR_ITEM_NAME_CLASS
 ]
 
@@ -56,8 +58,8 @@ const Window = (props: IWindowProps) => {
 	const windowIsMovingRef = useRef<boolean>(false)
 
 	const windowExpanding = useRef<boolean>(false)
-	const windowExpandDirection = useRef<WindowExpandDirection>(
-		WindowExpandDirection.None
+	const windowExpandDirection = useRef<ExpandDirection>(
+		ExpandDirection.None
 	)
 
 	const {
@@ -238,7 +240,7 @@ const Window = (props: IWindowProps) => {
 		}
 
 		const expandDirection = getExpandDirectionByRefAndPosition(windowRef, e)
-		if (expandDirection === WindowExpandDirection.None) {
+		if (expandDirection === ExpandDirection.None) {
 			return
 		}
 
@@ -249,7 +251,7 @@ const Window = (props: IWindowProps) => {
 	const onWindowMouseUp = (_: MouseEvent) => {
 		if (windowExpanding.current) {
 			windowExpanding.current = false
-			windowExpandDirection.current = WindowExpandDirection.None
+			windowExpandDirection.current = ExpandDirection.None
 		}
 	}
 

@@ -46,11 +46,7 @@ const SearchBar = (props: ISearchBarProps) => {
 
 	return (
 		<div className="search-bar" onClick={onSearchBarClicked}>
-			<SearchIcon
-				className={`search-bar__search-icon ${NO_SELECT_CLASS}`}
-				height={20}
-				width={20}
-			/>
+			<SearchIcon className={`search-bar__search-icon ${NO_SELECT_CLASS}`} />
 			<input
 				className="search-bar__input"
 				ref={inputRef}
@@ -60,8 +56,6 @@ const SearchBar = (props: ISearchBarProps) => {
 			{value && (
 				<CancelIcon
 					className={`search-bar__cancel-icon ${NO_SELECT_CLASS}`}
-					height={20}
-					width={20}
 					onClick={onCancelClickedInternal}
 				/>
 			)}

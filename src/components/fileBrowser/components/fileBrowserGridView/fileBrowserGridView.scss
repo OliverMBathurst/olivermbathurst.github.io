@@ -3,9 +3,10 @@
 .file-browser-grid-view {
 	width: 100%;
 	color: $ui-text-colour;
-	margin: 0rem 0.5rem 0rem 0.5rem;
+	margin-left: 0.25rem;
 	font-size: 0.75rem;
 	width: calc(100% - 1rem);
+	height: 100%;
 }
 
 .file-browser-grid-view__content {
@@ -24,11 +25,19 @@
 .file-browser-grid-view__head {
 	display: flex;
 	width: 100%;
-	justify-content: space-between;
 }
 
 .file-browser-grid-view__head {
 	height: 2rem;
+}
+
+.file-browser-grid-view__head,
+.file-browser-grid-view__head > .expandable {
+	min-width: 9rem;
+}
+
+.file-browser-grid-view__head > .expandable {
+	width: 9rem;
 }
 
 .file-browser-grid-view__head__row {
@@ -44,9 +53,33 @@
 	min-width: 7.25rem;
 }
 
-.file-browser-grid-view__content__row__cell__name,
-.file-browser-grid-view__head__name {
-	min-width: 5.5rem;
+.file-browser-grid-view__head__name,
+.file-browser-grid-view__head__date,
+.file-browser-grid-view__head__type,
+.file-browser-grid-view__head__size {
+	display: flex;
+	height: 100%;
+	width: 100%;
+	border-right: 0.0125rem solid rgba(169, 169, 169, 0.12);
+}
+
+.file-browser-grid-view__head__name__text,
+.file-browser-grid-view__head__date__text,
+.file-browser-grid-view__head__type__text,
+.file-browser-grid-view__head__size__text,
+.file-browser-grid-view__content__row__cell__name__text,
+.file-browser-grid-view__content__row__cell__date__text,
+.file-browser-grid-view__content__row__cell__type__text,
+.file-browser-grid-view__content__row__cell__size__text,
+.file-browser-grid-view__content__row__cell__name__inner {
+	padding-left: 0.5rem;
+}
+
+.file-browser-grid-view__content__row__cell__name__inner {
+	height: 100%;
+	width: 100%;
+	display: flex;
+	align-items: center;
 }
 
 .file-browser-grid-view__content__row__cell__type,
@@ -66,9 +99,7 @@
 .file-browser-grid-view__head__size {
 	display: flex;
 	align-items: center;
-	width: 9rem;
-	flex-grow: 1;
-	padding-left: 0.5rem;
+	min-width: 9rem;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
@@ -91,16 +122,16 @@
 .file-browser-grid-view__head__date:hover,
 .file-browser-grid-view__head__type:hover,
 .file-browser-grid-view__head__size:hover {
-	background: $hover-button-background;
+	background-color: $hover-button-background;
 }
 
 .file-browser-grid-view__content__row:hover,
 .file-browser-grid-view__head__row__cell:hover {
-	background: $hover-button-background;
+	background-color: $hover-button-background;
 }
 
 .file-browser-grid-view__content__row--selected {
-	background: $hover-button-background;
+	background-color: $hover-button-background;
 }
 
 .file-browser-grid-view__content__row__cell__name img {

@@ -14,11 +14,11 @@
 }
 
 .file-browser__row:hover {
-	background: $hover-button-background;
+	background-color: $hover-button-background;
 }
 
 .file-browser__row--selected {
-	background: $hover-button-background;
+	background-color: $hover-button-background;
 }
 
 .file-browser__row__icon img {

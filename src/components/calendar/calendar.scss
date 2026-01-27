@@ -12,6 +12,29 @@
 	width: 20rem;
 }
 
+.calendar__upper-container__date-display {
+	display: flex;
+}
+
+.calendar__upper-container__date-display > select {
+	background: none;
+	outline: none;
+	border: none;
+	color: $ui-text-colour;
+}
+
+.calendar__upper-container__date-display select option {
+	background-color: $ui-background;
+	color: $ui-text-colour;
+	padding: 0;
+	margin: 0;
+}
+
+.calendar__upper-container__controls__control > img {
+	width: 1.25rem;
+	height: 1.25rem;
+}
+
 .calendar__upper-container,
 .calendar__upper-container__controls {
 	display: flex;
@@ -27,7 +50,7 @@
 }
 
 .calendar__upper-container__controls__control img:hover {
-	background: $hover-button-background;
+	background-color: $hover-button-background;
 }
 
 .calendar__upper-container,

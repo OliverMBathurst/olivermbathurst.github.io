@@ -1,7 +1,8 @@
 import { useCallback, useContext, useMemo, useRef, useState } from "react"
 import {
 	BRANCHING_CONTEXT_DETERMINER,
-	BRANCHING_CONTEXT_PARENT_PROPERTY
+	BRANCHING_CONTEXT_PARENT_PROPERTY,
+    FILE_BROWSER_TREE_MIN_WIDTH
 } from "../../constants"
 import { FileBrowserContext, WindowsContext } from "../../contexts"
 import {
@@ -22,13 +23,17 @@ import {
 } from "./components"
 import { FileBrowserTree } from "./components/fileBrowserTree"
 import "./fileBrowser.scss"
+import { Expandable } from "../expandable"
+import { ExpandDirection } from "../../enums"
 
 interface IFileBrowserProps {
 	windowId: string
 	context: BranchingContext
 }
 
-const baseClickExclusion = "file-browser__result-pane"
+const baseClickExclusions = ["file-browser__content__result-pane", "file-browser-grid-view"]
+
+const selectionPanes = ["file-browser__content__result-pane", "file-browser-grid-view"]
 
 const applicationHandlerService = new ApplicationHandlerService()
 
@@ -124,10 +129,10 @@ const FileBrowser = (props: IFileBrowserProps) => {
 	const onFileBrowserMouseDown = (
 		e: React.MouseEvent<HTMLDivElement, MouseEvent>
 	) => {
-		if (e.currentTarget.className === baseClickExclusion) {
+		if (baseClickExclusions.indexOf(e.currentTarget.className) !== -1) {
 			if (
-				e.target instanceof HTMLElement &&
-				e.target.className === baseClickExclusion
+				e.target instanceof HTMLElement
+				&& baseClickExclusions.indexOf(e.target.className) !== -1
 			) {
 				setSelected([])
 			}
@@ -279,7 +284,8 @@ const FileBrowser = (props: IFileBrowserProps) => {
 
 	const SelectionRectangle = useWindowSelectionRectangle(
 		fileBrowserPaneRef,
-		onSelectionChanged
+		onSelectionChanged,
+		selectionPanes
 	)
 
 	return (
@@ -296,12 +302,17 @@ const FileBrowser = (props: IFileBrowserProps) => {
 				onUpOneLevel={onUpOneLevel}
 			/>
 			<div className="file-browser__content">
-				<div className="file-browser__content__tree-pane">
-					<FileBrowserTree
-						windowId={windowId}
-						onDirectoryChanged={onDirectoryChanged}
-					/>
-				</div>
+				<Expandable
+					allowedExpandDirections={ExpandDirection.Right}
+					minWidth={FILE_BROWSER_TREE_MIN_WIDTH}
+				>
+					<div className="file-browser__content__tree-pane">
+						<FileBrowserTree
+							windowId={windowId}
+							onDirectoryChanged={onDirectoryChanged}
+						/>
+					</div>
+				</Expandable>
 				<div
 					className="file-browser__content__result-pane"
 					ref={fileBrowserPaneRef}

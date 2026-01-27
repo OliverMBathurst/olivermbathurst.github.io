@@ -21,10 +21,10 @@ const TaskbarItem = (props: ITaskbarItemProps) => {
 	const DisplayName = useDisplayName(context)
 
 	const { onTaskbarItemClicked } = useContext(WindowsContext)
-
+		
 	return (
 		<div
-			className={`${TASKBAR_ITEM_CLASS}${selected ? " taskbar-item--selected" : ""} ${NO_SELECT_CLASS}`}
+			className={`${TASKBAR_ITEM_CLASS}${selected ? "--selected" : ""} ${NO_SELECT_CLASS}`}
 			onClick={() => onTaskbarItemClicked(windowId)}
 		>
 			{Icon}

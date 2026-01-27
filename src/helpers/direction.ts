@@ -1,27 +1,27 @@
-import { WindowExpandDirection } from "../enums"
+import { ExpandDirection } from "../enums"
 
 export const xChangesEnum =
-	WindowExpandDirection.Left |
-	WindowExpandDirection.TopLeft |
-	WindowExpandDirection.BottomLeft
+	ExpandDirection.Left |
+	ExpandDirection.TopLeft |
+	ExpandDirection.BottomLeft
 export const yChangesEnum =
-	WindowExpandDirection.Top |
-	WindowExpandDirection.TopRight |
-	WindowExpandDirection.TopLeft
+	ExpandDirection.Top |
+	ExpandDirection.TopRight |
+	ExpandDirection.TopLeft
 export const heightChangesEnum =
-	WindowExpandDirection.Bottom |
-	WindowExpandDirection.BottomRight |
-	WindowExpandDirection.BottomLeft
+	ExpandDirection.Bottom |
+	ExpandDirection.BottomRight |
+	ExpandDirection.BottomLeft
 export const widthChangesEnum =
-	WindowExpandDirection.Right |
-	WindowExpandDirection.TopRight |
-	WindowExpandDirection.BottomRight
+	ExpandDirection.Right |
+	ExpandDirection.TopRight |
+	ExpandDirection.BottomRight
 
 export const getExpandDirectionByRefAndPosition = (
 	ref: React.RefObject<HTMLDivElement | null>,
 	e: React.MouseEvent<HTMLDivElement, MouseEvent> | MouseEvent
 ) => {
-	let expandDirection: WindowExpandDirection = WindowExpandDirection.None
+	let expandDirection: ExpandDirection = ExpandDirection.None
 	if (ref && ref.current) {
 		const rect = ref.current.getBoundingClientRect()
 
@@ -31,32 +31,32 @@ export const getExpandDirectionByRefAndPosition = (
 		if (rect) {
 			if (getWithinBounds(e.clientY, rect.top)) {
 				if (getWithinBounds(e.clientX, rect.left)) {
-					expandDirection = WindowExpandDirection.TopLeft
+					expandDirection = ExpandDirection.TopLeft
 				} else if (getWithinBounds(e.clientX, rect.right)) {
-					expandDirection = WindowExpandDirection.TopRight
+					expandDirection = ExpandDirection.TopRight
 				} else {
-					expandDirection = WindowExpandDirection.Top
+					expandDirection = ExpandDirection.Top
 				}
 			} else if (getWithinBounds(e.clientY, rect.bottom)) {
 				if (getWithinBounds(e.clientX, rect.left)) {
-					expandDirection = WindowExpandDirection.BottomLeft
+					expandDirection = ExpandDirection.BottomLeft
 				} else if (getWithinBounds(e.clientX, rect.right)) {
-					expandDirection = WindowExpandDirection.BottomRight
+					expandDirection = ExpandDirection.BottomRight
 				} else {
-					expandDirection = WindowExpandDirection.Bottom
+					expandDirection = ExpandDirection.Bottom
 				}
 			} else if (
 				getWithinBounds(e.clientX, rect.left) &&
 				e.clientY > rect.top &&
 				e.clientY < rect.bottom
 			) {
-				expandDirection = WindowExpandDirection.Left
+				expandDirection = ExpandDirection.Left
 			} else if (
 				getWithinBounds(e.clientX, rect.right) &&
 				e.clientY > rect.top &&
 				e.clientY < rect.bottom
 			) {
-				expandDirection = WindowExpandDirection.Right
+				expandDirection = ExpandDirection.Right
 			}
 		}
 	}
@@ -65,21 +65,21 @@ export const getExpandDirectionByRefAndPosition = (
 }
 
 export const getCursor = (
-	direction: WindowExpandDirection,
+	direction: ExpandDirection,
 	defaultCursor: string
 ): string => {
 	switch (direction) {
-		case WindowExpandDirection.BottomLeft:
-		case WindowExpandDirection.TopRight:
+		case ExpandDirection.BottomLeft:
+		case ExpandDirection.TopRight:
 			return "nesw-resize"
-		case WindowExpandDirection.BottomRight:
-		case WindowExpandDirection.TopLeft:
+		case ExpandDirection.BottomRight:
+		case ExpandDirection.TopLeft:
 			return "nwse-resize"
-		case WindowExpandDirection.Bottom:
-		case WindowExpandDirection.Top:
+		case ExpandDirection.Bottom:
+		case ExpandDirection.Top:
 			return "ns-resize"
-		case WindowExpandDirection.Left:
-		case WindowExpandDirection.Right:
+		case ExpandDirection.Left:
+		case ExpandDirection.Right:
 			return "ew-resize"
 		default:
 			return defaultCursor

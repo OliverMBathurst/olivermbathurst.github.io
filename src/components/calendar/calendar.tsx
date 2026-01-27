@@ -1,38 +1,15 @@
 import { useMemo, useRef, useState } from "react"
 import {
-	DATE_DISPLAY_BASE_CLASS,
-	DATE_DISPLAY_OVERLAY_CLASS,
-	NO_SELECT_CLASS
+    CALENDAR_YEAR_RANGE_YEARS,
+    DATE_DISPLAY_BASE_CLASS,
+    DATE_DISPLAY_OVERLAY_CLASS,
+    NO_SELECT_CLASS
 } from "../../constants"
 import { chunk } from "../../helpers/collections"
+import { days, monthNumbersByString, monthStringsByNumber } from "../../helpers/date"
 import { useClickOutside } from "../../hooks"
 import { CollapseIcon, ExpandIcon } from "../../icons"
 import "./calendar.scss"
-
-const months: Record<number, string> = {
-	0: "January",
-	1: "February",
-	2: "March",
-	3: "April",
-	4: "May",
-	5: "June",
-	6: "July",
-	7: "August",
-	8: "September",
-	9: "October",
-	10: "November",
-	11: "December"
-}
-
-const days: string[] = [
-	"Sunday",
-	"Monday",
-	"Tuesday",
-	"Wednesday",
-	"Thursday",
-	"Friday",
-	"Saturday"
-]
 
 const initialDate = new Date()
 const frameSize = 42
@@ -40,6 +17,15 @@ const clickOutsideExclusions = [
 	DATE_DISPLAY_BASE_CLASS,
 	DATE_DISPLAY_OVERLAY_CLASS
 ]
+
+const currentYear = initialDate.getFullYear()
+const yearsStart = currentYear - CALENDAR_YEAR_RANGE_YEARS
+const yearsEnd = currentYear + CALENDAR_YEAR_RANGE_YEARS
+
+const years: number[] = []
+for (let i = yearsStart; i <= yearsEnd; i++) {
+	years.push(i)
+}
 
 interface ICalendarProps {
 	onClickOutside: () => void
@@ -54,6 +40,8 @@ const Calendar = (props: ICalendarProps) => {
 	})
 
 	const calendarRef = useRef<HTMLDivElement | null>(null)
+	const monthRef = useRef<HTMLSelectElement | null>(null)
+	const yearRef = useRef<HTMLSelectElement | null>(null)
 
 	useClickOutside(calendarRef, (e) => {
 		let validClick: boolean = true
@@ -136,6 +124,7 @@ const Calendar = (props: ICalendarProps) => {
 			m--
 		}
 
+		setSelectValues(m, y)
 		setDate({ year: y, month: m })
 	}
 
@@ -151,7 +140,35 @@ const Calendar = (props: ICalendarProps) => {
 			m++
 		}
 
+		setSelectValues(m, y)
 		setDate({ year: y, month: m })
+	}
+
+	const setYearBySelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
+		const value = e.target.value
+		setDate(d => {
+			return {
+				...d,
+				year: parseInt(value)
+			}
+		})
+	}
+
+	const setMonthBySelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
+		const value = e.target.value
+		setDate(d => {
+			return {
+				...d,
+				month: monthNumbersByString[value]
+			}
+		})
+	}
+
+	const setSelectValues = (month: number, year: number) => {
+		if (monthRef.current && yearRef.current) {
+			monthRef.current.value = monthStringsByNumber[month]
+			yearRef.current.value = `${year}`
+		}
 	}
 
 	return (
@@ -160,14 +177,39 @@ const Calendar = (props: ICalendarProps) => {
 				<span
 					className={`calendar__upper-container__date-display ${NO_SELECT_CLASS}`}
 				>
-					{months[date.month]}, {date.year}
+					<select
+						ref={monthRef}
+						defaultValue={monthStringsByNumber[date.month]}
+						onChange={setMonthBySelect}
+					>
+						{Object.keys(monthStringsByNumber).map(m => {
+							return (
+								<option key={m} className="calendar__upper-container__date-display__select-option">
+									{monthStringsByNumber[parseInt(m)]}
+								</option>
+							)
+						})}
+					</select>
+					<select
+						ref={yearRef}
+						defaultValue={date.year}
+						onChange={setYearBySelect}
+					>
+						{years.map(y => {
+							return (
+								<option key={y} className="calendar__upper-container__date-display__select-option">
+									{y}
+								</option>
+							)
+						})}
+					</select>
 				</span>
 				<div className="calendar__upper-container__controls">
 					<div className="calendar__upper-container__controls__control">
-						<ExpandIcon width={20} height={20} onClick={navigateForwards} />
+						<ExpandIcon onClick={navigateForwards} />
 					</div>
 					<div className="calendar__upper-container__controls__control">
-						<CollapseIcon width={20} height={20} onClick={navigateBackwards} />
+						<CollapseIcon onClick={navigateBackwards} />
 					</div>
 				</div>
 			</div>
