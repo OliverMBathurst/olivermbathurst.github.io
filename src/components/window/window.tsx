@@ -457,7 +457,7 @@ const Window = (props: IWindowProps) => {
 
 	const Content = useCallback(() => {
 		if (FILETYPE_RENDERABLE_PROPERTY in context) {
-			return context.render()
+			return context.render(id, context)
 		}
 
 		if (BRANCHING_CONTEXT_DETERMINER in context) {

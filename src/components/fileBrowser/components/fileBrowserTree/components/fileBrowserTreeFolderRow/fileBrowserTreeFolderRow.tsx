@@ -72,6 +72,7 @@ const FileBrowserTreeFolderRow = (props: IStartMenuFolderRowProps) => {
 	const onExpansionButtonClickedInternal = (
 		e: React.MouseEvent<HTMLElement, MouseEvent>
 	) => {
+		e.stopPropagation()
 		setTreeOpenFolderContextKeysForWindow(windowId, (oF) => {
 			if (oF.indexOf(key) === -1) {
 				return [...oF, key]

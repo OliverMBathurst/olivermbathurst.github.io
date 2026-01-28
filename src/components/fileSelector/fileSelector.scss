@@ -1,0 +1,18 @@
+@import '../../index.scss';
+
+.file-selector {
+    color: $ui-text-colour;
+}
+
+.file-selector::file-selector-button {
+    color: $ui-text-colour;
+    border: none;
+    outline: none;
+    background-color: $button-background;
+    border: 0.125rem solid $button-border;
+    border-radius: 0.3125rem;
+}
+
+.file-selector::file-selector-button:hover {
+    background-color: $hover-button-background;
+}

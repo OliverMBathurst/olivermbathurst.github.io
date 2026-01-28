@@ -31,3 +31,9 @@
 	flex-wrap: wrap;
 	flex-grow: 1;
 }
+
+.file-browser__content__result-pane > .search-result-pane {
+	width: 100%;
+	height: calc(100% - 0.3rem);
+	padding: 0.3rem 0.5rem 0rem 0.5rem;
+}

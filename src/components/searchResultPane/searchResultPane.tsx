@@ -27,17 +27,14 @@ const SearchResultPane = (props: ISearchResultPaneProps) => {
 		refCallback
 	} = props
 
-	if (!searchResult || searchResult.items.length === 0) {
-		return (
-			<span className={`search-result-pane__no-items ${NO_SELECT_CLASS}`}>
-				No results found
-			</span>
-		)
-	}
-
 	return (
 		<div className="search-result-pane">
-			{searchResult.items.map((i) => {
+			{(!searchResult || searchResult.items.length === 0) && (
+				<span className={`search-result-pane__no-items ${NO_SELECT_CLASS}`}>
+					No results found
+				</span>
+			)}
+			{searchResult && searchResult.items.length > 0 && searchResult.items.map((i) => {
 				const contextKey = i.context.toContextUniqueKey()
 				return (
 					<SearchResultPaneRow
