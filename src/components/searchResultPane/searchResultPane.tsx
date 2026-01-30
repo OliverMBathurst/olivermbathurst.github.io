@@ -34,20 +34,22 @@ const SearchResultPane = (props: ISearchResultPaneProps) => {
 					No results found
 				</span>
 			)}
-			{searchResult && searchResult.items.length > 0 && searchResult.items.map((i) => {
-				const contextKey = i.context.toContextUniqueKey()
-				return (
-					<SearchResultPaneRow
-						key={contextKey}
-						refCallback={refCallback}
-						item={i}
-						term={searchResult.term}
-						selected={selectedContextKeys.indexOf(contextKey) !== -1}
-						onRowClicked={(e) => onRowClicked(i.context, e)}
-						onRowDoubleClicked={(e) => onRowDoubleClicked(i.context, e)}
-					/>
-				)
-			})}
+			{searchResult &&
+				searchResult.items.length > 0 &&
+				searchResult.items.map((i) => {
+					const contextKey = i.context.toContextUniqueKey()
+					return (
+						<SearchResultPaneRow
+							key={contextKey}
+							refCallback={refCallback}
+							item={i}
+							term={searchResult.term}
+							selected={selectedContextKeys.indexOf(contextKey) !== -1}
+							onRowClicked={(e) => onRowClicked(i.context, e)}
+							onRowDoubleClicked={(e) => onRowDoubleClicked(i.context, e)}
+						/>
+					)
+				})}
 		</div>
 	)
 }

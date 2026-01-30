@@ -12,7 +12,8 @@ export interface IShortcut extends INamed, IChildContext {}
 
 export interface IRoot extends ILeafAndBranchContext {}
 
-export interface ILeaf extends IChildContext, INamed, IIcon, IExtensionAvailable { }
+export interface ILeaf
+	extends IChildContext, INamed, IIcon, IExtensionAvailable {}
 
 export interface INamed {
 	name: string
@@ -65,11 +66,13 @@ export interface INonRootContextInformation {
 	fullPath: string
 }
 
-export interface IUploadedWindowFile extends IAbstractUploadedWindowFile, IRenderable { }
+export interface IUploadedWindowFile
+	extends IAbstractUploadedWindowFile, IRenderable {}
 
-export interface IAbstractUploadedWindowFile extends IUploadedFile, INamed, IExtensionAvailable { }
+export interface IAbstractUploadedWindowFile
+	extends IUploadedFile, INamed, IExtensionAvailable {}
 
-export interface IWindowFile extends ILeaf, IRenderable { }
+export interface IWindowFile extends ILeaf, IRenderable {}
 
 interface ILeafAndBranchContext extends INamed {
 	leaves: Leaf[]
@@ -86,5 +89,9 @@ interface IExtensionAvailable {
 }
 
 interface IRenderable {
-	render: (windowId: string, context: Context, props?: IWindowRenderProps<HTMLElement>) => JSX.Element
+	render: (
+		windowId: string,
+		context: Context,
+		props?: IWindowRenderProps<HTMLElement>
+	) => JSX.Element
 }

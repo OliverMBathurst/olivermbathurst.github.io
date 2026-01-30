@@ -30,7 +30,10 @@ export const useWindowSelectionRectangle = <T extends HTMLElement>(
 			return
 		}
 
-		if (!(e.target instanceof HTMLElement) || applicableClassNames.indexOf(e.target.className) === -1) {
+		if (
+			!(e.target instanceof HTMLElement) ||
+			applicableClassNames.indexOf(e.target.className) === -1
+		) {
 			return
 		}
 
@@ -106,11 +109,17 @@ export const useWindowSelectionRectangle = <T extends HTMLElement>(
 
 			if (
 				xOffset >= selectionRectangeStart.current.x &&
-				elem.left + selectionRectangeStart.current.x + newWidth >= elem.right + parentOffsetLeft
+				elem.left + selectionRectangeStart.current.x + newWidth >=
+					elem.right + parentOffsetLeft
 			) {
-				newWidth = elem.right - elem.left - selectionRectangeStart.current.x - parentOffsetLeft
+				newWidth =
+					elem.right -
+					elem.left -
+					selectionRectangeStart.current.x -
+					parentOffsetLeft
 			} else if (
-				elem.right - selectionRectangeStart.current.x - newWidth <= 0
+				elem.right - selectionRectangeStart.current.x - newWidth <=
+				0
 			) {
 				newWidth = elem.right - selectionRectangeStart.current.x
 			}

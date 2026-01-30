@@ -1,21 +1,15 @@
 import { ExpandDirection } from "../enums"
 
 export const xChangesEnum =
-	ExpandDirection.Left |
-	ExpandDirection.TopLeft |
-	ExpandDirection.BottomLeft
+	ExpandDirection.Left | ExpandDirection.TopLeft | ExpandDirection.BottomLeft
 export const yChangesEnum =
-	ExpandDirection.Top |
-	ExpandDirection.TopRight |
-	ExpandDirection.TopLeft
+	ExpandDirection.Top | ExpandDirection.TopRight | ExpandDirection.TopLeft
 export const heightChangesEnum =
 	ExpandDirection.Bottom |
 	ExpandDirection.BottomRight |
 	ExpandDirection.BottomLeft
 export const widthChangesEnum =
-	ExpandDirection.Right |
-	ExpandDirection.TopRight |
-	ExpandDirection.BottomRight
+	ExpandDirection.Right | ExpandDirection.TopRight | ExpandDirection.BottomRight
 
 export const getExpandDirectionByRefAndPosition: (
 	ref: React.RefObject<HTMLDivElement | null>,

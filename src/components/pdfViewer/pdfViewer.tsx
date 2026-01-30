@@ -7,7 +7,10 @@ import { Context } from "../../types/fs"
 import { FileSelector } from "../fileSelector"
 import "./pdfViewer.scss"
 
-export interface IPdfViewerProps extends IWindowRenderProps<HTMLObjectElement>, React.ObjectHTMLAttributes<HTMLObjectElement> { }
+export interface IPdfViewerProps
+	extends
+		IWindowRenderProps<HTMLObjectElement>,
+		React.ObjectHTMLAttributes<HTMLObjectElement> {}
 
 interface IObjectProps extends React.ObjectHTMLAttributes<HTMLObjectElement> {
 	windowId?: string
@@ -56,7 +59,11 @@ const PdfViewer = (props: IPdfViewerProps) => {
 	return (
 		<div className="pdf-viewer">
 			<div className="pdf-viewer-controls">
-				<FileSelector accept={FILETYPE_PDF} onChange={onInputChange} buttonText="Open PDF file" />
+				<FileSelector
+					accept={FILETYPE_PDF}
+					onChange={onInputChange}
+					buttonText="Open PDF file"
+				/>
 			</div>
 			{resolvedData && (
 				<object
@@ -68,7 +75,7 @@ const PdfViewer = (props: IPdfViewerProps) => {
 				</object>
 			)}
 		</div>
-    )
+	)
 }
 
 export default PdfViewer

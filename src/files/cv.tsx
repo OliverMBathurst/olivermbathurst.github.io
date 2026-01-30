@@ -8,8 +8,18 @@ class CV extends AbstractLeaf implements IWindowFile {
 		super("My CV", FILETYPE_PDF, parent)
 	}
 
-	render = (windowId: string, context: Context, props?: IWindowRenderProps<HTMLObjectElement>) => (
-		<PdfViewer title={this.name} data="/documents/Oliver Bathurst CV.pdf" windowId={windowId} context={context} {...props} />
+	render = (
+		windowId: string,
+		context: Context,
+		props?: IWindowRenderProps<HTMLObjectElement>
+	) => (
+		<PdfViewer
+			title={this.name}
+			data="/documents/Oliver Bathurst CV.pdf"
+			windowId={windowId}
+			context={context}
+			{...props}
+		/>
 	)
 }
 

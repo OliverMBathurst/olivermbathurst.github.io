@@ -1,7 +1,14 @@
 import { useEffect, useRef } from "react"
 import { DEFAULT_POINTER } from "../../constants"
 import { ExpandDirection } from "../../enums"
-import { getCursor, getExpandDirectionByRefAndPosition, heightChangesEnum, widthChangesEnum, xChangesEnum, yChangesEnum } from "../../helpers/direction"
+import {
+	getCursor,
+	getExpandDirectionByRefAndPosition,
+	heightChangesEnum,
+	widthChangesEnum,
+	xChangesEnum,
+	yChangesEnum
+} from "../../helpers/direction"
 
 export interface IExpandableProps {
 	children: React.ReactNode
@@ -29,9 +36,7 @@ const Expandable = (props: IExpandableProps) => {
 	const expanding = useRef<boolean>(false)
 	const ref = useRef<HTMLDivElement | null>(null)
 
-    const expandDirectionRef = useRef<ExpandDirection>(
-        ExpandDirection.None
-    )
+	const expandDirectionRef = useRef<ExpandDirection>(ExpandDirection.None)
 
 	const onElementMouseOvered = (
 		e: React.MouseEvent<HTMLDivElement, MouseEvent>
@@ -43,10 +48,7 @@ const Expandable = (props: IExpandableProps) => {
 		const expandDirection = getExpandDirectionByRefAndPosition(ref, e)
 		if ((expandDirection & allowedExpandDirections) === expandDirection) {
 			if (window && ref.current) {
-				ref.current.style.cursor = getCursor(
-					expandDirection,
-					DEFAULT_POINTER
-				)
+				ref.current.style.cursor = getCursor(expandDirection, DEFAULT_POINTER)
 			}
 		}
 	}
@@ -59,8 +61,10 @@ const Expandable = (props: IExpandableProps) => {
 		}
 
 		const expandDirection = getExpandDirectionByRefAndPosition(ref, e)
-		if (expandDirection === ExpandDirection.None
-			|| (expandDirection & allowedExpandDirections) !== expandDirection) {
+		if (
+			expandDirection === ExpandDirection.None ||
+			(expandDirection & allowedExpandDirections) !== expandDirection
+		) {
 			return
 		}
 
@@ -204,7 +208,7 @@ const Expandable = (props: IExpandableProps) => {
 			}
 		}
 	}
-	
+
 	useEffect(() => {
 		document.addEventListener("mousemove", onElementMouseMove)
 		document.addEventListener("mouseup", onElementMouseUp)
@@ -215,15 +219,16 @@ const Expandable = (props: IExpandableProps) => {
 		}
 	}, [onElementMouseMove, onElementMouseUp])
 
-    return (
+	return (
 		<div
 			className="expandable"
 			ref={ref}
 			onMouseOver={onElementMouseOvered}
 			onMouseDown={onElementMouseDown}
 		>
-            {children}
-        </div>)
+			{children}
+		</div>
+	)
 }
 
 export default Expandable

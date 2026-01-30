@@ -1,14 +1,14 @@
 import { useCallback, useContext, useMemo, useRef, useState } from "react"
 import {
-    BRANCHING_CONTEXT_DETERMINER,
-    BRANCHING_CONTEXT_PARENT_PROPERTY,
-    FILE_BROWSER_TREE_MIN_WIDTH
+	BRANCHING_CONTEXT_DETERMINER,
+	BRANCHING_CONTEXT_PARENT_PROPERTY,
+	FILE_BROWSER_TREE_MIN_WIDTH
 } from "../../constants"
 import { FileBrowserContext, WindowsContext } from "../../contexts"
 import { ExpandDirection } from "../../enums"
 import {
-    doRectanglesIntersect,
-    onMixedSelectionRowClicked
+	doRectanglesIntersect,
+	onMixedSelectionRowClicked
 } from "../../helpers/selections"
 import { useWindowSelectionRectangle } from "../../hooks"
 import { ISearchResult } from "../../interfaces/search"
@@ -17,11 +17,11 @@ import { BranchingContext, Context, Leaf, Shortcut } from "../../types/fs"
 import { Expandable } from "../expandable"
 import { SearchResultPane } from "../searchResultPane"
 import {
-    FileBrowserControls,
-    FileBrowserGridView,
-    FileBrowserRow,
-    FolderBaseInformation,
-    UpOneLevelRow
+	FileBrowserControls,
+	FileBrowserGridView,
+	FileBrowserRow,
+	FolderBaseInformation,
+	UpOneLevelRow
 } from "./components"
 import { FileBrowserTree } from "./components/fileBrowserTree"
 import "./fileBrowser.scss"
@@ -31,9 +31,15 @@ interface IFileBrowserProps {
 	context: BranchingContext
 }
 
-const baseClickExclusions = ["file-browser__content__result-pane", "file-browser-grid-view"]
+const baseClickExclusions = [
+	"file-browser__content__result-pane",
+	"file-browser-grid-view"
+]
 
-const selectionPanes = ["file-browser__content__result-pane", "file-browser-grid-view"]
+const selectionPanes = [
+	"file-browser__content__result-pane",
+	"file-browser-grid-view"
+]
 
 const applicationHandlerService = new ApplicationHandlerService()
 
@@ -131,8 +137,8 @@ const FileBrowser = (props: IFileBrowserProps) => {
 	) => {
 		if (baseClickExclusions.indexOf(e.currentTarget.className) !== -1) {
 			if (
-				e.target instanceof HTMLElement
-				&& baseClickExclusions.indexOf(e.target.className) !== -1
+				e.target instanceof HTMLElement &&
+				baseClickExclusions.indexOf(e.target.className) !== -1
 			) {
 				setSelected([])
 			}
