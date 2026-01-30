@@ -1,4 +1,4 @@
-@import "../../../../index.scss";
+@use '../../../../scss/colours';
 
 .date-display__input {
 	height: 100%;
@@ -10,14 +10,14 @@
 
 .date-display__overlay {
 	display: flex;
-	color: $ui-text-colour;
+	color: colours.$ui-text-colour;
 	font-size: 0.75rem;
 	width: 100%;
 	padding: 0 0.2rem 0 0.2rem;
 }
 
 .date-display:hover {
-	background-color: $hover-button-background;
+	background-color: colours.$hover-button-background;
 }
 
 .date-display {

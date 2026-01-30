@@ -1,20 +1,20 @@
-@import "../../../index.scss";
+@use '../../../scss/colours';
 
 .search-result-pane__row,
 .search-result-pane__row--selected {
 	display: flex;
-	color: $ui-text-colour;
+	color: colours.$ui-text-colour;
 	align-items: center;
 	font-size: 0.75rem;
 	padding-left: 0.5rem;
 }
 
 .search-result-pane__row:hover {
-	background-color: $hover-button-background;
+	background-color: colours.$hover-button-background;
 }
 
 .search-result-pane__row--selected {
-	background-color: $hover-button-background;
+	background-color: colours.$hover-button-background;
 }
 
 .search-result-pane__row__icon img {

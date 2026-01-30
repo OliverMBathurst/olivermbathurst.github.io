@@ -1,16 +1,16 @@
-@import "../../../../index.scss";
+@use '../../../../scss/colours';
 
 .file-browser-location-bar__input {
 	background-color: transparent;
 	outline: none;
 	border: none;
-	color: $ui-text-colour;
+	color: colours.$ui-text-colour;
 	width: calc(100% - 2.25rem);
 }
 
 .file-browser-location-bar {
 	background-color: transparent;
-	border: 0.125rem solid $hover-button-background;
+	border: 0.125rem solid colours.$hover-button-background;
 	border-radius: 0.1875rem;
 	display: flex;
 	align-items: center;

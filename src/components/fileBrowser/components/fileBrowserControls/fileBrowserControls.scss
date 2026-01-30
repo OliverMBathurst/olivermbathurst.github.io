@@ -1,9 +1,9 @@
-@import "../../../../index.scss";
+@use '../../../../scss/colours';
 
 .file-browser-controls {
 	display: flex;
 	padding: 0.5rem;
-	background-color: $window-top-bar;
+	background-color: colours.$window-top-bar;
 }
 
 .file-browser-controls > .file-browser-location-bar {

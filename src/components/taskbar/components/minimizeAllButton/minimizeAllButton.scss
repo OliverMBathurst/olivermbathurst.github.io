@@ -1,4 +1,4 @@
-﻿@import "../../../../index.scss";
+﻿@use '../../../../scss/colours';
 
 .minimize-all {
 	width: 1.2rem;
@@ -13,5 +13,5 @@
 }
 
 .minimize-all:hover {
-	background-color: $hover-button-background;
+	background-color: colours.$hover-button-background;
 }

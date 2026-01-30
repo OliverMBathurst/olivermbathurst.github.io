@@ -1,14 +1,14 @@
-@import "../../index.scss";
+@use '../../scss/colours';
 
 .window {
 	position: absolute;
 	display: flex;
 	flex-direction: column;
 	height: 100%;
-	background-color: $window-top-bar-background;
+	background-color: colours.$window-top-bar-background;
 	min-width: 12.5rem;
 	min-height: 9.375rem;
-	box-shadow: $window-box-shadow;
+	box-shadow: colours.$window-box-shadow;
 }
 
 .window--selected {
@@ -19,7 +19,7 @@
 	height: calc(100% - 0.1rem);
 	margin: 0.05rem;
 	cursor: default;
-	background-color: $ui-background;
+	background-color: colours.$ui-background;
 }
 
 .window__inner-content__content {

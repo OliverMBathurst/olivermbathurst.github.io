@@ -1,9 +1,4 @@
 .pdf-viewer {
-    overflow: scroll;
-}
-
-.pdf-viewer,
-.pdf-viewer-content {
     width: 100%;
     height: 100%;
 }
@@ -13,4 +8,9 @@
     height: 2rem;
     align-items: center;
     padding-left: 0.5rem;
+}
+
+.pdf-viewer-content {
+    width: 100%;
+    height: calc(100% - 2rem);
 }

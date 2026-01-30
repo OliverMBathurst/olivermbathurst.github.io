@@ -1,7 +1,7 @@
-@import "../../index.scss";
+@use '../../scss/colours';
 
 .calendar {
-	background-color: $ui-background;
+	background-color: colours.$ui-background;
 	position: absolute;
 	opacity: 80%;
 	right: 1.45rem;
@@ -36,13 +36,13 @@
 }
 
 .calendar__upper-container__controls__control img:hover {
-	background-color: $hover-button-background;
+	background-color: colours.$hover-button-background;
 }
 
 .calendar__upper-container,
 .calendar__lower-container__table__column-names,
 .calendar__lower-container__table__cell {
-	color: $ui-text-colour;
+	color: colours.$ui-text-colour;
 }
 
 .calendar__lower-container__table {
@@ -62,17 +62,17 @@
 
 .calendar__lower-container__table__cell:hover,
 .calendar__lower-container__table__cell--grey:hover {
-	background-color: $hover-button-background;
+	background-color: colours.$hover-button-background;
 }
 
 .calendar__lower-container__table__cell--grey {
-	color: $ui-text-color-background;
+	color: colours.$ui-text-color-background;
 }
 
 .calendar__lower-container__table__cell--selected.calendar__lower-container__table__cell--grey {
-	color: $ui-text-colour;
+	color: colours.$ui-text-colour;
 }
 
 .calendar__lower-container__table__cell--selected {
-	background-color: $hover-button-background-selected;
+	background-color: colours.$hover-button-background-selected;
 }

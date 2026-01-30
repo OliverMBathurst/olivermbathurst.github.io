@@ -1,4 +1,4 @@
-@import "../../../../index.scss";
+@use '../../../../scss/colours';
 
 .file-browser-navigation-controls {
 	align-items: center;
@@ -19,7 +19,7 @@
 
 .file-browser-navigation-controls__icon:hover,
 .file-browser-navigation-controls__icon--disabled:hover {
-	background-color: $hover-button-background;
+	background-color: colours.$hover-button-background;
 }
 
 .file-browser-navigation-controls__icon--disabled {

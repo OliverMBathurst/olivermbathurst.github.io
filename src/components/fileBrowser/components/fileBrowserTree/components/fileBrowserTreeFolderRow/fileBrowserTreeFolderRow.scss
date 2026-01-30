@@ -1,11 +1,11 @@
-@import "../../../../../../index.scss";
+@use '../../../../../../scss/colours';
 
 .file-browser-tree__folder-row:hover {
-	background-color: $hover-button-background;
+	background-color: colours.$hover-button-background;
 }
 
 .file-browser-tree__folder-row--selected {
-	background-color: $hover-button-background;
+	background-color: colours.$hover-button-background;
 }
 
 .file-browser-tree__folder-row,

@@ -1,9 +1,9 @@
-@import "../../../../index.scss";
+@use '../../../../scss/colours';
 
 .up-one-level-row {
 	display: flex;
 	flex-direction: column;
-	color: $ui-text-colour;
+	color: colours.$ui-text-colour;
 	align-items: center;
 	font-size: 0.75rem;
 	width: 5rem;
@@ -13,7 +13,7 @@
 }
 
 .up-one-level-row:hover {
-	background-color: $hover-button-background;
+	background-color: colours.$hover-button-background;
 }
 
 .up-one-level-row__icon img {

@@ -1,19 +1,19 @@
-@import "../../index.scss";
+@use '../../scss/colours';
 
 .start-menu {
 	flex-direction: column;
 	position: absolute;
 	bottom: 0.5rem;
 	left: 0.5rem;
-	color: $ui-text-colour;
-	background-color: $ui-background;
+	color: colours.$ui-text-colour;
+	background-color: colours.$ui-background;
 	font-size: 0.75rem;
 	opacity: 90%;
 	min-width: 20rem;
 	min-height: 30rem;
 	max-width: 20rem;
 	max-height: 30rem;
-	box-shadow: $window-box-shadow;
+	box-shadow: colours.$window-box-shadow;
 
 	@media screen and (max-width: 12.5rem) {
 		visibility: hidden;
@@ -67,11 +67,11 @@
 }
 
 .start-menu__top-container__right__row:hover {
-	background-color: $hover-button-background;
+	background-color: colours.$hover-button-background;
 }
 
 .start-menu__top-container__right__row--selected {
-	background-color: $hover-button-background;
+	background-color: colours.$hover-button-background;
 }
 
 .start-menu__top-container__right__branches__text {

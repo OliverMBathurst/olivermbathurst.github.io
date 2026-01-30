@@ -1,8 +1,8 @@
-@import "../../../../index.scss";
+@use '../../../../scss/colours';
 
 .file-browser-grid-view {
 	width: 100%;
-	color: $ui-text-colour;
+	color: colours.$ui-text-colour;
 	margin-left: 0.25rem;
 	font-size: 0.75rem;
 	width: calc(100% - 1rem);
@@ -122,16 +122,16 @@
 .file-browser-grid-view__head__date:hover,
 .file-browser-grid-view__head__type:hover,
 .file-browser-grid-view__head__size:hover {
-	background-color: $hover-button-background;
+	background-color: colours.$hover-button-background;
 }
 
 .file-browser-grid-view__content__row:hover,
 .file-browser-grid-view__head__row__cell:hover {
-	background-color: $hover-button-background;
+	background-color: colours.$hover-button-background;
 }
 
 .file-browser-grid-view__content__row--selected {
-	background-color: $hover-button-background;
+	background-color: colours.$hover-button-background;
 }
 
 .file-browser-grid-view__content__row__cell__name img {

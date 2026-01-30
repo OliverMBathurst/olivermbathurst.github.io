@@ -1,20 +1,20 @@
-@import "../../index.scss";
+@use '../../scss/colours';
 
 .search-bar__input {
 	display: flex;
 	background-color: transparent;
 	outline: none;
 	border: none;
-	color: $ui-text-colour;
+	color: colours.$ui-text-colour;
 	width: calc(100% - 4.5rem);
 }
 
 .search-bar {
 	display: flex;
 	background-color: transparent;
-	color: $ui-text-colour;
+	color: colours.$ui-text-colour;
 	outline: none;
-	border: 0.125rem solid $hover-button-background;
+	border: 0.125rem solid colours.$hover-button-background;
 	border-radius: 0.1875rem;
 	height: 2rem;
 	align-items: center;
@@ -41,5 +41,5 @@
 }
 
 .search-bar__input::placeholder {
-	color: $ui-text-colour;
+	color: colours.$ui-text-colour;
 }

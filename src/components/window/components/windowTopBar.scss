@@ -1,16 +1,16 @@
-@import "../../../index.scss";
+@use '../../../scss/colours';
 
 .window__top-bar {
 	width: 100%;
 	height: 2rem;
 	display: flex;
-	background-color: $window-top-bar-background;
+	background-color: colours.$window-top-bar-background;
 	align-items: center;
 	cursor: default;
 }
 
 .window__top-bar__title {
-	color: $ui-text-colour;
+	color: colours.$ui-text-colour;
 	text-overflow: ellipsis;
 	overflow: hidden;
 	padding: 0rem 1rem 0rem 1rem;
@@ -48,9 +48,9 @@
 }
 
 .window__top-bar__controls__button:hover {
-	background-color: $hover-button-background;
+	background-color: colours.$hover-button-background;
 }
 
 .window__top-bar__controls__close-button:hover {
-	background-color: $hover-button-background-close;
+	background-color: colours.$hover-button-background-close;
 }

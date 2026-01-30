@@ -1,4 +1,4 @@
-@import "../../../../index.scss";
+@use '../../../../scss/colours';
 
 .taskbar-item,
 .taskbar-item--selected {
@@ -17,7 +17,7 @@
 }
 
 .taskbar-item__name {
-	color: $ui-text-colour;
+	color: colours.$ui-text-colour;
 	padding-left: 0.3125rem;
 	display: flex;
 	color: #d5d1cc;
@@ -38,5 +38,5 @@
 }
 
 .taskbar-item:hover {
-	background-color: $taskbar-button-background-selected;
+	background-color: colours.$taskbar-button-background-selected;
 }

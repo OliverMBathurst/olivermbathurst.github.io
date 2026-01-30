@@ -1,14 +1,14 @@
-@import '../../index.scss';
+@use '../../scss/colours';
 
 .button {
-    color: $ui-text-colour;
+    color: colours.$ui-text-colour;
     border: none;
     outline: none;
-    background-color: $button-background;
-    border: 0.125rem solid $button-border;
+    background-color: colours.$button-background;
+    border: 0.125rem solid colours.$button-border;
     border-radius: 0.3125rem;
 }
 
 .button:hover {
-    background-color: $hover-button-background;
+    background-color: colours.$hover-button-background;
 }

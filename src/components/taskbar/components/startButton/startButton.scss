@@ -1,4 +1,4 @@
-﻿@import "../../../../index.scss";
+﻿@use '../../../../scss/colours';
 
 .start-button {
 	height: 100%;
@@ -8,5 +8,5 @@
 }
 
 .start-button:hover {
-	background-color: $hover-button-background;
+	background-color: colours.$hover-button-background;
 }

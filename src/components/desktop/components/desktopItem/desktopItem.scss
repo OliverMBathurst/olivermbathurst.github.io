@@ -1,11 +1,11 @@
-@import "../../../../index.scss";
+@use '../../../../scss/colours';
 
 .desktop-item {
 	width: 6rem;
 	overflow: clip;
 	cursor: pointer;
 	margin-bottom: 1rem;
-	color: $ui-text-colour;
+	color: colours.$ui-text-colour;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -14,12 +14,12 @@
 }
 
 .desktop-item--selected {
-	background-color: $hover-button-background-selected;
+	background-color: colours.$hover-button-background-selected;
 }
 
 .desktop-item:hover,
 .desktop-item--selected:hover {
-	background-color: $hover-button-background;
+	background-color: colours.$hover-button-background;
 }
 
 .desktop-item__name {
