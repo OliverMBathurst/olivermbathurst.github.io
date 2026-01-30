@@ -111,6 +111,10 @@ const Window = (props: IWindowProps) => {
 				width: window.innerWidth,
 				height: window.innerHeight - DEFAULT_TASKBAR_HEIGHT_PIXELS
 			}
+
+			if (!selected) {
+				onWindowSelected(id, true)
+			}
 			onWindowStateChanged(id, WindowState.Maximised)
 		}
 	}
@@ -237,6 +241,10 @@ const Window = (props: IWindowProps) => {
 	) => {
 		if (!windowRef.current) {
 			return
+		}
+
+		if (!selected) {
+			onWindowSelected(id, true)
 		}
 
 		const expandDirection = getExpandDirectionByRefAndPosition(windowRef, e)
