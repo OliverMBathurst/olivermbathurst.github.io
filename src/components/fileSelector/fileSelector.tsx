@@ -1,16 +1,31 @@
+import { useRef } from "react"
+import { Button } from "../button"
 import "./fileSelector.scss"
 
 interface IFileSelectorProps extends React.InputHTMLAttributes<HTMLInputElement> {
-    forwardRef?: React.RefObject<HTMLInputElement | null>
+    buttonText?: string
 }
 
 const FileSelector = (props: IFileSelectorProps) => {
-    const { forwardRef } = props
+    const { buttonText } = props
+
+    const inputRef = useRef<HTMLInputElement | null>(null)
+
+    const onButtonClicked = () => {
+        if (inputRef.current) {
+            inputRef.current.click()
+        }
+    }
 
     const inputProps = { ...props }
-    delete inputProps.forwardRef
+    delete inputProps.buttonText
 
-    return (<input ref={forwardRef} className="file-selector" type="file" {...inputProps} />)
+    return (
+        <>
+            <Button onClick={onButtonClicked}>{buttonText ?? "Open"}</Button>
+            <input ref={inputRef} className="file-selector" type="file" {...inputProps} />
+        </>
+    )
 }
 
 export default FileSelector

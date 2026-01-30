@@ -1,4 +1,4 @@
-import { useContext, useRef } from "react"
+import { useContext } from "react"
 import { FILETYPE_DATA_PROPERTY, FILETYPE_PDF } from "../../constants"
 import { WindowsContext } from "../../contexts"
 import { PdfFile } from "../../files"
@@ -22,31 +22,28 @@ const PdfViewer = (props: IPdfViewerProps) => {
 		: FILETYPE_DATA_PROPERTY in context
 			? (context.data ?? undefined)
 			: undefined
-	const inputRef = useRef<HTMLInputElement | null>(null)
 
-	const onInputChange = (_: React.ChangeEvent<HTMLInputElement>) => {
-		if (inputRef.current) {
-			const files = inputRef.current.files
-			if (files) {
-				const file = files[0]
-				const fileName = file.name.split(".")
+	const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const files = e.target.files
+		if (files) {
+			const file = files[0]
+			const fileName = file.name.split(".")
 
-				const uploadedFile = new PdfFile(
-					fileName[0],
-					fileName[0] + "." + fileName[1],
-					inputRef.current.value,
-					Date.now(),
-					FILETYPE_PDF
-				)
+			const uploadedFile = new PdfFile(
+				fileName[0],
+				fileName[0] + "." + fileName[1],
+				e.target.value,
+				Date.now(),
+				FILETYPE_PDF
+			)
 
-				const reader = new FileReader()
-				reader.readAsDataURL(file)
-				reader.onload = () => {
-					const result = reader.result
-					if (!(result instanceof ArrayBuffer)) {
-						uploadedFile.data = result
-						setWindowContext(windowId, uploadedFile)
-					}
+			const reader = new FileReader()
+			reader.readAsDataURL(file)
+			reader.onload = () => {
+				const result = reader.result
+				if (!(result instanceof ArrayBuffer)) {
+					uploadedFile.data = result
+					setWindowContext(windowId, uploadedFile)
 				}
 			}
 		}
@@ -59,7 +56,7 @@ const PdfViewer = (props: IPdfViewerProps) => {
 	return (
 		<div className="pdf-viewer">
 			<div className="pdf-viewer-controls">
-				<FileSelector accept={FILETYPE_PDF} onChange={onInputChange} forwardRef={inputRef} />
+				<FileSelector accept={FILETYPE_PDF} onChange={onInputChange} buttonText="Open PDF file" />
 			</div>
 			{resolvedData && (
 				<object
