@@ -31,3 +31,7 @@ export const DATE_DISPLAY_PICKER_ID = "date-display__input"
 export const DEFAULT_DOCUMENT_TITLE = "Oliver Bathurst"
 export const DEFAULT_FAVICON_HREF = "/favicon.ico?v=2"
 export const CALENDAR_YEAR_RANGE_YEARS = 100
+export const CALENDAR_YEAR_ROW_SIZE = 4
+export const CALENDAR_YEAR_COLUMN_SIZE = 4
+export const CALENDAR_MONTH_ROW_SIZE = 4
+export const CALENDAR_MONTH_COLUMN_SIZE = 4

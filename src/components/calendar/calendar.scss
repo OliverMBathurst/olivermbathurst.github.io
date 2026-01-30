@@ -16,20 +16,6 @@
 	display: flex;
 }
 
-.calendar__upper-container__date-display > select {
-	background: none;
-	outline: none;
-	border: none;
-	color: $ui-text-colour;
-}
-
-.calendar__upper-container__date-display select option {
-	background-color: $ui-background;
-	color: $ui-text-colour;
-	padding: 0;
-	margin: 0;
-}
-
 .calendar__upper-container__controls__control > img {
 	width: 1.25rem;
 	height: 1.25rem;
@@ -65,11 +51,28 @@
 	text-align: center;
 }
 
-.calendar__upper-container,
-.calendar__lower-container {
+.calendar__upper-container {
 	padding: 0.5rem 0.5rem 0 0.5rem;
+}
+
+.calendar__lower-container {
+	height: calc(100% - 3rem);
+	padding: 0.5rem 0.5rem 0.5rem 0.5rem;
+}
+
+.calendar__lower-container__table__cell:hover,
+.calendar__lower-container__table__cell--grey:hover {
+	background-color: $hover-button-background;
 }
 
 .calendar__lower-container__table__cell--grey {
 	color: $ui-text-color-background;
+}
+
+.calendar__lower-container__table__cell--selected.calendar__lower-container__table__cell--grey {
+	color: $ui-text-colour;
+}
+
+.calendar__lower-container__table__cell--selected {
+	background-color: $hover-button-background-selected;
 }
