@@ -7,12 +7,9 @@ import {
 import { IAddWindowProperties } from "../interfaces/windows"
 import { Context } from "../types/fs"
 
-interface IApplicationHandlerServiceOptions {}
-
-class ApplicationHandlerService {
-	execute = (
-		context: Context,
-		_?: IApplicationHandlerServiceOptions
+class WindowPropertiesService {
+	getProperties = (
+		context: Context
 	): IAddWindowProperties | null => {
 		let resolvedContext: Context = context
 		if (SHORTCUT_DETERMINER in resolvedContext) {
@@ -36,4 +33,4 @@ class ApplicationHandlerService {
 	}
 }
 
-export default ApplicationHandlerService
+export default WindowPropertiesService

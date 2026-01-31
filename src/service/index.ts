@@ -1,3 +1,3 @@
-import ApplicationHandlerService from "./applicationHandlerService"
+import WindowPropertiesService from "./windowPropertiesService"
 
-export { ApplicationHandlerService }
+export { WindowPropertiesService }

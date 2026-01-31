@@ -3,7 +3,7 @@ import { FileSystemContext, WindowsContext } from "../../contexts"
 import { onMixedSelectionRowClicked } from "../../helpers/selections"
 import { useSearch } from "../../hooks"
 import { ISearchResult } from "../../interfaces/search"
-import { ApplicationHandlerService } from "../../service"
+import { WindowPropertiesService } from "../../service"
 import { Context } from "../../types/fs"
 import { SearchBar } from "../searchBar"
 import { SearchResultPane } from "../searchResultPane"
@@ -20,7 +20,7 @@ interface ITaskbarProps {
 	onDateClicked: () => void
 }
 
-const applicationHandlerService = new ApplicationHandlerService()
+const windowPropertiesService = new WindowPropertiesService()
 
 const Taskbar = (props: ITaskbarProps) => {
 	const { onStartButtonClicked, onDateClicked } = props
@@ -62,7 +62,7 @@ const Taskbar = (props: ITaskbarProps) => {
 
 	const onRowDoubleClicked = useCallback(
 		(context: Context, _: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-			const windowProperties = applicationHandlerService.execute(context)
+			const windowProperties = windowPropertiesService.getProperties(context)
 			if (windowProperties != null) {
 				addWindow(windowProperties)
 			}

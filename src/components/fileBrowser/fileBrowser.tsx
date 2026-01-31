@@ -12,7 +12,7 @@ import {
 } from "../../helpers/selections"
 import { useWindowSelectionRectangle } from "../../hooks"
 import { ISearchResult } from "../../interfaces/search"
-import { ApplicationHandlerService } from "../../service"
+import { WindowPropertiesService } from "../../service"
 import { BranchingContext, Context, Leaf, Shortcut } from "../../types/fs"
 import { Expandable } from "../expandable"
 import { SearchResultPane } from "../searchResultPane"
@@ -41,7 +41,7 @@ const selectionPanes = [
 	"file-browser-grid-view"
 ]
 
-const applicationHandlerService = new ApplicationHandlerService()
+const windowPropertiesService = new WindowPropertiesService()
 
 const FileBrowser = (props: IFileBrowserProps) => {
 	const { windowId, context } = props
@@ -84,7 +84,7 @@ const FileBrowser = (props: IFileBrowserProps) => {
 
 	const onRowDoubleClicked = useCallback(
 		(context: Context) => {
-			const windowProperties = applicationHandlerService.execute(context)
+			const windowProperties = windowPropertiesService.getProperties(context)
 			if (windowProperties != null) {
 				if (
 					BRANCHING_CONTEXT_DETERMINER in windowProperties.context &&
@@ -172,7 +172,7 @@ const FileBrowser = (props: IFileBrowserProps) => {
 			}
 
 			for (let i = 0; i < branches.length - 1; i++) {
-				const addWindowProperties = applicationHandlerService.execute(
+				const addWindowProperties = windowPropertiesService.getProperties(
 					branches[i]
 				)
 				if (addWindowProperties) {
@@ -223,7 +223,7 @@ const FileBrowser = (props: IFileBrowserProps) => {
 	}
 
 	const onFileNavigation = (context: Leaf | Shortcut) => {
-		const windowProperties = applicationHandlerService.execute(context)
+		const windowProperties = windowPropertiesService.getProperties(context)
 		if (windowProperties != null) {
 			addWindow(windowProperties)
 		}
