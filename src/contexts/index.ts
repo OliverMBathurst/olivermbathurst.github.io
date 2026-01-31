@@ -1,23 +1,25 @@
 import DesktopItemContextProvider, {
-	DesktopItemContext
+    DesktopItemContext
 } from "./desktopItemContextProvider"
 import FileBrowserContextProvider, {
-	FileBrowserContext
+    FileBrowserContext
 } from "./fileBrowserContextProvider"
 import FileSystemContextProvider, {
-	FileSystemContext
+    FileSystemContext
 } from "./fileSystemContextProvider"
+import RegistryContextProvider, { IRegistryContext, RegistryContext } from "./registryContextProvider"
 import WindowsContextProvider, {
-	WindowsContext
+    WindowsContext
 } from "./windowsContextProvider"
 
 export {
-	DesktopItemContext,
-	DesktopItemContextProvider,
-	FileBrowserContext,
-	FileBrowserContextProvider,
-	FileSystemContext,
-	FileSystemContextProvider,
-	WindowsContext,
-	WindowsContextProvider
+    DesktopItemContext,
+    DesktopItemContextProvider,
+    FileBrowserContext,
+    FileBrowserContextProvider,
+    FileSystemContext,
+    FileSystemContextProvider, RegistryContext, RegistryContextProvider, WindowsContext,
+    WindowsContextProvider
 }
+
+export type { IRegistryContext }

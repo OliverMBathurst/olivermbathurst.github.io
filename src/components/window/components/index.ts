@@ -1,3 +1,4 @@
-import WindowTopBar from "./windowTopBar"
+import { WindowContent } from "./windowContent"
+import { WindowTopBar } from "./windowTopBar"
 
-export { WindowTopBar }
+export { WindowContent, WindowTopBar }

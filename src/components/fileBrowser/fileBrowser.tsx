@@ -1,14 +1,14 @@
-import { useCallback, useContext, useMemo, useRef, useState } from "react"
+import { useCallback, useContext, useEffect, useMemo, useRef, useState } from "react"
 import {
-	BRANCHING_CONTEXT_DETERMINER,
-	BRANCHING_CONTEXT_PARENT_PROPERTY,
-	FILE_BROWSER_TREE_MIN_WIDTH
+    BRANCHING_CONTEXT_DETERMINER,
+    BRANCHING_CONTEXT_PARENT_PROPERTY,
+    FILE_BROWSER_TREE_MIN_WIDTH
 } from "../../constants"
-import { FileBrowserContext, WindowsContext } from "../../contexts"
+import { FileBrowserContext, FileSystemContext, WindowsContext } from "../../contexts"
 import { ExpandDirection } from "../../enums"
 import {
-	doRectanglesIntersect,
-	onMixedSelectionRowClicked
+    doRectanglesIntersect,
+    onMixedSelectionRowClicked
 } from "../../helpers/selections"
 import { useWindowSelectionRectangle } from "../../hooks"
 import { ISearchResult } from "../../interfaces/search"
@@ -17,18 +17,18 @@ import { BranchingContext, Context, Leaf, Shortcut } from "../../types/fs"
 import { Expandable } from "../expandable"
 import { SearchResultPane } from "../searchResultPane"
 import {
-	FileBrowserControls,
-	FileBrowserGridView,
-	FileBrowserRow,
-	FolderBaseInformation,
-	UpOneLevelRow
+    FileBrowserControls,
+    FileBrowserGridView,
+    FileBrowserRow,
+    FolderBaseInformation,
+    UpOneLevelRow
 } from "./components"
 import { FileBrowserTree } from "./components/fileBrowserTree"
 import "./fileBrowser.scss"
 
 interface IFileBrowserProps {
 	windowId: string
-	context: BranchingContext
+	context: Context
 }
 
 const baseClickExclusions = [
@@ -47,8 +47,11 @@ const FileBrowser = (props: IFileBrowserProps) => {
 	const { windowId, context } = props
 	const { displaySettings, toggleDisplaySetting } =
 		useContext(FileBrowserContext)
+
+	const { root } = useContext(FileSystemContext)
 	const [selected, setSelected] = useState<string[]>([])
 	const [searchResult, setSearchResult] = useState<ISearchResult | null>(null)
+	const resolvedContext = BRANCHING_CONTEXT_DETERMINER in context ? context : root
 
 	const {
 		addNavigationHistory,
@@ -69,13 +72,15 @@ const FileBrowser = (props: IFileBrowserProps) => {
 
 	const { addWindow, setWindowContext } = useContext(WindowsContext)
 
-	if (!(BRANCHING_CONTEXT_DETERMINER in context)) {
-		throw new Error("File Browser invoked on non-branching Context")
-	}
+	useEffect(() => {
+		if (!(BRANCHING_CONTEXT_DETERMINER in context)) {
+			setWindowContext(windowId, root)
+		}
+	}, [context, setWindowContext, windowId, root])
 
 	const Entities = useMemo(() => {
-		return [...context.branches, ...context.shortcuts, ...context.leaves]
-	}, [context])
+		return [...resolvedContext.branches, ...resolvedContext.shortcuts, ...resolvedContext.leaves]
+	}, [resolvedContext])
 
 	const onRowDoubleClicked = useCallback(
 		(context: Context) => {
@@ -196,9 +201,9 @@ const FileBrowser = (props: IFileBrowserProps) => {
 	}
 
 	const onUpOneLevel = () => {
-		if (BRANCHING_CONTEXT_PARENT_PROPERTY in context && context.parent) {
+		if (BRANCHING_CONTEXT_PARENT_PROPERTY in resolvedContext && resolvedContext.parent) {
 			elementRowReferences.current = {}
-			const parentContext = context.parent
+			const parentContext = resolvedContext.parent
 			const hp = point - 1
 			subtractFromHistoryPointer(windowId)
 
@@ -298,7 +303,7 @@ const FileBrowser = (props: IFileBrowserProps) => {
 		<div className="file-browser">
 			<FileBrowserControls
 				windowId={windowId}
-				context={context}
+				context={resolvedContext}
 				onDirectoryChanged={onDirectoryChanged}
 				onFileNavigation={onFileNavigation}
 				onSearchCompleted={onSearchCompleted}
@@ -327,8 +332,8 @@ const FileBrowser = (props: IFileBrowserProps) => {
 					tabIndex={0}
 				>
 					{SelectionRectangle}
-					{BRANCHING_CONTEXT_PARENT_PROPERTY in context &&
-						context.parent &&
+					{BRANCHING_CONTEXT_PARENT_PROPERTY in resolvedContext &&
+						resolvedContext.parent &&
 						thumbnailDisplay &&
 						!searchResult && (
 							<UpOneLevelRow onRowDoubleClicked={onUpOneLevel} />
@@ -348,7 +353,7 @@ const FileBrowser = (props: IFileBrowserProps) => {
 				</div>
 			</div>
 			<FolderBaseInformation
-				context={context}
+				context={resolvedContext}
 				entities={Entities}
 				selected={selected}
 				thumbnailDisplay={thumbnailDisplay}

@@ -1,13 +1,12 @@
 import { JSX } from "react"
 import { SpecialBranch } from "../../enums"
 import {
-	Branch,
-	BranchingContext,
-	Context,
-	Leaf,
-	Shortcut
+    Branch,
+    BranchingContext,
+    Context,
+    Leaf,
+    Shortcut
 } from "../../types/fs"
-import { IAddWindowProperties } from "../windows"
 export interface IShortcut extends INamed, IChildContext {}
 
 export interface IRoot extends ILeafAndBranchContext {}
@@ -33,14 +32,13 @@ export interface IUrlShortcutFile extends ILeaf {
 	url: string
 }
 
-export interface IUploadedFile extends INamed, IIcon {
+export interface IDataFile extends INamed {
 	data: string | null
-	path: string
-	epoch: number
 }
 
-export interface IBranchFile extends ILeaf {
-	getBranchingContext: (context: BranchingContext) => IAddWindowProperties
+export interface IUploadedFile extends INamed, IIcon, IDataFile {
+	path: string
+	epoch: number
 }
 
 export interface IWindowRenderProps<T> {
@@ -55,24 +53,20 @@ export interface IForwardContextInformation {
 	context: Context
 }
 
-export interface IForwardContext<T extends Context> {
-	forwardPath: string
-	fullPath: string
-	context: T
-}
-
 export interface INonRootContextInformation {
 	context: Branch | Leaf | Shortcut
 	fullPath: string
 }
 
 export interface IUploadedWindowFile
-	extends IAbstractUploadedWindowFile, IRenderable {}
+	extends IAbstractUploadedWindowFile {}
 
 export interface IAbstractUploadedWindowFile
 	extends IUploadedFile, INamed, IExtensionAvailable {}
 
-export interface IWindowFile extends ILeaf, IRenderable {}
+export interface IApplicationFile extends INamed {
+	handle: (windowId: string, context: Context) => JSX.Element
+}
 
 interface ILeafAndBranchContext extends INamed {
 	leaves: Leaf[]
@@ -86,12 +80,4 @@ interface IChildContext {
 
 interface IExtensionAvailable {
 	extension: string
-}
-
-interface IRenderable {
-	render: (
-		windowId: string,
-		context: Context,
-		props?: IWindowRenderProps<HTMLElement>
-	) => JSX.Element
 }

@@ -25,6 +25,10 @@ const FileBrowserLocationBar = (props: IFileBrowserLocationBarProps) => {
 
 	const fullPath = getFullPath(context)
 
+	useEffect(() => {
+		setDisplayValue(context.name)
+	}, [context, setDisplayValue])
+
 	useClickOutside(inputRef, () => setDisplayValue(context.name))
 
 	const onInputChangedInternal = (e: React.ChangeEvent<HTMLInputElement>) => {

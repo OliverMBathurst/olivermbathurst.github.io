@@ -1,30 +1,27 @@
 import React, { memo, useCallback, useContext, useEffect, useRef } from "react"
 import {
-	BRANCHING_CONTEXT_DETERMINER,
-	DEFAULT_MIN_WINDOW_HEIGHT_PIXELS,
-	DEFAULT_MIN_WINDOW_WIDTH_PIXELS,
-	DEFAULT_POINTER,
-	DEFAULT_TASKBAR_HEIGHT_PIXELS,
-	FILETYPE_RENDERABLE_PROPERTY,
-	TASKBAR_ITEM_CLASS,
-	TASKBAR_ITEM_NAME_CLASS,
-	TASKBAR_ITEM_SELECTED_CLASS
+    DEFAULT_MIN_WINDOW_HEIGHT_PIXELS,
+    DEFAULT_MIN_WINDOW_WIDTH_PIXELS,
+    DEFAULT_POINTER,
+    DEFAULT_TASKBAR_HEIGHT_PIXELS,
+    TASKBAR_ITEM_CLASS,
+    TASKBAR_ITEM_NAME_CLASS,
+    TASKBAR_ITEM_SELECTED_CLASS
 } from "../../constants"
 import { WindowsContext } from "../../contexts"
 import { ExpandDirection } from "../../enums"
 import {
-	getCursor,
-	getExpandDirectionByRefAndPosition,
-	heightChangesEnum,
-	widthChangesEnum,
-	xChangesEnum,
-	yChangesEnum
+    getCursor,
+    getExpandDirectionByRefAndPosition,
+    heightChangesEnum,
+    widthChangesEnum,
+    xChangesEnum,
+    yChangesEnum
 } from "../../helpers/direction"
 import { useClickOutside } from "../../hooks"
 import { ISize, IWindowProperties, WindowState } from "../../interfaces/windows"
 import { Visibility } from "../../types"
-import { FileBrowser } from "../fileBrowser"
-import { WindowTopBar } from "./components"
+import { WindowContent, WindowTopBar } from "./components"
 import "./window.scss"
 
 const clickOutsideExclusions: string[] = [
@@ -461,18 +458,6 @@ const Window = (props: IWindowProps) => {
 		}
 	}, [onWindowMouseMove, onWindowTopBarMouseMove])
 
-	const Content = useCallback(() => {
-		if (FILETYPE_RENDERABLE_PROPERTY in context) {
-			return context.render(id, context)
-		}
-
-		if (BRANCHING_CONTEXT_DETERMINER in context) {
-			return <FileBrowser windowId={id} context={context} />
-		}
-
-		return null
-	}, [id, context])
-
 	const visibility: Visibility =
 		state === WindowState.Minimised ? "hidden" : "visible"
 
@@ -505,7 +490,7 @@ const Window = (props: IWindowProps) => {
 					className="window__inner-content__content"
 					onClick={onWindowContentClicked}
 				>
-					<Content />
+					<WindowContent windowId={id} context={context} />
 				</div>
 			</div>
 		</div>
