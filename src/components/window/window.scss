@@ -1,4 +1,5 @@
 @use "../../scss/colours";
+@use "../../scss/styles";
 
 .window {
 	position: absolute;
@@ -8,7 +9,8 @@
 	background-color: colours.$window-top-bar-background;
 	min-width: 12.5rem;
 	min-height: 9.375rem;
-	box-shadow: colours.$window-box-shadow;
+	box-shadow: styles.$window-box-shadow;
+	border-radius: styles.$window-border-radius;
 }
 
 .window--selected {

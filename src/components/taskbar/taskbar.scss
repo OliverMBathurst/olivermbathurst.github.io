@@ -1,3 +1,5 @@
+@use "../../scss/styles";
+
 .taskbar {
 	width: 100%;
 	position: absolute;
@@ -16,6 +18,12 @@
 
 .taskbar > .search-bar {
 	flex-grow: 0;
+}
+
+.taskbar > *,
+.taskbar__items-container > * {
+	height: calc(100% - 0.7rem);
+	border-radius: styles.$window-border-radius;
 }
 
 .taskbar__items-container {

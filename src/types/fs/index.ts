@@ -1,10 +1,12 @@
 import {
     IApplicationFile,
     IDataFile,
+    ITextFile,
     IUploadedWindowFile,
     IUrlShortcutFile
 } from "../../interfaces/fs"
 import AbstractLeaf from "./abstractLeaf"
+import AbstractNamed from "./abstractNamed"
 import AbstractUploadedWindowFile from "./abstractUploadedFile"
 import Branch from "./branch"
 import Root from "./root"
@@ -19,5 +21,6 @@ export type Leaf =
 	| IUploadedWindowFile
     | IApplicationFile
     | IDataFile
+    | ITextFile
 
-export { AbstractLeaf, AbstractUploadedWindowFile, Branch, Root, Shortcut }
+export { AbstractLeaf, AbstractNamed, AbstractUploadedWindowFile, Branch, Root, Shortcut }

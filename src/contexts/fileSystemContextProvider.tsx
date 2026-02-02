@@ -1,12 +1,14 @@
 import { createContext, useState } from "react"
 import { SpecialBranch } from "../enums"
 import {
-	CV,
-	FileBrowser,
-	GitHub,
-	LinkedIn,
-	PdfViewer,
-	ThisProject
+    CV,
+    Credits,
+    FileBrowser,
+    GitHub,
+    LinkedIn,
+    PdfViewer,
+    TextFileViewer,
+    ThisProject
 } from "../files"
 import { INonRootContextInformation } from "../interfaces/fs"
 import { Branch, BranchingContext, Root, Shortcut } from "../types/fs"
@@ -20,12 +22,14 @@ desktopBranch.setLeaves([
 	new CV(desktopBranch),
 	new LinkedIn(desktopBranch),
 	new GitHub(desktopBranch),
-	new ThisProject(desktopBranch)
+	new ThisProject(desktopBranch),
+	new Credits(desktopBranch)
 ])
 
 applicationsBranch.setLeaves([
 	new FileBrowser(applicationsBranch),
-	new PdfViewer(applicationsBranch)
+	new PdfViewer(applicationsBranch),
+	new TextFileViewer(applicationsBranch)
 ])
 
 root.setBranches([contentsBranch])

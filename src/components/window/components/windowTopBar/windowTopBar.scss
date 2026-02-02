@@ -1,4 +1,5 @@
 @use "../../../../scss/colours";
+@use "../../../../scss/styles";
 
 .window__top-bar {
 	width: 100%;
@@ -53,4 +54,8 @@
 
 .window__top-bar__controls__close-button:hover {
 	background-color: colours.$hover-button-background-close;
+}
+
+.window__top-bar__controls__close-button {
+	border-radius: 0rem styles.$window-border-radius 0rem 0rem;
 }

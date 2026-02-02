@@ -1,4 +1,5 @@
 @use "../../scss/colours";
+@use "../../scss/styles";
 
 .search-bar__input {
 	display: flex;
@@ -15,7 +16,7 @@
 	color: colours.$ui-text-colour;
 	outline: none;
 	border: 0.125rem solid colours.$hover-button-background;
-	border-radius: 0.1875rem;
+	border-radius: styles.$window-border-radius;
 	height: 2rem;
 	align-items: center;
 	cursor: text;

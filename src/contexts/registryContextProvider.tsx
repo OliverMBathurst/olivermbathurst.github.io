@@ -1,18 +1,21 @@
 import { createContext, useState } from "react"
-import RegistryService from "../service/registryService"
+import { FILE_BROWSER_APP_ID } from "../constants"
+import { RegistryService } from "../services"
 
 export interface IRegistryContext {
     applications: Record<string, string>
     applicationPaths: Record<string, string>
+    specialBranchPaths: Record<string, string>
     fileTypeAssociations: Record<string, string>
-    folderHandlerId: string
+    branchHandlerId: string
 }
 
 export const RegistryContext = createContext<IRegistryContext>({
     applications: {},
     applicationPaths: {},
+    specialBranchPaths: {},
     fileTypeAssociations: {},
-    folderHandlerId: ""
+    branchHandlerId: FILE_BROWSER_APP_ID
 })
 
 interface IRegistryContextProviderProps {

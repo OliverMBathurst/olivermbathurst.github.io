@@ -337,9 +337,6 @@ const Calendar = (props: ICalendarProps) => {
 				decadeEndYear++
 			}
 
-			decadeEndYear =
-				decadeEndYear === selectedYear ? selectedYear + 9 : decadeEndYear - 1
-
 			return (
 				<>
 					{yearRows.map((yearRow, yearRowIdx) => {
@@ -350,7 +347,7 @@ const Calendar = (props: ICalendarProps) => {
 									return (
 										<td
 											key={year}
-											className={`calendar__lower-container__table__cell${year > decadeEndYear ? "--grey" : ""}
+											className={`calendar__lower-container__table__cell${year >= decadeEndYear ? "--grey" : ""}
 												${selected ? " calendar__lower-container__table__cell--selected" : ""}
 												${NO_SELECT_CLASS}`}
 											onClick={() => onYearSelected(year)}

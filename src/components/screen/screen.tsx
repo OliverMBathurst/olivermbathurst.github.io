@@ -1,5 +1,7 @@
-import { useContext, useEffect, useState } from "react"
+import { useContext, useEffect, useRef, useState } from "react"
 import { FileSystemContext, WindowsContext } from "../../contexts"
+import { WindowPropertiesService } from "../../services"
+import { Context } from "../../types/fs"
 import { Calendar } from "../calendar"
 import { Desktop } from "../desktop"
 import { Colours } from "../screenSaver"
@@ -8,21 +10,38 @@ import { Taskbar } from "../taskbar"
 import { Window } from "../window"
 import "./screen.scss"
 
+const windowPropertiesService = new WindowPropertiesService()
+
 const Screen = () => {
-	const { windowProperties } = useContext(WindowsContext)
+	const { windowProperties, addWindow } = useContext(WindowsContext)
 	const { runIndexer } = useContext(FileSystemContext)
 
 	const [startMenuShow, setStartMenuShow] = useState<boolean>(false)
 	const [calendarShow, setCalendarShow] = useState<boolean>(false)
+
+	const taskbarSearchBarElement = useRef<HTMLInputElement | null>(null)
 
 	const onWindowResized = () => {
 		setStartMenuShow(false)
 		setCalendarShow(false)
 	}
 
-	useEffect(() => {
-		runIndexer()
-	}, [])
+	const onStartMenuSearchBarFocused = () => {
+		setStartMenuShow(false)
+		const taskbarSearchBarElem = taskbarSearchBarElement.current
+		if (taskbarSearchBarElem) {
+			taskbarSearchBarElem.focus()
+		}
+	}
+
+	const onItemClicked = (context: Context) => {
+		const properties = windowPropertiesService.getProperties(context)
+		if (properties) {
+			addWindow(properties)
+		}
+
+		setStartMenuShow((s) => !s)
+	}
 
 	useEffect(() => {
 		window.addEventListener("resize", onWindowResized)
@@ -31,6 +50,10 @@ const Screen = () => {
 			window.removeEventListener("resize", onWindowResized)
 		}
 	}, [onWindowResized])
+
+	useEffect(() => {
+		runIndexer()
+	}, [])
 
 	return (
 		<div className="screen">
@@ -41,7 +64,11 @@ const Screen = () => {
 					<Window key={p.id} properties={p} />
 				))}
 				{startMenuShow && (
-					<StartMenu onClickOutside={() => setStartMenuShow((s) => !s)} />
+					<StartMenu
+						onClickOutside={() => setStartMenuShow((s) => !s)}
+						onSearchBarFocused={onStartMenuSearchBarFocused}
+						onItemClicked={onItemClicked}
+					/>
 				)}
 				{calendarShow && (
 					<Calendar onClickOutside={() => setCalendarShow((s) => !s)} />
@@ -50,6 +77,7 @@ const Screen = () => {
 			<Taskbar
 				onStartButtonClicked={() => setStartMenuShow((s) => !s)}
 				onDateClicked={() => setCalendarShow((s) => !s)}
+				taskbarSearchBarCallback={(elem) => taskbarSearchBarElement.current = elem}
 			/>
 		</div>
 	)

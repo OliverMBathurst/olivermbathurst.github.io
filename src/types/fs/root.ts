@@ -1,18 +1,13 @@
-import { Branch, Leaf, Shortcut } from "."
+import { AbstractNamed, Branch, Leaf, Shortcut } from "."
 import { IRoot } from "../../interfaces/fs"
 
-class Root implements IRoot {
-	name: string
+class Root extends AbstractNamed implements IRoot {
 	leaves: Leaf[] = []
 	branches: Branch[] = []
 	shortcuts: Shortcut[] = []
 
 	constructor(name: string) {
-		this.name = name
-	}
-
-	get fullName() {
-		return this.name
+		super(name, name)
 	}
 
 	toContextUniqueKey: () => string = () => this.name

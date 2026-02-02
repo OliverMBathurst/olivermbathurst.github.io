@@ -1,19 +1,21 @@
 import { useCallback, useContext, useEffect, useMemo, useRef } from "react"
 import {
-	DESKTOP_ITEM_CLASS,
-	DESKTOP_ITEM_ICON_CLASS,
-	DESKTOP_ITEM_NAME_CLASS,
-	NO_SELECT_CLASS
+    BRANCHING_CONTEXT_DETERMINER,
+    DESKTOP_ITEM_CLASS,
+    DESKTOP_ITEM_ICON_CLASS,
+    DESKTOP_ITEM_NAME_CLASS,
+    NO_SELECT_CLASS
 } from "../../constants"
-import { DesktopItemContext, FileSystemContext } from "../../contexts"
+import { DesktopItemContext, RegistryContext } from "../../contexts"
 import { SpecialBranch } from "../../enums"
+import { isMouseDownLeftClick } from "../../helpers/click"
 import { useFileSystem } from "../../hooks"
 import { IPosition } from "../../interfaces/windows"
 import { File } from "../file"
 import { Folder } from "../folder"
 import { Shortcut } from "../shortcut"
 import "./desktop.scss"
-import { isMouseDownLeftClick } from "../../helpers/click"
+import { BranchingContext } from "../../types/fs"
 
 const selectionRectangeStartExclusions = [
 	DESKTOP_ITEM_CLASS,
@@ -23,8 +25,6 @@ const selectionRectangeStartExclusions = [
 ]
 
 const Desktop = () => {
-	const { searchForBranchByType } = useFileSystem()
-	const { root } = useContext(FileSystemContext)
 	const {
 		onDesktopClicked,
 		onDesktopDragOver,
@@ -32,14 +32,25 @@ const Desktop = () => {
 		elementReferences,
 		setSelectedContextKeys
 	} = useContext(DesktopItemContext)
+	const { validateFilePath } = useFileSystem()
+	const { specialBranchPaths } = useContext(RegistryContext)
 
 	const selectionRectangeRef = useRef<HTMLDivElement | null>(null)
 	const selecting = useRef<boolean>(false)
 	const selectionRectangeStart = useRef<IPosition | undefined>(undefined)
 
-	const desktopBranch = useMemo(() => {
-		return searchForBranchByType(root, SpecialBranch.Desktop)
-	}, [searchForBranchByType, root])
+	const desktopBranch: BranchingContext | null = useMemo(() => {
+		const validatedDesktopBranch = validateFilePath(specialBranchPaths[SpecialBranch.Desktop])
+		if (!validatedDesktopBranch) {
+			return null
+		}
+
+		if (BRANCHING_CONTEXT_DETERMINER in validatedDesktopBranch) {
+			return validatedDesktopBranch
+		}
+
+		return null
+	}, [validateFilePath, specialBranchPaths])
 
 	const onMouseUp = useCallback((_: MouseEvent) => {
 		if (selectionRectangeRef.current) {
@@ -157,8 +168,8 @@ const Desktop = () => {
 					return <Shortcut key={s.name} shortcut={s} />
 				})}
 				{desktopBranch?.leaves.map((l) => {
-					const { name, extension } = l
-					return <File key={`${name}${extension}`} context={l} />
+					const { fullName } = l
+					return <File key={fullName} context={l} />
 				})}
 			</div>
 		</div>

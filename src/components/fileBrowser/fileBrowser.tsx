@@ -2,6 +2,8 @@ import { useCallback, useContext, useEffect, useMemo, useRef, useState } from "r
 import {
     BRANCHING_CONTEXT_DETERMINER,
     BRANCHING_CONTEXT_PARENT_PROPERTY,
+    FILE_BROWSER_CONTENT_RESULT_PANE_CLASS,
+    FILE_BROWSER_GRID_VIEW_CLASS,
     FILE_BROWSER_TREE_MIN_WIDTH
 } from "../../constants"
 import { FileBrowserContext, FileSystemContext, WindowsContext } from "../../contexts"
@@ -12,7 +14,7 @@ import {
 } from "../../helpers/selections"
 import { useWindowSelectionRectangle } from "../../hooks"
 import { ISearchResult } from "../../interfaces/search"
-import { WindowPropertiesService } from "../../service"
+import { WindowPropertiesService } from "../../services"
 import { BranchingContext, Context, Leaf, Shortcut } from "../../types/fs"
 import { Expandable } from "../expandable"
 import { SearchResultPane } from "../searchResultPane"
@@ -32,13 +34,13 @@ interface IFileBrowserProps {
 }
 
 const baseClickExclusions = [
-	"file-browser__content__result-pane",
-	"file-browser-grid-view"
+	FILE_BROWSER_CONTENT_RESULT_PANE_CLASS,
+	FILE_BROWSER_GRID_VIEW_CLASS
 ]
 
 const selectionPanes = [
-	"file-browser__content__result-pane",
-	"file-browser-grid-view"
+	FILE_BROWSER_CONTENT_RESULT_PANE_CLASS,
+	FILE_BROWSER_GRID_VIEW_CLASS
 ]
 
 const windowPropertiesService = new WindowPropertiesService()
@@ -218,6 +220,7 @@ const FileBrowser = (props: IFileBrowserProps) => {
 	}
 
 	const onDirectoryChanged = (context: BranchingContext) => {
+		setSelected([])
 		addNavigationHistory(windowId, context)
 		setWindowContext(windowId, context)
 	}
@@ -325,7 +328,7 @@ const FileBrowser = (props: IFileBrowserProps) => {
 					</div>
 				</Expandable>
 				<div
-					className="file-browser__content__result-pane"
+					className={FILE_BROWSER_CONTENT_RESULT_PANE_CLASS}
 					ref={fileBrowserPaneRef}
 					onMouseDown={onFileBrowserMouseDown}
 					onKeyDown={onFileBrowserKeyDown}

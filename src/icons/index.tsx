@@ -8,16 +8,17 @@ import expand from "../icons/expand.png"
 import file from "../icons/file.png"
 import folder from "../icons/folder.png"
 import internet from "../icons/internet.png"
+import leftArrow from "../icons/left-arrow.png"
 import maximise from "../icons/maximise.png"
 import minimise from "../icons/minimise.png"
 import pdf from "../icons/pdf.png"
+import power from "../icons/power.png"
+import rightArrow from "../icons/right-arrow.png"
 import search from "../icons/search.png"
 import start from "../icons/startMenu.png"
 import textFile from "../icons/textFile.png"
 import thumbs from "../icons/thumbs.png"
 import upArrow from "../icons/up-arrow.png"
-import leftArrow from "../icons/left-arrow.png"
-import rightArrow from "../icons/right-arrow.png"
 
 const GenericFileIcon = (props: React.ImgHTMLAttributes<HTMLImageElement>) => (
 	<img src={file} alt="File icon by icon8" {...props} />
@@ -99,25 +100,25 @@ const RightArrowIcon = (props: React.ImgHTMLAttributes<HTMLImageElement>) => (
 	<img src={rightArrow} alt="Right arrow icon by icon8" {...props} />
 )
 
+const PowerIcon = (props: React.ImgHTMLAttributes<HTMLImageElement>) => (
+	<img src={power} alt="Power icon by icon8" {...props} />
+)
+
 export {
-	CancelIcon,
-	CloseIcon,
-	CollapseIcon,
-	CustomIcon,
-	DriveIcon,
-	ExecutableFileIcon,
-	ExpandIcon,
-	FolderIcon,
-	GenericFileIcon,
-	InternetIcon,
-	MaximizeIcon,
-	MinimizeIcon,
-	PdfIcon,
-	SearchIcon,
-	StartMenuIcon,
-	TextFileIcon,
-	ThumbsIcon,
-	UpArrowIcon,
-	LeftArrowIcon,
-	RightArrowIcon
+    CancelIcon,
+    CloseIcon,
+    CollapseIcon,
+    CustomIcon,
+    DriveIcon,
+    ExecutableFileIcon,
+    ExpandIcon,
+    FolderIcon,
+    GenericFileIcon,
+    InternetIcon, LeftArrowIcon, MaximizeIcon,
+    MinimizeIcon,
+    PdfIcon, PowerIcon, RightArrowIcon, SearchIcon,
+    StartMenuIcon,
+    TextFileIcon,
+    ThumbsIcon,
+    UpArrowIcon
 }

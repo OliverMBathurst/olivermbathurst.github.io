@@ -1,9 +1,8 @@
-import { BranchingContext, Leaf, Shortcut } from "."
+import { AbstractNamed, BranchingContext, Leaf, Shortcut } from "."
 import { SpecialBranch } from "../../enums"
 import { IBranch } from "../../interfaces/fs"
 
-class Branch implements IBranch {
-	name: string
+class Branch extends AbstractNamed implements IBranch {
 	type: SpecialBranch
 	leaves: Leaf[] = []
 	branches: Branch[] = []
@@ -11,12 +10,8 @@ class Branch implements IBranch {
 	parent: BranchingContext | null = null
 
 	constructor(name: string, type: SpecialBranch) {
-		this.name = name
+		super(name, name)
 		this.type = type
-	}
-
-	get fullName() {
-		return this.name
 	}
 
 	toContextUniqueKey: () => string = () => `${this.name}-${this.type}`

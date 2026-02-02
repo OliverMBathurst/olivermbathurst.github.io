@@ -4,11 +4,12 @@ import { CancelIcon, SearchIcon } from "../../icons"
 import "./searchBar.scss"
 
 interface ISearchBarProps extends React.InputHTMLAttributes<HTMLInputElement> {
+	elementCallback?: (elem: HTMLInputElement) => void
 	onCancelClicked?: () => void
 }
 
 const SearchBar = (props: ISearchBarProps) => {
-	const { onCancelClicked, value: initialValue } = props
+	const { elementCallback, onCancelClicked, value: initialValue } = props
 	const [value, setValue] = useState<string | number | readonly string[]>(
 		initialValue ?? ""
 	)
@@ -23,7 +24,7 @@ const SearchBar = (props: ISearchBarProps) => {
 		}
 	}
 
-	const onKeyUpInternal = (e: React.KeyboardEvent<HTMLInputElement>) => {
+	const onKeyUpInternal = (_: React.KeyboardEvent<HTMLInputElement>) => {
 		if (inputRef.current) {
 			setValue(inputRef.current.value)
 		}
@@ -40,16 +41,23 @@ const SearchBar = (props: ISearchBarProps) => {
 		}
 	}
 
-	const newProps: ISearchBarProps = { ...props }
+	const onMount = (elem: HTMLInputElement) => {
+		inputRef.current = elem
+		if (elementCallback) {
+			elementCallback(elem)
+		}
+	}
 
+	const newProps: ISearchBarProps = { ...props }
 	delete newProps.onCancelClicked
+	delete newProps.elementCallback
 
 	return (
 		<div className="search-bar" onClick={onSearchBarClicked}>
 			<SearchIcon className={`search-bar__search-icon ${NO_SELECT_CLASS}`} />
 			<input
 				className="search-bar__input"
-				ref={inputRef}
+				ref={onMount}
 				onKeyUp={onKeyUpInternal}
 				{...newProps}
 			/>

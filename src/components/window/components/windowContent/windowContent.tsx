@@ -12,7 +12,7 @@ interface IWindowContentProps {
 const WindowContent = (props: IWindowContentProps) => {
     const { context, windowId } = props
     const { validateFilePath } = useFileSystem()
-    const { folderHandlerId, fileTypeAssociations, applicationPaths, applications } = useContext(RegistryContext)
+    const { branchHandlerId, fileTypeAssociations, applicationPaths, applications } = useContext(RegistryContext)
     const [applicationHandlerId, setApplicationHandlerId] = useState<string | null>(null)
     const [application, setApplication] = useState<Context | null>(null)
 
@@ -27,7 +27,7 @@ const WindowContent = (props: IWindowContentProps) => {
                 handlerId = applicationId[0]
             }
         } else if (BRANCHING_CONTEXT_DETERMINER in context) {
-            handlerId = folderHandlerId
+            handlerId = branchHandlerId
         } else if (LEAF_EXTENSION_PROPERTY_NAME in context) {
             const handlerDetails = Object.entries(fileTypeAssociations)
                 .find(x => x[1].indexOf(context.extension) !== -1)
@@ -37,7 +37,7 @@ const WindowContent = (props: IWindowContentProps) => {
         }
 
         setApplicationHandlerId(handlerId)
-    }, [context, applications, folderHandlerId, fileTypeAssociations, setApplicationHandlerId])
+    }, [context, applications, branchHandlerId, fileTypeAssociations, setApplicationHandlerId])
 
     useEffect(() => {
         if (applicationHandlerId) {

@@ -1,17 +1,22 @@
 import { useRef } from "react"
-import { NO_SELECT_CLASS, TASKBAR_START_BUTTON_CLASS } from "../../constants"
+import { TASKBAR_START_BUTTON_CLASS } from "../../constants"
 import { useClickOutside } from "../../hooks"
+import { PowerIcon } from "../../icons"
+import { Context } from "../../types/fs"
+import { SearchBar } from "../searchBar"
+import { ApplicationsSection, RecommendedSection } from "./components"
 import "./startMenu.scss"
 
 interface IStartMenuProps {
 	onClickOutside: () => void
+	onSearchBarFocused: () => void
+	onItemClicked: (item: Context) => void
 }
 
 const clickOutsideExclusions = [TASKBAR_START_BUTTON_CLASS]
 
 const StartMenu = (props: IStartMenuProps) => {
-	const { onClickOutside } = props
-
+	const { onClickOutside, onSearchBarFocused, onItemClicked } = props
 	const startMenuRef = useRef<HTMLDivElement | null>(null)
 
 	useClickOutside(startMenuRef, (e) => {
@@ -37,16 +42,18 @@ const StartMenu = (props: IStartMenuProps) => {
 	return (
 		<div className="start-menu" ref={startMenuRef}>
 			<div className="start-menu__top-container">
-				<div className="start-menu__top-container__left"></div>
-				<div className="start-menu__top-container__right">
-					<div className="start-menu__top-container__right__branches">
-						<span
-							className={`start-menu__top-container__right__branches__text ${NO_SELECT_CLASS}`}
-						>
-							Applications
-						</span>
-					</div>
-				</div>
+				<SearchBar
+					type="text"
+					placeholder="Search..."
+					onFocus={onSearchBarFocused}
+				/>
+			</div>
+			<div className="start-menu__bottom-container">
+				<RecommendedSection onItemClicked={onItemClicked} />
+				<ApplicationsSection onItemClicked={onItemClicked} />
+			</div>
+			<div className="start-menu__button-container">
+				<PowerIcon onClick={() => window.location.reload()} />
 			</div>
 		</div>
 	)

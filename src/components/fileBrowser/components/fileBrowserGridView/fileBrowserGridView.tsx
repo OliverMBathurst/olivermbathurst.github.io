@@ -1,5 +1,5 @@
 import { useRef } from "react"
-import { NO_SELECT_CLASS } from "../../../../constants"
+import { FILE_BROWSER_GRID_VIEW_CLASS, NO_SELECT_CLASS } from "../../../../constants"
 import { ExpandDirection } from "../../../../enums"
 import { getIcon } from "../../../../helpers/icons"
 import { getType } from "../../../../helpers/type"
@@ -72,7 +72,7 @@ const FileBrowserGridView = (props: IFileBrowserGridViewProps) => {
 	}
 
 	return (
-		<div className="file-browser-grid-view" ref={gridRef}>
+		<div className={FILE_BROWSER_GRID_VIEW_CLASS} ref={gridRef}>
 			<div className="file-browser-grid-view__head">
 				<Expandable
 					{...gridHeaderExpandableProps}

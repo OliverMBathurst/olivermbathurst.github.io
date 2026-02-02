@@ -1,10 +1,11 @@
 @use "../../../../scss/colours";
+@use "../../../../scss/styles";
 
 .base-information-pane {
 	height: 2rem;
-	background-color: rgba(169, 169, 169, 0.12);
+	background-color: colours.$base-information-pane;
 	color: colours.$ui-text-colour;
-	font-size: 0.75rem;
+	font-size: styles.$base-information-pane-font-size;
 	display: flex;
 	align-items: center;
 }

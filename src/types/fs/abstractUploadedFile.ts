@@ -1,10 +1,9 @@
+import { AbstractNamed } from "."
 import { IAbstractUploadedWindowFile } from "../../interfaces/fs"
 
-abstract class AbstractUploadedWindowFile implements IAbstractUploadedWindowFile {
+abstract class AbstractUploadedWindowFile extends AbstractNamed implements IAbstractUploadedWindowFile {
 	_data: string | null = null
 	_icon: string | null = null
-	name: string
-	fullName: string
 	extension: string
 	path: string
 	epoch: number
@@ -16,8 +15,7 @@ abstract class AbstractUploadedWindowFile implements IAbstractUploadedWindowFile
 		openTime: number,
 		extension: string
 	) {
-		this.name = name
-		this.fullName = fullName
+		super(name, fullName)
 		this.path = path
 		this.epoch = openTime
 		this.extension = extension

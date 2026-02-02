@@ -1,4 +1,5 @@
 @use "../../scss/colours";
+@use "../../scss/styles";
 
 .start-menu {
 	flex-direction: column;
@@ -13,7 +14,8 @@
 	min-height: 30rem;
 	max-width: 20rem;
 	max-height: 30rem;
-	box-shadow: colours.$window-box-shadow;
+	box-shadow: styles.$window-box-shadow;
+	border-radius: styles.$window-border-radius;
 
 	@media screen and (max-width: 12.5rem) {
 		visibility: hidden;
@@ -41,65 +43,33 @@
 .start-menu__top-container {
 	flex-direction: row;
 	padding: 0.5rem 0.5rem 0.5rem 0.5rem;
-	min-height: 0;
-	flex-grow: 1;
 }
 
 .start-menu,
 .start-menu__top-container,
-.start-menu__bottom-container {
+.start-menu__bottom-container,
+.start-menu__button-container {
 	display: flex;
 }
 
-.start-menu__top-container__left,
-.start-menu__top-container__right {
-	display: flex;
+.start-menu__bottom-container {
 	flex-direction: column;
 	overflow: scroll;
 }
 
-.start-menu__top-container__right {
-	flex-grow: 1;
+.start-menu__button-container {
+	margin: auto 0.5rem 0.5rem 0.5rem;
+	border: 0.0625rem solid black;
+	background-color: colours.$start-menu-container-background;
+	border-radius: styles.$window-border-radius;
 }
 
-.start-menu__top-container__left {
+.start-menu__button-container img {
+	height: 2rem;
 	width: 2rem;
+	padding: 0.5rem 0.5rem 0.5rem 0.5rem;
 }
 
-.start-menu__top-container__right__row:hover {
+.start-menu__button-container img:hover {
 	background-color: colours.$hover-button-background;
-}
-
-.start-menu__top-container__right__row--selected {
-	background-color: colours.$hover-button-background;
-}
-
-.start-menu__top-container__right__branches__text {
-	font-weight: 600;
-	margin-bottom: 0.5rem;
-	display: flex;
-}
-
-.start-menu__top-container__right__row,
-.start-menu__top-container__right__row--selected,
-.start-menu__top-container__left__row {
-	flex-direction: row;
-	align-items: center;
-	display: flex;
-}
-
-.start-menu__top-container__right__row__icon img {
-	height: 1.5rem;
-	width: 1.5rem;
-}
-
-.start-menu__top-container__right__row,
-.start-menu__top-container__right__row--selected {
-	padding-left: 0.5rem;
-}
-
-.start-menu__top-container__right__row__name {
-	padding-left: 0.5rem;
-	overflow: hidden;
-	text-overflow: ellipsis;
 }

@@ -1,4 +1,5 @@
 @use "../../../../scss/colours";
+@use "../../../../scss/styles";
 
 .file-browser-location-bar__input {
 	background-color: transparent;
@@ -11,7 +12,7 @@
 .file-browser-location-bar {
 	background-color: transparent;
 	border: 0.125rem solid colours.$hover-button-background;
-	border-radius: 0.1875rem;
+	border-radius: styles.$window-border-radius;
 	display: flex;
 	align-items: center;
 	height: 1.3rem;

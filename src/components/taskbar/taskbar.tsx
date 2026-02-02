@@ -3,27 +3,28 @@ import { FileSystemContext, WindowsContext } from "../../contexts"
 import { onMixedSelectionRowClicked } from "../../helpers/selections"
 import { useSearch } from "../../hooks"
 import { ISearchResult } from "../../interfaces/search"
-import { WindowPropertiesService } from "../../service"
+import { WindowPropertiesService } from "../../services"
 import { Context } from "../../types/fs"
 import { SearchBar } from "../searchBar"
 import { SearchResultPane } from "../searchResultPane"
 import {
-	DateDisplay,
-	MinimizeAllButton,
-	StartButton,
-	TaskbarItem
+    DateDisplay,
+    MinimizeAllButton,
+    StartButton,
+    TaskbarItem
 } from "./components"
 import "./taskbar.scss"
 
 interface ITaskbarProps {
 	onStartButtonClicked: () => void
 	onDateClicked: () => void
+	taskbarSearchBarCallback: (elem: HTMLInputElement) => void
 }
 
 const windowPropertiesService = new WindowPropertiesService()
 
 const Taskbar = (props: ITaskbarProps) => {
-	const { onStartButtonClicked, onDateClicked } = props
+	const { onStartButtonClicked, onDateClicked, taskbarSearchBarCallback } = props
 	const { windowProperties, onMinimizeAllButtonClicked } =
 		useContext(WindowsContext)
 	const { root, nonRootContextInformation } = useContext(FileSystemContext)
@@ -120,6 +121,7 @@ const Taskbar = (props: ITaskbarProps) => {
 				<SearchBar
 					type="text"
 					placeholder="Search..."
+					elementCallback={taskbarSearchBarCallback}
 					onChange={onSearchInputChanged}
 				/>
 				<div className="taskbar__items-container">{TaskbarItems}</div>

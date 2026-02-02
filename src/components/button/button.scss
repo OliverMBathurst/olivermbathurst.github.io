@@ -1,12 +1,12 @@
 @use "../../scss/colours";
+@use "../../scss/styles";
 
 .button {
 	color: colours.$ui-text-colour;
 	border: none;
 	outline: none;
 	background-color: colours.$button-background;
-	border: 0.125rem solid colours.$button-border;
-	border-radius: 0.3125rem;
+	border-radius: styles.$window-border-radius;
 }
 
 .button:hover {

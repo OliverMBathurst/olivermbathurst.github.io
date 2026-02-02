@@ -51,36 +51,6 @@ const useFileSystem = (context?: BranchingContext) => {
 		}
 	}
 
-	const enterBranch = (branchName: string) => {
-		const foundBranch = currentContext.branches.find(
-			(x) => x.name === branchName
-		)
-		if (foundBranch) {
-			setCurrentContext(foundBranch)
-		}
-	}
-
-	const searchForBranchByType = (
-		branch: BranchingContext,
-		branchType: SpecialBranch
-	): Branch | null => {
-		if (
-			BRANCHING_CONTEXT_TYPE_PROPERTY in branch &&
-			branch.type === branchType
-		) {
-			return branch
-		}
-
-		for (let i = 0; i < branch.branches.length; i++) {
-			const foundFolder = searchForBranchByType(branch.branches[i], branchType)
-			if (foundFolder) {
-				return foundFolder
-			}
-		}
-
-		return null
-	}
-
 	const getFilesOfBranchRecursively = (branch?: Branch): Leaf[] => {
 		const targetBranch = branch ?? root
 		let files: Leaf[] = [...targetBranch.leaves]
@@ -149,10 +119,8 @@ const useFileSystem = (context?: BranchingContext) => {
 
 	return {
 		forwardContexts,
-		upOneLevel,
-		enterBranch,
+		//upOneLevel,
 		currentContext,
-		searchForBranchByType,
 		getFilesOfBranchRecursively,
 		validateFilePath
 	}
