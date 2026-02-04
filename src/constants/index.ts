@@ -1,4 +1,5 @@
 export const FILETYPE_TEXT = ".txt"
+export const FILETYPE_DOS = ".dos"
 export const FILETYPE_PDF = ".pdf"
 export const FILETYPE_SHORTCUT = ".lnk"
 export const FILETYPE_EXECUTABLE = ".exe"
@@ -40,3 +41,4 @@ export const CALENDAR_MONTH_COLUMN_SIZE = 4
 export const FILE_BROWSER_APP_ID = "0"
 export const PDF_VIEWER_APP_ID = "1"
 export const TEXT_VIEWER_APP_ID = "2"
+export const DOS_VIEWER_APP_ID = "3"

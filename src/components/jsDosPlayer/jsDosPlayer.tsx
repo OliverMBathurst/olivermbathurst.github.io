@@ -17,7 +17,7 @@ const JsDosPlayer = (props: IJsDosPlayerProps) => {
             ref={jsDosRef}
             className="js-dos-player"
             id="jsdos"
-            src="https://dos.zone/player/?bundleUrl=https://cdn.dos.zone/original/2X/2/24b00b14f118580763440ecaddcc948f8cb94f14.jsdos"
+            src="https://dos.zone/doom-dec-1993/"
             allowFullScreen
         />)
 }
