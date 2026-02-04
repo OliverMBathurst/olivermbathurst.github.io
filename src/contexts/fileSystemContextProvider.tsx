@@ -12,6 +12,7 @@ import {
 } from "../files"
 import { INonRootContextInformation } from "../interfaces/fs"
 import { Branch, BranchingContext, Root, Shortcut } from "../types/fs"
+import JsDosPlayer from "../files/jsDosPlayer"
 
 const desktopBranch = new Branch("Desktop", SpecialBranch.Desktop)
 const root = new Root("Root")
@@ -29,7 +30,8 @@ desktopBranch.setLeaves([
 applicationsBranch.setLeaves([
 	new FileBrowser(applicationsBranch),
 	new PdfViewer(applicationsBranch),
-	new TextFileViewer(applicationsBranch)
+	new TextFileViewer(applicationsBranch),
+	new JsDosPlayer(applicationsBranch)
 ])
 
 root.setBranches([contentsBranch])
