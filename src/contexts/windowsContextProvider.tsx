@@ -61,7 +61,7 @@ const WindowsContextProvider = (props: IWindowsContextProviderProps) => {
 
 	const addWindow = (properties: IAddWindowProperties) => {
 		setWindowProperties((wp) => {
-			const { context, size, selected } = properties
+			const { context, size, selected, handlerId } = properties
 
 			const defaultWindowSize = window.innerHeight / 2
 
@@ -78,7 +78,8 @@ const WindowsContextProvider = (props: IWindowsContextProviderProps) => {
 				selected: _selected,
 				size: windowSize,
 				state: WindowState.Normal,
-				previousState: null
+				previousState: null,
+				handlerId
 			}
 
 			const _windowProperties = [...wp]

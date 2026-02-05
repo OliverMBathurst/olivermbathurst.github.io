@@ -19,7 +19,6 @@ import start from "../icons/startMenu.png"
 import textFile from "../icons/textFile.png"
 import thumbs from "../icons/thumbs.png"
 import upArrow from "../icons/up-arrow.png"
-import jsDos from "../icons/jsDos.png"
 
 const GenericFileIcon = (props: React.ImgHTMLAttributes<HTMLImageElement>) => (
 	<img src={file} alt="File icon by icon8" {...props} />
@@ -105,10 +104,6 @@ const PowerIcon = (props: React.ImgHTMLAttributes<HTMLImageElement>) => (
 	<img src={power} alt="Power icon by icon8" {...props} />
 )
 
-const JsDosIcon = (props: React.ImgHTMLAttributes<HTMLImageElement>) => (
-	<img src={jsDos} alt="JS-DOS icon" {...props} />
-)
-
 export {
     CancelIcon,
     CloseIcon,
@@ -125,6 +120,5 @@ export {
     StartMenuIcon,
     TextFileIcon,
     ThumbsIcon,
-	UpArrowIcon,
-	JsDosIcon
+	UpArrowIcon
 }

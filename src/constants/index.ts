@@ -20,6 +20,16 @@ export const DEFAULT_MIN_WINDOW_WIDTH_PIXELS = 200
 export const FILE_BROWSER_TREE_MIN_WIDTH = 176
 export const TASKBAR_ITEM_CLASS = "taskbar-item"
 export const TASKBAR_ITEM_SELECTED_CLASS = "taskbar-item--selected"
+
+export const TASKBAR_GROUP_CLASSES = [
+    "taskbar-group__container",
+    "taskbar-group__container__taskbar-group",
+    "taskbar-group__container__taskbar-group--selected",
+    "taskbar-group__container__taskbar-group--dummy",
+    "taskbar-group__container__taskbar-group--dummy--selected",
+    "taskbar-group__container__taskbar-group__icon",
+]
+
 export const TASKBAR_ITEM_NAME_CLASS = "taskbar-item__name"
 export const DESKTOP_ITEM_CLASS = "desktop-item"
 export const DESKTOP_ITEM_ICON_CLASS = "desktop-item__icon"

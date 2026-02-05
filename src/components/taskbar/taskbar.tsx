@@ -1,5 +1,5 @@
 import { useCallback, useContext, useMemo, useRef, useState } from "react"
-import { FileSystemContext, WindowsContext } from "../../contexts"
+import { FileSystemContext, RegistryContext, WindowsContext } from "../../contexts"
 import { onMixedSelectionRowClicked } from "../../helpers/selections"
 import { useSearch } from "../../hooks"
 import { ISearchResult } from "../../interfaces/search"
@@ -14,6 +14,8 @@ import {
     TaskbarItem
 } from "./components"
 import "./taskbar.scss"
+import { IWindowProperties } from "../../interfaces/windows"
+import { TaskbarGroup } from "./components/taskbarGroup"
 
 interface ITaskbarProps {
 	onStartButtonClicked: () => void
@@ -30,6 +32,7 @@ const Taskbar = (props: ITaskbarProps) => {
 	const { root, nonRootContextInformation } = useContext(FileSystemContext)
 	const { searchForItems } = useSearch(root)
 	const { addWindow } = useContext(WindowsContext)
+	const registry = useContext(RegistryContext)
 
 	const elementRowReferences = useRef<Record<string, HTMLElement | null>>({})
 
@@ -63,12 +66,12 @@ const Taskbar = (props: ITaskbarProps) => {
 
 	const onRowDoubleClicked = useCallback(
 		(context: Context, _: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-			const windowProperties = windowPropertiesService.getProperties(context)
+			const windowProperties = windowPropertiesService.getProperties(context, registry)
 			if (windowProperties != null) {
 				addWindow(windowProperties)
 			}
 		},
-		[addWindow]
+		[addWindow, windowPropertiesService, registry]
 	)
 
 	const onRowClicked = useCallback(
@@ -98,8 +101,17 @@ const Taskbar = (props: ITaskbarProps) => {
 	)
 
 	const TaskbarItems = useMemo(() => {
-		return windowProperties.map((wp) => {
-			return <TaskbarItem key={wp.id} windowProperties={wp} />
+		const groupedByHandler: Record<string, IWindowProperties[]> = {}
+		for (const wp of windowProperties) {
+			if (groupedByHandler[wp.handlerId]) {
+				groupedByHandler[wp.handlerId] = [...groupedByHandler[wp.handlerId], wp]
+			} else {
+				groupedByHandler[wp.handlerId] = [wp]
+			}
+		}
+
+		return Object.keys(groupedByHandler).map(k => {
+			return (<TaskbarGroup key={k} handlerId={k} items={groupedByHandler[k]} />)
 		})
 	}, [windowProperties])
 

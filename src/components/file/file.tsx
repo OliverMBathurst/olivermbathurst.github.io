@@ -1,11 +1,6 @@
 import { useCallback, useContext } from "react"
-import {
-	FILETYPE_URL_SHORTCUT,
-	FILETYPE_URL_SHORTCUT_PROPERTY,
-	LEAF_EXTENSION_PROPERTY_NAME
-} from "../../constants"
-import { WindowsContext } from "../../contexts"
-import { IAddWindowProperties } from "../../interfaces/windows"
+import { RegistryContext, WindowsContext } from "../../contexts"
+import { WindowPropertiesService } from "../../services"
 import { Leaf } from "../../types/fs"
 import { DesktopItem } from "../desktop/components"
 
@@ -13,27 +8,22 @@ interface IFileProps {
 	context: Leaf
 }
 
+const windowPropertiesService = new WindowPropertiesService();
+
 const File = (props: IFileProps) => {
 	const { context } = props
 
 	const { addWindow } = useContext(WindowsContext)
+	const registry = useContext(RegistryContext)
 
 	const onDoubleClick = useCallback(() => {
-		if (
-			FILETYPE_URL_SHORTCUT_PROPERTY in context &&
-			LEAF_EXTENSION_PROPERTY_NAME in context &&
-			context.extension === FILETYPE_URL_SHORTCUT
-		) {
-			window.open(context.url, "_blank")
+		const windowProperties = windowPropertiesService.getProperties(context, registry)
+		if (!windowProperties) {
 			return
 		}
 
-		const windowProperties: IAddWindowProperties = {
-			context: context
-		}
-
 		addWindow(windowProperties)
-	}, [context, addWindow])
+	}, [context, addWindow, windowPropertiesService, registry])
 
 	return <DesktopItem context={context} onDoubleClick={onDoubleClick} />
 }

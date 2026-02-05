@@ -7,10 +7,12 @@ export interface IWindowProperties {
 	size: ISize
 	state: WindowState
 	previousState: WindowState | null
+	handlerId: string
 }
 
 export interface IAddWindowProperties {
 	context: Context
+	handlerId: string
 	openNewInstance?: boolean
 	selected?: boolean
 	size?: ISize

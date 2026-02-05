@@ -1,5 +1,5 @@
 import { useContext, useEffect, useRef, useState } from "react"
-import { FileSystemContext, WindowsContext } from "../../contexts"
+import { FileSystemContext, RegistryContext, WindowsContext } from "../../contexts"
 import { WindowPropertiesService } from "../../services"
 import { Context } from "../../types/fs"
 import { Calendar } from "../calendar"
@@ -15,6 +15,7 @@ const windowPropertiesService = new WindowPropertiesService()
 const Screen = () => {
 	const { windowProperties, addWindow } = useContext(WindowsContext)
 	const { runIndexer } = useContext(FileSystemContext)
+	const registry = useContext(RegistryContext)
 
 	const [startMenuShow, setStartMenuShow] = useState<boolean>(false)
 	const [calendarShow, setCalendarShow] = useState<boolean>(false)
@@ -35,7 +36,7 @@ const Screen = () => {
 	}
 
 	const onItemClicked = (context: Context) => {
-		const properties = windowPropertiesService.getProperties(context)
+		const properties = windowPropertiesService.getProperties(context, registry)
 		if (properties) {
 			addWindow(properties)
 		}

@@ -4,6 +4,8 @@ import {
     DEFAULT_MIN_WINDOW_WIDTH_PIXELS,
     DEFAULT_POINTER,
     DEFAULT_TASKBAR_HEIGHT_PIXELS,
+    NO_SELECT_CLASS,
+    TASKBAR_GROUP_CLASSES,
     TASKBAR_ITEM_CLASS,
     TASKBAR_ITEM_NAME_CLASS,
     TASKBAR_ITEM_SELECTED_CLASS
@@ -25,9 +27,11 @@ import { WindowContent, WindowTopBar } from "./components"
 import "./window.scss"
 
 const clickOutsideExclusions: string[] = [
+	NO_SELECT_CLASS,
 	TASKBAR_ITEM_CLASS,
 	TASKBAR_ITEM_SELECTED_CLASS,
-	TASKBAR_ITEM_NAME_CLASS
+	TASKBAR_ITEM_NAME_CLASS,
+	...TASKBAR_GROUP_CLASSES
 ]
 
 interface IWindowProps {
@@ -36,7 +40,7 @@ interface IWindowProps {
 
 const Window = (props: IWindowProps) => {
 	const {
-		properties: { id, context, size, state, selected }
+		properties: { id, context, size, state, selected, handlerId }
 	} = props
 
 	const previousWindowSize = useRef<ISize>(size)
@@ -490,7 +494,7 @@ const Window = (props: IWindowProps) => {
 					className="window__inner-content__content"
 					onClick={onWindowContentClicked}
 				>
-					<WindowContent windowId={id} context={context} />
+					<WindowContent windowId={id} context={context} handlerId={handlerId} />
 				</div>
 			</div>
 		</div>

@@ -6,7 +6,7 @@ import {
     FILE_BROWSER_GRID_VIEW_CLASS,
     FILE_BROWSER_TREE_MIN_WIDTH
 } from "../../constants"
-import { FileBrowserContext, FileSystemContext, WindowsContext } from "../../contexts"
+import { FileBrowserContext, FileSystemContext, RegistryContext, WindowsContext } from "../../contexts"
 import { ExpandDirection } from "../../enums"
 import {
     doRectanglesIntersect,
@@ -53,6 +53,7 @@ const FileBrowser = (props: IFileBrowserProps) => {
 	const { root } = useContext(FileSystemContext)
 	const [selected, setSelected] = useState<string[]>([])
 	const [searchResult, setSearchResult] = useState<ISearchResult | null>(null)
+
 	const resolvedContext = BRANCHING_CONTEXT_DETERMINER in context ? context : root
 
 	const {
@@ -73,6 +74,7 @@ const FileBrowser = (props: IFileBrowserProps) => {
 	const thumbnailDisplay = displaySettings[windowId] ?? true
 
 	const { addWindow, setWindowContext } = useContext(WindowsContext)
+	const registry = useContext(RegistryContext)
 
 	useEffect(() => {
 		if (!(BRANCHING_CONTEXT_DETERMINER in context)) {
@@ -86,7 +88,7 @@ const FileBrowser = (props: IFileBrowserProps) => {
 
 	const onRowDoubleClicked = useCallback(
 		(context: Context) => {
-			const windowProperties = windowPropertiesService.getProperties(context)
+			const windowProperties = windowPropertiesService.getProperties(context, registry)
 			if (windowProperties != null) {
 				if (
 					BRANCHING_CONTEXT_DETERMINER in windowProperties.context &&
@@ -100,7 +102,7 @@ const FileBrowser = (props: IFileBrowserProps) => {
 				}
 			}
 		},
-		[addWindow, windowId, setWindowContext, addNavigationHistory]
+		[addWindow, windowId, setWindowContext, addNavigationHistory, windowPropertiesService, registry]
 	)
 
 	const onRowClicked = useCallback(
@@ -175,7 +177,8 @@ const FileBrowser = (props: IFileBrowserProps) => {
 
 			for (let i = 0; i < branches.length - 1; i++) {
 				const addWindowProperties = windowPropertiesService.getProperties(
-					branches[i]
+					branches[i],
+					registry
 				)
 				if (addWindowProperties) {
 					addWindow({ ...addWindowProperties, openNewInstance: true })
@@ -226,7 +229,7 @@ const FileBrowser = (props: IFileBrowserProps) => {
 	}
 
 	const onFileNavigation = (context: Leaf | Shortcut) => {
-		const windowProperties = windowPropertiesService.getProperties(context)
+		const windowProperties = windowPropertiesService.getProperties(context, registry)
 		if (windowProperties != null) {
 			addWindow(windowProperties)
 		}

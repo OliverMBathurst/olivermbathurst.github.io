@@ -1,0 +1,34 @@
+@use "../../../../scss/colours";
+
+.taskbar-group__container {
+    display: flex;
+    position: relative;
+}
+
+.taskbar-group__container__taskbar-group,
+.taskbar-group__container__taskbar-group--selected {
+    display: flex;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+}
+
+.taskbar-group__container__taskbar-group__icon img {
+    height: 1.5rem;
+    width: 1.5rem;
+}
+
+.taskbar-group__container__taskbar-group--selected {
+    border-bottom: 0.1rem solid aqua;
+    background-color: colours.$taskbar-button-background-selected;
+}
+
+.taskbar-group__container__taskbar-group {
+    border-bottom: 0.1rem solid rgba(37, 37, 38, 0);
+}
+
+.taskbar-group__container__taskbar-group:hover {
+    background-color: colours.$taskbar-button-background-selected;
+}
