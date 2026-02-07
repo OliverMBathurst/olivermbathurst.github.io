@@ -1,10 +1,10 @@
 import {
-    APPLICATION_DETERMINER,
-    BRANCHING_CONTEXT_DETERMINER,
-    FILETYPE_URL_SHORTCUT,
-    FILETYPE_URL_SHORTCUT_PROPERTY,
-    LEAF_EXTENSION_PROPERTY_NAME,
-    SHORTCUT_DETERMINER
+	APPLICATION_DETERMINER,
+	BRANCHING_CONTEXT_DETERMINER,
+	FILETYPE_URL_SHORTCUT,
+	FILETYPE_URL_SHORTCUT_PROPERTY,
+	LEAF_EXTENSION_PROPERTY_NAME,
+	SHORTCUT_DETERMINER
 } from "../constants"
 import { IRegistryContext } from "../contexts"
 import { IAddWindowProperties } from "../interfaces/windows"
@@ -35,8 +35,9 @@ class WindowPropertiesService {
 
 		if (APPLICATION_DETERMINER in resolvedContext) {
 			const applicationName = resolvedContext.fullName
-			const applicationId = Object.entries(applications)
-				.find(a => a[1] === applicationName)
+			const applicationId = Object.entries(applications).find(
+				(a) => a[1] === applicationName
+			)
 			if (applicationId) {
 				handlerId = applicationId[0]
 			}
@@ -44,8 +45,9 @@ class WindowPropertiesService {
 			handlerId = branchHandlerId
 		} else if (LEAF_EXTENSION_PROPERTY_NAME in resolvedContext) {
 			const ext = resolvedContext.extension
-			const handlerDetails = Object.entries(fileTypeAssociations)
-				.find(x => x[1].indexOf(ext) !== -1)
+			const handlerDetails = Object.entries(fileTypeAssociations).find(
+				(x) => x[1].indexOf(ext) !== -1
+			)
 			if (handlerDetails) {
 				handlerId = handlerDetails[0]
 			}

@@ -1,20 +1,20 @@
 import React, { memo, useCallback, useContext, useEffect, useRef } from "react"
 import {
-    CLASSNAMES,
-    DEFAULT_MIN_WINDOW_HEIGHT_PIXELS,
-    DEFAULT_MIN_WINDOW_WIDTH_PIXELS,
-    DEFAULT_POINTER,
-    DEFAULT_TASKBAR_HEIGHT_PIXELS
+	CLASSNAMES,
+	DEFAULT_MIN_WINDOW_HEIGHT_PIXELS,
+	DEFAULT_MIN_WINDOW_WIDTH_PIXELS,
+	DEFAULT_POINTER,
+	DEFAULT_TASKBAR_HEIGHT_PIXELS
 } from "../../constants"
 import { WindowsContext } from "../../contexts"
 import { ExpandDirection } from "../../enums"
 import {
-    getCursor,
-    getExpandDirectionByRefAndPosition,
-    heightChangesEnum,
-    widthChangesEnum,
-    xChangesEnum,
-    yChangesEnum
+	getCursor,
+	getExpandDirectionByRefAndPosition,
+	heightChangesEnum,
+	widthChangesEnum,
+	xChangesEnum,
+	yChangesEnum
 } from "../../helpers/direction"
 import { useClickOutside } from "../../hooks"
 import { ISize, IWindowProperties, WindowState } from "../../interfaces/windows"
@@ -22,11 +22,8 @@ import { Visibility } from "../../types"
 import { WindowContent, WindowTopBar } from "./components"
 import "./window.scss"
 
-const {
-	NO_SELECT_CLASS,
-	TASKBAR_GROUP_CLASSES,
-	TASKBAR_ITEM_CLASSES
-} = CLASSNAMES
+const { NO_SELECT_CLASS, TASKBAR_GROUP_CLASSES, TASKBAR_ITEM_CLASSES } =
+	CLASSNAMES
 
 const clickOutsideExclusions: string[] = [
 	NO_SELECT_CLASS,
@@ -494,7 +491,11 @@ const Window = (props: IWindowProps) => {
 					className="window__inner-content__content"
 					onClick={onWindowContentClicked}
 				>
-					<WindowContent windowId={id} context={context} handlerId={handlerId} />
+					<WindowContent
+						windowId={id}
+						context={context}
+						handlerId={handlerId}
+					/>
 				</div>
 			</div>
 		</div>

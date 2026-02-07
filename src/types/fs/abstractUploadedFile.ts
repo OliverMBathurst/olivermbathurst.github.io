@@ -1,7 +1,10 @@
 import { AbstractNamed } from "."
 import { IAbstractUploadedWindowFile } from "../../interfaces/fs"
 
-abstract class AbstractUploadedWindowFile extends AbstractNamed implements IAbstractUploadedWindowFile {
+abstract class AbstractUploadedWindowFile
+	extends AbstractNamed
+	implements IAbstractUploadedWindowFile
+{
 	_data: string | null = null
 	_icon: string | null = null
 	extension: string

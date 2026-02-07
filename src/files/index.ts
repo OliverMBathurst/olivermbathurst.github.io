@@ -8,4 +8,14 @@ import PdfViewer from "./pdfViewer"
 import TextFileViewer from "./textFileViewer"
 import ThisProject from "./thisProject"
 
-export { CV, Credits, FileBrowser, GitHub, LinkedIn, PdfFile, PdfViewer, TextFileViewer, ThisProject }
+export {
+	CV,
+	Credits,
+	FileBrowser,
+	GitHub,
+	LinkedIn,
+	PdfFile,
+	PdfViewer,
+	TextFileViewer,
+	ThisProject
+}

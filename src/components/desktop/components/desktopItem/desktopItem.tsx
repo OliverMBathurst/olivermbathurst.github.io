@@ -1,7 +1,5 @@
 import React, { useContext, useEffect } from "react"
-import {
-    CLASSNAMES
-} from "../../../../constants"
+import { CLASSNAMES } from "../../../../constants"
 import { DesktopItemContext } from "../../../../contexts"
 import { useDisplayName, useIcon } from "../../../../hooks"
 import { Context } from "../../../../types/fs"

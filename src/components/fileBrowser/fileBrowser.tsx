@@ -1,15 +1,27 @@
-import { useCallback, useContext, useEffect, useMemo, useRef, useState } from "react"
 import {
-    BRANCHING_CONTEXT_DETERMINER,
-    BRANCHING_CONTEXT_PARENT_PROPERTY,
-    CLASSNAMES,
-    FILE_BROWSER_TREE_MIN_WIDTH
+	useCallback,
+	useContext,
+	useEffect,
+	useMemo,
+	useRef,
+	useState
+} from "react"
+import {
+	BRANCHING_CONTEXT_DETERMINER,
+	BRANCHING_CONTEXT_PARENT_PROPERTY,
+	CLASSNAMES,
+	FILE_BROWSER_TREE_MIN_WIDTH
 } from "../../constants"
-import { FileBrowserContext, FileSystemContext, RegistryContext, WindowsContext } from "../../contexts"
+import {
+	FileBrowserContext,
+	FileSystemContext,
+	RegistryContext,
+	WindowsContext
+} from "../../contexts"
 import { ExpandDirection } from "../../enums"
 import {
-    doRectanglesIntersect,
-    onMixedSelectionRowClicked
+	doRectanglesIntersect,
+	onMixedSelectionRowClicked
 } from "../../helpers/selections"
 import { useWindowSelectionRectangle } from "../../hooks"
 import { ISearchResult } from "../../interfaces/search"
@@ -18,19 +30,17 @@ import { BranchingContext, Context, Leaf, Shortcut } from "../../types/fs"
 import { Expandable } from "../expandable"
 import { SearchResultPane } from "../searchResultPane"
 import {
-    FileBrowserControls,
-    FileBrowserGridView,
-    FileBrowserRow,
-    FolderBaseInformation,
-    UpOneLevelRow
+	FileBrowserControls,
+	FileBrowserGridView,
+	FileBrowserRow,
+	FolderBaseInformation,
+	UpOneLevelRow
 } from "./components"
 import { FileBrowserTree } from "./components/fileBrowserTree"
 import "./fileBrowser.scss"
 
-const {
-	FILE_BROWSER_CONTENT_RESULT_PANE_CLASS,
-	FILE_BROWSER_GRID_VIEW_CLASS
-} = CLASSNAMES
+const { FILE_BROWSER_CONTENT_RESULT_PANE_CLASS, FILE_BROWSER_GRID_VIEW_CLASS } =
+	CLASSNAMES
 
 interface IFileBrowserProps {
 	windowId: string
@@ -58,7 +68,8 @@ const FileBrowser = (props: IFileBrowserProps) => {
 	const [selected, setSelected] = useState<string[]>([])
 	const [searchResult, setSearchResult] = useState<ISearchResult | null>(null)
 
-	const resolvedContext = BRANCHING_CONTEXT_DETERMINER in context ? context : root
+	const resolvedContext =
+		BRANCHING_CONTEXT_DETERMINER in context ? context : root
 
 	const {
 		addNavigationHistory,
@@ -87,12 +98,19 @@ const FileBrowser = (props: IFileBrowserProps) => {
 	}, [context, setWindowContext, windowId, root])
 
 	const Entities = useMemo(() => {
-		return [...resolvedContext.branches, ...resolvedContext.shortcuts, ...resolvedContext.leaves]
+		return [
+			...resolvedContext.branches,
+			...resolvedContext.shortcuts,
+			...resolvedContext.leaves
+		]
 	}, [resolvedContext])
 
 	const onRowDoubleClicked = useCallback(
 		(context: Context) => {
-			const windowProperties = windowPropertiesService.getProperties(context, registry)
+			const windowProperties = windowPropertiesService.getProperties(
+				context,
+				registry
+			)
 			if (windowProperties != null) {
 				if (
 					BRANCHING_CONTEXT_DETERMINER in windowProperties.context &&
@@ -106,7 +124,14 @@ const FileBrowser = (props: IFileBrowserProps) => {
 				}
 			}
 		},
-		[addWindow, windowId, setWindowContext, addNavigationHistory, windowPropertiesService, registry]
+		[
+			addWindow,
+			windowId,
+			setWindowContext,
+			addNavigationHistory,
+			windowPropertiesService,
+			registry
+		]
 	)
 
 	const onRowClicked = useCallback(
@@ -210,7 +235,10 @@ const FileBrowser = (props: IFileBrowserProps) => {
 	}
 
 	const onUpOneLevel = () => {
-		if (BRANCHING_CONTEXT_PARENT_PROPERTY in resolvedContext && resolvedContext.parent) {
+		if (
+			BRANCHING_CONTEXT_PARENT_PROPERTY in resolvedContext &&
+			resolvedContext.parent
+		) {
 			elementRowReferences.current = {}
 			const parentContext = resolvedContext.parent
 			const hp = point - 1
@@ -233,7 +261,10 @@ const FileBrowser = (props: IFileBrowserProps) => {
 	}
 
 	const onFileNavigation = (context: Leaf | Shortcut) => {
-		const windowProperties = windowPropertiesService.getProperties(context, registry)
+		const windowProperties = windowPropertiesService.getProperties(
+			context,
+			registry
+		)
 		if (windowProperties != null) {
 			addWindow(windowProperties)
 		}

@@ -8,7 +8,7 @@ interface IFileProps {
 	context: Leaf
 }
 
-const windowPropertiesService = new WindowPropertiesService();
+const windowPropertiesService = new WindowPropertiesService()
 
 const File = (props: IFileProps) => {
 	const { context } = props
@@ -17,7 +17,10 @@ const File = (props: IFileProps) => {
 	const registry = useContext(RegistryContext)
 
 	const onDoubleClick = useCallback(() => {
-		const windowProperties = windowPropertiesService.getProperties(context, registry)
+		const windowProperties = windowPropertiesService.getProperties(
+			context,
+			registry
+		)
 		if (!windowProperties) {
 			return
 		}

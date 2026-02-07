@@ -8,7 +8,7 @@ interface IFolderProps {
 	context: BranchingContext
 }
 
-const windowPropertiesService = new WindowPropertiesService();
+const windowPropertiesService = new WindowPropertiesService()
 
 const Folder = (props: IFolderProps) => {
 	const { context } = props
@@ -17,7 +17,10 @@ const Folder = (props: IFolderProps) => {
 	const registry = useContext(RegistryContext)
 
 	const onDoubleClick = useCallback(() => {
-		const windowProperties = windowPropertiesService.getProperties(context, registry)
+		const windowProperties = windowPropertiesService.getProperties(
+			context,
+			registry
+		)
 		if (!windowProperties) {
 			return
 		}

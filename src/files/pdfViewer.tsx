@@ -1,6 +1,4 @@
-import {
-    PdfViewer as PdfViewerComponent
-} from "../components/pdfViewer"
+import { PdfViewer as PdfViewerComponent } from "../components/pdfViewer"
 import { FILETYPE_EXECUTABLE } from "../constants"
 import { IApplicationFile } from "../interfaces/fs"
 import { AbstractLeaf, BranchingContext, Context } from "../types/fs"

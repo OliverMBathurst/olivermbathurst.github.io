@@ -1,5 +1,9 @@
 import { useCallback, useContext, useMemo, useRef, useState } from "react"
-import { FileSystemContext, RegistryContext, WindowsContext } from "../../contexts"
+import {
+	FileSystemContext,
+	RegistryContext,
+	WindowsContext
+} from "../../contexts"
 import { onMixedSelectionRowClicked } from "../../helpers/selections"
 import { useSearch } from "../../hooks"
 import { ISearchResult } from "../../interfaces/search"
@@ -8,11 +12,7 @@ import { WindowPropertiesService } from "../../services"
 import { Context } from "../../types/fs"
 import { SearchBar } from "../searchBar"
 import { SearchResultPane } from "../searchResultPane"
-import {
-    DateDisplay,
-    MinimizeAllButton,
-    StartButton
-} from "./components"
+import { DateDisplay, MinimizeAllButton, StartButton } from "./components"
 import { TaskbarGroup } from "./components/taskbarGroup"
 import "./taskbar.scss"
 
@@ -25,7 +25,8 @@ interface ITaskbarProps {
 const windowPropertiesService = new WindowPropertiesService()
 
 const Taskbar = (props: ITaskbarProps) => {
-	const { onStartButtonClicked, onDateClicked, taskbarSearchBarCallback } = props
+	const { onStartButtonClicked, onDateClicked, taskbarSearchBarCallback } =
+		props
 	const { windowProperties, onMinimizeAllButtonClicked } =
 		useContext(WindowsContext)
 	const { root, nonRootContextInformation } = useContext(FileSystemContext)
@@ -65,7 +66,10 @@ const Taskbar = (props: ITaskbarProps) => {
 
 	const onRowDoubleClicked = useCallback(
 		(context: Context, _: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-			const windowProperties = windowPropertiesService.getProperties(context, registry)
+			const windowProperties = windowPropertiesService.getProperties(
+				context,
+				registry
+			)
 			if (windowProperties != null) {
 				addWindow(windowProperties)
 			}
@@ -109,8 +113,8 @@ const Taskbar = (props: ITaskbarProps) => {
 			}
 		}
 
-		return Object.keys(groupedByHandler).map(k => {
-			return (<TaskbarGroup key={k} handlerId={k} items={groupedByHandler[k]} />)
+		return Object.keys(groupedByHandler).map((k) => {
+			return <TaskbarGroup key={k} handlerId={k} items={groupedByHandler[k]} />
 		})
 	}, [windowProperties])
 

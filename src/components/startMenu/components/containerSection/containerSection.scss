@@ -2,53 +2,52 @@
 @use "../../../../scss/styles";
 
 .start-menu__bottom-container__container__title {
-    font-weight: bold;
+	font-weight: bold;
 }
 
 .start-menu__bottom-container__container {
-    padding: 0.5rem 0.5rem 0.5rem 0.5rem;
-    border: 0.0625rem solid black;
-    background-color: colours.$start-menu-container-background;
-    border-radius: styles.$window-border-radius;
-    margin: 0rem 0.5rem 0.5rem 0.5rem;
+	padding: 0.5rem 0.5rem 0.5rem 0.5rem;
+	border: 0.0625rem solid black;
+	background-color: colours.$start-menu-container-background;
+	border-radius: styles.$window-border-radius;
+	margin: 0rem 0.5rem 0.5rem 0.5rem;
 }
 
 .start-menu__bottom-container__container__items,
 .start-menu__bottom-container__container__items__item {
-    display: flex;
-    align-items: center;
+	display: flex;
+	align-items: center;
 }
 
 .start-menu__bottom-container__container__items {
-    flex-wrap: wrap;
-    padding-top: 0.5rem;
+	flex-wrap: wrap;
+	padding-top: 0.5rem;
 }
 
 .start-menu__bottom-container__container__items__item {
-    min-width: 6rem;
-    max-width: 6rem;
-    margin: 0.2rem 0.5rem 0.2rem 0rem;
-    flex-direction: column;
-    padding: 0.5rem 0rem 0.5rem 0rem;
-    
+	min-width: 6rem;
+	max-width: 6rem;
+	margin: 0.2rem 0.5rem 0.2rem 0rem;
+	flex-direction: column;
+	padding: 0.5rem 0rem 0.5rem 0rem;
 }
 
 .start-menu__bottom-container__container__items__item:hover {
-    background-color: colours.$hover-button-background;
+	background-color: colours.$hover-button-background;
 }
 
 .start-menu__bottom-container__container__items__item img {
-    height: 2rem;
-    width: 2rem;
+	height: 2rem;
+	width: 2rem;
 }
 
 .start-menu__bottom-container__container__items__item {
-    white-space: nowrap;
+	white-space: nowrap;
 }
 
 .start-menu__bottom-container__container__items__item__text {
-    width: 100%;
-    text-align: center;
-    overflow: hidden;
-    text-overflow: ellipsis;
+	width: 100%;
+	text-align: center;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }

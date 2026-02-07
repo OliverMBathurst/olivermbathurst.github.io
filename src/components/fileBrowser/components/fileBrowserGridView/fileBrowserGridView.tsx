@@ -7,10 +7,7 @@ import { Branch, Context, Leaf, Shortcut } from "../../../../types/fs"
 import { Expandable } from "../../../expandable"
 import "./fileBrowserGridView.scss"
 
-const {
-	FILE_BROWSER_GRID_VIEW_CLASS,
-	NO_SELECT_CLASS
-} = CLASSNAMES
+const { FILE_BROWSER_GRID_VIEW_CLASS, NO_SELECT_CLASS } = CLASSNAMES
 
 interface IFileBrowserGridViewProps {
 	entities: (Branch | Shortcut | Leaf)[]

@@ -1,13 +1,13 @@
-import * as monaco from 'monaco-editor';
-import React, { JSX } from "react";
-import { SpecialBranch } from "../../enums";
+import * as monaco from "monaco-editor"
+import React, { JSX } from "react"
+import { SpecialBranch } from "../../enums"
 import {
-    Branch,
-    BranchingContext,
-    Context,
-    Leaf,
-    Shortcut
-} from "../../types/fs";
+	Branch,
+	BranchingContext,
+	Context,
+	Leaf,
+	Shortcut
+} from "../../types/fs"
 
 export interface IShortcut extends INamed, IChildContext {}
 
@@ -67,8 +67,7 @@ export interface INonRootContextInformation {
 	fullPath: string
 }
 
-export interface IUploadedWindowFile
-	extends IAbstractUploadedWindowFile {}
+export interface IUploadedWindowFile extends IAbstractUploadedWindowFile {}
 
 export interface IAbstractUploadedWindowFile
 	extends IUploadedFile, INamed, IExtensionAvailable {}

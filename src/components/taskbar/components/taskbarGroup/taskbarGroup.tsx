@@ -1,9 +1,16 @@
 import { useContext, useEffect, useRef, useState } from "react"
 import { CLASSNAMES } from "../../../../constants"
-import { RegistryContext, TaskbarGroupContext, WindowsContext } from "../../../../contexts"
+import {
+	RegistryContext,
+	TaskbarGroupContext,
+	WindowsContext
+} from "../../../../contexts"
 import { getIcon } from "../../../../helpers/icons"
 import { useFileSystem } from "../../../../hooks"
-import { IAddWindowProperties, IWindowProperties } from "../../../../interfaces/windows"
+import {
+	IAddWindowProperties,
+	IWindowProperties
+} from "../../../../interfaces/windows"
 import { Context } from "../../../../types/fs"
 import { TaskbarGroupPane } from "./components"
 import "./taskbarGroup.scss"
@@ -21,8 +28,8 @@ const {
 } = CLASSNAMES
 
 interface ITaskbarGroupProps {
-    handlerId: string
-    items: IWindowProperties[]
+	handlerId: string
+	items: IWindowProperties[]
 }
 
 const TaskbarGroup = (props: ITaskbarGroupProps) => {
@@ -34,9 +41,11 @@ const TaskbarGroup = (props: ITaskbarGroupProps) => {
 	const timeout = useRef<number | undefined>(undefined)
 	const panelInFocus = useRef<boolean>(false)
 
-	const { addWindow, onTaskbarItemClicked, removeWindow } = useContext(WindowsContext)
+	const { addWindow, onTaskbarItemClicked, removeWindow } =
+		useContext(WindowsContext)
 	const { applicationPaths } = useContext(RegistryContext)
-	const { openGroupHandlerId, setOpenGroupHandlerId } = useContext(TaskbarGroupContext)
+	const { openGroupHandlerId, setOpenGroupHandlerId } =
+		useContext(TaskbarGroupContext)
 	const { validateFilePath } = useFileSystem()
 
 	useEffect(() => {
@@ -45,10 +54,12 @@ const TaskbarGroup = (props: ITaskbarGroupProps) => {
 	}, [applicationPaths, handlerId, validateFilePath, setApplication])
 
 	const Icon = application ? getIcon(application) : null
-	
-	const anySelected = items.filter(x => x.selected).length > 0
 
-	const onGroupPaneItemClicked = (_: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+	const anySelected = items.filter((x) => x.selected).length > 0
+
+	const onGroupPaneItemClicked = (
+		_: React.MouseEvent<HTMLDivElement, MouseEvent>
+	) => {
 		if (items.length === 1) {
 			onTaskbarItemClicked(items[0].id)
 			return
@@ -81,19 +92,25 @@ const TaskbarGroup = (props: ITaskbarGroupProps) => {
 		}, 400)
 	}
 
-	const onContainerMouseOver = (_: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+	const onContainerMouseOver = (
+		_: React.MouseEvent<HTMLDivElement, MouseEvent>
+	) => {
 		panelInFocus.current = true
 		setShowPane(true)
 		setOpenGroupHandlerId(handlerId)
 	}
 
-	const onPanelMouseOver = (_: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+	const onPanelMouseOver = (
+		_: React.MouseEvent<HTMLDivElement, MouseEvent>
+	) => {
 		panelInFocus.current = true
 	}
 
-	const onTaskbarItemClickedInternal = (windowId: string) => onTaskbarItemClicked(windowId)
+	const onTaskbarItemClickedInternal = (windowId: string) =>
+		onTaskbarItemClicked(windowId)
 
-	const onCloseButtonClickedInternal = (windowId: string) => removeWindow(windowId)
+	const onCloseButtonClickedInternal = (windowId: string) =>
+		removeWindow(windowId)
 
 	return (
 		<>
@@ -107,7 +124,8 @@ const TaskbarGroup = (props: ITaskbarGroupProps) => {
 					onMouseOut={onMouseOut}
 				/>
 			)}
-			<div className={`${anySelected ? TASKBAR_GROUP_CONTAINER_SELECTED_CLASS : TASKBAR_GROUP_CONTAINER_CLASS}${items.length > 1 ? ` ${TASKBAR_GROUP_CONTAINER_MULTIPLE_CLASS}` : ""}`}
+			<div
+				className={`${anySelected ? TASKBAR_GROUP_CONTAINER_SELECTED_CLASS : TASKBAR_GROUP_CONTAINER_CLASS}${items.length > 1 ? ` ${TASKBAR_GROUP_CONTAINER_MULTIPLE_CLASS}` : ""}`}
 				ref={groupRef}
 				onClick={onGroupPaneItemClicked}
 				onMouseDown={onMouseDown}

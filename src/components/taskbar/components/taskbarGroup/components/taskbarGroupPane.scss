@@ -2,12 +2,12 @@
 @use "../../../../../scss/styles";
 
 .taskbar-group-pane {
-    display: flex;
-    border-radius: styles.$window-border-radius;
-    background-color: colours.$ui-background;
-    position: absolute;
-    bottom: 3.5rem;
-    height: 3rem;
-    opacity: 80%;
-    overflow: scroll;
+	display: flex;
+	border-radius: styles.$window-border-radius;
+	background-color: colours.$ui-background;
+	position: absolute;
+	bottom: 3.5rem;
+	height: 3rem;
+	opacity: 80%;
+	overflow: scroll;
 }

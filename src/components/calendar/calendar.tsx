@@ -5,7 +5,7 @@ import {
 	CALENDAR_MONTH_ROW_SIZE,
 	CALENDAR_YEAR_COLUMN_SIZE,
 	CALENDAR_YEAR_RANGE_YEARS,
-	CALENDAR_YEAR_ROW_SIZE,
+	CALENDAR_YEAR_ROW_SIZE
 } from "../../constants"
 import { chunk } from "../../helpers/collections"
 import { days, monthStringsByNumber } from "../../helpers/date"
@@ -14,11 +14,8 @@ import { CollapseIcon, ExpandIcon } from "../../icons"
 import { Button } from "../button"
 import "./calendar.scss"
 
-const {
-	DATE_DISPLAY_BASE_CLASS,
-	DATE_DISPLAY_OVERLAY_CLASS,
-	NO_SELECT_CLASS
-} = CLASSNAMES
+const { DATE_DISPLAY_BASE_CLASS, DATE_DISPLAY_OVERLAY_CLASS, NO_SELECT_CLASS } =
+	CLASSNAMES
 
 const initialDate = new Date()
 const initialYear = initialDate.getFullYear()

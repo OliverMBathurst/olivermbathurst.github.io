@@ -1,5 +1,9 @@
 import { useContext, useEffect, useRef, useState } from "react"
-import { FileSystemContext, RegistryContext, WindowsContext } from "../../contexts"
+import {
+	FileSystemContext,
+	RegistryContext,
+	WindowsContext
+} from "../../contexts"
 import { WindowPropertiesService } from "../../services"
 import { Context } from "../../types/fs"
 import { Calendar } from "../calendar"
@@ -78,7 +82,9 @@ const Screen = () => {
 			<Taskbar
 				onStartButtonClicked={() => setStartMenuShow((s) => !s)}
 				onDateClicked={() => setCalendarShow((s) => !s)}
-				taskbarSearchBarCallback={(elem) => taskbarSearchBarElement.current = elem}
+				taskbarSearchBarCallback={(elem) =>
+					(taskbarSearchBarElement.current = elem)
+				}
 			/>
 		</div>
 	)

@@ -1,9 +1,9 @@
 import { useMemo } from "react"
 import {
-    BRANCHING_CONTEXT_DETERMINER,
-    CLASSNAMES,
-    LEAF_EXTENSION_PROPERTY_NAME,
-    SHORTCUT_DETERMINER
+	BRANCHING_CONTEXT_DETERMINER,
+	CLASSNAMES,
+	LEAF_EXTENSION_PROPERTY_NAME,
+	SHORTCUT_DETERMINER
 } from "../../../../constants"
 import { ThumbsIcon } from "../../../../icons"
 import { ISearchResult } from "../../../../interfaces/search"

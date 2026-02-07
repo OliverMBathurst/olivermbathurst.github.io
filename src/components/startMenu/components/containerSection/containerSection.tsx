@@ -7,21 +7,23 @@ import "./containerSection.scss"
 const { NO_SELECT_CLASS } = CLASSNAMES
 
 interface IContainerSectionProps<T> {
-    title: string
+	title: string
 	items: T[]
 	onRecommendedItemClicked: (item: T) => void
 }
 
-const ContainerSection = <T extends Context>(props: IContainerSectionProps<T>) => {
+const ContainerSection = <T extends Context>(
+	props: IContainerSectionProps<T>
+) => {
 	const { title, items, onRecommendedItemClicked } = props
 
-    return (
-        <div className="start-menu__bottom-container__container">
-            <span className="start-menu__bottom-container__container__title">
-                {title}
+	return (
+		<div className="start-menu__bottom-container__container">
+			<span className="start-menu__bottom-container__container__title">
+				{title}
 			</span>
 			<div className="start-menu__bottom-container__container__items">
-				{items.map(i => {
+				{items.map((i) => {
 					const contextKey = i.toContextUniqueKey()
 					const Icon = getIcon(i)
 					const DisplayName = getDisplayName(i)
@@ -40,7 +42,8 @@ const ContainerSection = <T extends Context>(props: IContainerSectionProps<T>) =
 					)
 				})}
 			</div>
-        </div>)
+		</div>
+	)
 }
 
 export default ContainerSection

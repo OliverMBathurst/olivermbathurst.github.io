@@ -1,7 +1,5 @@
 import { useEffect, useRef, useState } from "react"
-import {
-    CLASSNAMES
-} from "../../../../constants"
+import { CLASSNAMES } from "../../../../constants"
 import "./dateDisplay.scss"
 
 const {

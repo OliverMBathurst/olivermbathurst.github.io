@@ -1,8 +1,5 @@
 import { useCallback, useContext, useEffect, useMemo, useRef } from "react"
-import {
-    BRANCHING_CONTEXT_DETERMINER,
-    CLASSNAMES
-} from "../../constants"
+import { BRANCHING_CONTEXT_DETERMINER, CLASSNAMES } from "../../constants"
 import { DesktopItemContext, RegistryContext } from "../../contexts"
 import { SpecialBranch } from "../../enums"
 import { isMouseDownLeftClick } from "../../helpers/click"
@@ -44,7 +41,9 @@ const Desktop = () => {
 	const selectionRectangeStart = useRef<IPosition | undefined>(undefined)
 
 	const desktopBranch: BranchingContext | null = useMemo(() => {
-		const validatedDesktopBranch = validateFilePath(specialBranchPaths[SpecialBranch.Desktop])
+		const validatedDesktopBranch = validateFilePath(
+			specialBranchPaths[SpecialBranch.Desktop]
+		)
 		if (!validatedDesktopBranch) {
 			return null
 		}

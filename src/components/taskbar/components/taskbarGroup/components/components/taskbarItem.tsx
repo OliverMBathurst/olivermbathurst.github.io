@@ -1,7 +1,5 @@
 import React from "react"
-import {
-    CLASSNAMES
-} from "../../../../../../constants"
+import { CLASSNAMES } from "../../../../../../constants"
 import { useDisplayName, useIcon } from "../../../../../../hooks"
 import { CloseIcon } from "../../../../../../icons"
 import { IWindowProperties } from "../../../../../../interfaces/windows"
@@ -25,11 +23,7 @@ interface ITaskbarItemProps {
 }
 
 const TaskbarItem = (props: ITaskbarItemProps) => {
-	const {
-		windowProperties,
-		onItemClicked,
-		onCloseButtonClicked
-	} = props
+	const { windowProperties, onItemClicked, onCloseButtonClicked } = props
 
 	const { context, id: windowId, selected } = windowProperties
 
@@ -37,7 +31,9 @@ const TaskbarItem = (props: ITaskbarItemProps) => {
 
 	const DisplayName = useDisplayName(context)
 
-	const onCloseButtonClickedInternal = (e: React.MouseEvent<HTMLImageElement, MouseEvent>) => {
+	const onCloseButtonClickedInternal = (
+		e: React.MouseEvent<HTMLImageElement, MouseEvent>
+	) => {
 		e.stopPropagation()
 		onCloseButtonClicked(windowId)
 	}
@@ -51,15 +47,9 @@ const TaskbarItem = (props: ITaskbarItemProps) => {
 				className={`${TASKBAR_ITEM_ICON_CLASS} ${NO_SELECT_CLASS}`}
 				onClick={onCloseButtonClickedInternal}
 			/>
-			<div
-				className={`${TASKBAR_ITEM_INNER_CLASS} ${NO_SELECT_CLASS}`}
-			>
+			<div className={`${TASKBAR_ITEM_INNER_CLASS} ${NO_SELECT_CLASS}`}>
 				{Icon}
-				<span
-					className={TASKBAR_ITEM_NAME_CLASS}
-				>
-					{DisplayName}
-				</span>
+				<span className={TASKBAR_ITEM_NAME_CLASS}>{DisplayName}</span>
 			</div>
 		</div>
 	)

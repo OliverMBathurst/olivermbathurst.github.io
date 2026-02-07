@@ -21,32 +21,37 @@ export const DEFAULT_MIN_WINDOW_WIDTH_PIXELS = 200
 export const FILE_BROWSER_TREE_MIN_WIDTH = 176
 
 export const CLASSNAMES = {
-    TASKBAR_ITEM_CLASSES: {
-        TASKBAR_ITEM_CLASS: "taskbar-item",
-        TASKBAR_ITEM_INNER_CLASS: "taskbar-item__inner",
-        TASKBAR_ITEM_ICON_CLASS: "taskbar-item__close-icon",
-        TASKBAR_ITEM_SELECTED_CLASS: "taskbar-item--selected",
-        TASKBAR_ITEM_NAME_CLASS: "taskbar-item__inner__name",
-    },
-    TASKBAR_GROUP_CLASSES: {
-        TASKBAR_GROUP_CONTAINER_MULTIPLE_CLASS: "taskbar-group__container--multiple",
-        TASKBAR_GROUP_CONTAINER_CLASS: "taskbar-group__container",
-        TASKBAR_GROUP_CONTAINER_SELECTED_CLASS: "taskbar-group__container--selected",
-        TASKBAR_GROUP_CONTAINER_TASKBAR_GROUP_CLASS: "taskbar-group__container__taskbar-group",
-        TASKBAR_GROUP_CONTAINER_TASKBAR_GROUP_ICON_CLASS: "taskbar-group__container__taskbar-group__icon",
-        TASKBAR_GROUP_CONTAINER_TASKBAR_GROUP_ICON_SELECTED_CLASS: "taskbar-group__container__taskbar-group__icon--selected",
-    },
-    DESKTOP_ITEM_CLASS: "desktop-item",
-    DESKTOP_ITEM_SELECTED_CLASS: "desktop-item--selected",
-    DESKTOP_ITEM_ICON_CLASS: "desktop-item__icon",
-    DESKTOP_ITEM_NAME_CLASS: "desktop-item__name",
-    NO_SELECT_CLASS: "no-select",
-    DATE_DISPLAY_BASE_CLASS: "date-display",
-    TASKBAR_START_BUTTON_CLASS: "start-button",
-    DATE_DISPLAY_OVERLAY_CLASS: "date-display__overlay",
-    DATE_DISPLAY_PICKER_ID: "date-display__input",
-    FILE_BROWSER_CONTENT_RESULT_PANE_CLASS: "file-browser__content__result-pane",
-    FILE_BROWSER_GRID_VIEW_CLASS: "file-browser-grid-view"
+	TASKBAR_ITEM_CLASSES: {
+		TASKBAR_ITEM_CLASS: "taskbar-item",
+		TASKBAR_ITEM_INNER_CLASS: "taskbar-item__inner",
+		TASKBAR_ITEM_ICON_CLASS: "taskbar-item__close-icon",
+		TASKBAR_ITEM_SELECTED_CLASS: "taskbar-item--selected",
+		TASKBAR_ITEM_NAME_CLASS: "taskbar-item__inner__name"
+	},
+	TASKBAR_GROUP_CLASSES: {
+		TASKBAR_GROUP_CONTAINER_MULTIPLE_CLASS:
+			"taskbar-group__container--multiple",
+		TASKBAR_GROUP_CONTAINER_CLASS: "taskbar-group__container",
+		TASKBAR_GROUP_CONTAINER_SELECTED_CLASS:
+			"taskbar-group__container--selected",
+		TASKBAR_GROUP_CONTAINER_TASKBAR_GROUP_CLASS:
+			"taskbar-group__container__taskbar-group",
+		TASKBAR_GROUP_CONTAINER_TASKBAR_GROUP_ICON_CLASS:
+			"taskbar-group__container__taskbar-group__icon",
+		TASKBAR_GROUP_CONTAINER_TASKBAR_GROUP_ICON_SELECTED_CLASS:
+			"taskbar-group__container__taskbar-group__icon--selected"
+	},
+	DESKTOP_ITEM_CLASS: "desktop-item",
+	DESKTOP_ITEM_SELECTED_CLASS: "desktop-item--selected",
+	DESKTOP_ITEM_ICON_CLASS: "desktop-item__icon",
+	DESKTOP_ITEM_NAME_CLASS: "desktop-item__name",
+	NO_SELECT_CLASS: "no-select",
+	DATE_DISPLAY_BASE_CLASS: "date-display",
+	TASKBAR_START_BUTTON_CLASS: "start-button",
+	DATE_DISPLAY_OVERLAY_CLASS: "date-display__overlay",
+	DATE_DISPLAY_PICKER_ID: "date-display__input",
+	FILE_BROWSER_CONTENT_RESULT_PANE_CLASS: "file-browser__content__result-pane",
+	FILE_BROWSER_GRID_VIEW_CLASS: "file-browser-grid-view"
 }
 
 export const DEFAULT_DOCUMENT_TITLE = "Oliver Bathurst"

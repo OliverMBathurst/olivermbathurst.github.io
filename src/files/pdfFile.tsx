@@ -3,8 +3,6 @@ import { AbstractUploadedWindowFile } from "../types/fs"
 
 class PdfFile
 	extends AbstractUploadedWindowFile
-	implements IUploadedWindowFile
-{
-}
+	implements IUploadedWindowFile {}
 
 export default PdfFile

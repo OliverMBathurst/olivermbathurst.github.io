@@ -8,7 +8,7 @@ interface IShortcutProps {
 	shortcut: ShortcutType
 }
 
-const windowPropertiesService = new WindowPropertiesService();
+const windowPropertiesService = new WindowPropertiesService()
 
 const Shortcut = (props: IShortcutProps) => {
 	const { shortcut } = props
@@ -17,7 +17,10 @@ const Shortcut = (props: IShortcutProps) => {
 	const registry = useContext(RegistryContext)
 
 	const onDoubleClick = useCallback(() => {
-		const windowProperties = windowPropertiesService.getProperties(shortcut, registry)
+		const windowProperties = windowPropertiesService.getProperties(
+			shortcut,
+			registry
+		)
 		if (!windowProperties) {
 			return
 		}

@@ -16,7 +16,9 @@ const RecommendedSection = (props: IRecommendedSectionProps) => {
 	const { specialBranchPaths } = useContext(RegistryContext)
 
 	const desktopBranch: BranchingContext | null = useMemo(() => {
-		const validatedDesktopBranch = validateFilePath(specialBranchPaths[SpecialBranch.Desktop])
+		const validatedDesktopBranch = validateFilePath(
+			specialBranchPaths[SpecialBranch.Desktop]
+		)
 		if (!validatedDesktopBranch) {
 			return null
 		}
@@ -28,13 +30,13 @@ const RecommendedSection = (props: IRecommendedSectionProps) => {
 		return null
 	}, [validateFilePath, specialBranchPaths])
 
-
 	return (
-		<ContainerSection 
-			title="Recommended" 
+		<ContainerSection
+			title="Recommended"
 			items={desktopBranch?.leaves ?? []}
 			onRecommendedItemClicked={onItemClicked}
-		/>)
+		/>
+	)
 }
 
 export default RecommendedSection
