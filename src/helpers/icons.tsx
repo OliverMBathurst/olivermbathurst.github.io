@@ -1,24 +1,25 @@
 import { JSX } from "react"
 import {
-	BRANCHING_CONTEXT_TYPE_PROPERTY,
-	DEFAULT_FAVICON_HREF,
-	FILETYPE_EXECUTABLE,
-	FILETYPE_PDF,
-	FILETYPE_SHORTCUT,
-	FILETYPE_TEXT,
-	FILETYPE_URL_SHORTCUT,
-	LEAF_EXTENSION_PROPERTY_NAME,
-	SHORTCUT_DETERMINER
+    BRANCHING_CONTEXT_TYPE_PROPERTY,
+    DEFAULT_FAVICON_HREF,
+    FILETYPE_CUSTOM_ICON,
+    FILETYPE_EXECUTABLE,
+    FILETYPE_PDF,
+    FILETYPE_SHORTCUT,
+    FILETYPE_TEXT,
+    FILETYPE_URL_SHORTCUT,
+    LEAF_EXTENSION_PROPERTY_NAME,
+    SHORTCUT_DETERMINER
 } from "../constants"
 import {
-	CustomIcon,
-	DriveIcon,
-	ExecutableFileIcon,
-	FolderIcon,
-	GenericFileIcon,
-	InternetIcon,
-	PdfIcon,
-	TextFileIcon
+    CustomIcon,
+    DriveIcon,
+    ExecutableFileIcon,
+    FolderIcon,
+    GenericFileIcon,
+    InternetIcon,
+    PdfIcon,
+    TextFileIcon
 } from "../icons"
 import { Context } from "../types/fs"
 
@@ -38,7 +39,7 @@ export const getIcon = (
 	props?: React.ImgHTMLAttributes<HTMLImageElement>
 ): JSX.Element | null => {
 	if (LEAF_EXTENSION_PROPERTY_NAME in context) {
-		if (context.icon) {
+		if (FILETYPE_CUSTOM_ICON in context && context.icon) {
 			return <CustomIcon src={context.icon} {...props} />
 		}
 
@@ -79,7 +80,7 @@ const getIconPath = (context: Context | null): string | null => {
 	}
 
 	if (LEAF_EXTENSION_PROPERTY_NAME in context) {
-		if (context.icon) {
+		if (FILETYPE_CUSTOM_ICON in context && context.icon) {
 			return context.icon
 		}
 

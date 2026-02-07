@@ -8,6 +8,7 @@ import FileSystemContextProvider, {
     FileSystemContext
 } from "./fileSystemContextProvider"
 import RegistryContextProvider, { IRegistryContext, RegistryContext } from "./registryContextProvider"
+import TaskbarGroupContextProvider, { TaskbarGroupContext } from "./taskbarGroupContextProvider"
 import WindowsContextProvider, {
     WindowsContext
 } from "./windowsContextProvider"
@@ -18,7 +19,7 @@ export {
     FileBrowserContext,
     FileBrowserContextProvider,
     FileSystemContext,
-    FileSystemContextProvider, RegistryContext, RegistryContextProvider, WindowsContext,
+    FileSystemContextProvider, RegistryContext, RegistryContextProvider, TaskbarGroupContext, TaskbarGroupContextProvider, WindowsContext,
     WindowsContextProvider
 }
 

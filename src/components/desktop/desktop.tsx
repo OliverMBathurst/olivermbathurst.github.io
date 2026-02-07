@@ -1,10 +1,7 @@
 import { useCallback, useContext, useEffect, useMemo, useRef } from "react"
 import {
     BRANCHING_CONTEXT_DETERMINER,
-    DESKTOP_ITEM_CLASS,
-    DESKTOP_ITEM_ICON_CLASS,
-    DESKTOP_ITEM_NAME_CLASS,
-    NO_SELECT_CLASS
+    CLASSNAMES
 } from "../../constants"
 import { DesktopItemContext, RegistryContext } from "../../contexts"
 import { SpecialBranch } from "../../enums"
@@ -16,6 +13,13 @@ import { Folder } from "../folder"
 import { Shortcut } from "../shortcut"
 import "./desktop.scss"
 import { BranchingContext } from "../../types/fs"
+
+const {
+	DESKTOP_ITEM_CLASS,
+	DESKTOP_ITEM_ICON_CLASS,
+	DESKTOP_ITEM_NAME_CLASS,
+	NO_SELECT_CLASS
+} = CLASSNAMES
 
 const selectionRectangeStartExclusions = [
 	DESKTOP_ITEM_CLASS,

@@ -2,8 +2,7 @@ import { useCallback, useContext, useEffect, useMemo, useRef, useState } from "r
 import {
     BRANCHING_CONTEXT_DETERMINER,
     BRANCHING_CONTEXT_PARENT_PROPERTY,
-    FILE_BROWSER_CONTENT_RESULT_PANE_CLASS,
-    FILE_BROWSER_GRID_VIEW_CLASS,
+    CLASSNAMES,
     FILE_BROWSER_TREE_MIN_WIDTH
 } from "../../constants"
 import { FileBrowserContext, FileSystemContext, RegistryContext, WindowsContext } from "../../contexts"
@@ -27,6 +26,11 @@ import {
 } from "./components"
 import { FileBrowserTree } from "./components/fileBrowserTree"
 import "./fileBrowser.scss"
+
+const {
+	FILE_BROWSER_CONTENT_RESULT_PANE_CLASS,
+	FILE_BROWSER_GRID_VIEW_CLASS
+} = CLASSNAMES
 
 interface IFileBrowserProps {
 	windowId: string

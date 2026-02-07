@@ -1,8 +1,10 @@
-import { NO_SELECT_CLASS } from "../../constants"
+import { CLASSNAMES } from "../../constants"
 import { ISearchResult } from "../../interfaces/search"
 import { Context } from "../../types/fs"
 import { SearchResultPaneRow } from "./components"
 import "./searchResultPane.scss"
+
+const { NO_SELECT_CLASS } = CLASSNAMES
 
 interface ISearchResultPaneProps {
 	searchResult: ISearchResult | null

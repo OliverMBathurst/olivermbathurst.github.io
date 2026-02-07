@@ -1,9 +1,11 @@
 import { JSX, useEffect, useState } from "react"
-import { NO_SELECT_CLASS } from "../../../constants"
+import { CLASSNAMES } from "../../../constants"
 import { useDisplayName, useIcon } from "../../../hooks"
 import { ILikenessResult } from "../../../interfaces/search"
 import { Context } from "../../../types/fs"
 import "./searchResultPaneRow.scss"
+
+const { NO_SELECT_CLASS } = CLASSNAMES
 
 interface ISearchResultPaneRowProps {
 	item: ILikenessResult

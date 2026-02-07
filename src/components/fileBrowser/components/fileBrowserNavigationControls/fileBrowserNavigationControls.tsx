@@ -1,12 +1,14 @@
 import { useContext } from "react"
 import {
 	BRANCHING_CONTEXT_PARENT_PROPERTY,
-	NO_SELECT_CLASS
+	CLASSNAMES
 } from "../../../../constants"
 import { FileBrowserContext } from "../../../../contexts"
 import { LeftArrowIcon, RightArrowIcon, UpArrowIcon } from "../../../../icons"
 import { BranchingContext } from "../../../../types/fs"
 import "./fileBrowserNavigationControls.scss"
+
+const { NO_SELECT_CLASS } = CLASSNAMES
 
 interface IFileBrowserNavigationControlsProps {
 	context: BranchingContext

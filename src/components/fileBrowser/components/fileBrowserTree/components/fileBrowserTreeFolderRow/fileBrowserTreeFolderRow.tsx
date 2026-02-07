@@ -1,11 +1,13 @@
 import { useContext } from "react"
-import { NO_SELECT_CLASS } from "../../../../../../constants"
+import { CLASSNAMES } from "../../../../../../constants"
 import { FileBrowserContext } from "../../../../../../contexts"
 import { getIcon } from "../../../../../../helpers/icons"
 import { getDisplayName } from "../../../../../../helpers/naming"
 import { CollapseIcon, ExpandIcon } from "../../../../../../icons"
 import { BranchingContext } from "../../../../../../types/fs"
 import "./fileBrowserTreeFolderRow.scss"
+
+const { NO_SELECT_CLASS } = CLASSNAMES
 
 interface IStartMenuFolderRowProps {
 	windowId: string

@@ -3,6 +3,7 @@ import { FileSystemContext, RegistryContext, WindowsContext } from "../../contex
 import { onMixedSelectionRowClicked } from "../../helpers/selections"
 import { useSearch } from "../../hooks"
 import { ISearchResult } from "../../interfaces/search"
+import { IWindowProperties } from "../../interfaces/windows"
 import { WindowPropertiesService } from "../../services"
 import { Context } from "../../types/fs"
 import { SearchBar } from "../searchBar"
@@ -10,12 +11,10 @@ import { SearchResultPane } from "../searchResultPane"
 import {
     DateDisplay,
     MinimizeAllButton,
-    StartButton,
-    TaskbarItem
+    StartButton
 } from "./components"
-import "./taskbar.scss"
-import { IWindowProperties } from "../../interfaces/windows"
 import { TaskbarGroup } from "./components/taskbarGroup"
+import "./taskbar.scss"
 
 interface ITaskbarProps {
 	onStartButtonClicked: () => void
@@ -100,7 +99,7 @@ const Taskbar = (props: ITaskbarProps) => {
 		]
 	)
 
-	const TaskbarItems = useMemo(() => {
+	const TaskbarGroups = useMemo(() => {
 		const groupedByHandler: Record<string, IWindowProperties[]> = {}
 		for (const wp of windowProperties) {
 			if (groupedByHandler[wp.handlerId]) {
@@ -136,7 +135,7 @@ const Taskbar = (props: ITaskbarProps) => {
 					elementCallback={taskbarSearchBarCallback}
 					onChange={onSearchInputChanged}
 				/>
-				<div className="taskbar__items-container">{TaskbarItems}</div>
+				<div className="taskbar__groups-container">{TaskbarGroups}</div>
 				<DateDisplay onDateClicked={onDateClicked} />
 				<MinimizeAllButton onMinimizeAllClicked={onMinimizeAllButtonClicked} />
 			</div>

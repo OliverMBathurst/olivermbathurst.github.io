@@ -1,10 +1,11 @@
 @use "../../scss/styles";
+@use "../../scss/colours";
 
 .taskbar {
 	width: 100%;
 	position: absolute;
 	bottom: 0;
-	background: rgba(37, 37, 38, 0.8);
+	background: colours.$taskbar-background;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -20,13 +21,12 @@
 	flex-grow: 0;
 }
 
-.taskbar > *,
-.taskbar__items-container > * {
+.taskbar > * {
 	height: calc(100% - 0.7rem);
 	border-radius: styles.$window-border-radius;
 }
 
-.taskbar__items-container {
+.taskbar__groups-container {
 	height: 100%;
 	display: flex;
 	justify-content: center;

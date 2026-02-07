@@ -1,11 +1,15 @@
 import { useEffect, useRef, useState } from "react"
 import {
+    CLASSNAMES
+} from "../../../../constants"
+import "./dateDisplay.scss"
+
+const {
 	DATE_DISPLAY_BASE_CLASS,
 	DATE_DISPLAY_OVERLAY_CLASS,
 	DATE_DISPLAY_PICKER_ID,
 	NO_SELECT_CLASS
-} from "../../../../constants"
-import "./dateDisplay.scss"
+} = CLASSNAMES
 
 interface IDateDisplayProps {
 	onDateClicked: () => void

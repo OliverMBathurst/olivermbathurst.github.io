@@ -1,6 +1,8 @@
-import { NO_SELECT_CLASS } from "../../../../constants"
+import { CLASSNAMES } from "../../../../constants"
 import { FolderIcon } from "../../../../icons"
 import "./upOneLevelRow.scss"
+
+const { NO_SELECT_CLASS } = CLASSNAMES
 
 interface IUpOneLevelRowProps {
 	onRowDoubleClicked: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void

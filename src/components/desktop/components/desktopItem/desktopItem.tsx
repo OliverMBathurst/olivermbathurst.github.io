@@ -1,14 +1,19 @@
 import React, { useContext, useEffect } from "react"
 import {
-	DESKTOP_ITEM_CLASS,
-	DESKTOP_ITEM_ICON_CLASS,
-	DESKTOP_ITEM_NAME_CLASS,
-	NO_SELECT_CLASS
+    CLASSNAMES
 } from "../../../../constants"
 import { DesktopItemContext } from "../../../../contexts"
 import { useDisplayName, useIcon } from "../../../../hooks"
 import { Context } from "../../../../types/fs"
 import "./desktopItem.scss"
+
+const {
+	DESKTOP_ITEM_CLASS,
+	DESKTOP_ITEM_ICON_CLASS,
+	DESKTOP_ITEM_NAME_CLASS,
+	NO_SELECT_CLASS,
+	DESKTOP_ITEM_SELECTED_CLASS
+} = CLASSNAMES
 
 interface IDesktopItemProps {
 	context: Context
@@ -81,7 +86,7 @@ const DesktopItem = (props: IDesktopItemProps) => {
 	return (
 		<div
 			id={contextKey}
-			className={`${DESKTOP_ITEM_CLASS}${selected ? " desktop-item--selected" : ""}`}
+			className={`${DESKTOP_ITEM_CLASS}${selected ? ` ${DESKTOP_ITEM_SELECTED_CLASS}` : ""}`}
 			ref={(r) => addElementReference(r, context)}
 			onClick={(e) => onDesktopItemClickedInternal(e, context)}
 			onDoubleClick={(e) => onDesktopItemDoubleClickedInternal(e)}

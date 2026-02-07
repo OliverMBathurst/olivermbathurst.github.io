@@ -6,6 +6,7 @@ import {
     FileBrowserContextProvider,
     FileSystemContextProvider,
     RegistryContextProvider,
+    TaskbarGroupContextProvider,
     WindowsContextProvider
 } from "./contexts"
 import "./scss/_index.scss"
@@ -19,7 +20,9 @@ root.render(
                 <WindowsContextProvider>
                     <DesktopItemContextProvider>
                         <FileBrowserContextProvider>
-                            <Screen />
+                            <TaskbarGroupContextProvider>
+                                <Screen />
+                            </TaskbarGroupContextProvider>
                         </FileBrowserContextProvider>
                     </DesktopItemContextProvider>
                 </WindowsContextProvider>

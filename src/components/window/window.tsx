@@ -1,14 +1,10 @@
 import React, { memo, useCallback, useContext, useEffect, useRef } from "react"
 import {
+    CLASSNAMES,
     DEFAULT_MIN_WINDOW_HEIGHT_PIXELS,
     DEFAULT_MIN_WINDOW_WIDTH_PIXELS,
     DEFAULT_POINTER,
-    DEFAULT_TASKBAR_HEIGHT_PIXELS,
-    NO_SELECT_CLASS,
-    TASKBAR_GROUP_CLASSES,
-    TASKBAR_ITEM_CLASS,
-    TASKBAR_ITEM_NAME_CLASS,
-    TASKBAR_ITEM_SELECTED_CLASS
+    DEFAULT_TASKBAR_HEIGHT_PIXELS
 } from "../../constants"
 import { WindowsContext } from "../../contexts"
 import { ExpandDirection } from "../../enums"
@@ -26,12 +22,16 @@ import { Visibility } from "../../types"
 import { WindowContent, WindowTopBar } from "./components"
 import "./window.scss"
 
+const {
+	NO_SELECT_CLASS,
+	TASKBAR_GROUP_CLASSES,
+	TASKBAR_ITEM_CLASSES
+} = CLASSNAMES
+
 const clickOutsideExclusions: string[] = [
 	NO_SELECT_CLASS,
-	TASKBAR_ITEM_CLASS,
-	TASKBAR_ITEM_SELECTED_CLASS,
-	TASKBAR_ITEM_NAME_CLASS,
-	...TASKBAR_GROUP_CLASSES
+	...Object.values(TASKBAR_ITEM_CLASSES),
+	...Object.values(TASKBAR_GROUP_CLASSES)
 ]
 
 interface IWindowProps {

@@ -1,14 +1,16 @@
 import { useMemo } from "react"
 import {
-	BRANCHING_CONTEXT_DETERMINER,
-	LEAF_EXTENSION_PROPERTY_NAME,
-	NO_SELECT_CLASS,
-	SHORTCUT_DETERMINER
+    BRANCHING_CONTEXT_DETERMINER,
+    CLASSNAMES,
+    LEAF_EXTENSION_PROPERTY_NAME,
+    SHORTCUT_DETERMINER
 } from "../../../../constants"
 import { ThumbsIcon } from "../../../../icons"
 import { ISearchResult } from "../../../../interfaces/search"
 import { Branch, BranchingContext, Leaf, Shortcut } from "../../../../types/fs"
 import "./folderBaseInformation.scss"
+
+const { NO_SELECT_CLASS } = CLASSNAMES
 
 interface IFolderBaseInformationProps {
 	context: BranchingContext

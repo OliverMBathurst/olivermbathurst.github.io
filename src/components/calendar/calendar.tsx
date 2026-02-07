@@ -1,13 +1,11 @@
 import { useMemo, useRef, useState } from "react"
 import {
+	CLASSNAMES,
 	CALENDAR_MONTH_COLUMN_SIZE,
 	CALENDAR_MONTH_ROW_SIZE,
 	CALENDAR_YEAR_COLUMN_SIZE,
 	CALENDAR_YEAR_RANGE_YEARS,
 	CALENDAR_YEAR_ROW_SIZE,
-	DATE_DISPLAY_BASE_CLASS,
-	DATE_DISPLAY_OVERLAY_CLASS,
-	NO_SELECT_CLASS
 } from "../../constants"
 import { chunk } from "../../helpers/collections"
 import { days, monthStringsByNumber } from "../../helpers/date"
@@ -15,6 +13,12 @@ import { useClickOutside } from "../../hooks"
 import { CollapseIcon, ExpandIcon } from "../../icons"
 import { Button } from "../button"
 import "./calendar.scss"
+
+const {
+	DATE_DISPLAY_BASE_CLASS,
+	DATE_DISPLAY_OVERLAY_CLASS,
+	NO_SELECT_CLASS
+} = CLASSNAMES
 
 const initialDate = new Date()
 const initialYear = initialDate.getFullYear()
@@ -401,14 +405,14 @@ const Calendar = (props: ICalendarProps) => {
 	return (
 		<div className="calendar" ref={calendarRef}>
 			<div className="calendar__upper-container">
-				<span
+				<div
 					className={`calendar__upper-container__date-display ${NO_SELECT_CLASS}`}
 				>
 					<Button onClick={onMonthsClicked}>
 						{monthStringsByNumber[date.month]}
 					</Button>
 					<Button onClick={onYearsClicked}>{date.year}</Button>
-				</span>
+				</div>
 				<div className="calendar__upper-container__controls">
 					<div className="calendar__upper-container__controls__control">
 						<ExpandIcon onClick={navigateForwards} />

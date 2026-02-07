@@ -1,8 +1,10 @@
-import { NO_SELECT_CLASS } from "../../../../constants"
+import { CLASSNAMES } from "../../../../constants"
 import { getIcon } from "../../../../helpers/icons"
 import { getDisplayName } from "../../../../helpers/naming"
 import { Context } from "../../../../types/fs"
 import "./containerSection.scss"
+
+const { NO_SELECT_CLASS } = CLASSNAMES
 
 interface IContainerSectionProps<T> {
     title: string

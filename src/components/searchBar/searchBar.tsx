@@ -1,7 +1,9 @@
 import { useRef, useState } from "react"
-import { NO_SELECT_CLASS } from "../../constants"
+import { CLASSNAMES } from "../../constants"
 import { CancelIcon, SearchIcon } from "../../icons"
 import "./searchBar.scss"
+
+const { NO_SELECT_CLASS } = CLASSNAMES
 
 interface ISearchBarProps extends React.InputHTMLAttributes<HTMLInputElement> {
 	elementCallback?: (elem: HTMLInputElement) => void

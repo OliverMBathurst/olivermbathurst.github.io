@@ -1,11 +1,16 @@
 import { useRef } from "react"
-import { FILE_BROWSER_GRID_VIEW_CLASS, NO_SELECT_CLASS } from "../../../../constants"
+import { CLASSNAMES } from "../../../../constants"
 import { ExpandDirection } from "../../../../enums"
 import { getIcon } from "../../../../helpers/icons"
 import { getType } from "../../../../helpers/type"
 import { Branch, Context, Leaf, Shortcut } from "../../../../types/fs"
 import { Expandable } from "../../../expandable"
 import "./fileBrowserGridView.scss"
+
+const {
+	FILE_BROWSER_GRID_VIEW_CLASS,
+	NO_SELECT_CLASS
+} = CLASSNAMES
 
 interface IFileBrowserGridViewProps {
 	entities: (Branch | Shortcut | Leaf)[]

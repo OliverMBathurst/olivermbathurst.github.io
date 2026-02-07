@@ -73,7 +73,7 @@ export interface IUploadedWindowFile
 export interface IAbstractUploadedWindowFile
 	extends IUploadedFile, INamed, IExtensionAvailable {}
 
-export interface IApplicationFile extends INamed {
+export interface IApplicationFile extends INamed, IIcon {
 	handle: (windowId: string, context: Context) => JSX.Element
 }
 

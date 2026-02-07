@@ -1,11 +1,13 @@
 import { useRef } from "react"
-import { TASKBAR_START_BUTTON_CLASS } from "../../constants"
+import { CLASSNAMES } from "../../constants"
 import { useClickOutside } from "../../hooks"
 import { PowerIcon } from "../../icons"
 import { Context } from "../../types/fs"
 import { SearchBar } from "../searchBar"
 import { ApplicationsSection, RecommendedSection } from "./components"
 import "./startMenu.scss"
+
+const { TASKBAR_START_BUTTON_CLASS } = CLASSNAMES
 
 interface IStartMenuProps {
 	onClickOutside: () => void

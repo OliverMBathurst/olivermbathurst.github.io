@@ -1,7 +1,9 @@
 import { JSX, useMemo } from "react"
-import { NO_SELECT_CLASS } from "../constants"
+import { CLASSNAMES } from "../constants"
 import { getIcon } from "../helpers/icons"
 import { Context } from "../types/fs"
+
+const { NO_SELECT_CLASS } = CLASSNAMES
 
 const useIcon: (
 	context: Context,
