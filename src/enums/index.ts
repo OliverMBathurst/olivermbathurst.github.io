@@ -14,3 +14,10 @@ export enum ExpandDirection {
 	BottomLeft = 1 << 7,
 	BottomRight = 1 << 8
 }
+
+export enum Wallpaper {
+	None,
+	Colours,
+	Slideshow,
+	Conway
+}

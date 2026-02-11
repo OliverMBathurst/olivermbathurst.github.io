@@ -1,10 +1,6 @@
 import { useContext, useEffect, useState } from "react"
-import {
-	FILETYPE_EXECUTABLE,
-	LEAF_EXTENSION_PROPERTY_NAME
-} from "../../../../constants"
-import { FileSystemContext } from "../../../../contexts"
-import { INonRootContextInformation } from "../../../../interfaces/fs"
+import { RegistryContext } from "../../../../contexts"
+import { useFileSystem } from "../../../../hooks"
 import { Context } from "../../../../types/fs"
 import { ContainerSection } from "../containerSection"
 
@@ -14,25 +10,29 @@ interface IApplicationsSectionProps {
 
 const ApplicationsSection = (props: IApplicationsSectionProps) => {
 	const { onItemClicked } = props
-	const { nonRootContextInformation } = useContext(FileSystemContext)
-	const [applicationInformation, setApplicationInformation] = useState<
-		INonRootContextInformation[]
-	>([])
+	const { applicationPaths } = useContext(RegistryContext)
+	const { validateFilePath } = useFileSystem()
+
+	const [apps, setApps] = useState<Context[]>([])
 
 	useEffect(() => {
-		const apps = nonRootContextInformation.filter(
-			(ci) =>
-				LEAF_EXTENSION_PROPERTY_NAME in ci.context &&
-				ci.context.extension === FILETYPE_EXECUTABLE
-		)
+		const appPaths = Object.values(applicationPaths)
 
-		setApplicationInformation(apps)
-	}, [nonRootContextInformation])
+		const resolvedApps = []
+		for (const appPath of appPaths) {
+			const validatedAppContext = validateFilePath(appPath)
+			if (validatedAppContext) {
+				resolvedApps.push(validatedAppContext)
+			}
+		}
+
+		setApps(resolvedApps)
+	}, [applicationPaths])
 
 	return (
 		<ContainerSection
 			title="Applications"
-			items={applicationInformation.map((x) => x.context)}
+			items={apps}
 			onRecommendedItemClicked={onItemClicked}
 		/>
 	)

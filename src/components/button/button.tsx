@@ -1,6 +1,6 @@
 import "./button.scss"
 
-const Button = (props: React.HTMLAttributes<HTMLButtonElement>) => {
+const Button = (props: React.ButtonHTMLAttributes<HTMLButtonElement>) => {
 	return (
 		<button className="button" {...props}>
 			{props.children}

@@ -1,5 +1,5 @@
 import React, { createContext, useEffect, useState } from "react"
-import { DEFAULT_DOCUMENT_TITLE } from "../constants"
+import { DEFAULT_DOCUMENT_TITLE, FILETYPE_CUSTOM_ICON } from "../constants"
 import { changeFavicon } from "../helpers/icons"
 import {
 	IAddWindowProperties,

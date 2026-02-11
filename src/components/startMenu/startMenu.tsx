@@ -43,19 +43,21 @@ const StartMenu = (props: IStartMenuProps) => {
 
 	return (
 		<div className="start-menu" ref={startMenuRef}>
-			<div className="start-menu__top-container">
-				<SearchBar
-					type="text"
-					placeholder="Search..."
-					onFocus={onSearchBarFocused}
-				/>
-			</div>
-			<div className="start-menu__bottom-container">
-				<RecommendedSection onItemClicked={onItemClicked} />
-				<ApplicationsSection onItemClicked={onItemClicked} />
-			</div>
 			<div className="start-menu__button-container">
 				<PowerIcon onClick={() => window.location.reload()} />
+			</div>
+			<div className="start-menu__side-container">
+				<div className="start-menu__side-container__top-container">
+					<SearchBar
+						type="text"
+						placeholder="Search..."
+						onFocus={onSearchBarFocused}
+					/>
+				</div>
+				<div className="start-menu__side-container__bottom-container">
+					<RecommendedSection onItemClicked={onItemClicked} />
+					<ApplicationsSection onItemClicked={onItemClicked} />
+				</div>
 			</div>
 		</div>
 	)

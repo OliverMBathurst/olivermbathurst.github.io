@@ -1,6 +1,7 @@
 import {
 	IApplicationFile,
 	IDataFile,
+	IGameFile,
 	ITextFile,
 	IUploadedWindowFile,
 	IUrlShortcutFile
@@ -22,6 +23,7 @@ export type Leaf =
 	| IApplicationFile
 	| IDataFile
 	| ITextFile
+	| IGameFile
 
 export {
 	AbstractLeaf,

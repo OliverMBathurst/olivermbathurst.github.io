@@ -1,14 +1,14 @@
 import { useContext, useEffect, useRef, useState } from "react"
 import {
-	FileSystemContext,
-	RegistryContext,
-	WindowsContext
+    FileSystemContext,
+    RegistryContext,
+    WindowsContext
 } from "../../contexts"
+import { useWallpaper } from "../../hooks"
 import { WindowPropertiesService } from "../../services"
 import { Context } from "../../types/fs"
 import { Calendar } from "../calendar"
 import { Desktop } from "../desktop"
-import { Colours } from "../screenSaver"
 import { StartMenu } from "../startMenu"
 import { Taskbar } from "../taskbar"
 import { Window } from "../window"
@@ -20,6 +20,7 @@ const Screen = () => {
 	const { windowProperties, addWindow } = useContext(WindowsContext)
 	const { runIndexer } = useContext(FileSystemContext)
 	const registry = useContext(RegistryContext)
+	const Wallpaper = useWallpaper()
 
 	const [startMenuShow, setStartMenuShow] = useState<boolean>(false)
 	const [calendarShow, setCalendarShow] = useState<boolean>(false)
@@ -63,7 +64,7 @@ const Screen = () => {
 	return (
 		<div className="screen">
 			<div className="screen__render-area">
-				<Colours />
+				{Wallpaper}
 				<Desktop />
 				{windowProperties.map((p) => (
 					<Window key={p.id} properties={p} />

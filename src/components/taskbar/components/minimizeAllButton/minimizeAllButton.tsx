@@ -9,4 +9,5 @@ const MinimizeAllButton = (props: IMinimizeAllButtonProps) => {
 
 	return <div className="minimize-all" onClick={onMinimizeAllClicked} />
 }
+
 export default MinimizeAllButton

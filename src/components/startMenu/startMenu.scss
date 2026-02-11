@@ -2,7 +2,6 @@
 @use "../../scss/styles";
 
 .start-menu {
-	flex-direction: column;
 	position: absolute;
 	bottom: 0.5rem;
 	left: 0.5rem;
@@ -40,34 +39,36 @@
 	}
 }
 
-.start-menu__top-container {
+.start-menu__side-container__top-container {
 	flex-direction: row;
 	padding: 0.5rem 0.5rem 0.5rem 0.5rem;
 }
 
-.start-menu,
-.start-menu__top-container,
-.start-menu__bottom-container,
 .start-menu__button-container {
+	background-color: colours.$ui-input-background;
+	border-radius: styles.$window-border-radius;
+}
+
+.start-menu,
+.start-menu__side-container__top-container,
+.start-menu__side-container__bottom-container {
 	display: flex;
 }
 
-.start-menu__bottom-container {
+.start-menu__side-container__bottom-container {
 	flex-direction: column;
 	overflow: scroll;
+	height: calc(100% - 3.2rem);
 }
 
-.start-menu__button-container {
-	margin: auto 0.5rem 0.5rem 0.5rem;
-	border: 0.0625rem solid black;
-	background-color: colours.$start-menu-container-background;
+.start-menu__button-container > * {
 	border-radius: styles.$window-border-radius;
 }
 
 .start-menu__button-container img {
-	height: 2rem;
-	width: 2rem;
-	padding: 0.5rem 0.5rem 0.5rem 0.5rem;
+	height: 1.5rem;
+	width: 1.5rem;
+	padding: 0.5rem;
 }
 
 .start-menu__button-container img:hover {

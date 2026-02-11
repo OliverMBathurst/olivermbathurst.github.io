@@ -1,17 +1,11 @@
 import { useContext, useEffect, useState } from "react"
-import {
-	BRANCHING_CONTEXT_PARENT_PROPERTY,
-	BRANCHING_CONTEXT_TYPE_PROPERTY
-} from "../constants"
 import { FileSystemContext } from "../contexts"
-import { SpecialBranch } from "../enums"
 import { getDisplayName } from "../helpers/naming"
-import { getFullPath } from "../helpers/paths"
 import { IForwardContextInformation } from "../interfaces/fs"
 import { Branch, BranchingContext, Context, Leaf } from "../types/fs"
 
 const useFileSystem = (context?: BranchingContext) => {
-	const { root, nonRootContextInformation } = useContext(FileSystemContext)
+	const { root, nonRootContextInformation, getForwardContexts } = useContext(FileSystemContext)
 
 	const [currentContext, setCurrentContext] = useState<BranchingContext>(
 		context ?? root
@@ -21,35 +15,11 @@ const useFileSystem = (context?: BranchingContext) => {
 	>([])
 
 	useEffect(() => {
-		const fullPathOfCurrentContext = getFullPath(currentContext)
-		const forwardContexts = [...nonRootContextInformation]
-			.filter((ci) => ci.fullPath.startsWith(fullPathOfCurrentContext))
-			.map((ci) => {
-				let forwardPath = ci.fullPath.replace(fullPathOfCurrentContext, "")
-
-				if (forwardPath.startsWith("\\")) {
-					forwardPath = forwardPath.replace("\\", "")
-				}
-
-				return {
-					forwardPath: forwardPath,
-					fullPath: ci.fullPath,
-					context: ci.context
-				}
-			})
+		const forwardContexts = getForwardContexts(currentContext)
 
 		setAllForwardContexts(forwardContexts)
-	}, [currentContext, nonRootContextInformation])
+	}, [getForwardContexts, currentContext, nonRootContextInformation])
 
-	const upOneLevel = () => {
-		if (!(BRANCHING_CONTEXT_PARENT_PROPERTY in currentContext)) {
-			return
-		}
-
-		if (currentContext.parent) {
-			setCurrentContext(currentContext.parent)
-		}
-	}
 
 	const getFilesOfBranchRecursively = (branch?: Branch): Leaf[] => {
 		const targetBranch = branch ?? root
@@ -119,7 +89,7 @@ const useFileSystem = (context?: BranchingContext) => {
 
 	return {
 		forwardContexts,
-		//upOneLevel,
+		setCurrentContext,
 		currentContext,
 		getFilesOfBranchRecursively,
 		validateFilePath

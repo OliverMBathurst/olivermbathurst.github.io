@@ -76,6 +76,10 @@ export interface IApplicationFile extends INamed, IIcon {
 	handle: (windowId: string, context: Context) => JSX.Element
 }
 
+export interface IGameFile extends INamed, IIcon {
+	render: (windowId: string, context: Context) => JSX.Element
+}
+
 interface ILeafAndBranchContext extends INamed {
 	leaves: Leaf[]
 	branches: Branch[]

@@ -7,6 +7,7 @@ import executable from "../icons/executable.png"
 import expand from "../icons/expand.png"
 import file from "../icons/file.png"
 import folder from "../icons/folder.png"
+import game from "../icons/game.png"
 import internet from "../icons/internet.png"
 import leftArrow from "../icons/left-arrow.png"
 import maximise from "../icons/maximise.png"
@@ -104,26 +105,29 @@ const PowerIcon = (props: React.ImgHTMLAttributes<HTMLImageElement>) => (
 	<img src={power} alt="Power icon by icon8" {...props} />
 )
 
+const GameIcon = (props: React.ImgHTMLAttributes<HTMLImageElement>) => (
+	<img src={game} alt="Game icon by icon8" {...props} />
+)
+
 export {
-	CancelIcon,
-	CloseIcon,
-	CollapseIcon,
-	CustomIcon,
-	DriveIcon,
-	ExecutableFileIcon,
-	ExpandIcon,
-	FolderIcon,
-	GenericFileIcon,
-	InternetIcon,
-	LeftArrowIcon,
-	MaximizeIcon,
-	MinimizeIcon,
-	PdfIcon,
-	PowerIcon,
-	RightArrowIcon,
-	SearchIcon,
-	StartMenuIcon,
-	TextFileIcon,
-	ThumbsIcon,
-	UpArrowIcon
+    CancelIcon,
+    CloseIcon,
+    CollapseIcon,
+    CustomIcon,
+    DriveIcon,
+    ExecutableFileIcon,
+    ExpandIcon,
+    FolderIcon, GameIcon, GenericFileIcon,
+    InternetIcon,
+    LeftArrowIcon,
+    MaximizeIcon,
+    MinimizeIcon,
+    PdfIcon,
+    PowerIcon,
+    RightArrowIcon,
+    SearchIcon,
+    StartMenuIcon,
+    TextFileIcon,
+    ThumbsIcon,
+    UpArrowIcon
 }

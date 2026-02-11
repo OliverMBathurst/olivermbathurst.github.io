@@ -1,4 +1,5 @@
 import { Colours } from "./colours"
+import { Conway } from "./conway"
 import { ImageSlideshow } from "./imageSlideshow"
 
-export { Colours, ImageSlideshow }
+export { Colours, Conway, ImageSlideshow }

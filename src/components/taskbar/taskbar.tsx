@@ -1,18 +1,10 @@
-import { useCallback, useContext, useMemo, useRef, useState } from "react"
+import { useContext, useMemo, useRef, useState } from "react"
 import {
-	FileSystemContext,
-	RegistryContext,
-	WindowsContext
+    WindowsContext
 } from "../../contexts"
-import { onMixedSelectionRowClicked } from "../../helpers/selections"
-import { useSearch } from "../../hooks"
-import { ISearchResult } from "../../interfaces/search"
 import { IWindowProperties } from "../../interfaces/windows"
-import { WindowPropertiesService } from "../../services"
-import { Context } from "../../types/fs"
 import { SearchBar } from "../searchBar"
-import { SearchResultPane } from "../searchResultPane"
-import { DateDisplay, MinimizeAllButton, StartButton } from "./components"
+import { DateDisplay, MinimizeAllButton, Search, StartButton } from "./components"
 import { TaskbarGroup } from "./components/taskbarGroup"
 import "./taskbar.scss"
 
@@ -22,86 +14,35 @@ interface ITaskbarProps {
 	taskbarSearchBarCallback: (elem: HTMLInputElement) => void
 }
 
-const windowPropertiesService = new WindowPropertiesService()
-
 const Taskbar = (props: ITaskbarProps) => {
 	const { onStartButtonClicked, onDateClicked, taskbarSearchBarCallback } =
 		props
-	const { windowProperties, onMinimizeAllButtonClicked } =
-		useContext(WindowsContext)
-	const { root, nonRootContextInformation } = useContext(FileSystemContext)
-	const { searchForItems } = useSearch(root)
-	const { addWindow } = useContext(WindowsContext)
-	const registry = useContext(RegistryContext)
+	const { windowProperties, onMinimizeAllButtonClicked } = useContext(WindowsContext)
+	const searchBarRef = useRef<HTMLDivElement | null>(null)
 
-	const elementRowReferences = useRef<Record<string, HTMLElement | null>>({})
+	const [showSearch, setShowSearch] = useState<boolean>(false)
+	const [searchText, setSearchText] = useState<string>("")
+	const [searchBarText, setSearchBarText] = useState<string>("")
 
-	const [selectedContextKeys, setSelectedContextKeys] = useState<string[]>([])
-	const [searchResult, setSearchResult] = useState<ISearchResult | null>(null)
-	const searchTimeout = useRef<number | undefined>(undefined)
+	const onSearchBarFocused = () => {
+		setShowSearch(true)
+	}
 
 	const onSearchInputChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
-		clearTimeout(searchTimeout.current)
-		searchTimeout.current = setTimeout(() => {
-			const val = e.target.value
-			if (val === "") {
-				onSearchCancelled()
-			} else {
-				const items = searchForItems(val)
-				elementRowReferences.current = {}
-				setSelectedContextKeys([])
-				setSearchResult({
-					term: val,
-					items
-				})
-			}
-		}, 300)
+		setSearchText(e.target.value)
+		setSearchBarText(e.target.value)
 	}
 
-	const onSearchCancelled = () => {
-		setSearchResult(null)
-		elementRowReferences.current = {}
-		setSelectedContextKeys([])
+	const onSearchCancelClicked = () => {
+		setSearchText("")
+		setSearchBarText("")
 	}
 
-	const onRowDoubleClicked = useCallback(
-		(context: Context, _: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-			const windowProperties = windowPropertiesService.getProperties(
-				context,
-				registry
-			)
-			if (windowProperties != null) {
-				addWindow(windowProperties)
-			}
-		},
-		[addWindow, windowPropertiesService, registry]
-	)
-
-	const onRowClicked = useCallback(
-		(context: Context, e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-			const selectionOne = searchResult !== null
-
-			const newSelectedContextKeys = onMixedSelectionRowClicked(
-				context,
-				selectionOne,
-				e,
-				selectedContextKeys,
-				searchResult?.items ?? [],
-				nonRootContextInformation,
-				(x) => x.context.toContextUniqueKey(),
-				(x) => x.context.toContextUniqueKey()
-			)
-
-			setSelectedContextKeys(newSelectedContextKeys)
-		},
-		[
-			searchResult,
-			onMixedSelectionRowClicked,
-			selectedContextKeys,
-			nonRootContextInformation,
-			setSelectedContextKeys
-		]
-	)
+	const onSearchClickedOutside = () => {
+		setSearchText("")
+		setSearchBarText("")
+		setShowSearch(false)
+	}
 
 	const TaskbarGroups = useMemo(() => {
 		const groupedByHandler: Record<string, IWindowProperties[]> = {}
@@ -120,24 +61,24 @@ const Taskbar = (props: ITaskbarProps) => {
 
 	return (
 		<>
-			{searchResult && (
-				<SearchResultPane
-					searchResult={searchResult}
-					selectedContextKeys={selectedContextKeys}
-					onRowClicked={onRowClicked}
-					onRowDoubleClicked={onRowDoubleClicked}
-					refCallback={(c, e) =>
-						(elementRowReferences.current[c.toContextUniqueKey()] = e)
-					}
+			{showSearch && (
+				<Search
+					text={searchText}
+					positionRef={searchBarRef}
+					onClickedOutside={onSearchClickedOutside}
 				/>
 			)}
 			<div className="taskbar">
 				<StartButton onStartButtonClicked={onStartButtonClicked} />
 				<SearchBar
 					type="text"
+					value={searchBarText}
 					placeholder="Search..."
+					forwardRef={searchBarRef}
+					onFocus={onSearchBarFocused}
 					elementCallback={taskbarSearchBarCallback}
 					onChange={onSearchInputChanged}
+					onCancelClicked={onSearchCancelClicked}
 				/>
 				<div className="taskbar__groups-container">{TaskbarGroups}</div>
 				<DateDisplay onDateClicked={onDateClicked} />

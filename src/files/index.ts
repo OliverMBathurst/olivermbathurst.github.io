@@ -1,3 +1,4 @@
+import Conways from "./conways"
 import Credits from "./credits"
 import CV from "./cv"
 import FileBrowser from "./fileBrowser"
@@ -9,13 +10,12 @@ import TextFileViewer from "./textFileViewer"
 import ThisProject from "./thisProject"
 
 export {
-	CV,
-	Credits,
-	FileBrowser,
-	GitHub,
-	LinkedIn,
-	PdfFile,
-	PdfViewer,
-	TextFileViewer,
-	ThisProject
+    CV, Conways, Credits,
+    FileBrowser,
+    GitHub,
+    LinkedIn,
+    PdfFile,
+    PdfViewer,
+    TextFileViewer,
+    ThisProject
 }

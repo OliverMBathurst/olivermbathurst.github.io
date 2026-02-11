@@ -1,6 +1,7 @@
 @use "../../scss/colours";
 
 .search-result-pane__no-items {
+	display: block;
 	color: colours.$ui-text-colour;
-	padding-left: 0.5rem;
+	padding: 1rem;
 }

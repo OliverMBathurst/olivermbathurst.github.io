@@ -1,36 +1,36 @@
 import DesktopItemContextProvider, {
-	DesktopItemContext
+    DesktopItemContext
 } from "./desktopItemContextProvider"
 import FileBrowserContextProvider, {
-	FileBrowserContext
+    FileBrowserContext
 } from "./fileBrowserContextProvider"
 import FileSystemContextProvider, {
-	FileSystemContext
+    FileSystemContext
 } from "./fileSystemContextProvider"
 import RegistryContextProvider, {
-	IRegistryContext,
-	RegistryContext
+    IRegistryContext,
+    RegistryContext
 } from "./registryContextProvider"
 import TaskbarGroupContextProvider, {
-	TaskbarGroupContext
+    TaskbarGroupContext
 } from "./taskbarGroupContextProvider"
+import WallpaperContextProvider, { WallpaperContext } from "./wallpaperContextProvider"
 import WindowsContextProvider, {
-	WindowsContext
+    WindowsContext
 } from "./windowsContextProvider"
 
 export {
-	DesktopItemContext,
-	DesktopItemContextProvider,
-	FileBrowserContext,
-	FileBrowserContextProvider,
-	FileSystemContext,
-	FileSystemContextProvider,
-	RegistryContext,
-	RegistryContextProvider,
-	TaskbarGroupContext,
-	TaskbarGroupContextProvider,
-	WindowsContext,
-	WindowsContextProvider
+    DesktopItemContext,
+    DesktopItemContextProvider,
+    FileBrowserContext,
+    FileBrowserContextProvider,
+    FileSystemContext,
+    FileSystemContextProvider,
+    RegistryContext,
+    RegistryContextProvider,
+    TaskbarGroupContext,
+    TaskbarGroupContextProvider, WallpaperContext, WallpaperContextProvider, WindowsContext,
+    WindowsContextProvider
 }
 
 export type { IRegistryContext }

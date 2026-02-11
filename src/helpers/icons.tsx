@@ -1,25 +1,27 @@
 import { JSX } from "react"
 import {
-	BRANCHING_CONTEXT_TYPE_PROPERTY,
-	DEFAULT_FAVICON_HREF,
-	FILETYPE_CUSTOM_ICON,
-	FILETYPE_EXECUTABLE,
-	FILETYPE_PDF,
-	FILETYPE_SHORTCUT,
-	FILETYPE_TEXT,
-	FILETYPE_URL_SHORTCUT,
-	LEAF_EXTENSION_PROPERTY_NAME,
-	SHORTCUT_DETERMINER
+    BRANCHING_CONTEXT_TYPE_PROPERTY,
+    DEFAULT_FAVICON_HREF,
+    FILETYPE_CUSTOM_ICON,
+    FILETYPE_EXECUTABLE,
+    FILETYPE_GAME,
+    FILETYPE_PDF,
+    FILETYPE_SHORTCUT,
+    FILETYPE_TEXT,
+    FILETYPE_URL_SHORTCUT,
+    LEAF_EXTENSION_PROPERTY_NAME,
+    SHORTCUT_DETERMINER
 } from "../constants"
 import {
-	CustomIcon,
-	DriveIcon,
-	ExecutableFileIcon,
-	FolderIcon,
-	GenericFileIcon,
-	InternetIcon,
-	PdfIcon,
-	TextFileIcon
+    CustomIcon,
+    DriveIcon,
+    ExecutableFileIcon,
+    FolderIcon,
+    GameIcon,
+    GenericFileIcon,
+    InternetIcon,
+    PdfIcon,
+    TextFileIcon
 } from "../icons"
 import { Context } from "../types/fs"
 
@@ -31,7 +33,8 @@ const fileNamesByExtension: Record<string, string> = {
 	[FILETYPE_PDF]: "pdf",
 	[FILETYPE_URL_SHORTCUT]: "internet",
 	[FILETYPE_TEXT]: "textFile",
-	[FILETYPE_EXECUTABLE]: "executable"
+	[FILETYPE_EXECUTABLE]: "executable",
+	[FILETYPE_GAME]: "game"
 }
 
 export const getIcon = (
@@ -52,6 +55,8 @@ export const getIcon = (
 				return <TextFileIcon {...props} />
 			case FILETYPE_EXECUTABLE:
 				return <ExecutableFileIcon {...props} />
+			case FILETYPE_GAME:
+				return <GameIcon {...props} />
 			case FILETYPE_SHORTCUT:
 				if (SHORTCUT_DETERMINER in context) {
 					return getIcon(context.context, props)

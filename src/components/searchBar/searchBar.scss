@@ -1,5 +1,4 @@
 @use "../../scss/colours";
-@use "../../scss/styles";
 
 .search-bar__input {
 	display: flex;
@@ -12,12 +11,12 @@
 
 .search-bar {
 	display: flex;
-	background-color: transparent;
+	background-color: colours.$ui-input-background;
 	color: colours.$ui-text-colour;
 	outline: none;
 	border: 0.125rem solid colours.$hover-button-background;
-	border-radius: styles.$window-border-radius;
 	height: 2rem;
+	border-radius: 1rem;
 	align-items: center;
 	cursor: text;
 	flex-shrink: 1;
@@ -43,4 +42,8 @@
 
 .search-bar__input::placeholder {
 	color: colours.$ui-text-colour;
+}
+
+.search-bar:focus-within {
+	background-color: colours.$ui-input-background-focused;
 }
