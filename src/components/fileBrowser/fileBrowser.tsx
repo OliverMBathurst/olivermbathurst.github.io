@@ -97,6 +97,10 @@ const FileBrowser = (props: IFileBrowserProps) => {
 		}
 	}, [context, setWindowContext, windowId, root])
 
+	useEffect(() => {
+		setSelected([])
+	}, [searchResult, setSelected])
+
 	const Entities = useMemo(() => {
 		return [
 			...resolvedContext.branches,
@@ -182,10 +186,7 @@ const FileBrowser = (props: IFileBrowserProps) => {
 
 	const onFileBrowserKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
 		if (e.key === "Enter" && selected.length > 0) {
-			let entities: Context[] = Entities
-			if (searchResult) {
-				entities = searchResult.items.map((i) => i.context)
-			}
+			const entities: Context[] = Entities
 
 			const selectedEntities = entities.filter(
 				(e) => selected.indexOf(e.toContextUniqueKey()) !== -1

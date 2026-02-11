@@ -16,6 +16,7 @@ interface ISearchResultPaneProps {
 		item: ILikenessResult,
 		_: React.MouseEvent<HTMLDivElement, MouseEvent>
 	) => void
+	onKeyDown: (e: React.KeyboardEvent<HTMLDivElement>) => void
 	refCallback: (path: string, element: HTMLDivElement | null) => void
 }
 
@@ -25,11 +26,12 @@ const SearchResultPane = (props: ISearchResultPaneProps) => {
 		selectedContextKeys,
 		onRowClicked,
 		onRowDoubleClicked,
+		onKeyDown,
 		refCallback
 	} = props
 
 	return (
-		<div className="search-result-pane">
+		<div className="search-result-pane" onKeyDown={onKeyDown} tabIndex={0}>
 			{(!searchResult || searchResult.items.length === 0) && (
 				<span className={`search-result-pane__no-items ${NO_SELECT_CLASS}`}>
 					No results found
