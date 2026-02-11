@@ -1,40 +1,38 @@
 import {
-	useCallback,
-	useContext,
-	useEffect,
-	useMemo,
-	useRef,
-	useState
+    useCallback,
+    useContext,
+    useEffect,
+    useMemo,
+    useRef,
+    useState
 } from "react"
 import {
-	BRANCHING_CONTEXT_DETERMINER,
-	BRANCHING_CONTEXT_PARENT_PROPERTY,
-	CLASSNAMES,
-	FILE_BROWSER_TREE_MIN_WIDTH
+    BRANCHING_CONTEXT_DETERMINER,
+    BRANCHING_CONTEXT_PARENT_PROPERTY,
+    CLASSNAMES,
+    FILE_BROWSER_TREE_MIN_WIDTH
 } from "../../constants"
 import {
-	FileBrowserContext,
-	FileSystemContext,
-	RegistryContext,
-	WindowsContext
+    FileBrowserContext,
+    FileSystemContext,
+    RegistryContext,
+    WindowsContext
 } from "../../contexts"
 import { ExpandDirection } from "../../enums"
 import {
-	doRectanglesIntersect,
-	onMixedSelectionRowClicked
+    doRectanglesIntersect,
+    onSelectionRowClicked
 } from "../../helpers/selections"
-import { useWindowSelectionRectangle } from "../../hooks"
-import { ISearchResult } from "../../interfaces/search"
+import { useSearchPane, useWindowSelectionRectangle } from "../../hooks"
 import { WindowPropertiesService } from "../../services"
 import { BranchingContext, Context, Leaf, Shortcut } from "../../types/fs"
 import { Expandable } from "../expandable"
-import { SearchResultPane } from "../searchResultPane"
 import {
-	FileBrowserControls,
-	FileBrowserGridView,
-	FileBrowserRow,
-	FolderBaseInformation,
-	UpOneLevelRow
+    FileBrowserControls,
+    FileBrowserGridView,
+    FileBrowserRow,
+    FolderBaseInformation,
+    UpOneLevelRow
 } from "./components"
 import { FileBrowserTree } from "./components/fileBrowserTree"
 import "./fileBrowser.scss"
@@ -66,10 +64,12 @@ const FileBrowser = (props: IFileBrowserProps) => {
 
 	const { root } = useContext(FileSystemContext)
 	const [selected, setSelected] = useState<string[]>([])
-	const [searchResult, setSearchResult] = useState<ISearchResult | null>(null)
+	const [searchText, setSearchText] = useState<string>("")
 
 	const resolvedContext =
 		BRANCHING_CONTEXT_DETERMINER in context ? context : root
+
+	const { SearchPane, searchResult } = useSearchPane(searchText, resolvedContext)
 
 	const {
 		addNavigationHistory,
@@ -136,20 +136,17 @@ const FileBrowser = (props: IFileBrowserProps) => {
 
 	const onRowClicked = useCallback(
 		(context: Context, e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-			const newSelectedContextKeys = onMixedSelectionRowClicked(
+			const newSelectedContextKeys = onSelectionRowClicked(
 				context,
-				searchResult !== null,
 				e,
 				selected,
-				searchResult?.items ?? [],
 				Entities,
-				(x) => x.context.toContextUniqueKey(),
 				(x) => x.toContextUniqueKey()
 			)
 
 			setSelected(newSelectedContextKeys)
 		},
-		[searchResult, onMixedSelectionRowClicked, selected, Entities, setSelected]
+		[onSelectionRowClicked, selected, Entities, setSelected]
 	)
 
 	const onSelectionChanged = (selectionRectangle: DOMRect) => {
@@ -270,22 +267,15 @@ const FileBrowser = (props: IFileBrowserProps) => {
 		}
 	}
 
-	const onSearchCompleted = (result: ISearchResult) => {
-		elementRowReferences.current = {}
-		setSelected([])
-		setSearchResult(result)
-	}
-
 	const onSearchCancelled = () => {
 		elementRowReferences.current = {}
 		setSelected([])
-		setSearchResult(null)
+		setSearchText("")
 	}
 
 	const onDisplayModeChange = () => {
 		elementRowReferences.current = {}
 		setSelected([])
-		setSearchResult(null)
 		toggleDisplaySetting(windowId)
 	}
 
@@ -345,9 +335,10 @@ const FileBrowser = (props: IFileBrowserProps) => {
 			<FileBrowserControls
 				windowId={windowId}
 				context={resolvedContext}
+				searchText={searchText}
 				onDirectoryChanged={onDirectoryChanged}
 				onFileNavigation={onFileNavigation}
-				onSearchCompleted={onSearchCompleted}
+				onSearchTextChanged={setSearchText}
 				onSearchCancelled={onSearchCancelled}
 				onBacktrack={onBacktrack}
 				onForwards={onForwards}
@@ -379,17 +370,7 @@ const FileBrowser = (props: IFileBrowserProps) => {
 						!searchResult && (
 							<UpOneLevelRow onRowDoubleClicked={onUpOneLevel} />
 						)}
-					{searchResult && (
-						<SearchResultPane
-							searchResult={searchResult}
-							selectedContextKeys={selected}
-							onRowClicked={onRowClicked}
-							onRowDoubleClicked={onRowDoubleClicked}
-							refCallback={(c, e) =>
-								(elementRowReferences.current[c.toContextUniqueKey()] = e)
-							}
-						/>
-					)}
+					{searchResult && SearchPane}
 					{Display}
 				</div>
 			</div>

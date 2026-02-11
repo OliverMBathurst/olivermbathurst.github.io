@@ -12,7 +12,7 @@ const Search = (props: ISearchProps) => {
 	const { text, positionRef, onClickedOutside } = props
 
 	const searchRef = useRef<HTMLDivElement | null>(null)
-	const SearchPane = useSearchPane(text)
+	const { SearchPane } = useSearchPane(text)
 
 	useClickOutside(searchRef, onClickedOutside)
 

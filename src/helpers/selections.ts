@@ -33,7 +33,8 @@ export const onMixedSelectionRowClicked = <T, T2>(
 	items: T[],
 	itemsTwo: T2[],
 	predicate: (item: T) => string,
-	predicateTwo: (item: T2) => string
+	predicateTwo: (item: T2) => string,
+	customContextKey?: string
 ) => {
 	let newSelectedContextKeys = []
 	if (selectCollectionOne) {
@@ -42,7 +43,8 @@ export const onMixedSelectionRowClicked = <T, T2>(
 			selectedContextKeys,
 			items,
 			predicate,
-			e
+			e,
+			customContextKey
 		)
 	} else {
 		newSelectedContextKeys = onSelectionRowClickedInternal(
@@ -50,7 +52,8 @@ export const onMixedSelectionRowClicked = <T, T2>(
 			selectedContextKeys,
 			itemsTwo,
 			predicateTwo,
-			e
+			e,
+			customContextKey
 		)
 	}
 
@@ -62,9 +65,10 @@ export const onSelectionRowClickedInternal = <T, T2 extends HTMLElement>(
 	selectedContextKeys: string[],
 	items: T[],
 	predicate: (item: T) => string,
-	e: React.MouseEvent<T2, MouseEvent>
+	e: React.MouseEvent<T2, MouseEvent>,
+	customContextKey?: string
 ) => {
-	const contextKey = context.toContextUniqueKey()
+	const contextKey = customContextKey ?? context.toContextUniqueKey()
 
 	if (e.shiftKey) {
 		if (selectedContextKeys.length === 0) {

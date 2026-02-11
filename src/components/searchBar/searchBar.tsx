@@ -9,7 +9,7 @@ interface ISearchBarProps extends React.InputHTMLAttributes<HTMLInputElement> {
 	forwardRef?: React.RefObject<HTMLDivElement | null>
 	elementCallback?: (elem: HTMLInputElement) => void
 	onCancelClicked?: () => void
-	setValue?: (value: string) => void
+	onInputChange?: (text: string) => void
 }
 
 const SearchBar = (props: ISearchBarProps) => {
@@ -18,7 +18,8 @@ const SearchBar = (props: ISearchBarProps) => {
 		onCancelClicked,
 		value,
 		forwardRef,
-		setValue
+		onInputChange,
+		onChange
 	} = props
 
 	const inputRef = useRef<HTMLInputElement | null>(null)
@@ -31,20 +32,19 @@ const SearchBar = (props: ISearchBarProps) => {
 		}
 	}
 
-	const onKeyUpInternal = (_: React.KeyboardEvent<HTMLInputElement>) => {
-		if (inputRef.current && setValue) {
-			setValue(inputRef.current.value)
+	const onChangeInternal = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const val = e.target.value
+
+		if (onInputChange) {
+			onInputChange(val)
+		}
+
+		if (onChange) {
+			onChange(e)
 		}
 	}
 
 	const onCancelClickedInternal = () => {
-		if (inputRef.current) {
-			inputRef.current.value = ""
-			if (setValue) {
-				setValue("")
-			}
-		}
-
 		if (onCancelClicked) {
 			onCancelClicked()
 		}
@@ -61,7 +61,7 @@ const SearchBar = (props: ISearchBarProps) => {
 	delete newProps.onCancelClicked
 	delete newProps.elementCallback
 	delete newProps.forwardRef
-	delete newProps.setValue
+	delete newProps.onInputChange
 
 	return (
 		<div className="search-bar" onClick={onSearchBarClicked} ref={forwardRef}>
@@ -69,7 +69,7 @@ const SearchBar = (props: ISearchBarProps) => {
 			<input
 				className="search-bar__input"
 				ref={onMount}
-				onKeyUp={onKeyUpInternal}
+				onChange={onChangeInternal}
 				{...newProps}
 			/>
 			{value && (

@@ -2,7 +2,6 @@ import { JSX, useEffect, useState } from "react"
 import { CLASSNAMES } from "../../../constants"
 import { useDisplayName, useIcon } from "../../../hooks"
 import { ILikenessResult } from "../../../interfaces/search"
-import { Context } from "../../../types/fs"
 import "./searchResultPaneRow.scss"
 
 const { NO_SELECT_CLASS } = CLASSNAMES
@@ -11,7 +10,7 @@ interface ISearchResultPaneRowProps {
 	item: ILikenessResult
 	term: string
 	selected: boolean
-	refCallback: (context: Context, element: HTMLDivElement | null) => void
+	refCallback: (path: string, element: HTMLDivElement | null) => void
 	onRowDoubleClicked: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void
 	onRowClicked: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void
 }
@@ -59,7 +58,7 @@ const SearchResultPaneRow = (props: ISearchResultPaneRowProps) => {
 	return (
 		<div
 			className={`search-result-pane__row${selected ? "--selected" : ""}`}
-			ref={(r) => refCallback(context, r)}
+			ref={(r) => refCallback(path, r)}
 			onDoubleClick={onRowDoubleClicked}
 			onClick={onRowClicked}
 		>

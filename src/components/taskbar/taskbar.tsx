@@ -21,25 +21,21 @@ const Taskbar = (props: ITaskbarProps) => {
 	const searchBarRef = useRef<HTMLDivElement | null>(null)
 
 	const [showSearch, setShowSearch] = useState<boolean>(false)
-	const [searchText, setSearchText] = useState<string>("")
 	const [searchBarText, setSearchBarText] = useState<string>("")
 
 	const onSearchBarFocused = () => {
 		setShowSearch(true)
 	}
 
-	const onSearchInputChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setSearchText(e.target.value)
-		setSearchBarText(e.target.value)
+	const onSearchInputChanged = (text: string) => {
+		setSearchBarText(text)
 	}
 
 	const onSearchCancelClicked = () => {
-		setSearchText("")
 		setSearchBarText("")
 	}
 
 	const onSearchClickedOutside = () => {
-		setSearchText("")
 		setSearchBarText("")
 		setShowSearch(false)
 	}
@@ -63,7 +59,7 @@ const Taskbar = (props: ITaskbarProps) => {
 		<>
 			{showSearch && (
 				<Search
-					text={searchText}
+					text={searchBarText}
 					positionRef={searchBarRef}
 					onClickedOutside={onSearchClickedOutside}
 				/>
@@ -77,7 +73,7 @@ const Taskbar = (props: ITaskbarProps) => {
 					forwardRef={searchBarRef}
 					onFocus={onSearchBarFocused}
 					elementCallback={taskbarSearchBarCallback}
-					onChange={onSearchInputChanged}
+					onInputChange={onSearchInputChanged}
 					onCancelClicked={onSearchCancelClicked}
 				/>
 				<div className="taskbar__groups-container">{TaskbarGroups}</div>

@@ -1,6 +1,5 @@
 import { CLASSNAMES } from "../../constants"
-import { ISearchResult } from "../../interfaces/search"
-import { Context } from "../../types/fs"
+import { ILikenessResult, ISearchResult } from "../../interfaces/search"
 import { SearchResultPaneRow } from "./components"
 import "./searchResultPane.scss"
 
@@ -10,14 +9,14 @@ interface ISearchResultPaneProps {
 	searchResult: ISearchResult | null
 	selectedContextKeys: string[]
 	onRowClicked: (
-		context: Context,
+		item: ILikenessResult,
 		e: React.MouseEvent<HTMLDivElement, MouseEvent>
 	) => void
 	onRowDoubleClicked: (
-		context: Context,
+		item: ILikenessResult,
 		_: React.MouseEvent<HTMLDivElement, MouseEvent>
 	) => void
-	refCallback: (context: Context, element: HTMLDivElement | null) => void
+	refCallback: (path: string, element: HTMLDivElement | null) => void
 }
 
 const SearchResultPane = (props: ISearchResultPaneProps) => {
@@ -39,16 +38,16 @@ const SearchResultPane = (props: ISearchResultPaneProps) => {
 			{searchResult &&
 				searchResult.items.length > 0 &&
 				searchResult.items.map((i) => {
-					const contextKey = i.context.toContextUniqueKey()
+					const { path } = i
 					return (
 						<SearchResultPaneRow
-							key={contextKey}
+							key={path}
 							refCallback={refCallback}
 							item={i}
 							term={searchResult.term}
-							selected={selectedContextKeys.indexOf(contextKey) !== -1}
-							onRowClicked={(e) => onRowClicked(i.context, e)}
-							onRowDoubleClicked={(e) => onRowDoubleClicked(i.context, e)}
+							selected={selectedContextKeys.indexOf(path) !== -1}
+							onRowClicked={(e) => onRowClicked(i, e)}
+							onRowDoubleClicked={(e) => onRowDoubleClicked(i, e)}
 						/>
 					)
 				})}

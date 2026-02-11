@@ -2,7 +2,8 @@ import { useCallback, useContext, useEffect, useRef, useState } from "react"
 import { SearchResultPane } from "../components/searchResultPane"
 import { FileSystemContext, RegistryContext, WindowsContext } from "../contexts"
 import { onMixedSelectionRowClicked } from "../helpers/selections"
-import { ISearchResult } from "../interfaces/search"
+import { IForwardContextInformation } from "../interfaces/fs"
+import { ILikenessResult, ISearchResult } from "../interfaces/search"
 import { WindowPropertiesService } from "../services"
 import { Context } from "../types/fs"
 
@@ -12,10 +13,10 @@ const useSearchPane = (text: string, context?: Context) => {
 	const searchTimeout = useRef<number | undefined>(undefined)
 	const elementRowReferences = useRef<Record<string, HTMLElement | null>>({})
 
+	const [forrwardContexts, setForwardContexts] = useState<IForwardContextInformation[]>([])
 	const [selectedContextKeys, setSelectedContextKeys] = useState<string[]>([])
 	const [searchResult, setSearchResult] = useState<ISearchResult | null>(null)
-
-	const { root, nonRootContextInformation, searchForItems } = useContext(FileSystemContext)
+	const { root, searchForItems, getForwardContexts } = useContext(FileSystemContext)
 	const currentContext = context ?? root
 
 	const { addWindow } = useContext(WindowsContext)
@@ -26,6 +27,11 @@ const useSearchPane = (text: string, context?: Context) => {
 		elementRowReferences.current = {}
 		setSelectedContextKeys([])
 	}
+
+	useEffect(() => {
+		const forwardContexts = getForwardContexts(currentContext)
+		setForwardContexts(forwardContexts)
+	}, [getForwardContexts, currentContext, setForwardContexts])
 
 	useEffect(() => {
 		clearTimeout(searchTimeout.current)
@@ -43,12 +49,18 @@ const useSearchPane = (text: string, context?: Context) => {
 				})
 			}
 		}, 300)
-	}, [text, onSearchCancelled, searchForItems, currentContext, setSelectedContextKeys, setSearchResult])
+	}, [
+		text,
+		searchForItems,
+		currentContext,
+		setSelectedContextKeys,
+		setSearchResult
+	])
 
 	const onRowDoubleClicked = useCallback(
-		(context: Context, _: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+		(likenessResult: ILikenessResult, _: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
 			const windowProperties = windowPropertiesService.getProperties(
-				context,
+				likenessResult.context,
 				registry
 			)
 			if (windowProperties != null) {
@@ -59,18 +71,17 @@ const useSearchPane = (text: string, context?: Context) => {
 	)
 
 	const onRowClicked = useCallback(
-		(context: Context, e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-			const selectionOne = searchResult !== null
-
+		(likenessResult: ILikenessResult, e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
 			const newSelectedContextKeys = onMixedSelectionRowClicked(
-				context,
-				selectionOne,
+				likenessResult.context,
+				searchResult !== null,
 				e,
 				selectedContextKeys,
 				searchResult?.items ?? [],
-				nonRootContextInformation,
-				(x) => x.context.toContextUniqueKey(),
-				(x) => x.context.toContextUniqueKey()
+				forrwardContexts,
+				(x) => x.path,
+				(x) => x.fullPath,
+				likenessResult.path
 			)
 
 			setSelectedContextKeys(newSelectedContextKeys)
@@ -79,22 +90,26 @@ const useSearchPane = (text: string, context?: Context) => {
 			searchResult,
 			onMixedSelectionRowClicked,
 			selectedContextKeys,
-			nonRootContextInformation,
+			forrwardContexts,
 			setSelectedContextKeys
 		]
 	)
 
-	return (
-		<SearchResultPane
-			searchResult={searchResult}
-			selectedContextKeys={selectedContextKeys}
-			onRowClicked={onRowClicked}
-			onRowDoubleClicked={onRowDoubleClicked}
-			refCallback={(c, e) =>
-				(elementRowReferences.current[c.toContextUniqueKey()] = e)
-			}
-		/>
-	)
+
+	return {
+		SearchPane: (
+			<SearchResultPane
+				searchResult={searchResult}
+				selectedContextKeys={selectedContextKeys}
+				onRowClicked={onRowClicked}
+				onRowDoubleClicked={onRowDoubleClicked}
+				refCallback={(p, e) =>
+					(elementRowReferences.current[p] = e)
+				}
+			/>
+		),
+		searchResult
+	}
 }
 
 export default useSearchPane

@@ -1,6 +1,3 @@
-import { useRef } from "react"
-import { useSearch } from "../../../../hooks"
-import { ISearchResult } from "../../../../interfaces/search"
 import { BranchingContext, Leaf, Shortcut } from "../../../../types/fs"
 import { SearchBar } from "../../../searchBar"
 import { FileBrowserLocationBar } from "../fileBrowserLocationBar"
@@ -10,11 +7,12 @@ import "./fileBrowserControls.scss"
 interface IFileBrowserControlsProps {
 	context: BranchingContext
 	windowId: string
+	searchText: string
 	onBacktrack: () => void
 	onForwards: () => void
 	onUpOneLevel: () => void
 	onSearchCancelled: () => void
-	onSearchCompleted: (results: ISearchResult) => void
+	onSearchTextChanged: (text: string) => void
 	onDirectoryChanged: (context: BranchingContext) => void
 	onFileNavigation: (context: Leaf | Shortcut) => void
 }
@@ -23,33 +21,15 @@ const FileBrowserControls = (props: IFileBrowserControlsProps) => {
 	const {
 		context,
 		windowId,
+		searchText,
 		onDirectoryChanged,
 		onFileNavigation,
-		onSearchCompleted,
+		onSearchTextChanged,
 		onSearchCancelled,
 		onBacktrack,
 		onForwards,
 		onUpOneLevel
 	} = props
-	const { searchForItems } = useSearch(context)
-
-	const searchTimeout = useRef<number | undefined>(undefined)
-
-	const onSearchInputChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
-		clearTimeout(searchTimeout.current)
-		searchTimeout.current = setTimeout(() => {
-			const val = e.target.value
-			if (val === "") {
-				onSearchCancelled()
-			} else {
-				const items = searchForItems(val)
-				onSearchCompleted({
-					term: val,
-					items
-				})
-			}
-		}, 300)
-	}
 
 	return (
 		<div className="file-browser-controls">
@@ -67,7 +47,8 @@ const FileBrowserControls = (props: IFileBrowserControlsProps) => {
 			/>
 			<SearchBar
 				placeholder="Search..."
-				onChange={onSearchInputChanged}
+				value={searchText}
+				onInputChange={onSearchTextChanged}
 				onCancelClicked={onSearchCancelled}
 			/>
 		</div>
