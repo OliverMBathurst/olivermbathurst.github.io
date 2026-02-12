@@ -4,7 +4,13 @@ import { useDisplayName, useIcon } from "../../../hooks"
 import { IFileSystemResultTuple } from "../../../interfaces/search"
 import "./searchResultPaneRow.scss"
 
-const { NO_SELECT_CLASS } = CLASSNAMES
+const {
+		NO_SELECT_CLASS,
+		SEARCH_RESULT_PANE_CLASSES: {
+			ROW,
+			ROW_SELECTED
+		}
+	} = CLASSNAMES
 
 interface ISearchResultPaneRowProps {
 	item: IFileSystemResultTuple
@@ -62,7 +68,7 @@ const SearchResultPaneRow = (props: ISearchResultPaneRowProps) => {
 
 	return (
 		<div
-			className={`search-result-pane__row${selected ? "--selected" : ""}`}
+			className={selected ? ROW_SELECTED : ROW}
 			ref={(r) => refCallback(path, r)}
 			onDoubleClick={onRowDoubleClicked}
 			onClick={onRowClicked}

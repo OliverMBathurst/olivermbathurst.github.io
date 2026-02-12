@@ -69,7 +69,7 @@ const FileBrowser = (props: IFileBrowserProps) => {
 	const resolvedContext =
 		BRANCHING_CONTEXT_DETERMINER in context ? context : root
 
-	const { SearchPane, searchResult } = useSearchResultPane(searchText, resolvedContext)
+	const { SearchPane, searchResult } = useSearchResultPane(searchText, { context: resolvedContext })
 
 	const {
 		addNavigationHistory,

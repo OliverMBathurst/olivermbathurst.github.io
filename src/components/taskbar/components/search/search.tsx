@@ -1,7 +1,9 @@
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 import { useClickOutside, useSearchResultPane } from "../../../../hooks"
 import { CLASSNAMES } from "../../../../constants";
 import "./search.scss"
+import { FileSystemFilterType } from "../../../../enums";
+import { Button } from "../../../button";
 
 const { SEARCH_CLASSES } = CLASSNAMES
 
@@ -17,13 +19,16 @@ const clickOutsideExclusions = [
 
 const Search = (props: ISearchProps) => {
 	const { text, positionRef, onClickedOutside } = props
+	const [filter, setFilter] = useState<FileSystemFilterType>(FileSystemFilterType.All)
 
 	const searchRef = useRef<HTMLDivElement | null>(null)
 	const { SearchPane } = useSearchResultPane(
 		text,
-		undefined,
-		true,
-		true
+		{
+			showRecents: true,
+			categorise: true,
+			filter
+		}
 	)
 
 	useClickOutside(searchRef, (e) => {
@@ -51,6 +56,18 @@ const Search = (props: ISearchProps) => {
 
     return (
 		<div className="search" ref={searchRef}>
+			<div className="search__filter-controls">
+				{Object.values(FileSystemFilterType).map(v => {
+					return (
+						<Button 
+							className={`search__filter-controls__button${filter === v ? "--selected" : ""}`}
+							onClick={() => setFilter(v)}
+						>
+							{v}
+						</Button>
+					)
+				})}
+			</div>
 			{SearchPane}
         </div>)
 }

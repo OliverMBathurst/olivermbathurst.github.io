@@ -46,6 +46,10 @@ export const CLASSNAMES = {
 	SEARCH_CLASSES: {
 		INPUT: "search-bar__input"
 	},
+	SEARCH_RESULT_PANE_CLASSES: {
+		ROW: "search-result-pane__row",
+		ROW_SELECTED: "search-result-pane__row--selected"
+	},
 	DESKTOP_ITEM_CLASS: "desktop-item",
 	DESKTOP_ITEM_SELECTED_CLASS: "desktop-item--selected",
 	DESKTOP_ITEM_ICON_CLASS: "desktop-item__icon",

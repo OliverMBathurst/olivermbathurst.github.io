@@ -7,17 +7,26 @@ import { ISearchResult, IFileSystemResultTuple } from "../../interfaces/search"
 import { SearchResultPaneRow } from "./components"
 import { useFileSystem } from "../../hooks"
 import "./searchResultPane.scss"
+import { FileSystemFilterType } from "../../enums";
+import { Context } from "../../types/fs";
 
 const { NO_SELECT_CLASS } = CLASSNAMES
 
+export interface ISearchResultPaneOptions {
+	context?: Context,
+	showRecents?: boolean,
+	categorise?: boolean,
+	filter?: FileSystemFilterType
+}
+
 interface ISearchPaneSection {
+	filterType: FileSystemFilterType,
 	title: string
 	items: IFileSystemResultTuple[]
 }
 
 interface ISearchResultPaneProps {
-	showRecents: boolean
-	categorise: boolean
+	options?: ISearchResultPaneOptions
 	searchResult: ISearchResult | null
 	selectedContextKeys: string[]
 	onRowClicked: (
@@ -30,23 +39,28 @@ interface ISearchResultPaneProps {
 		_: React.MouseEvent<HTMLDivElement, MouseEvent>
 	) => void
 	onKeyDown: (e: React.KeyboardEvent<HTMLDivElement>) => void
+	onClick: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void
 	refCallback: (path: string, element: HTMLDivElement | null) => void
 }
 
 const SearchResultPane = (props: ISearchResultPaneProps) => {
 	const {
-		showRecents,
-		categorise,
+		options,
 		searchResult,
 		selectedContextKeys,
 		onRowClicked,
 		onRowDoubleClicked,
+		onClick,
 		onKeyDown,
 		refCallback
 	} = props
 
 	const { recents } = useContext(RecentsContext)
 	const { validateFilePath } = useFileSystem()
+
+	const showRecents = options?.showRecents ?? false
+	const categorise = options?.categorise ?? false
+	const filter = options?.filter ?? FileSystemFilterType.All
 
 	const Content = useMemo(() => {
 		if (!searchResult || searchResult.items.length === 0) {
@@ -100,14 +114,17 @@ const SearchResultPane = (props: ISearchResultPaneProps) => {
 
 		if (categorise) {
 			const branches: ISearchPaneSection = {
+				filterType: FileSystemFilterType.Folders,
 				title: "Folders",
 				items: []
 			}
 			const leaves: ISearchPaneSection = {
+				filterType: FileSystemFilterType.Documents,
 				title: "Documents",
 				items: []
 			}
 			const executables: ISearchPaneSection = {
+				filterType: FileSystemFilterType.Apps,
 				title: "Apps",
 				items: []
 			}
@@ -122,17 +139,22 @@ const SearchResultPane = (props: ISearchResultPaneProps) => {
 				}
 			}
 
-			const sections: ISearchPaneSection[] = [
-				branches,
-				leaves,
-				executables
-			]
+			let sections: ISearchPaneSection[] = []
+			if (filter === FileSystemFilterType.Apps) {
+				sections.push(executables)
+			} else if (filter === FileSystemFilterType.Documents) {
+				sections.push(leaves)
+			} else if (filter === FileSystemFilterType.Folders) {
+				sections.push(branches)
+			} else {
+				sections = [
+					branches,
+					leaves,
+					executables
+				]
+			}
 
-			const flattenedOrderedTuples = [
-				...branches.items,
-				...leaves.items,
-				...executables.items
-			]
+			const flattenedOrderedTuples = sections.flatMap(x => x.items)
 
 			return (
 				<>
@@ -184,6 +206,7 @@ const SearchResultPane = (props: ISearchResultPaneProps) => {
 		searchResult,
 		showRecents,
 		categorise,
+		filter,
 		recents,
 		NO_SELECT_CLASS,
 		refCallback,
@@ -193,7 +216,12 @@ const SearchResultPane = (props: ISearchResultPaneProps) => {
 	])
 
 	return (
-		<div className="search-result-pane" onKeyDown={onKeyDown} tabIndex={0}>
+		<div 
+			className="search-result-pane"
+			onClick={onClick}
+			onKeyDown={onKeyDown}
+			tabIndex={0}
+		>
 			{Content}
 		</div>
 	)

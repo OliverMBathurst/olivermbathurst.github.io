@@ -10,12 +10,16 @@
 }
 
 .file-browser-location-bar {
-	background-color: transparent;
+	background-color: colours.$ui-input-background;
 	border: 0.125rem solid colours.$hover-button-background;
-	border-radius: styles.$window-border-radius;
+	border-radius: styles.$ui-input-border-radius;
 	display: flex;
 	align-items: center;
 	height: 1.3rem;
+}
+
+.file-browser-location-bar:focus-within {
+	background-color: colours.$ui-input-background-focused;
 }
 
 .file-browser-location-bar > img {

@@ -1,27 +1,30 @@
 import { useCallback, useContext, useEffect, useRef, useState } from "react"
-import { SearchResultPane } from "../components/searchResultPane"
-import { BRANCHING_CONTEXT_DETERMINER, LEAF_EXTENSION_PROPERTY_NAME } from "../constants"
+import { ISearchResultPaneOptions, SearchResultPane } from "../components/searchResultPane"
+import { BRANCHING_CONTEXT_DETERMINER, LEAF_EXTENSION_PROPERTY_NAME, CLASSNAMES } from "../constants"
 import { FileSystemContext, RegistryContext, WindowsContext } from "../contexts"
 import { onSelectionRowClicked } from "../helpers/selections"
 import { IFileSystemResultTuple, ISearchResult } from "../interfaces/search"
 import { WindowPropertiesService } from "../services"
-import { Context } from "../types/fs"
 import useFileSystem from "./fileSystem"
+
+const { 
+	SEARCH_RESULT_PANE_CLASSES: { 
+		ROW 
+	}
+} = CLASSNAMES
 
 const windowPropertiesService = new WindowPropertiesService()
 
 const useSearchResultPane = (
 	text: string,
-	context?: Context,
-	showRecents?: boolean,
-	categorise?: boolean
+	options?: ISearchResultPaneOptions
 ) => {
 	const searchTimeout = useRef<number | undefined>(undefined)
 	const elementRowReferences = useRef<Record<string, HTMLElement | null>>({})
 	const [selectedContextKeys, setSelectedContextKeys] = useState<string[]>([])
 	const [searchResult, setSearchResult] = useState<ISearchResult | null>(null)
 	const { root, searchForItems } = useContext(FileSystemContext)
-	const currentContext = context ?? root
+	const currentContext = options?.context ?? root
 
 	const { addWindow } = useContext(WindowsContext)
 	const { validateFilePath } = useFileSystem()
@@ -92,6 +95,16 @@ const useSearchResultPane = (
 		]
 	)
 
+	const onSearchResultPaneClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+		if (selectedContextKeys.length > 0 && e.target instanceof HTMLElement) {
+			if (e.target.className.indexOf(ROW) === -1 
+				&& e.target.parentElement?.className.indexOf(ROW) === -1
+			) {
+				setSelectedContextKeys([])
+			}
+		}
+	}
+
 	const onSearchResultPaneKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
 		if (e.key === "Enter" && selectedContextKeys.length > 0) {
 			const results = selectedContextKeys.map(x => {
@@ -153,10 +166,10 @@ const useSearchResultPane = (
 	return {
 		SearchPane: (
 			<SearchResultPane
-				showRecents={showRecents ?? false}
-				categorise={categorise ?? false}
+				options={options}
 				searchResult={searchResult}
 				selectedContextKeys={selectedContextKeys}
+				onClick={onSearchResultPaneClick}
 				onKeyDown={onSearchResultPaneKeyDown}
 				onRowClicked={onRowClicked}
 				onRowDoubleClicked={onRowDoubleClicked}

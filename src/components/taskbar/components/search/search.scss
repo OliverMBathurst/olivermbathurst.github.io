@@ -1,17 +1,53 @@
 @use "../../../../scss/colours";
+@use "../../../../scss/styles";
 
 .search {
     position: absolute;
+    flex-direction: column;
     color: colours.$ui-text-colour;
     background-color: colours.$ui-background;
     font-size: 0.75rem;
     opacity: 90%;
     bottom: 3.5rem;
-    min-width: 20rem;
     min-height: 30rem;
-    max-width: 20rem;
     max-height: 30rem;
     box-shadow: 0.125rem 0.125rem 1.5625rem 0.0625rem #000000;
     border-radius: 0.3125rem;
     overflow-y: scroll;
+}
+
+.search,
+.search__filter-controls {
+    display: flex;
+}
+
+.search__filter-controls > button:not(:last-child) {
+    margin-right: 0.5rem;
+}
+
+.search__filter-controls {
+    justify-content: space-evenly;
+    margin: 1rem 1rem 0rem 1rem;
+}
+
+.search__filter-controls__button,
+.search__filter-controls__button--selected {
+    height: 2rem;
+    color: colours.$ui-text-colour;
+    border-radius: styles.$ui-input-border-radius;
+    border: 0.125rem solid colours.$hover-button-background;
+    padding: 0rem 1rem 0rem 1rem;
+}
+
+.search__filter-controls__button {
+    background-color: colours.$button-background;
+}
+
+.search__filter-controls__button:hover {
+    background-color: colours.$hover-button-background-selected;
+}
+
+.search__filter-controls__button--selected,
+.search__filter-controls__button--selected:hover {
+    background-color: colours.$hover-button-background-selected;
 }

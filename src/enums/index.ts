@@ -21,3 +21,10 @@ export enum Wallpaper {
 	Slideshow,
 	Conway
 }
+
+export enum FileSystemFilterType {
+	All = "All",
+	Apps = "Apps",
+	Documents = "Documents",
+	Folders = "Folders"
+}
