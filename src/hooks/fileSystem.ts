@@ -5,7 +5,7 @@ import { IForwardContextInformation } from "../interfaces/fs"
 import { Branch, BranchingContext, Context, Leaf } from "../types/fs"
 
 const useFileSystem = (context?: BranchingContext) => {
-	const { root, nonRootContextInformation, getForwardContexts } = useContext(FileSystemContext)
+	const { root, allContextInformation, getForwardContexts } = useContext(FileSystemContext)
 
 	const [currentContext, setCurrentContext] = useState<BranchingContext>(
 		context ?? root
@@ -18,7 +18,7 @@ const useFileSystem = (context?: BranchingContext) => {
 		const forwardContexts = getForwardContexts(currentContext)
 
 		setAllForwardContexts(forwardContexts)
-	}, [getForwardContexts, currentContext, nonRootContextInformation])
+	}, [getForwardContexts, currentContext, allContextInformation])
 
 
 	const getFilesOfBranchRecursively = (branch?: Branch): Leaf[] => {

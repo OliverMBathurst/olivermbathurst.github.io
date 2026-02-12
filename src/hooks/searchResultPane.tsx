@@ -1,26 +1,30 @@
 import { useCallback, useContext, useEffect, useRef, useState } from "react"
 import { SearchResultPane } from "../components/searchResultPane"
+import { BRANCHING_CONTEXT_DETERMINER, LEAF_EXTENSION_PROPERTY_NAME } from "../constants"
 import { FileSystemContext, RegistryContext, WindowsContext } from "../contexts"
-import { onMixedSelectionRowClicked } from "../helpers/selections"
-import { IForwardContextInformation } from "../interfaces/fs"
-import { ILikenessResult, ISearchResult } from "../interfaces/search"
+import { onSelectionRowClicked } from "../helpers/selections"
+import { IFileSystemResultTuple, ISearchResult } from "../interfaces/search"
 import { WindowPropertiesService } from "../services"
 import { Context } from "../types/fs"
-import { BRANCHING_CONTEXT_DETERMINER, LEAF_EXTENSION_PROPERTY_NAME } from "../constants"
+import useFileSystem from "./fileSystem"
 
 const windowPropertiesService = new WindowPropertiesService()
 
-const useSearchPane = (text: string, context?: Context) => {
+const useSearchResultPane = (
+	text: string,
+	context?: Context,
+	showRecents?: boolean,
+	categorise?: boolean
+) => {
 	const searchTimeout = useRef<number | undefined>(undefined)
 	const elementRowReferences = useRef<Record<string, HTMLElement | null>>({})
-
-	const [forrwardContexts, setForwardContexts] = useState<IForwardContextInformation[]>([])
 	const [selectedContextKeys, setSelectedContextKeys] = useState<string[]>([])
 	const [searchResult, setSearchResult] = useState<ISearchResult | null>(null)
-	const { root, searchForItems, getForwardContexts } = useContext(FileSystemContext)
+	const { root, searchForItems } = useContext(FileSystemContext)
 	const currentContext = context ?? root
 
 	const { addWindow } = useContext(WindowsContext)
+	const { validateFilePath } = useFileSystem()
 	const registry = useContext(RegistryContext)
 
 	const onSearchCancelled = () => {
@@ -28,11 +32,6 @@ const useSearchPane = (text: string, context?: Context) => {
 		elementRowReferences.current = {}
 		setSelectedContextKeys([])
 	}
-
-	useEffect(() => {
-		const forwardContexts = getForwardContexts(currentContext)
-		setForwardContexts(forwardContexts)
-	}, [getForwardContexts, currentContext, setForwardContexts])
 
 	useEffect(() => {
 		clearTimeout(searchTimeout.current)
@@ -59,9 +58,9 @@ const useSearchPane = (text: string, context?: Context) => {
 	])
 
 	const onRowDoubleClicked = useCallback(
-		(likenessResult: ILikenessResult, _?: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+		(fileSystemResult: IFileSystemResultTuple, _?: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
 			const windowProperties = windowPropertiesService.getProperties(
-				likenessResult.context,
+				fileSystemResult.context,
 				registry
 			)
 			if (windowProperties != null) {
@@ -72,52 +71,63 @@ const useSearchPane = (text: string, context?: Context) => {
 	)
 
 	const onRowClicked = useCallback(
-		(likenessResult: ILikenessResult, e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-			const newSelectedContextKeys = onMixedSelectionRowClicked(
-				likenessResult.context,
-				searchResult !== null,
+		(fileSystemResult: IFileSystemResultTuple, items: IFileSystemResultTuple[], e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+			const { path, context } = fileSystemResult
+			
+			const newSelectedContextKeys = onSelectionRowClicked(
+				context,
 				e,
 				selectedContextKeys,
-				searchResult?.items ?? [],
-				forrwardContexts,
+				items,
 				(x) => x.path,
-				(x) => x.fullPath,
-				likenessResult.path
+				path
 			)
 
 			setSelectedContextKeys(newSelectedContextKeys)
 		},
 		[
-			searchResult,
-			onMixedSelectionRowClicked,
+			onSelectionRowClicked,
 			selectedContextKeys,
-			forrwardContexts,
 			setSelectedContextKeys
 		]
 	)
 
 	const onSearchResultPaneKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
-		if (e.key === "Enter"
-			&& selectedContextKeys.length > 0
-			&& searchResult
-		) {
-			const selectedItems = searchResult.items.filter(
-				(e) => selectedContextKeys.indexOf(e.path) !== -1
+		if (e.key === "Enter" && selectedContextKeys.length > 0) {
+			const results = selectedContextKeys.map(x => {
+				return {
+					path: x,
+					context: validateFilePath(x)
+				}
+			})
+
+			const leaves = results.filter(
+				(x) => x.context && LEAF_EXTENSION_PROPERTY_NAME in x.context
 			)
-			const leaves = selectedItems.filter(
-				(x) => LEAF_EXTENSION_PROPERTY_NAME in x.context
-			)
-			const branches = selectedItems.filter(
-				(x) => BRANCHING_CONTEXT_DETERMINER in x.context
+			const branches = results.filter(
+				(x) => x.context && BRANCHING_CONTEXT_DETERMINER in x.context
 			)
 
 			for (let i = 0; i < leaves.length; i++) {
-				onRowDoubleClicked(leaves[i])
+				const leaf = leaves[i]
+				if (leaf.context) {
+					const item = {
+						path: leaf.path,
+						context: leaf.context
+					}
+
+					onRowDoubleClicked(item)
+				}
 			}
 
 			for (let i = 0; i < branches.length - 1; i++) {
+				const branchContext = branches[i].context
+				if (!branchContext) {
+					continue
+				}
+
 				const addWindowProperties = windowPropertiesService.getProperties(
-					branches[i].context,
+					branchContext,
 					registry
 				)
 				if (addWindowProperties) {
@@ -126,7 +136,16 @@ const useSearchPane = (text: string, context?: Context) => {
 			}
 
 			if (branches.length > 0) {
-				onRowDoubleClicked(branches[branches.length - 1])
+				const branch = branches[branches.length - 1]
+				const branchContext = branch.context
+
+				if (branchContext) {
+					const item = {
+						path: branch.path,
+						context: branchContext
+					}
+					onRowDoubleClicked(item)
+				}
 			}
 		}
 	}
@@ -134,6 +153,8 @@ const useSearchPane = (text: string, context?: Context) => {
 	return {
 		SearchPane: (
 			<SearchResultPane
+				showRecents={showRecents ?? false}
+				categorise={categorise ?? false}
 				searchResult={searchResult}
 				selectedContextKeys={selectedContextKeys}
 				onKeyDown={onSearchResultPaneKeyDown}
@@ -148,4 +169,4 @@ const useSearchPane = (text: string, context?: Context) => {
 	}
 }
 
-export default useSearchPane
+export default useSearchResultPane

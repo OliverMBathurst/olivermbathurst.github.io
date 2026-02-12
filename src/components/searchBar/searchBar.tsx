@@ -3,7 +3,8 @@ import { CLASSNAMES } from "../../constants"
 import { CancelIcon, SearchIcon } from "../../icons"
 import "./searchBar.scss"
 
-const { NO_SELECT_CLASS } = CLASSNAMES
+const { NO_SELECT_CLASS, SEARCH_CLASSES } = CLASSNAMES
+const { INPUT } = SEARCH_CLASSES
 
 interface ISearchBarProps extends React.InputHTMLAttributes<HTMLInputElement> {
 	forwardRef?: React.RefObject<HTMLDivElement | null>
@@ -67,7 +68,7 @@ const SearchBar = (props: ISearchBarProps) => {
 		<div className="search-bar" onClick={onSearchBarClicked} ref={forwardRef}>
 			<SearchIcon className={`search-bar__search-icon ${NO_SELECT_CLASS}`} />
 			<input
-				className="search-bar__input"
+				className={INPUT}
 				ref={onMount}
 				onChange={onChangeInternal}
 				{...newProps}

@@ -23,7 +23,7 @@ import {
     doRectanglesIntersect,
     onSelectionRowClicked
 } from "../../helpers/selections"
-import { useSearchPane, useWindowSelectionRectangle } from "../../hooks"
+import { useSearchResultPane, useWindowSelectionRectangle } from "../../hooks"
 import { WindowPropertiesService } from "../../services"
 import { BranchingContext, Context, Leaf, Shortcut } from "../../types/fs"
 import { Expandable } from "../expandable"
@@ -69,7 +69,7 @@ const FileBrowser = (props: IFileBrowserProps) => {
 	const resolvedContext =
 		BRANCHING_CONTEXT_DETERMINER in context ? context : root
 
-	const { SearchPane, searchResult } = useSearchPane(searchText, resolvedContext)
+	const { SearchPane, searchResult } = useSearchResultPane(searchText, resolvedContext)
 
 	const {
 		addNavigationHistory,

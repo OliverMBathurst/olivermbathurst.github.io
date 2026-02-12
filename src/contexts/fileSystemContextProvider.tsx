@@ -12,7 +12,7 @@ import {
 } from "../files"
 import GamePlayer from "../files/gamePlayer"
 import { getFullPath } from "../helpers/paths"
-import { IForwardContextInformation, INonRootContextInformation } from "../interfaces/fs"
+import { IForwardContextInformation, IContextInformationTuple } from "../interfaces/fs"
 import { ILikenessResult } from "../interfaces/search"
 import { Branch, BranchingContext, Context, Root, Shortcut } from "../types/fs"
 
@@ -56,7 +56,7 @@ desktopBranch.setShortcuts([new Shortcut(desktopBranch, root, "Root")])
 interface IFileSystemContext {
 	root: BranchingContext
 	runIndexer: () => void
-	nonRootContextInformation: INonRootContextInformation[]
+	allContextInformation: IContextInformationTuple[]
 	getForwardContexts: (context: Context) => IForwardContextInformation[]
 	searchForItems: (term: string, context: Context) => ILikenessResult[]
 }
@@ -64,7 +64,7 @@ interface IFileSystemContext {
 export const FileSystemContext = createContext<IFileSystemContext>({
 	root: root,
 	runIndexer: () => Function.prototype,
-	nonRootContextInformation: [],
+	allContextInformation: [],
 	getForwardContexts: (_: Context) => [],
 	searchForItems: (_: string, __: Context) => []
 })
@@ -77,16 +77,16 @@ const FileSystemContextProvider = (props: IFileSystemContextProviderProps) => {
 	const { children } = props
 
 	const [_root] = useState<BranchingContext>(root)
-	const [nonRootContextInformation, setNonRootContextInformation] = useState<
-		INonRootContextInformation[]
+	const [allContextInformation, setAllContextInformation] = useState<
+		IContextInformationTuple[]
 	>([])
 
 	const getItemsOfBranchRecursively = (
 		branch: BranchingContext
-	): INonRootContextInformation[] => {
+	): IContextInformationTuple[] => {
 		const branchPrefix = branch.name
 
-		let allItems = [
+		let allItems: IContextInformationTuple[] = [
 			...branch.leaves,
 			...branch.shortcuts,
 			...branch.branches
@@ -113,7 +113,7 @@ const FileSystemContextProvider = (props: IFileSystemContextProviderProps) => {
 
 	const getForwardContexts = (context: Context) => {
 		const fullPathOfCurrentContext = getFullPath(context)
-		return [...nonRootContextInformation]
+		return [...allContextInformation]
 			.filter((ci) => ci.fullPath.startsWith(fullPathOfCurrentContext))
 			.map((ci) => {
 				let forwardPath = ci.fullPath.replace(fullPathOfCurrentContext, "")
@@ -152,7 +152,13 @@ const FileSystemContextProvider = (props: IFileSystemContextProviderProps) => {
 
 	const runIndexer = () => {
 		const items = getItemsOfBranchRecursively(_root)
-		setNonRootContextInformation(items)
+		setAllContextInformation([
+			...items,
+			{
+				context: _root,
+				fullPath: "Root"
+			}
+		])
 	}
 
 	return (
@@ -160,7 +166,7 @@ const FileSystemContextProvider = (props: IFileSystemContextProviderProps) => {
 			value={{
 				root: _root,
 				runIndexer: runIndexer,
-				nonRootContextInformation: nonRootContextInformation,
+				allContextInformation: allContextInformation,
 				getForwardContexts,
 				searchForItems,
 			}}

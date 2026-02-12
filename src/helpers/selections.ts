@@ -14,58 +14,7 @@ export const onSelectionRowClicked = <T, T2 extends HTMLElement>(
 	e: React.MouseEvent<T2, MouseEvent>,
 	selectedContextKeys: string[],
 	items: T[],
-	predicate: (item: T) => string
-) => {
-	return onSelectionRowClickedInternal(
-		context,
-		selectedContextKeys,
-		items,
-		predicate,
-		e
-	)
-}
-
-export const onMixedSelectionRowClicked = <T, T2>(
-	context: Context,
-	selectCollectionOne: boolean,
-	e: React.MouseEvent<HTMLDivElement, MouseEvent>,
-	selectedContextKeys: string[],
-	items: T[],
-	itemsTwo: T2[],
 	predicate: (item: T) => string,
-	predicateTwo: (item: T2) => string,
-	customContextKey?: string
-) => {
-	let newSelectedContextKeys = []
-	if (selectCollectionOne) {
-		newSelectedContextKeys = onSelectionRowClickedInternal(
-			context,
-			selectedContextKeys,
-			items,
-			predicate,
-			e,
-			customContextKey
-		)
-	} else {
-		newSelectedContextKeys = onSelectionRowClickedInternal(
-			context,
-			selectedContextKeys,
-			itemsTwo,
-			predicateTwo,
-			e,
-			customContextKey
-		)
-	}
-
-	return newSelectedContextKeys
-}
-
-export const onSelectionRowClickedInternal = <T, T2 extends HTMLElement>(
-	context: Context,
-	selectedContextKeys: string[],
-	items: T[],
-	predicate: (item: T) => string,
-	e: React.MouseEvent<T2, MouseEvent>,
 	customContextKey?: string
 ) => {
 	const contextKey = customContextKey ?? context.toContextUniqueKey()

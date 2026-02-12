@@ -1,6 +1,9 @@
 import { useEffect, useRef } from "react"
-import { useClickOutside, useSearchPane } from "../../../../hooks"
+import { useClickOutside, useSearchResultPane } from "../../../../hooks"
+import { CLASSNAMES } from "../../../../constants";
 import "./search.scss"
+
+const { SEARCH_CLASSES } = CLASSNAMES
 
 interface ISearchProps {
 	text: string
@@ -8,13 +11,34 @@ interface ISearchProps {
 	onClickedOutside: () => void
 }
 
+const clickOutsideExclusions = [
+	...Object.values(SEARCH_CLASSES)
+]
+
 const Search = (props: ISearchProps) => {
 	const { text, positionRef, onClickedOutside } = props
 
 	const searchRef = useRef<HTMLDivElement | null>(null)
-	const { SearchPane } = useSearchPane(text)
+	const { SearchPane } = useSearchResultPane(
+		text,
+		undefined,
+		true,
+		true
+	)
 
-	useClickOutside(searchRef, onClickedOutside)
+	useClickOutside(searchRef, (e) => {
+		let validClick: boolean = true
+		if (e.target instanceof HTMLElement) {
+			const elem = e.target as HTMLElement
+			if (clickOutsideExclusions.some((x) => elem.classList.contains(x))) {
+				validClick = false
+			}
+		}
+
+		if (validClick) {
+			onClickedOutside()
+		}
+	})
 
 	useEffect(() => {
 		if (!positionRef.current || !searchRef.current) {

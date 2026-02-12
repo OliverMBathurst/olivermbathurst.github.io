@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useState } from "react"
+import React, { createContext, useEffect, useState, useContext } from "react"
 import { DEFAULT_DOCUMENT_TITLE, FILETYPE_CUSTOM_ICON } from "../constants"
 import { changeFavicon } from "../helpers/icons"
 import {
@@ -7,6 +7,8 @@ import {
 	WindowState
 } from "../interfaces/windows"
 import { Context } from "../types/fs"
+import { getFullPath } from "../helpers/paths";
+import { RecentsContext } from ".";
 
 interface IWindowsContext {
 	windowProperties: IWindowProperties[]
@@ -48,6 +50,8 @@ const WindowsContextProvider = (props: IWindowsContextProviderProps) => {
 		string | null
 	>(null)
 
+	const { addRecentContext } = useContext(RecentsContext)
+
 	useEffect(() => {
 		const selectedWindowProperties = windowProperties.find((x) => x.selected)
 		if (selectedWindowProperties) {
@@ -60,6 +64,13 @@ const WindowsContextProvider = (props: IWindowsContextProviderProps) => {
 	}, [windowProperties, changeFavicon])
 
 	const addWindow = (properties: IAddWindowProperties) => {
+		const validatedFilePath = getFullPath(properties.context)
+		if (!validatedFilePath) {
+			return
+		}
+
+		addRecentContext(validatedFilePath)
+
 		setWindowProperties((wp) => {
 			const { context, size, selected, handlerId } = properties
 

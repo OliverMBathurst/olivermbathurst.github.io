@@ -20,6 +20,7 @@ export const DEFAULT_TASKBAR_HEIGHT_PIXELS = 48
 export const DEFAULT_MIN_WINDOW_HEIGHT_PIXELS = 150
 export const DEFAULT_MIN_WINDOW_WIDTH_PIXELS = 200
 export const FILE_BROWSER_TREE_MIN_WIDTH = 176
+export const RECENTS_LIMIT = 10
 
 export const CLASSNAMES = {
 	TASKBAR_ITEM_CLASSES: {
@@ -41,6 +42,9 @@ export const CLASSNAMES = {
 			"taskbar-group__container__taskbar-group__icon",
 		TASKBAR_GROUP_CONTAINER_TASKBAR_GROUP_ICON_SELECTED_CLASS:
 			"taskbar-group__container__taskbar-group__icon--selected"
+	},
+	SEARCH_CLASSES: {
+		INPUT: "search-bar__input"
 	},
 	DESKTOP_ITEM_CLASS: "desktop-item",
 	DESKTOP_ITEM_SELECTED_CLASS: "desktop-item--selected",

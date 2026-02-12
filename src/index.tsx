@@ -7,7 +7,8 @@ import {
 	FileSystemContextProvider,
 	RegistryContextProvider,
 	TaskbarGroupContextProvider,
-	WindowsContextProvider
+	WindowsContextProvider,
+	RecentsContextProvider
 } from "./contexts"
 import "./scss/_index.scss"
 
@@ -15,18 +16,20 @@ const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement)
 
 root.render(
 	<React.StrictMode>
-		<RegistryContextProvider>
-			<FileSystemContextProvider>
-				<WindowsContextProvider>
-					<DesktopItemContextProvider>
-						<FileBrowserContextProvider>
-							<TaskbarGroupContextProvider>
-								<Screen />
-							</TaskbarGroupContextProvider>
-						</FileBrowserContextProvider>
-					</DesktopItemContextProvider>
-				</WindowsContextProvider>
-			</FileSystemContextProvider>
-		</RegistryContextProvider>
+		<RecentsContextProvider>
+			<RegistryContextProvider>
+				<FileSystemContextProvider>
+					<WindowsContextProvider>
+						<DesktopItemContextProvider>
+							<FileBrowserContextProvider>
+								<TaskbarGroupContextProvider>
+									<Screen />
+								</TaskbarGroupContextProvider>
+							</FileBrowserContextProvider>
+						</DesktopItemContextProvider>
+					</WindowsContextProvider>
+				</FileSystemContextProvider>
+			</RegistryContextProvider>
+		</RecentsContextProvider>
 	</React.StrictMode>
 )

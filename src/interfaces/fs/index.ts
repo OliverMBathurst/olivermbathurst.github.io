@@ -6,6 +6,7 @@ import {
 	BranchingContext,
 	Context,
 	Leaf,
+	Root,
 	Shortcut
 } from "../../types/fs"
 
@@ -62,8 +63,8 @@ export interface IForwardContextInformation {
 	context: Context
 }
 
-export interface INonRootContextInformation {
-	context: Branch | Leaf | Shortcut
+export interface IContextInformationTuple {
+	context: Branch | Leaf | Shortcut | Root
 	fullPath: string
 }
 

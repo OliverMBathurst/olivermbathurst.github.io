@@ -2,7 +2,7 @@ import useClickOutside from "./clickOutside"
 import useDisplayName from "./displayName"
 import useFileSystem from "./fileSystem"
 import useIcon from "./icon"
-import useSearchPane from "./searchPane"
+import useSearchResultPane from "./searchResultPane"
 import useVisibility from "./visibility"
 import useWallpaper from "./wallpaper"
 import useWindowSelectionRectangle from "./windowSelectionRectangle"
@@ -12,5 +12,5 @@ export {
     useDisplayName,
     useFileSystem,
     useIcon,
-    useSearchPane, useVisibility, useWallpaper, useWindowSelectionRectangle
+    useSearchResultPane, useVisibility, useWallpaper, useWindowSelectionRectangle
 }

@@ -1,7 +1,12 @@
 @use "../../scss/colours";
 
-.search-result-pane__no-items {
+.search-result-pane__no-items,
+.search-result-pane__sub-heading {
 	display: block;
 	color: colours.$ui-text-colour;
 	padding: 1rem;
+}
+
+.search-result-pane__sub-heading {
+	font-weight: bold;
 }

@@ -1,14 +1,14 @@
 import { JSX, useEffect, useState } from "react"
 import { CLASSNAMES } from "../../../constants"
 import { useDisplayName, useIcon } from "../../../hooks"
-import { ILikenessResult } from "../../../interfaces/search"
+import { IFileSystemResultTuple } from "../../../interfaces/search"
 import "./searchResultPaneRow.scss"
 
 const { NO_SELECT_CLASS } = CLASSNAMES
 
 interface ISearchResultPaneRowProps {
-	item: ILikenessResult
-	term: string
+	item: IFileSystemResultTuple
+	term?: string
 	selected: boolean
 	refCallback: (path: string, element: HTMLDivElement | null) => void
 	onRowDoubleClicked: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void
@@ -32,6 +32,11 @@ const SearchResultPaneRow = (props: ISearchResultPaneRowProps) => {
 		useState<JSX.Element>(<span>{DisplayName}</span>)
 
 	useEffect(() => {
+		if (!term) {
+			setHighlightedDisplayName(<span>{DisplayName}</span>)
+			return 
+		}
+
 		const idx = DisplayName.toLowerCase().indexOf(term.toLowerCase())
 
 		if (idx === -1) {

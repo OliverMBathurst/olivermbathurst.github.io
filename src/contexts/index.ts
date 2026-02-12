@@ -18,6 +18,7 @@ import WallpaperContextProvider, { WallpaperContext } from "./wallpaperContextPr
 import WindowsContextProvider, {
     WindowsContext
 } from "./windowsContextProvider"
+import RecentsContextProvider, { RecentsContext } from "./recentsContextProvider"
 
 export {
     DesktopItemContext,
@@ -30,7 +31,9 @@ export {
     RegistryContextProvider,
     TaskbarGroupContext,
     TaskbarGroupContextProvider, WallpaperContext, WallpaperContextProvider, WindowsContext,
-    WindowsContextProvider
+    WindowsContextProvider,
+    RecentsContextProvider,
+    RecentsContext
 }
 
 export type { IRegistryContext }
