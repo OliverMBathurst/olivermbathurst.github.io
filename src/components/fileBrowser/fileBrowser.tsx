@@ -23,7 +23,7 @@ import {
     doRectanglesIntersect,
     onSelectionRowClicked
 } from "../../helpers/selections"
-import { useSearchResultPane, useWindowSelectionRectangle } from "../../hooks"
+import { useFileSystem, useSearchResultPane, useWindowSelectionRectangle } from "../../hooks"
 import { WindowPropertiesService } from "../../services"
 import { BranchingContext, Context, Leaf, Shortcut } from "../../types/fs"
 import { Expandable } from "../expandable"
@@ -43,6 +43,7 @@ const { FILE_BROWSER_CONTENT_RESULT_PANE_CLASS, FILE_BROWSER_GRID_VIEW_CLASS } =
 interface IFileBrowserProps {
 	windowId: string
 	context: Context
+	arguments?: string
 }
 
 const baseClickExclusions = [
@@ -58,18 +59,29 @@ const selectionPanes = [
 const windowPropertiesService = new WindowPropertiesService()
 
 const FileBrowser = (props: IFileBrowserProps) => {
-	const { windowId, context } = props
+	const { windowId, context, arguments: _arguments } = props
 	const { displaySettings, toggleDisplaySetting } =
 		useContext(FileBrowserContext)
 
 	const { root } = useContext(FileSystemContext)
-	const [selected, setSelected] = useState<string[]>([])
+	const { validateFilePath } = useFileSystem()
+
+	const [selected, setSelected] = useState<string[]>(() => {
+		if (_arguments) {
+			const selectedLeaf = validateFilePath(_arguments)
+			if (selectedLeaf) {
+				return [selectedLeaf.toContextUniqueKey()]
+			}
+		}
+
+		return []
+	})
 	const [searchText, setSearchText] = useState<string>("")
 
 	const resolvedContext =
 		BRANCHING_CONTEXT_DETERMINER in context ? context : root
 
-	const { SearchPane, searchResult } = useSearchResultPane(searchText, { context: resolvedContext })
+	const { SearchResultPane, searchResult } = useSearchResultPane(searchText, { context: resolvedContext })
 
 	const {
 		addNavigationHistory,
@@ -96,10 +108,6 @@ const FileBrowser = (props: IFileBrowserProps) => {
 			setWindowContext(windowId, root)
 		}
 	}, [context, setWindowContext, windowId, root])
-
-	useEffect(() => {
-		setSelected([])
-	}, [searchResult, setSelected])
 
 	const Entities = useMemo(() => {
 		return [
@@ -268,6 +276,11 @@ const FileBrowser = (props: IFileBrowserProps) => {
 		}
 	}
 
+	const onSearchTextChanged = (text: string) => {
+		setSelected([])
+		setSearchText(text)
+	}
+
 	const onSearchCancelled = () => {
 		elementRowReferences.current = {}
 		setSelected([])
@@ -339,7 +352,7 @@ const FileBrowser = (props: IFileBrowserProps) => {
 				searchText={searchText}
 				onDirectoryChanged={onDirectoryChanged}
 				onFileNavigation={onFileNavigation}
-				onSearchTextChanged={setSearchText}
+				onSearchTextChanged={onSearchTextChanged}
 				onSearchCancelled={onSearchCancelled}
 				onBacktrack={onBacktrack}
 				onForwards={onForwards}
@@ -371,7 +384,7 @@ const FileBrowser = (props: IFileBrowserProps) => {
 						!searchResult && (
 							<UpOneLevelRow onRowDoubleClicked={onUpOneLevel} />
 						)}
-					{searchResult && SearchPane}
+					{searchResult && SearchResultPane}
 					{Display}
 				</div>
 			</div>

@@ -17,7 +17,8 @@ const windowPropertiesService = new WindowPropertiesService()
 
 const useSearchResultPane = (
 	text: string,
-	options?: ISearchResultPaneOptions
+	options?: ISearchResultPaneOptions,
+	onSelectionChanged?: (selectedContextKeys: string[], selections?: IFileSystemResultTuple[]) => void
 ) => {
 	const searchTimeout = useRef<number | undefined>(undefined)
 	const elementRowReferences = useRef<Record<string, HTMLElement | null>>({})
@@ -34,6 +35,9 @@ const useSearchResultPane = (
 		setSearchResult(null)
 		elementRowReferences.current = {}
 		setSelectedContextKeys([])
+		if (onSelectionChanged) {
+			onSelectionChanged([])
+		}
 	}
 
 	useEffect(() => {
@@ -46,6 +50,9 @@ const useSearchResultPane = (
 				const items = searchForItems(text, currentContext)
 				elementRowReferences.current = {}
 				setSelectedContextKeys([])
+				if (onSelectionChanged) {
+					onSelectionChanged([])
+				}
 				setSearchResult({
 					term: text,
 					items
@@ -57,6 +64,7 @@ const useSearchResultPane = (
 		searchForItems,
 		currentContext,
 		setSelectedContextKeys,
+		onSelectionChanged,
 		setSearchResult
 	])
 
@@ -87,11 +95,16 @@ const useSearchResultPane = (
 			)
 
 			setSelectedContextKeys(newSelectedContextKeys)
+
+			if (onSelectionChanged) {
+				onSelectionChanged(newSelectedContextKeys, items)
+			}
 		},
 		[
 			onSelectionRowClicked,
 			selectedContextKeys,
-			setSelectedContextKeys
+			setSelectedContextKeys,
+			onSelectionChanged
 		]
 	)
 
@@ -101,6 +114,9 @@ const useSearchResultPane = (
 				&& e.target.parentElement?.className.indexOf(ROW) === -1
 			) {
 				setSelectedContextKeys([])
+				if (onSelectionChanged) {
+					onSelectionChanged([])
+				}
 			}
 		}
 	}
@@ -164,7 +180,7 @@ const useSearchResultPane = (
 	}
 
 	return {
-		SearchPane: (
+		SearchResultPane: (
 			<SearchResultPane
 				options={options}
 				searchResult={searchResult}

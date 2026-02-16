@@ -20,8 +20,8 @@ export interface ISearchResultPaneOptions {
 }
 
 interface ISearchPaneSection {
-	filterType: FileSystemFilterType,
-	title: string
+	filterType?: FileSystemFilterType,
+	title?: string
 	items: IFileSystemResultTuple[]
 }
 
@@ -63,9 +63,12 @@ const SearchResultPane = (props: ISearchResultPaneProps) => {
 	const filter = options?.filter ?? FileSystemFilterType.All
 
 	const Content = useMemo(() => {
+		let searchPanelSections: ISearchPaneSection[] = []
+
+		let hasRecents = false
 		if (!searchResult || searchResult.items.length === 0) {
 			if (showRecents && recents.length > 0) {
-				const fsTuples: IFileSystemResultTuple[] = []
+				const tuples: IFileSystemResultTuple[] = []
 				for (const recent of recents) {
 					const { path } = recent
 					const context = validateFilePath(path)
@@ -79,129 +82,127 @@ const SearchResultPane = (props: ISearchResultPaneProps) => {
 						context
 					}
 
-					fsTuples.push(item)
+					tuples.push(item)
+					hasRecents = true
 				}
 
+				searchPanelSections.push({
+					title: "Recents",
+					items: tuples
+				})
+			} else {
 				return (
-					<>
-						<span className={`search-result-pane__sub-heading ${NO_SELECT_CLASS}`}>
-							Recents
-						</span>
-						{fsTuples.map((i) => {
-							const { path } = i
-
-							return (
-								<SearchResultPaneRow
-									key={path}
-									refCallback={refCallback}
-									item={i}
-									selected={selectedContextKeys.indexOf(path) !== -1}
-									onRowClicked={(e) => onRowClicked(i, fsTuples, e)}
-									onRowDoubleClicked={(e) => onRowDoubleClicked(i, e)}
-								/>
-							)
-						})}
-					</>
+					<span className={`search-result-pane__no-items ${NO_SELECT_CLASS}`}>
+						No results found
+					</span>
 				)
 			}
+		}
 
+		if ((!searchResult || searchResult.items.length === 0) && !hasRecents) {
 			return (
 				<span className={`search-result-pane__no-items ${NO_SELECT_CLASS}`}>
-					No results found
+					{`No ${showRecents ? "recents" : "results"} found`}
+				</span>
+			)
+		}
+		
+		const branches: ISearchPaneSection = {
+			filterType: FileSystemFilterType.Folders,
+			title: "Folders",
+			items: []
+		}
+		const leaves: ISearchPaneSection = {
+			filterType: FileSystemFilterType.Documents,
+			title: "Documents",
+			items: []
+		}
+		const executables: ISearchPaneSection = {
+			filterType: FileSystemFilterType.Apps,
+			title: "Apps",
+			items: []
+		}
+
+		let renderingRecents = false
+		let itemsReferenceArray: IFileSystemResultTuple[] = []
+		if (searchResult && searchResult.items.length > 0) {
+			itemsReferenceArray = searchResult.items
+		} else if (hasRecents) {
+			itemsReferenceArray = searchPanelSections[0].items
+			renderingRecents = true
+		}
+
+		for (const item of itemsReferenceArray) {
+			if (BRANCHING_CONTEXT_DETERMINER in item.context) {
+				branches.items.push(item)
+			} else if (APPLICATION_DETERMINER in item.context) {
+				executables.items.push(item)
+			} else {
+				leaves.items.push(item)
+			}
+		}
+
+		if (filter) {
+			if (filter === FileSystemFilterType.Folders) {
+				searchPanelSections = [branches]
+			} else if (filter === FileSystemFilterType.Documents) {
+				searchPanelSections = [leaves]
+			} else if (filter === FileSystemFilterType.Apps) {
+				searchPanelSections = [executables]
+			} else {
+				searchPanelSections = [branches, leaves, executables]
+			}
+		} else {
+			searchPanelSections = [branches, leaves, executables]
+		}
+
+		const flattenedOrderedTuples = searchPanelSections.flatMap(x => x.items)
+
+		if (searchPanelSections.length === 1 && searchPanelSections[0].items.length === 0) {
+			return (
+				<span className={`search-result-pane__no-items ${NO_SELECT_CLASS}`}>
+					{`No ${renderingRecents ? "recents" : "results"} found`}
 				</span>
 			)
 		}
 
-		if (categorise) {
-			const branches: ISearchPaneSection = {
-				filterType: FileSystemFilterType.Folders,
-				title: "Folders",
-				items: []
-			}
-			const leaves: ISearchPaneSection = {
-				filterType: FileSystemFilterType.Documents,
-				title: "Documents",
-				items: []
-			}
-			const executables: ISearchPaneSection = {
-				filterType: FileSystemFilterType.Apps,
-				title: "Apps",
-				items: []
-			}
-
-			for (const item of searchResult.items) {
-				if (BRANCHING_CONTEXT_DETERMINER in item.context) {
-					branches.items.push(item)
-				} else if (APPLICATION_DETERMINER in item.context) {
-					executables.items.push(item)
-				} else {
-					leaves.items.push(item)
-				}
-			}
-
-			let sections: ISearchPaneSection[] = []
-			if (filter === FileSystemFilterType.Apps) {
-				sections.push(executables)
-			} else if (filter === FileSystemFilterType.Documents) {
-				sections.push(leaves)
-			} else if (filter === FileSystemFilterType.Folders) {
-				sections.push(branches)
-			} else {
-				sections = [
-					branches,
-					leaves,
-					executables
-				]
-			}
-
-			const flattenedOrderedTuples = sections.flatMap(x => x.items)
-
-			return (
-				<>
-					{sections
-						.filter(x => x.items.length > 0)
-						.map(section => {
-							const { title, items } = section
-							return (
-								<>
-									<span className={`search-result-pane__sub-heading ${NO_SELECT_CLASS}`}>
-										{title}
-									</span>
-									{items.map(item => {
-										const { path } = item
-										return (
-											<SearchResultPaneRow
-												key={path}
-												refCallback={refCallback}
-												item={item}
-												term={searchResult.term}
-												selected={selectedContextKeys.indexOf(path) !== -1}
-												onRowClicked={(e) => onRowClicked(item, flattenedOrderedTuples, e)}
-												onRowDoubleClicked={(e) => onRowDoubleClicked(item, e)}
-											/>
-										)
-									})}
-								</>
-							)
-						})}
-				</>
-			)
-		}
-	
-		return searchResult.items.map((i) => {
-			const { path } = i
-			return (
-				<SearchResultPaneRow
-					key={path}
-					refCallback={refCallback}
-					item={i}
-					term={searchResult.term}
-					selected={selectedContextKeys.indexOf(path) !== -1}
-					onRowClicked={(e) => onRowClicked(i, searchResult.items, e)}
-					onRowDoubleClicked={(e) => onRowDoubleClicked(i, e)}
-				/>
-			)
-		})
+		return (
+			<>
+				{renderingRecents && (
+					<span className={`search-result-pane__sub-heading ${NO_SELECT_CLASS}`}>
+						Recents
+					</span>
+				)}
+				{searchPanelSections
+					.filter(x => x.items.length > 0)
+					.map(section => {
+						const { title, items } = section
+						return (
+							<div key={title}>
+								<span
+									className={`search-result-pane__sub-heading ${NO_SELECT_CLASS}`}
+								>
+									{title}
+								</span>
+								{items.map(item => {
+									const { path } = item
+									return (
+										<SearchResultPaneRow
+											key={`${title}-${path}`}
+											refCallback={refCallback}
+											item={item}
+											term={searchResult?.term}
+											selected={selectedContextKeys.indexOf(path) !== -1}
+											onRowClicked={(e) => onRowClicked(item, flattenedOrderedTuples, e)}
+											onRowDoubleClicked={(e) => onRowDoubleClicked(item, e)}
+										/>
+									)
+								})}
+							</div>
+						)
+					})}
+			</>
+		)
 	}, [
 		searchResult,
 		showRecents,
@@ -216,7 +217,7 @@ const SearchResultPane = (props: ISearchResultPaneProps) => {
 	])
 
 	return (
-		<div 
+		<div
 			className="search-result-pane"
 			onClick={onClick}
 			onKeyDown={onKeyDown}

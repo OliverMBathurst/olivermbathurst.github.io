@@ -11,8 +11,8 @@ class FileBrowser extends AbstractLeaf implements IApplicationFile {
 		this.icon = icon
 	}
 
-	handle = (windowId: string, context: Context) => (
-		<FileBrowserComponent windowId={windowId} context={context} />
+	handle = (windowId: string, context: Context, _arguments?: string) => (
+		<FileBrowserComponent windowId={windowId} context={context} arguments={_arguments} />
 	)
 }
 

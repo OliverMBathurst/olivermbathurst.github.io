@@ -72,7 +72,7 @@ const WindowsContextProvider = (props: IWindowsContextProviderProps) => {
 		addRecentContext(validatedFilePath)
 
 		setWindowProperties((wp) => {
-			const { context, size, selected, handlerId } = properties
+			const { context, size, selected, handlerId, arguments: _arguments } = properties
 
 			const defaultWindowSize = window.innerHeight / 2
 
@@ -90,7 +90,8 @@ const WindowsContextProvider = (props: IWindowsContextProviderProps) => {
 				size: windowSize,
 				state: WindowState.Normal,
 				previousState: null,
-				handlerId
+				handlerId,
+				arguments: _arguments
 			}
 
 			const _windowProperties = [...wp]

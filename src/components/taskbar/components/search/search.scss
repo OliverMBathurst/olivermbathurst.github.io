@@ -13,25 +13,33 @@
     max-height: 30rem;
     box-shadow: 0.125rem 0.125rem 1.5625rem 0.0625rem #000000;
     border-radius: 0.3125rem;
+}
+
+.search__body {
+    overflow: hidden;
+}
+
+.search__body__pane,
+.search__body__info-cards {
     overflow-y: scroll;
 }
 
 .search,
-.search__filter-controls {
+.search__body__pane__filter-controls {
     display: flex;
 }
 
-.search__filter-controls > button:not(:last-child) {
+.search__body__pane__filter-controls > button:not(:last-child) {
     margin-right: 0.5rem;
 }
 
-.search__filter-controls {
+.search__body__pane__filter-controls {
     justify-content: space-evenly;
     margin: 1rem 1rem 0rem 1rem;
 }
 
-.search__filter-controls__button,
-.search__filter-controls__button--selected {
+.search__body__pane__filter-controls__button,
+.search__body__pane__filter-controls__button--selected {
     height: 2rem;
     color: colours.$ui-text-colour;
     border-radius: styles.$ui-input-border-radius;
@@ -39,15 +47,27 @@
     padding: 0rem 1rem 0rem 1rem;
 }
 
-.search__filter-controls__button {
+.search__body__pane__filter-controls__button {
     background-color: colours.$button-background;
 }
 
-.search__filter-controls__button:hover {
+.search__body__pane__filter-controls__button:hover {
     background-color: colours.$hover-button-background-selected;
 }
 
-.search__filter-controls__button--selected,
-.search__filter-controls__button--selected:hover {
+.search__body__pane__filter-controls__button--selected,
+.search__body__pane__filter-controls__button--selected:hover {
     background-color: colours.$hover-button-background-selected;
+}
+
+.search__body {
+    display: flex;
+}
+
+.search__body__info-cards {
+    margin-right: 1rem;
+}
+
+.search__body__info-cards > *:last-child {
+    margin-bottom: 1rem;
 }

@@ -8,6 +8,7 @@ export interface IWindowProperties {
 	state: WindowState
 	previousState: WindowState | null
 	handlerId: string
+	arguments?: string
 }
 
 export interface IAddWindowProperties {
@@ -16,6 +17,7 @@ export interface IAddWindowProperties {
 	openNewInstance?: boolean
 	selected?: boolean
 	size?: ISize
+	arguments?: string
 }
 
 export enum WindowState {

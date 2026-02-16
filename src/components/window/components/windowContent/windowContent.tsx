@@ -8,10 +8,11 @@ interface IWindowContentProps {
 	windowId: string
 	context: Context
 	handlerId: string
+	arguments?: string
 }
 
 const WindowContent = (props: IWindowContentProps) => {
-	const { context, windowId, handlerId } = props
+	const { context, windowId, handlerId, arguments: _arguments } = props
 	const { validateFilePath } = useFileSystem()
 	const { applicationPaths } = useContext(RegistryContext)
 	const [application, setApplication] = useState<Context | null>(null)
@@ -26,11 +27,11 @@ const WindowContent = (props: IWindowContentProps) => {
 
 	const Content = useMemo(() => {
 		if (application && APPLICATION_DETERMINER in application) {
-			return application.handle(windowId, context)
+			return application.handle(windowId, context, _arguments)
 		}
 
 		return null
-	}, [application, windowId, context])
+	}, [application, windowId, context, _arguments])
 
 	return <>{Content}</>
 }

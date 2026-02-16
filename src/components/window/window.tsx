@@ -37,7 +37,7 @@ interface IWindowProps {
 
 const Window = (props: IWindowProps) => {
 	const {
-		properties: { id, context, size, state, selected, handlerId }
+		properties: { id, context, size, state, selected, handlerId, arguments: _arguments }
 	} = props
 
 	const previousWindowSize = useRef<ISize>(size)
@@ -495,6 +495,7 @@ const Window = (props: IWindowProps) => {
 						windowId={id}
 						context={context}
 						handlerId={handlerId}
+						arguments={_arguments}
 					/>
 				</div>
 			</div>

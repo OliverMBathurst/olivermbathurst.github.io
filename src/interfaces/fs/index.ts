@@ -74,7 +74,7 @@ export interface IAbstractUploadedWindowFile
 	extends IUploadedFile, INamed, IExtensionAvailable {}
 
 export interface IApplicationFile extends INamed, IIcon {
-	handle: (windowId: string, context: Context) => JSX.Element
+	handle: (windowId: string, context: Context, _arguments?: string) => JSX.Element
 }
 
 export interface IGameFile extends INamed, IIcon {

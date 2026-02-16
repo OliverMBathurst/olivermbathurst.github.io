@@ -1,0 +1,68 @@
+@use "../../scss/colours";
+@use "../../scss/styles";
+
+.info-card {
+    min-width: 20rem;
+    margin-top: 1rem;
+    color: colours.$ui-text-colour;
+    background-color: colours.$hover-button-background;
+    border-radius: styles.$window-border-radius;
+    padding-bottom: 1rem;
+}
+
+.info-card,
+.info-card__header {
+    align-items: center;
+}
+
+.info-card,
+.info-card__header,
+.info-card__information-rows,
+.info-card__click-options-rows {
+    display: flex;
+    flex-direction: column;
+}
+
+.info-card__information-rows,
+.info-card__click-options-rows {
+    width: calc(100% - 2rem);
+    padding: 0rem 1rem 0rem 1rem;
+}
+
+.info-card__header img {
+    height: 2rem;
+    width: 2rem;
+}
+
+.info-card__header span {
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.info-card__header {
+    padding: 1rem 0rem 1rem 0rem;
+}
+
+.info-card__information-rows__row {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.info-card__click-options-rows__row {
+    margin-top: 0.5rem;
+}
+
+.info-card__click-options-rows__row__button {
+    width: 100%;
+    outline: none;
+    border: none;
+    background: none;
+    color: colours.$ui-text-colour;
+    border-radius: styles.$window-border-radius;
+    text-align: left;
+    padding: 0.5rem;
+}
+
+.info-card__click-options-rows__row__button:hover {
+    background-color: colours.$hover-button-background-selected;
+}
