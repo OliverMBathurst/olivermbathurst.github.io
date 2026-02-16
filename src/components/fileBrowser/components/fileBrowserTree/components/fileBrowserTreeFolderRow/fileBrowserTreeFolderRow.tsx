@@ -9,7 +9,7 @@ import "./fileBrowserTreeFolderRow.scss"
 
 const { NO_SELECT_CLASS } = CLASSNAMES
 
-interface IStartMenuFolderRowProps {
+interface IFileBrowserTreeFolderRowProps {
 	windowId: string
 	index: number
 	context: BranchingContext
@@ -21,7 +21,7 @@ interface IStartMenuFolderRowProps {
 	) => void
 }
 
-const FileBrowserTreeFolderRow = (props: IStartMenuFolderRowProps) => {
+const FileBrowserTreeFolderRow = (props: IFileBrowserTreeFolderRowProps) => {
 	const { windowId, index, context, prefix, onFolderRowClicked } = props
 
 	const {

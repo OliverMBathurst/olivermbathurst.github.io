@@ -22,9 +22,12 @@
 	background-color: colours.$ui-input-background-focused;
 }
 
-.file-browser-location-bar > img {
+.file-browser-location-bar > .icon-container {
+	padding: 0rem 0.5rem 0rem 0.5rem;
+}
+
+.file-browser-location-bar > .icon-container,
+.file-browser-location-bar__icon {
 	width: 1rem;
 	height: 1rem;
-	padding: 0rem 0.5rem 0rem 0.5rem;
-	display: flex;
 }

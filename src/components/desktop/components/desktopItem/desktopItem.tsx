@@ -31,10 +31,11 @@ const DesktopItem = (props: IDesktopItemProps) => {
 		onWindowResized
 	} = useContext(DesktopItemContext)
 
-	const Icon = useIcon(context)
-	const DisplayName = useDisplayName(context)
 	const contextKey = context.toContextUniqueKey()
 	const selected = selectedContextKeys.indexOf(contextKey) !== -1
+
+	const Icon = useIcon(context, true, undefined, selected)
+	const DisplayName = useDisplayName(context)
 
 	const onDesktopItemKeyDown = (e: KeyboardEvent) => {
 		if (e.key === "Enter" && selected) {

@@ -21,6 +21,8 @@ import {
     GenericFileIcon,
     InternetIcon,
     PdfIcon,
+    SelectedIcon,
+    ShortcutIcon,
     TextFileIcon
 } from "../icons"
 import { Context } from "../types/fs"
@@ -39,37 +41,61 @@ const fileNamesByExtension: Record<string, string> = {
 
 export const getIcon = (
 	context: Context,
-	props?: React.ImgHTMLAttributes<HTMLImageElement>
+	props?: React.ImgHTMLAttributes<HTMLImageElement>,
+	showSelectedIcon?: boolean,
+	isShortcut?: boolean
 ): JSX.Element | null => {
+	let icon: JSX.Element | null = null
 	if (LEAF_EXTENSION_PROPERTY_NAME in context) {
 		if (FILETYPE_CUSTOM_ICON in context && context.icon) {
-			return <CustomIcon src={context.icon} {...props} />
-		}
-
-		switch (context.extension) {
-			case FILETYPE_PDF:
-				return <PdfIcon {...props} />
-			case FILETYPE_URL_SHORTCUT:
-				return <InternetIcon {...props} />
-			case FILETYPE_TEXT:
-				return <TextFileIcon {...props} />
-			case FILETYPE_EXECUTABLE:
-				return <ExecutableFileIcon {...props} />
-			case FILETYPE_GAME:
-				return <GameIcon {...props} />
-			case FILETYPE_SHORTCUT:
-				if (SHORTCUT_DETERMINER in context) {
-					return getIcon(context.context, props)
-				}
-				throw new Error("Invalid shortcut")
-			default:
-				return <GenericFileIcon {...props} />
+			icon = <CustomIcon src={context.icon} {...props} />
+		} else {
+			switch (context.extension) {
+				case FILETYPE_PDF:
+					icon = <PdfIcon {...props} />
+					break
+				case FILETYPE_URL_SHORTCUT:
+					icon = <InternetIcon {...props} />
+					break
+				case FILETYPE_TEXT:
+					icon = <TextFileIcon {...props} />
+					break
+				case FILETYPE_EXECUTABLE:
+					icon = <ExecutableFileIcon {...props} />
+					break
+				case FILETYPE_GAME:
+					icon = <GameIcon {...props} />
+					break
+				case FILETYPE_SHORTCUT:
+					if (SHORTCUT_DETERMINER in context) {
+						icon = getIcon(context.context, props, showSelectedIcon, true)
+						break
+					}
+					throw new Error("Invalid shortcut")
+				default:
+					icon = <GenericFileIcon {...props} />
+					break
+			}
 		}
 	} else if (BRANCHING_CONTEXT_TYPE_PROPERTY in context) {
-		return <FolderIcon {...props} />
+		icon = <FolderIcon {...props} />
 	} else {
-		return <DriveIcon {...props} />
+		icon = <DriveIcon {...props} />
 	}
+
+	if (!icon) {
+		return null
+	}
+
+	return (
+		<div className="icon-container">
+			{showSelectedIcon && <SelectedIcon {...props} className="icon-container__selected-icon" />}
+			{icon}
+			{isShortcut && <ShortcutIcon {...props} className="icon-container__shortcut-icon" />}
+		</div>
+	)
+
+	return icon
 }
 
 const getIconPath = (context: Context | null): string | null => {

@@ -16,9 +16,17 @@
 	background-color: colours.$hover-button-background;
 }
 
-.up-one-level-row__icon img {
+.up-one-level-row__icon {
 	height: 4rem;
 	width: 4rem;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.up-one-level-row__icon img {
+	height: 3rem;
+	width: 3rem;
 }
 
 .up-one-level-row__name {

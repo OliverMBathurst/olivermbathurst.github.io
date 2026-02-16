@@ -5,20 +5,25 @@ import { Context } from "../types/fs"
 
 const { NO_SELECT_CLASS } = CLASSNAMES
 
-const useIcon: (
+const useIcon = (
 	context: Context,
-	noSelect?: boolean,
-	options?: React.ImgHTMLAttributes<HTMLImageElement>
-) => JSX.Element = (context: Context, noSelect: boolean = true, options) => {
+	noSelect: boolean = true,
+	props?: React.ImgHTMLAttributes<HTMLImageElement>,
+	showSelectedIcon?: boolean
+) => {
 	const Icon = useMemo(() => {
-		const props: React.ImgHTMLAttributes<HTMLImageElement> = {
+		const _props: React.ImgHTMLAttributes<HTMLImageElement> = {
 			className: noSelect ? NO_SELECT_CLASS : "",
 			draggable: false,
-			...options
+			...props
 		}
 
-		return getIcon(context, props)
-	}, [context, noSelect, getIcon])
+		return getIcon(
+			context,
+			_props,
+			showSelectedIcon
+		)
+	}, [context, noSelect, props, showSelectedIcon, getIcon])
 
 	return <>{Icon}</>
 }

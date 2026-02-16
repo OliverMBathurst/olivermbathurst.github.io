@@ -29,9 +29,9 @@
     padding: 0rem 1rem 0rem 1rem;
 }
 
-.info-card__header img {
-    height: 2rem;
-    width: 2rem;
+.info-card__header > .icon-container {
+    height: 3rem;
+    width: 3rem;
 }
 
 .info-card__header span {

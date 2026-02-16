@@ -18,7 +18,8 @@
 	background-color: colours.$hover-button-background;
 }
 
-.search-result-pane__row__icon img {
+.search-result-pane__row__icon > .icon-container,
+.search-result-pane__row__icon__icon {
 	height: 1.5rem;
 	width: 1.5rem;
 }

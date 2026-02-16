@@ -1,15 +1,15 @@
 import { useContext, useEffect, useRef, useState } from "react"
 import { CLASSNAMES } from "../../../../constants"
 import {
-	RegistryContext,
-	TaskbarGroupContext,
-	WindowsContext
+    RegistryContext,
+    TaskbarGroupContext,
+    WindowsContext
 } from "../../../../contexts"
 import { getIcon } from "../../../../helpers/icons"
 import { useFileSystem } from "../../../../hooks"
 import {
-	IAddWindowProperties,
-	IWindowProperties
+    IAddWindowProperties,
+    IWindowProperties
 } from "../../../../interfaces/windows"
 import { Context } from "../../../../types/fs"
 import { TaskbarGroupPane } from "./components"

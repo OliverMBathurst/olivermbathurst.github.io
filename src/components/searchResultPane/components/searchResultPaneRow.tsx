@@ -31,7 +31,7 @@ const SearchResultPaneRow = (props: ISearchResultPaneRowProps) => {
 		onRowClicked
 	} = props
 
-	const Icon = useIcon(context)
+	const Icon = useIcon(context, true, { className: "search-result-pane__row__icon__icon" }, selected)
 	const DisplayName = useDisplayName(context)
 
 	const [highlightedDisplayName, setHighlightedDisplayName] =

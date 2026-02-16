@@ -134,7 +134,8 @@
 	background-color: colours.$hover-button-background;
 }
 
-.file-browser-grid-view__content__row__cell__name img {
+.file-browser-grid-view__content__row__cell__name__inner > .icon-container,
+.file-browser-grid-view__content__row__cell__name__inner__icon {
 	height: 1.25rem;
 	width: 1.25rem;
 }

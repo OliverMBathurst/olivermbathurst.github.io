@@ -20,6 +20,7 @@ const FileBrowserLocationBar = (props: IFileBrowserLocationBarProps) => {
 	const inputRef = useRef<HTMLInputElement | null>(null)
 
 	const Icon = useIcon(context, true, {
+		className: "file-browser-location-bar__icon",
 		onClick: () => inputRef.current?.focus()
 	})
 

@@ -132,7 +132,7 @@ const FileBrowserGridView = (props: IFileBrowserGridViewProps) => {
 					const contextKey = e.toContextUniqueKey()
 					const fileTypeDescriptor = getType(e)
 					const _selected = selected.indexOf(contextKey) !== -1
-					const icon = getIcon(e)
+					const icon = getIcon(e, { className: "file-browser-grid-view__content__row__cell__name__inner__icon" }, _selected)
 
 					return (
 						<div

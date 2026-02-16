@@ -1,16 +1,13 @@
 import { useContext, useEffect, useState } from "react"
 import { IInfoCardClickOption, IInfoCardContext, IInfoCardInformationRow, InfoCardClickAction, InfoCardType } from "."
-import { APPLICATION_DETERMINER, BRANCHING_CONTEXT_DETERMINER, BRANCHING_CONTEXT_PARENT_PROPERTY } from "../../constants"
+import { APPLICATION_DETERMINER, BRANCHING_CONTEXT_DETERMINER, BRANCHING_CONTEXT_PARENT_PROPERTY, CLASSNAMES } from "../../constants"
 import { RegistryContext, WindowsContext } from "../../contexts"
 import { useDisplayName, useIcon } from "../../hooks"
 import { IFileSystemResultTuple } from "../../interfaces/search"
 import { ClipboardService, WindowPropertiesService } from "../../services"
 import { Context } from "../../types/fs"
-import {
-    CLASSNAMES
-} from "../../constants"
-import "./infoCard.scss"
 import { Button } from "../button"
+import "./infoCard.scss"
 
 const { NO_SELECT_CLASS } = CLASSNAMES
 
@@ -33,7 +30,7 @@ const InfoCard = (props: IInfoCardProps) => {
     const { addWindow } = useContext(WindowsContext)
     const registry = useContext(RegistryContext)
 
-    const Icon = useIcon(context)
+    const Icon = useIcon(context, true, undefined, true)
     const DisplayName = useDisplayName(context)
 
     useEffect(() => {

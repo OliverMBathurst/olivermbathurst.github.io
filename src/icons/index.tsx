@@ -16,6 +16,8 @@ import pdf from "../icons/pdf.png"
 import power from "../icons/power.png"
 import rightArrow from "../icons/right-arrow.png"
 import search from "../icons/search.png"
+import selected from "../icons/selected.png"
+import shortcut from "../icons/shortcut.png"
 import start from "../icons/startMenu.png"
 import textFile from "../icons/textFile.png"
 import thumbs from "../icons/thumbs.png"
@@ -109,6 +111,14 @@ const GameIcon = (props: React.ImgHTMLAttributes<HTMLImageElement>) => (
 	<img src={game} alt="Game icon by icon8" {...props} />
 )
 
+const SelectedIcon = (props: React.ImgHTMLAttributes<HTMLImageElement>) => (
+	<img src={selected} alt="Selected icon by icon8" {...props} />
+)
+
+const ShortcutIcon = (props: React.ImgHTMLAttributes<HTMLImageElement>) => (
+	<img src={shortcut} alt="Shortcut icon by icon8" {...props} />
+)
+
 export {
     CancelIcon,
     CloseIcon,
@@ -125,8 +135,8 @@ export {
     PdfIcon,
     PowerIcon,
     RightArrowIcon,
-    SearchIcon,
-    StartMenuIcon,
+    SearchIcon, SelectedIcon,
+    ShortcutIcon, StartMenuIcon,
     TextFileIcon,
     ThumbsIcon,
     UpArrowIcon
