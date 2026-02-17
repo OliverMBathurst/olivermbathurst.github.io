@@ -28,3 +28,9 @@ export enum FileSystemFilterType {
 	Documents = "Documents",
 	Folders = "Folders"
 }
+
+export enum NavigationType {
+	Forwards,
+	Backwards,
+	Upwards
+}

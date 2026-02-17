@@ -9,9 +9,9 @@
 	background-color: colours.$ui-background;
 	font-size: 0.75rem;
 	opacity: 90%;
-	min-width: 20rem;
+	min-width: 18.275rem;
 	min-height: 30rem;
-	max-width: 20rem;
+	max-width: 18.275rem;
 	max-height: 30rem;
 	box-shadow: styles.$window-box-shadow;
 	border-radius: styles.$window-border-radius;
@@ -39,6 +39,10 @@
 	}
 }
 
+.start-menu__side-container {
+	overflow: hidden;
+}
+
 .start-menu__side-container__top-container {
 	flex-direction: row;
 	padding: 0.5rem 0.5rem 0.5rem 0.5rem;
@@ -47,6 +51,8 @@
 .start-menu__button-container {
 	background-color: rgba(122, 118, 118, 0.1);
 	border-radius: styles.$window-border-radius;
+	flex-direction: column-reverse;
+	display: flex;
 }
 
 .start-menu,
@@ -55,10 +61,15 @@
 	display: flex;
 }
 
+.start-menu__side-container__top-container > .search-bar {
+	height: 1.5rem;
+}
+
 .start-menu__side-container__bottom-container {
 	flex-direction: column;
 	overflow: scroll;
 	height: calc(100% - 3.2rem);
+	padding-top: 1rem;
 }
 
 .start-menu__button-container > * {

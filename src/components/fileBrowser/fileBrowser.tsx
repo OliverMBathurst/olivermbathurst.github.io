@@ -13,17 +13,17 @@ import {
     FILE_BROWSER_TREE_MIN_WIDTH
 } from "../../constants"
 import {
-    FileBrowserContext,
     FileSystemContext,
     RegistryContext,
     WindowsContext
 } from "../../contexts"
-import { ExpandDirection } from "../../enums"
+import { ExpandDirection, NavigationType } from "../../enums"
+import { getFullPath } from "../../helpers/paths"
 import {
     doRectanglesIntersect,
     onSelectionRowClicked
 } from "../../helpers/selections"
-import { useFileSystem, useSearchResultPane, useWindowSelectionRectangle } from "../../hooks"
+import { useFileSystem, useNavigationHistory, useSearchResultPane, useWindowSelectionRectangle } from "../../hooks"
 import { WindowPropertiesService } from "../../services"
 import { BranchingContext, Context, Leaf, Shortcut } from "../../types/fs"
 import { Expandable } from "../expandable"
@@ -60,11 +60,20 @@ const windowPropertiesService = new WindowPropertiesService()
 
 const FileBrowser = (props: IFileBrowserProps) => {
 	const { windowId, context, arguments: _arguments } = props
-	const { displaySettings, toggleDisplaySetting } =
-		useContext(FileBrowserContext)
-
 	const { root } = useContext(FileSystemContext)
+
+	const resolvedContext =
+		BRANCHING_CONTEXT_DETERMINER in context ? context : root
+
 	const { validateFilePath } = useFileSystem()
+	const {
+		addHistory,
+		backwardsPossible,
+		forwardsPossible,
+		navigate
+	} = useNavigationHistory<string>(getFullPath(resolvedContext))
+
+	const [thumbnailView, setThumbnailView] = useState<boolean>(true)
 
 	const [selected, setSelected] = useState<string[]>(() => {
 		if (_arguments) {
@@ -78,27 +87,10 @@ const FileBrowser = (props: IFileBrowserProps) => {
 	})
 	const [searchText, setSearchText] = useState<string>("")
 
-	const resolvedContext =
-		BRANCHING_CONTEXT_DETERMINER in context ? context : root
-
 	const { SearchResultPane, searchResult } = useSearchResultPane(searchText, { context: resolvedContext })
-
-	const {
-		addNavigationHistory,
-		addToHistoryPointer,
-		subtractFromHistoryPointer,
-		navigationHistory,
-		historyPointers,
-		setNavigationHistoryForWindow
-	} = useContext(FileBrowserContext)
-
-	const nav = navigationHistory[windowId] ?? []
-	const point = historyPointers[windowId] ?? 0
 
 	const elementRowReferences = useRef<Record<string, HTMLElement | null>>({})
 	const fileBrowserPaneRef = useRef<HTMLDivElement | null>(null)
-
-	const thumbnailDisplay = displaySettings[windowId] ?? true
 
 	const { addWindow, setWindowContext } = useContext(WindowsContext)
 	const registry = useContext(RegistryContext)
@@ -123,13 +115,14 @@ const FileBrowser = (props: IFileBrowserProps) => {
 				context,
 				registry
 			)
+
 			if (windowProperties != null) {
 				if (
 					BRANCHING_CONTEXT_DETERMINER in windowProperties.context &&
 					!windowProperties.openNewInstance
 				) {
 					elementRowReferences.current = {}
-					addNavigationHistory(windowId, windowProperties.context)
+					addHistory(getFullPath(windowProperties.context))
 					setWindowContext(windowId, windowProperties.context)
 				} else {
 					addWindow(windowProperties)
@@ -140,7 +133,8 @@ const FileBrowser = (props: IFileBrowserProps) => {
 			addWindow,
 			windowId,
 			setWindowContext,
-			addNavigationHistory,
+			addHistory,
+			getFullPath,
 			windowPropertiesService,
 			registry
 		]
@@ -226,43 +220,25 @@ const FileBrowser = (props: IFileBrowserProps) => {
 		}
 	}
 
-	const onBacktrack = () => {
+	const onNavigation = (navigationType: NavigationType) => {
+		setSelected([])
 		elementRowReferences.current = {}
-		const hp = point - 1
-		subtractFromHistoryPointer(windowId)
-		setWindowContext(windowId, nav[hp])
-	}
-
-	const onForwards = () => {
-		elementRowReferences.current = {}
-		const hp = point + 1
-		addToHistoryPointer(windowId)
-		setWindowContext(windowId, nav[hp])
-	}
-
-	const onUpOneLevel = () => {
-		if (
-			BRANCHING_CONTEXT_PARENT_PROPERTY in resolvedContext &&
-			resolvedContext.parent
-		) {
-			elementRowReferences.current = {}
-			const parentContext = resolvedContext.parent
-			const hp = point - 1
-			subtractFromHistoryPointer(windowId)
-
-			setNavigationHistoryForWindow(windowId, (nh) => {
-				const prev = [...nh]
-				prev[hp] = parentContext
-				return prev
-			})
-
-			setWindowContext(windowId, parentContext)
+		const history = navigate(navigationType)
+		const context = validateFilePath(history)
+		if (context) {
+			setWindowContext(windowId, context)
 		}
 	}
 
+	const onBackwards = () => onNavigation(NavigationType.Backwards)
+
+	const onForwards = () => onNavigation(NavigationType.Forwards)
+
+	const onUpOneLevel = () => onNavigation(NavigationType.Upwards)
+
 	const onDirectoryChanged = (context: BranchingContext) => {
 		setSelected([])
-		addNavigationHistory(windowId, context)
+		addHistory(getFullPath(context))
 		setWindowContext(windowId, context)
 	}
 
@@ -290,7 +266,7 @@ const FileBrowser = (props: IFileBrowserProps) => {
 	const onDisplayModeChange = () => {
 		elementRowReferences.current = {}
 		setSelected([])
-		toggleDisplaySetting(windowId)
+		setThumbnailView(tv => !tv)
 	}
 
 	const Display = useMemo(() => {
@@ -298,7 +274,7 @@ const FileBrowser = (props: IFileBrowserProps) => {
 			return null
 		}
 
-		if (!thumbnailDisplay) {
+		if (!thumbnailView) {
 			return (
 				<FileBrowserGridView
 					entities={Entities}
@@ -332,7 +308,7 @@ const FileBrowser = (props: IFileBrowserProps) => {
 	}, [
 		searchResult,
 		Entities,
-		thumbnailDisplay,
+		thumbnailView,
 		selected,
 		onRowClicked,
 		onRowDoubleClicked
@@ -354,9 +330,10 @@ const FileBrowser = (props: IFileBrowserProps) => {
 				onFileNavigation={onFileNavigation}
 				onSearchTextChanged={onSearchTextChanged}
 				onSearchCancelled={onSearchCancelled}
-				onBacktrack={onBacktrack}
+				backwardsPossible={backwardsPossible}
+				forwardsPossible={forwardsPossible}
+				onBackwards={onBackwards}
 				onForwards={onForwards}
-				onUpOneLevel={onUpOneLevel}
 			/>
 			<div className="file-browser__content">
 				<Expandable
@@ -380,7 +357,7 @@ const FileBrowser = (props: IFileBrowserProps) => {
 					{SelectionRectangle}
 					{BRANCHING_CONTEXT_PARENT_PROPERTY in resolvedContext &&
 						resolvedContext.parent &&
-						thumbnailDisplay &&
+						thumbnailView &&
 						!searchResult && (
 							<UpOneLevelRow onRowDoubleClicked={onUpOneLevel} />
 						)}
@@ -392,7 +369,7 @@ const FileBrowser = (props: IFileBrowserProps) => {
 				context={resolvedContext}
 				entities={Entities}
 				selected={selected}
-				thumbnailDisplay={thumbnailDisplay}
+				thumbnailDisplay={thumbnailView}
 				toggleDisplayMode={onDisplayModeChange}
 			/>
 		</div>

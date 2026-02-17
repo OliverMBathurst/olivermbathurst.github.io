@@ -1,72 +1,52 @@
-import { useContext } from "react"
 import {
-	BRANCHING_CONTEXT_PARENT_PROPERTY,
-	CLASSNAMES
+    CLASSNAMES
 } from "../../../../constants"
-import { FileBrowserContext } from "../../../../contexts"
 import { LeftArrowIcon, RightArrowIcon, UpArrowIcon } from "../../../../icons"
-import { BranchingContext } from "../../../../types/fs"
 import "./fileBrowserNavigationControls.scss"
 
 const { NO_SELECT_CLASS } = CLASSNAMES
 
 interface IFileBrowserNavigationControlsProps {
-	context: BranchingContext
-	windowId: string
-	onBacktrack: () => void
+	backwardsPossible: boolean
+	forwardsPossible: boolean
+	onBackwards: () => void
 	onForwards: () => void
-	onUpOneLevel: () => void
 }
 
 const FileBrowserNavigationControls = (
 	props: IFileBrowserNavigationControlsProps
 ) => {
-	const { context, windowId, onBacktrack, onForwards, onUpOneLevel } = props
-
-	const { historyPointers, navigationHistory } = useContext(FileBrowserContext)
-
-	const nav = navigationHistory[windowId] ?? []
-	const point = historyPointers[windowId] ?? 0
-
-	const upDisabled = !(BRANCHING_CONTEXT_PARENT_PROPERTY in context)
-	const forwardsDisabled = point === nav.length - 1 || nav.length === 0
-	const backwardsDisabled = point === 0
-
-	const onUpClicked = () => {
-		if (!upDisabled && context.parent) {
-			onUpOneLevel()
-		}
-	}
+	const { onBackwards, onForwards, backwardsPossible, forwardsPossible } = props
 
 	const onForwardsClicked = () => {
-		if (!forwardsDisabled) {
+		if (forwardsPossible) {
 			onForwards()
 		}
 	}
 
 	const onBackwardsClicked = () => {
-		if (!backwardsDisabled) {
-			onBacktrack()
+		if (backwardsPossible) {
+			onBackwards()
 		}
 	}
 
 	return (
 		<div className="file-browser-navigation-controls">
 			<div
-				className={`file-browser-navigation-controls__icon${backwardsDisabled ? "--disabled" : ""} ${NO_SELECT_CLASS}`}
+				className={`file-browser-navigation-controls__icon${!backwardsPossible ? "--disabled" : ""} ${NO_SELECT_CLASS}`}
 				onClick={onBackwardsClicked}
 			>
 				<LeftArrowIcon />
 			</div>
 			<div
-				className={`file-browser-navigation-controls__icon${forwardsDisabled ? "--disabled" : ""} ${NO_SELECT_CLASS}`}
+				className={`file-browser-navigation-controls__icon${!forwardsPossible ? "--disabled" : ""} ${NO_SELECT_CLASS}`}
 				onClick={onForwardsClicked}
 			>
 				<RightArrowIcon />
 			</div>
 			<div
-				className={`file-browser-navigation-controls__icon${upDisabled ? "--disabled" : ""} ${NO_SELECT_CLASS}`}
-				onClick={onUpClicked}
+				className={`file-browser-navigation-controls__icon${!backwardsPossible ? "--disabled" : ""} ${NO_SELECT_CLASS}`}
+				onClick={onBackwardsClicked}
 			>
 				<UpArrowIcon />
 			</div>

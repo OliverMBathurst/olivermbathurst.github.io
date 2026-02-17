@@ -1,12 +1,10 @@
 import DesktopItemContextProvider, {
     DesktopItemContext
 } from "./desktopItemContextProvider"
-import FileBrowserContextProvider, {
-    FileBrowserContext
-} from "./fileBrowserContextProvider"
 import FileSystemContextProvider, {
     FileSystemContext
 } from "./fileSystemContextProvider"
+import RecentsContextProvider, { RecentsContext } from "./recentsContextProvider"
 import RegistryContextProvider, {
     IRegistryContext,
     RegistryContext
@@ -18,22 +16,16 @@ import WallpaperContextProvider, { WallpaperContext } from "./wallpaperContextPr
 import WindowsContextProvider, {
     WindowsContext
 } from "./windowsContextProvider"
-import RecentsContextProvider, { RecentsContext } from "./recentsContextProvider"
 
 export {
     DesktopItemContext,
     DesktopItemContextProvider,
-    FileBrowserContext,
-    FileBrowserContextProvider,
     FileSystemContext,
-    FileSystemContextProvider,
-    RegistryContext,
+    FileSystemContextProvider, RecentsContext, RecentsContextProvider, RegistryContext,
     RegistryContextProvider,
     TaskbarGroupContext,
     TaskbarGroupContextProvider, WallpaperContext, WallpaperContextProvider, WindowsContext,
-    WindowsContextProvider,
-    RecentsContextProvider,
-    RecentsContext
+    WindowsContextProvider
 }
 
 export type { IRegistryContext }

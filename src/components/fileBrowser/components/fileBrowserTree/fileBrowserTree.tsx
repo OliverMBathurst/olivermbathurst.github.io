@@ -1,5 +1,5 @@
-import { useContext } from "react"
-import { FileBrowserContext, FileSystemContext } from "../../../../contexts"
+import { useContext, useState } from "react"
+import { FileSystemContext } from "../../../../contexts"
 import { BranchingContext } from "../../../../types/fs"
 import { FileBrowserTreeFolderRow } from "./components"
 import "./fileBrowserTree.scss"
@@ -11,23 +11,38 @@ interface IFileBrowserTreeProps {
 
 const FileBrowserTree = (props: IFileBrowserTreeProps) => {
 	const { windowId, onDirectoryChanged } = props
-	const { setSelectedTreeContextKeysForWindow } = useContext(FileBrowserContext)
 	const { root } = useContext(FileSystemContext)
 
-	const onFolderClicked = (fullPath: string, context: BranchingContext) => {
-		setSelectedTreeContextKeysForWindow(windowId, (_) => [fullPath])
+	const [selectedContextKeys, setSelectedContextKeys] = useState<string[]>([])
+	const [openContextKeys, setOpenContextKeys] = useState<string[]>([])
+
+	const onBranchClicked = (fullPath: string, context: BranchingContext) => {
+		setSelectedContextKeys([fullPath])
 		onDirectoryChanged(context)
+	}
+
+	const onBranchExpansionChanged = (fullPath: string) => {
+		setOpenContextKeys(o => {
+			if (o.indexOf(fullPath) !== -1) {
+				return [...o].filter(b => b !== fullPath)
+			}
+
+			return [...o, fullPath]
+		})
 	}
 
 	return (
 		<div className="file-browser-tree">
 			<FileBrowserTreeFolderRow
 				windowId={windowId}
+				selectedContextKeys={selectedContextKeys}
+				openContextKeys={openContextKeys}
 				index={0}
 				key="Root"
 				context={root}
 				prefix={root.fullName}
-				onFolderRowClicked={onFolderClicked}
+				onBranchRowClicked={onBranchClicked}
+				onBranchExpansionChanged={onBranchExpansionChanged}
 			/>
 		</div>
 	)

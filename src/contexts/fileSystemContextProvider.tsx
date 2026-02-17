@@ -48,6 +48,7 @@ contentsBranch.setBranches([
 	gamesBranch
 ])
 
+gamesBranch.setParent(contentsBranch)
 applicationsBranch.setParent(contentsBranch)
 contentsBranch.setParent(root)
 desktopBranch.setParent(contentsBranch)

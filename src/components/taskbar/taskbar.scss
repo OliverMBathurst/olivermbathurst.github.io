@@ -13,13 +13,10 @@
 	z-index: 1001;
 }
 
-.taskbar > .search-bar__input {
-	margin: 0 0.4rem 0 0.4rem;
-}
-
 .taskbar > .search-bar {
 	flex-grow: 0;
 	border-radius: 1rem;
+	height: 2.1rem;
 }
 
 .taskbar > * {

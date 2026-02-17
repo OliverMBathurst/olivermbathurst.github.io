@@ -8,9 +8,10 @@ interface IFileBrowserControlsProps {
 	context: BranchingContext
 	windowId: string
 	searchText: string
-	onBacktrack: () => void
+	backwardsPossible: boolean
+	forwardsPossible: boolean
+	onBackwards: () => void
 	onForwards: () => void
-	onUpOneLevel: () => void
 	onSearchCancelled: () => void
 	onSearchTextChanged: (text: string) => void
 	onDirectoryChanged: (context: BranchingContext) => void
@@ -20,25 +21,24 @@ interface IFileBrowserControlsProps {
 const FileBrowserControls = (props: IFileBrowserControlsProps) => {
 	const {
 		context,
-		windowId,
 		searchText,
+		backwardsPossible,
+		forwardsPossible,
 		onDirectoryChanged,
 		onFileNavigation,
 		onSearchTextChanged,
 		onSearchCancelled,
-		onBacktrack,
-		onForwards,
-		onUpOneLevel
+		onBackwards,
+		onForwards
 	} = props
 
 	return (
 		<div className="file-browser-controls">
 			<FileBrowserNavigationControls
-				context={context}
-				windowId={windowId}
-				onBacktrack={onBacktrack}
+				onBackwards={onBackwards}
 				onForwards={onForwards}
-				onUpOneLevel={onUpOneLevel}
+				backwardsPossible={backwardsPossible}
+				forwardsPossible={forwardsPossible}
 			/>
 			<FileBrowserLocationBar
 				context={context}
