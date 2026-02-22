@@ -23,14 +23,15 @@ class RegistryService {
 				[PHOTO_VIEWER_APP_ID]: "Photo Viewer.exe"
 			},
 			applicationPaths: {
-				[FILE_BROWSER_APP_ID]: "Root\\Contents\\Applications\\File Browser.exe",
-				[PDF_VIEWER_APP_ID]: "Root\\Contents\\Applications\\PDF Viewer.exe",
-				[TEXT_VIEWER_APP_ID]: "Root\\Contents\\Applications\\Monaco Editor.exe",
-				[GAME_VIEWER_APP_ID]: "Root\\Contents\\Applications\\Game Player.exe",
-				[PHOTO_VIEWER_APP_ID]: "Root\\Contents\\Applications\\Photo Viewer.exe"
+				[FILE_BROWSER_APP_ID]: "Root\\Applications\\File Browser.exe",
+				[PDF_VIEWER_APP_ID]: "Root\\Applications\\PDF Viewer.exe",
+				[TEXT_VIEWER_APP_ID]: "Root\\Applications\\Monaco Editor.exe",
+				[GAME_VIEWER_APP_ID]: "Root\\Applications\\Game Player.exe",
+				[PHOTO_VIEWER_APP_ID]: "Root\\Applications\\Photo Viewer.exe"
 			},
 			specialBranchPaths: {
-				[SpecialBranch.Desktop]: "Root\\Contents\\Desktop"
+				[SpecialBranch.Desktop]: "Root\\Desktop",
+				[SpecialBranch.StartMenu]: "Root\\Start Menu"
 			},
 			fileTypeAssociations: {
 				[PDF_VIEWER_APP_ID]: FILETYPE_PDF,

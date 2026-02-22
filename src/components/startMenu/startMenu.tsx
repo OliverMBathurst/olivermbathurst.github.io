@@ -1,10 +1,12 @@
-import { useRef } from "react"
-import { CLASSNAMES } from "../../constants"
-import { useClickOutside } from "../../hooks"
+import { useContext, useEffect, useRef, useState } from "react"
+import { BRANCHING_CONTEXT_DETERMINER, CLASSNAMES } from "../../constants"
+import { RegistryContext } from "../../contexts"
+import { SpecialBranch } from "../../enums"
+import { useClickOutside, useFileSystem } from "../../hooks"
 import { PowerIcon } from "../../icons"
 import { Context } from "../../types/fs"
 import { SearchBar } from "../searchBar"
-import { ApplicationsSection, RecommendedSection } from "./components"
+import { ContainerSection } from "./components"
 import "./startMenu.scss"
 
 const { TASKBAR_START_BUTTON_CLASS } = CLASSNAMES
@@ -20,6 +22,26 @@ const clickOutsideExclusions = [TASKBAR_START_BUTTON_CLASS]
 const StartMenu = (props: IStartMenuProps) => {
 	const { onClickOutside, onSearchBarFocused, onItemClicked } = props
 	const startMenuRef = useRef<HTMLDivElement | null>(null)
+	const [items, setItems] = useState<Context[]>([])
+
+	const { specialBranchPaths } = useContext(RegistryContext)
+	const { validateFilePath } = useFileSystem()
+
+	useEffect(() => {
+		const startMenuPath = specialBranchPaths[SpecialBranch.StartMenu]
+		if (startMenuPath) {
+			const validatedContext = validateFilePath(startMenuPath)
+			if (validatedContext && BRANCHING_CONTEXT_DETERMINER in validatedContext) {
+				const items = [
+					...validatedContext.branches,
+					...validatedContext.leaves,
+					...validatedContext.shortcuts
+				]
+
+				setItems(items)
+			}
+		}
+	}, [specialBranchPaths, setItems])
 
 	useClickOutside(startMenuRef, (e) => {
 		let validClick: boolean = true
@@ -55,8 +77,7 @@ const StartMenu = (props: IStartMenuProps) => {
 					/>
 				</div>
 				<div className="start-menu__side-container__bottom-container">
-					<RecommendedSection onItemClicked={onItemClicked} />
-					<ApplicationsSection onItemClicked={onItemClicked} />
+					<ContainerSection items={items} onItemClicked={onItemClicked} />
 				</div>
 			</div>
 		</div>

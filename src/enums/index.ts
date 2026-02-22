@@ -1,6 +1,7 @@
 export enum SpecialBranch {
 	None,
-	Desktop
+	Desktop,
+	StartMenu
 }
 
 export enum ExpandDirection {

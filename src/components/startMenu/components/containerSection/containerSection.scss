@@ -7,7 +7,7 @@
 
 .start-menu__bottom-container__container {
 	border-radius: styles.$window-border-radius;
-	margin: 0rem 0rem 0.5rem 0.5rem;
+	margin-left: 0.5rem;
 	width: calc(100% - 1rem);
 }
 
@@ -23,17 +23,26 @@
 }
 
 .start-menu__bottom-container__container__items {
-	padding-top: 0.5rem;
 	flex-direction: column;
+}
+
+.start-menu__bottom-container__container,
+.start-menu__bottom-container__container__items {
+	height: 100%;
+}
+
+.start-menu__bottom-container__container__items__item > .icon-container {
+	width: 2rem;
+	height: 2rem;
+}
+
+.start-menu__bottom-container__container__items__item__icon {
+	width: 100%;
+	height: 100%;
 }
 
 .start-menu__bottom-container__container__items__item:hover {
 	background-color: colours.$hover-button-background;
-}
-
-.start-menu__bottom-container__container__items__item img {
-	height: 1.75rem;
-	width: 1.75rem;
 }
 
 .start-menu__bottom-container__container__items__item__text {

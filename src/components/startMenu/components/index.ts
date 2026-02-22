@@ -1,4 +1,3 @@
-import { ApplicationsSection } from "./applicationsSection"
-import { RecommendedSection } from "./recommendedSection"
+import { ContainerSection } from "./containerSection"
 
-export { ApplicationsSection, RecommendedSection }
+export { ContainerSection }

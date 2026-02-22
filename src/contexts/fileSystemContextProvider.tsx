@@ -20,9 +20,9 @@ import { ILikenessResult } from "../interfaces/search"
 import { Branch, BranchingContext, Context, Root, Shortcut } from "../types/fs"
 
 const desktopBranch = new Branch("Desktop", SpecialBranch.Desktop)
+const startMenuBranch = new Branch("Start Menu", SpecialBranch.StartMenu)
 const root = new Root("Root")
 const applicationsBranch = new Branch("Applications", SpecialBranch.None)
-const contentsBranch = new Branch("Contents", SpecialBranch.None)
 const gamesBranch = new Branch("Games", SpecialBranch.None)
 const picturesBranch = new Branch("Pictures", SpecialBranch.None)
 
@@ -47,26 +47,34 @@ applicationsBranch.setLeaves([
 ])
 
 picturesBranch.setLeaves([
-	new RemoteImage("Italy1", FILETYPE_JPG, contentsBranch, "images/bg.jpg"),
-	new RemoteImage("Switzerland1", FILETYPE_JPG, contentsBranch, "images/bg1.jpg"),
-	new RemoteImage("Switzerland2", FILETYPE_JPG, contentsBranch, "images/bg2.jpg"),
-	new RemoteImage("Switzerland3", FILETYPE_JPG, contentsBranch, "images/bg3.jpg")
+	new RemoteImage("Italy1", FILETYPE_JPG, picturesBranch, "images/bg.jpg"),
+	new RemoteImage("Switzerland1", FILETYPE_JPG, picturesBranch, "images/bg1.jpg"),
+	new RemoteImage("Switzerland2", FILETYPE_JPG, picturesBranch, "images/bg2.jpg"),
+	new RemoteImage("Switzerland3", FILETYPE_JPG, picturesBranch, "images/bg3.jpg")
 ])
 
-root.setBranches([contentsBranch])
-contentsBranch.setBranches([
+root.setBranches([
 	desktopBranch,
 	applicationsBranch,
 	gamesBranch,
-	picturesBranch
+	picturesBranch,
+	startMenuBranch
 ])
 
-desktopBranch.setParent(contentsBranch)
-applicationsBranch.setParent(contentsBranch)
-gamesBranch.setParent(contentsBranch)
-picturesBranch.setParent(contentsBranch)
+desktopBranch.setParent(root)
+applicationsBranch.setParent(root)
+gamesBranch.setParent(root)
+picturesBranch.setParent(root)
+startMenuBranch.setParent(root)
 
-contentsBranch.setParent(root)
+const startMenuShortcuts: Shortcut[] = []
+
+for (const applicationsBranchLeaf of applicationsBranch.leaves) {
+	startMenuShortcuts.push(new Shortcut(applicationsBranch, applicationsBranchLeaf, applicationsBranchLeaf.name))
+}
+
+startMenuBranch.setShortcuts(startMenuShortcuts)
+
 desktopBranch.setShortcuts([new Shortcut(desktopBranch, root, "Root")])
 
 interface IFileSystemContext {

@@ -76,8 +76,7 @@ export const getIcon = (
 					break
 				case FILETYPE_SHORTCUT:
 					if (SHORTCUT_DETERMINER in context) {
-						icon = getIcon(context.context, props, showSelectedIcon, true, showCustomIcon)
-						break
+						return getIcon(context.context, props, showSelectedIcon, true, showCustomIcon)
 					}
 					throw new Error("Invalid shortcut")
 				default:
