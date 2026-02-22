@@ -21,7 +21,7 @@ const FileBrowserRow = (props: IFileBrowserRowProps) => {
 		onRowDoubleClicked,
 		onRowClicked
 	} = props
-	const Icon = useIcon(context, true, undefined, selected)
+	const Icon = useIcon(context, true, { className: "file-browser__row__icon__img" }, selected)
 	const DisplayName = useDisplayName(context)
 
 	return (

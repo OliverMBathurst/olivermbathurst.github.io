@@ -27,13 +27,15 @@ import { useFileSystem, useNavigationHistory, useSearchResultPane, useWindowSele
 import { WindowPropertiesService } from "../../services"
 import { BranchingContext, Context, Leaf, Shortcut } from "../../types/fs"
 import { Expandable } from "../expandable"
+import { SearchBar } from "../searchBar"
 import {
-    FileBrowserControls,
     FileBrowserGridView,
     FileBrowserRow,
     FolderBaseInformation,
     UpOneLevelRow
 } from "./components"
+import { FileBrowserLocationBar } from "./components/fileBrowserLocationBar"
+import { FileBrowserNavigationControls } from "./components/fileBrowserNavigationControls"
 import { FileBrowserTree } from "./components/fileBrowserTree"
 import "./fileBrowser.scss"
 
@@ -67,10 +69,13 @@ const FileBrowser = (props: IFileBrowserProps) => {
 
 	const { validateFilePath } = useFileSystem()
 	const {
+		history,
+		historyPointer,
 		addHistory,
 		backwardsPossible,
 		forwardsPossible,
-		navigate
+		navigate,
+		navigateToIndex
 	} = useNavigationHistory<string>(getFullPath(resolvedContext))
 
 	const [thumbnailView, setThumbnailView] = useState<boolean>(true)
@@ -186,6 +191,12 @@ const FileBrowser = (props: IFileBrowserProps) => {
 		}
 	}
 
+	const onHistoryItemClicked = (historyIndex: number) => {
+
+
+
+	}
+
 	const onFileBrowserKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
 		if (e.key === "Enter" && selected.length > 0) {
 			const entities: Context[] = Entities
@@ -220,9 +231,25 @@ const FileBrowser = (props: IFileBrowserProps) => {
 		}
 	}
 
-	const onNavigation = (navigationType: NavigationType) => {
+	const onPreNavigation = () => {
 		setSelected([])
 		elementRowReferences.current = {}
+	}
+
+	const onNavigationToHistoryIndex = (historyIndex: number) => {
+		onPreNavigation()
+		const history = navigateToIndex(historyIndex)
+		if (!history) {
+			return
+		}
+		const context = validateFilePath(history)
+		if (context) {
+			setWindowContext(windowId, context)
+		}
+	}
+
+	const onNavigation = (navigationType: NavigationType) => {
+		onPreNavigation()
 		const history = navigate(navigationType)
 		const context = validateFilePath(history)
 		if (context) {
@@ -322,19 +349,28 @@ const FileBrowser = (props: IFileBrowserProps) => {
 
 	return (
 		<div className="file-browser">
-			<FileBrowserControls
-				windowId={windowId}
-				context={resolvedContext}
-				searchText={searchText}
-				onDirectoryChanged={onDirectoryChanged}
-				onFileNavigation={onFileNavigation}
-				onSearchTextChanged={onSearchTextChanged}
-				onSearchCancelled={onSearchCancelled}
-				backwardsPossible={backwardsPossible}
-				forwardsPossible={forwardsPossible}
-				onBackwards={onBackwards}
-				onForwards={onForwards}
-			/>
+			<div className="file-browser__controls">
+				<FileBrowserNavigationControls
+					onBackwards={onBackwards}
+					onForwards={onForwards}
+					backwardsPossible={backwardsPossible}
+					forwardsPossible={forwardsPossible}
+					history={history}
+					historyPointer={historyPointer}
+					onHistoryItemClicked={onNavigationToHistoryIndex}
+				/>
+				<FileBrowserLocationBar
+					context={resolvedContext}
+					onDirectoryChanged={onDirectoryChanged}
+					onFileNavigation={onFileNavigation}
+				/>
+				<SearchBar
+					placeholder="Search..."
+					value={searchText}
+					onInputChange={onSearchTextChanged}
+					onCancelClicked={onSearchCancelled}
+				/>
+			</div>
 			<div className="file-browser__content">
 				<Expandable
 					allowedExpandDirections={ExpandDirection.Right}

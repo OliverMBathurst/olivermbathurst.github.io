@@ -1,5 +1,7 @@
 export const FILETYPE_TEXT = ".txt"
 export const FILETYPE_PDF = ".pdf"
+export const FILETYPE_PNG = ".png"
+export const FILETYPE_JPG = ".jpg"
 export const FILETYPE_GAME = ".game"
 export const FILETYPE_SHORTCUT = ".lnk"
 export const FILETYPE_EXECUTABLE = ".exe"
@@ -8,13 +10,17 @@ export const FILETYPE_URL_SHORTCUT_PROPERTY = "url"
 export const FILETYPE_DATA_PROPERTY = "data"
 export const FILETYPE_TEXT_PROPERTY = "text"
 export const FILETYPE_CUSTOM_ICON = "icon"
+export const FILETYPE_CUSTOM_ICON_OVERRIDE = "windowTopBarCustomIconDisplay"
+export const ACCEPT_FILETYPE_IMAGES = "image/*"
 export const BRANCHING_CONTEXT_PARENT_PROPERTY = "parent"
 export const BRANCHING_CONTEXT_DETERMINER = "branches"
 export const SHORTCUT_DETERMINER = "context"
 export const APPLICATION_DETERMINER = "handle"
 export const GAME_DETERMINER = "render"
+export const ARRAY_DETERMINER = "length"
 export const BRANCHING_CONTEXT_TYPE_PROPERTY = "type"
 export const LEAF_EXTENSION_PROPERTY_NAME = "extension"
+export const IMAGE_DROP_TYPE = "image/"
 export const DEFAULT_POINTER = "default"
 export const DEFAULT_TASKBAR_HEIGHT_PIXELS = 48
 export const DEFAULT_MIN_WINDOW_HEIGHT_PIXELS = 150
@@ -62,7 +68,6 @@ export const CLASSNAMES = {
 	FILE_BROWSER_CONTENT_RESULT_PANE_CLASS: "file-browser__content__result-pane",
 	FILE_BROWSER_GRID_VIEW_CLASS: "file-browser-grid-view"
 }
-
 export const DEFAULT_DOCUMENT_TITLE = "Oliver Bathurst"
 export const DEFAULT_FAVICON_HREF = "/favicon.ico?v=2"
 export const CALENDAR_YEAR_RANGE_YEARS = 100
@@ -74,3 +79,5 @@ export const FILE_BROWSER_APP_ID = "0"
 export const PDF_VIEWER_APP_ID = "1"
 export const TEXT_VIEWER_APP_ID = "2"
 export const GAME_VIEWER_APP_ID = "3"
+export const PHOTO_VIEWER_APP_ID = "4"
+export const SUPPORTED_IMAGE_EXTENSIONS = ['.apng', '.png', '.avif', '.gif', '.jpg', '.jpeg', '.jfif', '.pjpeg', '.pjp', '.png', '.svg', '.webp', '.bmp', '.ico', '.cur', '.tif', '.tiff']

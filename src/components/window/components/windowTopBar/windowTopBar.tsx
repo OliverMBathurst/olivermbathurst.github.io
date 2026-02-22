@@ -1,9 +1,10 @@
 import React from "react"
-import { CLASSNAMES } from "../../../../constants"
+import { CLASSNAMES, FILETYPE_CUSTOM_ICON_OVERRIDE } from "../../../../constants"
 import { useDisplayName, useIcon } from "../../../../hooks"
 import { CloseIcon, MaximizeIcon, MinimizeIcon } from "../../../../icons"
 import { Context } from "../../../../types/fs"
 import "./windowTopBar.scss"
+import { showCustomIconInWindowTopBar } from "../../../../helpers/icons"
 
 const { NO_SELECT_CLASS } = CLASSNAMES
 
@@ -45,7 +46,8 @@ const WindowTopBar = (props: IWindowTopBarProps) => {
 		onWindowTopBarDoubleClicked
 	} = props
 
-	const Icon = useIcon(context)
+	const showCustomIcon = showCustomIconInWindowTopBar(context)
+	const Icon = useIcon(context, true, undefined, undefined, showCustomIcon)
 	const DisplayName = useDisplayName(context)
 
 	return (

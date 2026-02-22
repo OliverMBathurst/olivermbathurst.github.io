@@ -1,4 +1,4 @@
-import { JSX, useMemo } from "react"
+import { useMemo } from "react"
 import { CLASSNAMES } from "../constants"
 import { getIcon } from "../helpers/icons"
 import { Context } from "../types/fs"
@@ -9,7 +9,8 @@ const useIcon = (
 	context: Context,
 	noSelect: boolean = true,
 	props?: React.ImgHTMLAttributes<HTMLImageElement>,
-	showSelectedIcon?: boolean
+	showSelectedIcon?: boolean,
+	showCustomIcon?: boolean
 ) => {
 	const Icon = useMemo(() => {
 		const _props: React.ImgHTMLAttributes<HTMLImageElement> = {
@@ -21,7 +22,9 @@ const useIcon = (
 		return getIcon(
 			context,
 			_props,
-			showSelectedIcon
+			showSelectedIcon,
+			undefined,
+			showCustomIcon
 		)
 	}, [context, noSelect, props, showSelectedIcon, getIcon])
 

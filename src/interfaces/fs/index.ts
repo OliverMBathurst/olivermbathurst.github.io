@@ -29,6 +29,7 @@ export interface IBranch extends ILeafAndBranchContext, IChildContext {
 
 export interface IIcon {
 	icon: string | null
+	windowTopBarCustomIconDisplay: boolean
 }
 
 export interface IUrlShortcutFile extends ILeaf {
@@ -54,6 +55,7 @@ export interface IUploadedFile extends INamed, IIcon, IDataFile {
 export interface IWindowRenderProps<T> {
 	windowId: string
 	context: Context
+	arguments?: string
 	onMouseOver?: (e: React.MouseEvent<T, MouseEvent>) => void
 }
 

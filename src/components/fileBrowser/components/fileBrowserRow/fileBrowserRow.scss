@@ -21,9 +21,11 @@
 	background-color: colours.$hover-button-background;
 }
 
-.file-browser__row__icon > .icon-container {
+.file-browser__row__icon > .icon-container,
+.file-browser__row__icon__img {
 	height: 4rem;
 	width: 4rem;
+	object-fit: contain;
 }
 
 .file-browser__row__name {

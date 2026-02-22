@@ -1,11 +1,13 @@
 import {
-	GAME_VIEWER_APP_ID,
-	FILETYPE_GAME,
-	FILETYPE_PDF,
-	FILETYPE_TEXT,
-	FILE_BROWSER_APP_ID,
-	PDF_VIEWER_APP_ID,
-	TEXT_VIEWER_APP_ID
+    FILETYPE_GAME,
+    FILETYPE_PDF,
+    FILETYPE_TEXT,
+    FILE_BROWSER_APP_ID,
+    GAME_VIEWER_APP_ID,
+    PDF_VIEWER_APP_ID,
+    PHOTO_VIEWER_APP_ID,
+    SUPPORTED_IMAGE_EXTENSIONS,
+    TEXT_VIEWER_APP_ID
 } from "../constants"
 import { IRegistryContext } from "../contexts"
 import { SpecialBranch } from "../enums"
@@ -18,12 +20,14 @@ class RegistryService {
 				[PDF_VIEWER_APP_ID]: "PDF Viewer.exe",
 				[TEXT_VIEWER_APP_ID]: "Monaco Editor.exe",
 				[GAME_VIEWER_APP_ID]: "Game Player.exe",
+				[PHOTO_VIEWER_APP_ID]: "Photo Viewer.exe"
 			},
 			applicationPaths: {
 				[FILE_BROWSER_APP_ID]: "Root\\Contents\\Applications\\File Browser.exe",
 				[PDF_VIEWER_APP_ID]: "Root\\Contents\\Applications\\PDF Viewer.exe",
 				[TEXT_VIEWER_APP_ID]: "Root\\Contents\\Applications\\Monaco Editor.exe",
-				[GAME_VIEWER_APP_ID]: "Root\\Contents\\Applications\\Game Player.exe"
+				[GAME_VIEWER_APP_ID]: "Root\\Contents\\Applications\\Game Player.exe",
+				[PHOTO_VIEWER_APP_ID]: "Root\\Contents\\Applications\\Photo Viewer.exe"
 			},
 			specialBranchPaths: {
 				[SpecialBranch.Desktop]: "Root\\Contents\\Desktop"
@@ -31,7 +35,8 @@ class RegistryService {
 			fileTypeAssociations: {
 				[PDF_VIEWER_APP_ID]: FILETYPE_PDF,
 				[TEXT_VIEWER_APP_ID]: FILETYPE_TEXT,
-				[GAME_VIEWER_APP_ID]: FILETYPE_GAME
+				[GAME_VIEWER_APP_ID]: FILETYPE_GAME,
+				[PHOTO_VIEWER_APP_ID]: SUPPORTED_IMAGE_EXTENSIONS.join(",")
 			},
 			branchHandlerId: FILE_BROWSER_APP_ID
 		}

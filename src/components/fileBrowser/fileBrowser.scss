@@ -1,3 +1,5 @@
+@use "../../scss/colours";
+
 .file-browser {
 	display: flex;
 	height: 100%;
@@ -7,6 +9,7 @@
 .file-browser__content {
 	display: flex;
 	flex-grow: 1;
+	height: calc(100% - 4.5rem);
 }
 
 .file-browser__content__tree-pane {
@@ -34,4 +37,20 @@
 	width: 100%;
 	height: calc(100% - 0.3rem);
 	padding: 0.3rem 0.5rem 0rem 0.5rem;
+	overflow: scroll;
+}
+
+.file-browser__controls {
+	display: flex;
+	padding: 0.5rem;
+	background-color: colours.$window-top-bar;
+}
+
+.file-browser__controls > .file-browser-location-bar {
+	margin-right: 0.5rem;
+	width: 80%;
+}
+
+.file-browser__controls > .search-bar {
+	height: 1.3rem;
 }

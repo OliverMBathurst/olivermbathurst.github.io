@@ -62,7 +62,7 @@ const PdfViewer = (props: IPdfViewerProps) => {
 				<FileSelector
 					accept={FILETYPE_PDF}
 					onChange={onInputChange}
-					buttonText="Open PDF file"
+					buttonText="Open"
 				/>
 			</div>
 			{resolvedData && (

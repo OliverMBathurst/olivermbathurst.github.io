@@ -1,5 +1,6 @@
 import useClickOutside from "./clickOutside"
 import useDisplayName from "./displayName"
+import useFileDrop from "./fileDrop"
 import useFileSystem from "./fileSystem"
 import useIcon from "./icon"
 import useNavigationHistory from "./navigationHistory"
@@ -10,7 +11,5 @@ import useWindowSelectionRectangle from "./windowSelectionRectangle"
 
 export {
     useClickOutside,
-    useDisplayName,
-    useFileSystem,
-    useIcon, useNavigationHistory, useSearchResultPane, useVisibility, useWallpaper, useWindowSelectionRectangle
+    useDisplayName, useFileDrop, useFileSystem, useIcon, useNavigationHistory, useSearchResultPane, useVisibility, useWallpaper, useWindowSelectionRectangle
 }

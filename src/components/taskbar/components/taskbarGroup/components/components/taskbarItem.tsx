@@ -1,5 +1,6 @@
 import React from "react"
 import { CLASSNAMES } from "../../../../../../constants"
+import { showCustomIconInWindowTopBar } from "../../../../../../helpers/icons"
 import { useDisplayName, useIcon } from "../../../../../../hooks"
 import { CloseIcon } from "../../../../../../icons"
 import { IWindowProperties } from "../../../../../../interfaces/windows"
@@ -27,7 +28,8 @@ const TaskbarItem = (props: ITaskbarItemProps) => {
 
 	const { context, id: windowId, selected } = windowProperties
 
-	const Icon = useIcon(context)
+	const showCustomIcon = showCustomIconInWindowTopBar(context)
+	const Icon = useIcon(context, true, undefined, false, showCustomIcon)
 
 	const DisplayName = useDisplayName(context)
 

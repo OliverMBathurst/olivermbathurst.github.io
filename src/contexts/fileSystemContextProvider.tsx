@@ -1,4 +1,5 @@
 import { createContext, useState } from "react"
+import { FILETYPE_JPG } from "../constants"
 import { SpecialBranch } from "../enums"
 import {
     CV,
@@ -7,12 +8,14 @@ import {
     GitHub,
     LinkedIn,
     PdfViewer,
+    PhotoViewer,
+    RemoteImage,
     TextFileViewer,
     ThisProject
 } from "../files"
 import GamePlayer from "../files/gamePlayer"
 import { getFullPath } from "../helpers/paths"
-import { IForwardContextInformation, IContextInformationTuple } from "../interfaces/fs"
+import { IContextInformationTuple, IForwardContextInformation } from "../interfaces/fs"
 import { ILikenessResult } from "../interfaces/search"
 import { Branch, BranchingContext, Context, Root, Shortcut } from "../types/fs"
 
@@ -21,6 +24,7 @@ const root = new Root("Root")
 const applicationsBranch = new Branch("Applications", SpecialBranch.None)
 const contentsBranch = new Branch("Contents", SpecialBranch.None)
 const gamesBranch = new Branch("Games", SpecialBranch.None)
+const picturesBranch = new Branch("Pictures", SpecialBranch.None)
 
 gamesBranch.setLeaves([
 	//new Conways(gamesBranch)
@@ -38,20 +42,31 @@ applicationsBranch.setLeaves([
 	new FileBrowser(applicationsBranch),
 	new PdfViewer(applicationsBranch),
 	new TextFileViewer(applicationsBranch),
-	new GamePlayer(applicationsBranch)
+	new GamePlayer(applicationsBranch),
+	new PhotoViewer(applicationsBranch)
+])
+
+picturesBranch.setLeaves([
+	new RemoteImage("Italy1", FILETYPE_JPG, contentsBranch, "images/bg.jpg"),
+	new RemoteImage("Switzerland1", FILETYPE_JPG, contentsBranch, "images/bg1.jpg"),
+	new RemoteImage("Switzerland2", FILETYPE_JPG, contentsBranch, "images/bg2.jpg"),
+	new RemoteImage("Switzerland3", FILETYPE_JPG, contentsBranch, "images/bg3.jpg")
 ])
 
 root.setBranches([contentsBranch])
 contentsBranch.setBranches([
 	desktopBranch,
 	applicationsBranch,
-	gamesBranch
+	gamesBranch,
+	picturesBranch
 ])
 
-gamesBranch.setParent(contentsBranch)
-applicationsBranch.setParent(contentsBranch)
-contentsBranch.setParent(root)
 desktopBranch.setParent(contentsBranch)
+applicationsBranch.setParent(contentsBranch)
+gamesBranch.setParent(contentsBranch)
+picturesBranch.setParent(contentsBranch)
+
+contentsBranch.setParent(root)
 desktopBranch.setShortcuts([new Shortcut(desktopBranch, root, "Root")])
 
 interface IFileSystemContext {

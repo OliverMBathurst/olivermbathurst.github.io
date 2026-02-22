@@ -7,6 +7,7 @@ abstract class AbstractUploadedWindowFile
 {
 	_data: string | null = null
 	_icon: string | null = null
+	_windowTopBarCustomIconDisplay: boolean = true
 	extension: string
 	path: string
 	epoch: number
@@ -22,6 +23,14 @@ abstract class AbstractUploadedWindowFile
 		this.path = path
 		this.epoch = openTime
 		this.extension = extension
+	}
+
+	get windowTopBarCustomIconDisplay() {
+		return this._windowTopBarCustomIconDisplay
+	}
+
+	set windowTopBarCustomIconDisplay(windowTopBarCustomIconDisplay: boolean) {
+		this._windowTopBarCustomIconDisplay = windowTopBarCustomIconDisplay
 	}
 
 	get data() {

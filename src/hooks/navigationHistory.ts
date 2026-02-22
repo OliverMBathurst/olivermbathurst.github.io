@@ -27,6 +27,16 @@ const useNavigationHistory = <T>(initialHistory?: T) => {
         return history[newPointer]
     }
 
+    const navigateToIndex = (historyIndex: number) => {
+        if (historyIndex < 0 || historyIndex > history.length - 1) {
+            return null
+        }
+
+        setHistoryPointer(historyIndex)
+
+        return history[historyIndex]
+    }
+
     const addHistory = (historyItem: T) => {
         let historyCopy = [...history]
         const hasHistory = historyCopy.length > 0
@@ -53,7 +63,10 @@ const useNavigationHistory = <T>(initialHistory?: T) => {
         forwardsPossible: historyPointer < history.length - 1,
         backwardsPossible: historyPointer > 0,
         navigate,
-        addHistory
+        history,
+        historyPointer,
+        addHistory,
+        navigateToIndex
     }
 }
 

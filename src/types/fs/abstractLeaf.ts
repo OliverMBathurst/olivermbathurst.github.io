@@ -5,12 +5,21 @@ abstract class AbstractLeaf implements ILeaf {
 	name: string
 	extension: string
 	parent: BranchingContext
+	_windowTopBarCustomIconDisplay: boolean = true
 	_icon: string | null = null
 
 	constructor(name: string, extension: string, parent: BranchingContext) {
 		this.name = name
 		this.extension = extension
 		this.parent = parent
+	}
+
+	get windowTopBarCustomIconDisplay() {
+		return this._windowTopBarCustomIconDisplay
+	}
+
+	set windowTopBarCustomIconDisplay(windowTopBarCustomIconDisplay: boolean) {
+		this._windowTopBarCustomIconDisplay = windowTopBarCustomIconDisplay
 	}
 
 	get icon() {

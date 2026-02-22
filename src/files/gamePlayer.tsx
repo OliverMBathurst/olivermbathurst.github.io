@@ -1,4 +1,4 @@
-import Game from "../components/game"
+import { Game } from "../components/game"
 import { FILETYPE_EXECUTABLE } from "../constants"
 import { IApplicationFile } from "../interfaces/fs"
 import { AbstractLeaf, BranchingContext, Context } from "../types/fs"

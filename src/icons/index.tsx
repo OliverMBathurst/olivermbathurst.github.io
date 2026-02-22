@@ -8,6 +8,7 @@ import expand from "../icons/expand.png"
 import file from "../icons/file.png"
 import folder from "../icons/folder.png"
 import game from "../icons/game.png"
+import image from "../icons/image.png"
 import internet from "../icons/internet.png"
 import leftArrow from "../icons/left-arrow.png"
 import maximise from "../icons/maximise.png"
@@ -22,6 +23,8 @@ import start from "../icons/startMenu.png"
 import textFile from "../icons/textFile.png"
 import thumbs from "../icons/thumbs.png"
 import upArrow from "../icons/up-arrow.png"
+import zoomIn from "../icons/zoomIn.png"
+import zoomOut from "../icons/zoomOut.png"
 
 const GenericFileIcon = (props: React.ImgHTMLAttributes<HTMLImageElement>) => (
 	<img src={file} alt="File icon by icon8" {...props} />
@@ -119,6 +122,18 @@ const ShortcutIcon = (props: React.ImgHTMLAttributes<HTMLImageElement>) => (
 	<img src={shortcut} alt="Shortcut icon by icon8" {...props} />
 )
 
+const ImageIcon = (props: React.ImgHTMLAttributes<HTMLImageElement>) => (
+	<img src={image} alt="Image icon by icon8" {...props} />
+)
+
+const ZoomInIcon = (props: React.ImgHTMLAttributes<HTMLImageElement>) => (
+	<img src={zoomIn} alt="Zoom icon by icon8" {...props} />
+)
+
+const ZoomOutIcon = (props: React.ImgHTMLAttributes<HTMLImageElement>) => (
+	<img src={zoomOut} alt="Zoom icon by icon8" {...props} />
+)
+
 export {
     CancelIcon,
     CloseIcon,
@@ -127,8 +142,7 @@ export {
     DriveIcon,
     ExecutableFileIcon,
     ExpandIcon,
-    FolderIcon, GameIcon, GenericFileIcon,
-    InternetIcon,
+    FolderIcon, GameIcon, GenericFileIcon, ImageIcon, InternetIcon,
     LeftArrowIcon,
     MaximizeIcon,
     MinimizeIcon,
@@ -139,5 +153,6 @@ export {
     ShortcutIcon, StartMenuIcon,
     TextFileIcon,
     ThumbsIcon,
-    UpArrowIcon
+    UpArrowIcon, ZoomInIcon,
+    ZoomOutIcon
 }
