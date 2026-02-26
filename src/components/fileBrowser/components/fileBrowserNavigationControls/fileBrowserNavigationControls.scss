@@ -1,0 +1,28 @@
+@use "../../../../scss/colours";
+
+.file-browser-navigation-controls {
+	align-items: center;
+	margin-right: 0.5rem;
+}
+
+.file-browser-navigation-controls,
+.file-browser-navigation-controls__icon,
+.file-browser-navigation-controls__icon--disabled {
+	display: flex;
+}
+
+.file-browser-navigation-controls__icon img,
+.file-browser-navigation-controls__icon--disabled img {
+	width: 1.25rem;
+	height: 1.25rem;
+	margin: 0rem 0.2rem 0rem 0.2rem;
+}
+
+.file-browser-navigation-controls__icon:hover,
+.file-browser-navigation-controls__icon--disabled:hover {
+	background-color: colours.$hover-button-background;
+}
+
+.file-browser-navigation-controls__icon--disabled {
+	opacity: 0.8;
+}

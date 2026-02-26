@@ -1,0 +1,85 @@
+import { JSX, useContext } from "react"
+import { FILETYPE_DATA_PROPERTY, FILETYPE_PDF } from "../../constants"
+import { WindowsContext } from "../../contexts"
+import { PdfFile } from "../../files"
+import { IWindowRenderProps } from "../../interfaces/fs"
+import { Context } from "../../types/fs"
+import { FileSelector } from "../fileSelector"
+import "./pdfViewer.scss"
+
+export interface IPdfViewerProps
+	extends
+		IWindowRenderProps,
+		React.ObjectHTMLAttributes<HTMLObjectElement> {}
+
+interface IObjectProps extends React.ObjectHTMLAttributes<HTMLObjectElement> {
+	windowId?: string
+	context?: Context
+	arguments?: string
+	setWindowTopBar?: (component: JSX.Element) => void
+}
+
+const PdfViewer = (props: IPdfViewerProps) => {
+	const { windowId, context, data } = props
+	const { setWindowContext } = useContext(WindowsContext)
+	const resolvedData = data
+		? data
+		: FILETYPE_DATA_PROPERTY in context
+			? (context.data ?? undefined)
+			: undefined
+
+	const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const files = e.target.files
+		if (files) {
+			const file = files[0]
+			const fileName = file.name.split(".")
+
+			const uploadedFile = new PdfFile(
+				fileName[0],
+				fileName[0] + "." + fileName[1],
+				e.target.value,
+				Date.now(),
+				FILETYPE_PDF
+			)
+
+			const reader = new FileReader()
+			reader.readAsDataURL(file)
+			reader.onload = () => {
+				const result = reader.result
+				if (!(result instanceof ArrayBuffer)) {
+					uploadedFile.data = result
+					setWindowContext(windowId, uploadedFile)
+				}
+			}
+		}
+	}
+
+	const objectProps: IObjectProps = { ...props }
+	delete objectProps.windowId
+	delete objectProps.context
+	delete objectProps.setWindowTopBar
+	delete objectProps.arguments
+
+	return (
+		<div className="pdf-viewer">
+			<div className="pdf-viewer-controls">
+				<FileSelector
+					accept={FILETYPE_PDF}
+					onChange={onInputChange}
+					buttonText="Open"
+				/>
+			</div>
+			{resolvedData && (
+				<object
+					className="pdf-viewer-content"
+					data={resolvedData}
+					{...objectProps}
+				>
+					Sorry, your browser doesn't support PDF preview.
+				</object>
+			)}
+		</div>
+	)
+}
+
+export default PdfViewer

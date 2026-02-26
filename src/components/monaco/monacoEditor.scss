@@ -1,0 +1,26 @@
+@use "../../scss/colours";
+@use "../../scss/styles";
+
+.monaco-editor {
+	width: 100%;
+	height: calc(100% - 2rem);
+}
+
+.monaco-editor__controls {
+	height: 2rem;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	width: 100%;
+	background-color: colours.$base-information-pane;
+	color: colours.$ui-text-colour;
+	font-size: styles.$base-information-pane-font-size;
+}
+
+.monaco-editor__controls > *:first-child {
+	padding-left: 0.5rem;
+}
+
+.monaco-editor__controls > *:last-child {
+	padding-right: 0.5rem;
+}

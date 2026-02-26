@@ -1,0 +1,26 @@
+@use "../../../../scss/colours";
+@use "../../../../scss/styles";
+
+.file-browser-tabs {
+    display: flex;
+    height: 2rem;
+    margin-left: 0.25rem;
+    overflow: hidden;
+}
+
+.file-browser-tabs__plus-container > img {
+    height: 1rem;
+    padding: 0.1rem;
+    border-radius: styles.$window-border-radius;
+}
+
+.file-browser-tabs__plus-container {
+    height: 1.5rem;
+    margin: auto 0rem 0rem 0.5rem;
+    align-items: center;
+    display: flex;
+}
+
+.file-browser-tabs__plus-container > img:hover {
+    background-color: colours.$hover-button-background;
+}

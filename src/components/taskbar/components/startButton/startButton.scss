@@ -1,0 +1,12 @@
+﻿@use "../../../../scss/colours";
+
+.start-button {
+	height: 100%;
+	display: flex;
+	flex-shrink: 0;
+	margin: 0 0.5rem 0 0.25rem;
+}
+
+.start-button:hover {
+	background-color: colours.$hover-button-background;
+}

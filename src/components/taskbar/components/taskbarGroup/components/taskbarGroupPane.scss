@@ -1,0 +1,11 @@
+.taskbar-group-pane {
+	display: flex;
+	position: absolute;
+	bottom: 3.5rem;
+	height: 3rem;
+	overflow: scroll;
+}
+
+.taskbar-group-pane > *:not(:last-child) {
+	margin-right: 0.5rem;
+}

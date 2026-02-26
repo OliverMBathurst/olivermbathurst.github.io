@@ -1,0 +1,36 @@
+@use "../../../../scss/colours";
+
+.up-one-level-row {
+	display: flex;
+	flex-direction: column;
+	color: colours.$ui-text-colour;
+	align-items: center;
+	font-size: 0.75rem;
+	width: 5rem;
+	max-width: 5rem;
+	margin: 0.3rem 0rem 0rem 0.5rem;
+	height: fit-content;
+}
+
+.up-one-level-row:hover {
+	background-color: colours.$hover-button-background;
+}
+
+.up-one-level-row__icon {
+	height: 4rem;
+	width: 4rem;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.up-one-level-row__icon img {
+	height: 4rem;
+	width: 4rem;
+}
+
+.up-one-level-row__name {
+	padding: 0rem 0.5rem 0.5rem 0.5rem;
+	word-wrap: anywhere;
+	text-align: center;
+}

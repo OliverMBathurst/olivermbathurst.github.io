@@ -1,0 +1,52 @@
+@use "../../../scss/colours";
+
+.conways-game-of-life {
+    height: 100%;
+    width: 100%;
+    display: flex;
+}
+
+.conways-game-of-life__controls__control > span {
+    display: block;
+}
+
+.conways-game-of-life__controls {
+    width: 10.625rem;
+    background-color: colours.$window-top-bar;
+    color: colours.$ui-text-colour;
+}
+
+.conways-game-of-life__controls__control {
+    padding-right: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.conways-game-of-life__controls__control span {
+    font-size: 0.75rem;
+}
+
+.conways-game-of-life__render-area {
+    position: relative;
+    background-color: white;
+    width: calc(100% - 10.625rem);
+    height: 100%;
+}
+
+.conways-game-of-life__render-area__canvas {
+    width: 100%;
+    height: 100%;
+}
+
+.conways-game-of-life__controls__control > .button {
+    width: 100%;
+    padding: 1rem;
+}
+
+.conways-game-of-life__render-area__info {
+    position: absolute;
+    bottom: 0.5rem;
+    left: 0.5rem;
+    padding: 1rem;
+    background-color: colours.$window-top-bar;
+    color: colours.$ui-text-colour;
+}

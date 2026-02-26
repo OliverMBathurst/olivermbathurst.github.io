@@ -1,0 +1,20 @@
+@use "../../scss/colours";
+@use "../../scss/styles";
+
+.file-selector {
+	color: colours.$ui-text-colour;
+	display: none;
+}
+
+.file-selector::file-selector-button {
+	color: colours.$ui-text-colour;
+	border: none;
+	outline: none;
+	background-color: colours.$button-background;
+	border: 0.125rem solid colours.$button-border;
+	border-radius: styles.$window-border-radius;
+}
+
+.file-selector::file-selector-button:hover {
+	background-color: colours.$hover-button-background;
+}

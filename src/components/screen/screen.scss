@@ -1,0 +1,10 @@
+.screen {
+	height: inherit;
+	width: inherit;
+}
+
+.screen__render-area {
+	height: calc(100% - 3rem);
+	width: inherit;
+	position: relative;
+}

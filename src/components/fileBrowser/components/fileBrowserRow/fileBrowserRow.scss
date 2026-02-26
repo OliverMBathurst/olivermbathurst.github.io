@@ -1,0 +1,35 @@
+@use "../../../../scss/colours";
+
+.file-browser__row,
+.file-browser__row--selected {
+	display: flex;
+	flex-direction: column;
+	color: colours.$ui-text-colour;
+	align-items: center;
+	font-size: 0.75rem;
+	width: 5rem;
+	max-width: 5rem;
+	margin: 0.3rem 0rem 0rem 0.5rem;
+	height: fit-content;
+}
+
+.file-browser__row:hover {
+	background-color: colours.$hover-button-background;
+}
+
+.file-browser__row--selected {
+	background-color: colours.$hover-button-background;
+}
+
+.file-browser__row__icon > .icon-container,
+.file-browser__row__icon__img {
+	height: 4rem;
+	width: 4rem;
+	object-fit: contain;
+}
+
+.file-browser__row__name {
+	padding: 0rem 0.5rem 0.5rem 0.5rem;
+	word-wrap: anywhere;
+	text-align: center;
+}

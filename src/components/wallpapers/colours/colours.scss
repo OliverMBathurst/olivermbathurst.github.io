@@ -1,0 +1,65 @@
+.colours {
+	height: calc(100% + 3rem);
+	width: 100%;
+	position: absolute;
+}
+
+.colours__background {
+	animation: slide 6s ease-in-out infinite alternate;
+	background-image: linear-gradient(-90deg, #b32424 50%, #1f0085 50%);
+	left: -75%;
+	right: -75%;
+	opacity: 0.5;
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	z-index: -1;
+}
+
+.colours__two__background {
+	animation: slidetwo 6s ease-in-out infinite alternate;
+	background-image: linear-gradient(90deg, #b32424 50%, #1f0085 50%);
+	left: 0;
+	right: 0;
+	opacity: 0.4;
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	z-index: -1;
+}
+
+.colours__background__two,
+.colours__two__background__two {
+	animation-direction: alternate-reverse;
+	animation-duration: 6s;
+}
+
+.colours__background__three,
+.colours__two__background__three {
+	animation-duration: 6s;
+}
+
+.colours__background__four,
+.colours__two__background__four {
+	animation-duration: 6s;
+}
+
+@keyframes slide {
+	0% {
+		transform: translateX(-25%);
+	}
+
+	100% {
+		transform: translateX(25%);
+	}
+}
+
+@keyframes slidetwo {
+	0% {
+		transform: translateX(25%);
+	}
+
+	100% {
+		transform: translateX(-25%);
+	}
+}

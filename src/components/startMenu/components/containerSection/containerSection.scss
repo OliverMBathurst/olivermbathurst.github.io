@@ -1,0 +1,57 @@
+@use "../../../../scss/colours";
+@use "../../../../scss/styles";
+
+.start-menu__bottom-container__container__title {
+	font-weight: bold;
+}
+
+.start-menu__bottom-container__container {
+	border-radius: styles.$window-border-radius;
+	margin-left: 0.5rem;
+	width: calc(100% - 1rem);
+}
+
+.start-menu__bottom-container__container__items,
+.start-menu__bottom-container__container__items__item,
+.start-menu__bottom-container__container__items__item--selected {
+	display: flex;
+	align-items: center;
+}
+
+.start-menu__bottom-container__container__items__item,
+.start-menu__bottom-container__container__items__item--selected {
+	width: 100%;
+	height: 2rem;
+	margin-bottom: 0.1rem;
+}
+
+.start-menu__bottom-container__container__items {
+	flex-direction: column;
+}
+
+.start-menu__bottom-container__container__items__item > .icon-container,
+.start-menu__bottom-container__container__items__item--selected > .icon-container {
+	width: 1.75rem;
+	height: 1.75rem;
+	margin-left: 1rem;
+}
+
+.start-menu__bottom-container__container__items__item__icon {
+	width: 100%;
+	height: 100%;
+}
+
+.start-menu__bottom-container__container__items__item:hover {
+	background-color: colours.$hover-button-background;
+}
+
+.start-menu__bottom-container__container__items__item--selected {
+	background-color: colours.$hover-button-background;
+}
+
+.start-menu__bottom-container__container__items__item__text {
+	padding-left: 0.5rem;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}

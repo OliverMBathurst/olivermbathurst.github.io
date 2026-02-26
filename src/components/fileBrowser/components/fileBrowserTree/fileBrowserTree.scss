@@ -1,0 +1,9 @@
+@use "../../../../scss/colours";
+
+.file-browser-tree {
+	color: colours.$ui-text-colour;
+	font-size: 0.75rem;
+	width: 100%;
+	height: 100%;
+	margin: 0.3rem 0rem 0rem 0.5rem;
+}

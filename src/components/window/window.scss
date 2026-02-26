@@ -1,0 +1,30 @@
+@use "../../scss/colours";
+@use "../../scss/styles";
+
+.window {
+	position: absolute;
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	background-color: colours.$window-top-bar-background;
+	min-width: 12.5rem;
+	min-height: 9.375rem;
+	box-shadow: styles.$window-box-shadow;
+	border-radius: styles.$window-border-radius;
+}
+
+.window--selected {
+	z-index: 1000;
+}
+
+.window__inner-content {
+	height: calc(100% - 0.1rem);
+	margin: 0.05rem;
+	cursor: default;
+	background-color: colours.$ui-background;
+}
+
+.window__inner-content__content {
+	height: calc(100% - 2rem);
+	width: 100%;
+}

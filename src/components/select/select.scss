@@ -1,0 +1,41 @@
+@use "../../scss/colours";
+@use "../../scss/styles";
+
+.select {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    background-color: colours.$ui-background;
+    color: colours.$ui-text-colour;
+    box-shadow: styles.$window-box-shadow;
+    border-radius: styles.$window-border-radius;
+    overflow: hidden;
+    z-index: 1001;
+}
+
+.select:first-child {
+    border: styles.$window-border-radius styles.$window-border-radius 0rem 0rem;
+}
+
+.select:last-child {
+    border: 0rem 0rem styles.$window-border-radius styles.$window-border-radius;
+}
+
+.select__option,
+.select__option--selected {
+    font-size: 0.75rem;
+    padding: 0.5rem;
+}
+
+.select__option--selected {
+    font-weight: bold;
+    background-color: colours.$hover-button-background;
+}
+
+.select__option:hover {
+    background-color: colours.$hover-button-background;
+}
+
+.select__option--selected:hover {
+    background-color: colours.$hover-button-background-selected;
+}

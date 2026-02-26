@@ -1,0 +1,50 @@
+@use "../../scss/colours";
+@use "../../scss/styles";
+
+.search-bar__input {
+	display: flex;
+	background-color: transparent;
+	outline: none;
+	border: none;
+	color: colours.$ui-text-colour;
+	width: calc(100% - 4.5rem);
+}
+
+.search-bar {
+	display: flex;
+	background-color: colours.$ui-input-background;
+	color: colours.$ui-text-colour;
+	outline: none;
+	border: 0.125rem solid colours.$hover-button-background;
+	height: 2rem;
+	border-radius: styles.$ui-input-border-radius;
+	align-items: center;
+	cursor: text;
+	flex-shrink: 1;
+	flex-grow: 1;
+	width: 14.575rem;
+
+	@media screen and (max-width: 23.125rem) {
+		display: none;
+	}
+}
+
+.search-bar img {
+	width: 1.25rem;
+	height: 1.25rem;
+	cursor: default;
+}
+
+.search-bar__search-icon,
+.search-bar__cancel-icon {
+	display: flex;
+	padding: 0 0.5rem 0 0.5rem;
+}
+
+.search-bar__input::placeholder {
+	color: colours.$ui-text-colour;
+}
+
+.search-bar:focus-within {
+	background-color: colours.$ui-input-background-focused;
+}

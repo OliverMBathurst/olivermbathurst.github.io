@@ -1,0 +1,86 @@
+@use "../../scss/colours";
+@use "../../scss/styles";
+
+.start-menu {
+	position: absolute;
+	bottom: 0.5rem;
+	left: 0.5rem;
+	color: colours.$ui-text-colour;
+	background-color: colours.$ui-background;
+	font-size: 0.75rem;
+	opacity: 90%;
+	min-width: 18.275rem;
+	min-height: 30rem;
+	max-width: 18.275rem;
+	max-height: 30rem;
+	box-shadow: styles.$window-box-shadow;
+	border-radius: styles.$window-border-radius;
+
+	@media screen and (max-width: 12.5rem) {
+		visibility: hidden;
+	}
+
+	@media screen and (max-height: 12.5rem) {
+		visibility: hidden;
+	}
+
+	@media screen and (max-width: 31.25rem) {
+		min-width: 100%;
+		max-width: 100%;
+		bottom: 0;
+		left: 0;
+	}
+
+	@media screen and (max-height: 33rem) {
+		min-height: 100%;
+		max-height: 100%;
+		bottom: 0;
+		left: 0;
+	}
+}
+
+.start-menu__side-container {
+	overflow: hidden;
+}
+
+.start-menu__side-container__top-container {
+	flex-direction: row;
+	padding: 0.5rem 0.5rem 0.5rem 0.5rem;
+}
+
+.start-menu__button-container {
+	background-color: rgba(122, 118, 118, 0.1);
+	border-radius: styles.$window-border-radius;
+	flex-direction: column-reverse;
+	display: flex;
+}
+
+.start-menu,
+.start-menu__side-container__top-container,
+.start-menu__side-container__bottom-container {
+	display: flex;
+}
+
+.start-menu__side-container__top-container > .search-bar {
+	height: 1.5rem;
+}
+
+.start-menu__side-container__bottom-container {
+	flex-direction: column;
+	overflow: scroll;
+	height: calc(100% - 2.7rem);
+}
+
+.start-menu__button-container > * {
+	border-radius: styles.$window-border-radius;
+}
+
+.start-menu__button-container img {
+	height: 1.5rem;
+	width: 1.5rem;
+	padding: 0.5rem;
+}
+
+.start-menu__button-container img:hover {
+	background-color: colours.$hover-button-background;
+}

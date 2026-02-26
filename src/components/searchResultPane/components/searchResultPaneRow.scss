@@ -1,0 +1,47 @@
+@use "../../../scss/colours";
+
+.search-result-pane__row,
+.search-result-pane__row--selected {
+	display: flex;
+	color: colours.$ui-text-colour;
+	align-items: center;
+	font-size: 0.75rem;
+	padding-left: 0.5rem;
+	width: calc(100% - 0.5rem);
+}
+
+.search-result-pane__row:hover {
+	background-color: colours.$hover-button-background;
+}
+
+.search-result-pane__row--selected {
+	background-color: colours.$hover-button-background;
+}
+
+.search-result-pane__row__icon > .icon-container,
+.search-result-pane__row__icon__icon {
+	height: 1.5rem;
+	width: 1.5rem;
+}
+
+.search-result-pane__row__name__name,
+.search-result-pane__row__name__location {
+	padding-left: 0.5rem;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.search-result-pane__row__icon,
+.search-result-pane__row__name {
+	padding: 0.3rem 0 0.3rem 0;
+}
+
+.search-result-pane__row__name {
+	display: flex;
+	flex-direction: column;
+}
+
+.search-result-pane__row,
+.search-result-pane__row--selected {
+	margin-top: 0.3rem;
+}

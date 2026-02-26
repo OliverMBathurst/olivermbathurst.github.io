@@ -1,0 +1,30 @@
+@use "../../../../scss/colours";
+
+.desktop-item {
+	width: 6rem;
+	overflow: clip;
+	cursor: pointer;
+	margin-bottom: 1rem;
+	color: colours.$ui-text-colour;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding: 0.5rem 0rem 0.5rem 0rem;
+}
+
+.desktop-item--selected {
+	background-color: colours.$hover-button-background-selected;
+}
+
+.desktop-item:hover,
+.desktop-item--selected:hover {
+	background-color: colours.$hover-button-background;
+}
+
+.desktop-item__name {
+	text-align: center;
+	font-size: 0.75rem;
+	word-wrap: anywhere;
+	text-shadow: 0.125rem 0.125rem 0.8125rem black;
+}

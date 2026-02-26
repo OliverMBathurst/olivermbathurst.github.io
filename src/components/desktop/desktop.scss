@@ -1,0 +1,22 @@
+.desktop {
+	width: inherit;
+	height: 100%;
+	padding: 0rem 1rem 0rem 0rem;
+	position: absolute;
+}
+
+.desktop__selection-rectangle {
+	background-color: aqua;
+	opacity: 0.3;
+	position: absolute;
+}
+
+.desktop__grid {
+	height: calc(100% - 1rem);
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	flex-wrap: wrap;
+	align-content: flex-start;
+	padding: 1rem 0rem 0rem 1rem;
+}

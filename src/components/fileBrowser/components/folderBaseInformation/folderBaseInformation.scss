@@ -1,0 +1,31 @@
+@use "../../../../scss/colours";
+@use "../../../../scss/styles";
+
+.base-information-pane {
+	height: 2rem;
+	background-color: colours.$base-information-pane;
+	color: colours.$ui-text-colour;
+	font-size: styles.$base-information-pane-font-size;
+	display: flex;
+	align-items: center;
+}
+
+.base-information-pane img {
+	margin-left: auto;
+	display: flex;
+}
+
+.base-information-pane__text {
+	padding-left: 0.5rem;
+}
+
+.base-information-pane__thumbs,
+.base-information-pane__thumbs--selected {
+	width: 1.25rem;
+	height: 1.25rem;
+	margin-right: 0.5rem;
+}
+
+.base-information-pane__thumbs--selected {
+	background-color: colours.$hover-button-background-selected;
+}

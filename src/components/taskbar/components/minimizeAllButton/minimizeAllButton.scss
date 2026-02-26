@@ -1,0 +1,17 @@
+﻿@use "../../../../scss/colours";
+
+.minimize-all {
+	width: 1.2rem;
+	height: 100%;
+	margin: 0 0 0 0.25rem;
+	display: flex;
+	flex-shrink: 0;
+
+	@media screen and (max-width: 23.125rem) {
+		display: none;
+	}
+}
+
+.minimize-all:hover {
+	background-color: colours.$hover-button-background;
+}
