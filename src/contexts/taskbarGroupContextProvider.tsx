@@ -1,4 +1,5 @@
 import { createContext, useState } from "react"
+import { IContextProviderProps } from "."
 
 interface ITaskbarGroupContext {
 	openGroupHandlerId: string | null
@@ -10,12 +11,8 @@ export const TaskbarGroupContext = createContext<ITaskbarGroupContext>({
 	setOpenGroupHandlerId: (_: string) => Function.prototype
 })
 
-interface ITaskbarGroupContextProviderProps {
-	children: React.ReactNode
-}
-
 const TaskbarGroupContextProvider = (
-	props: ITaskbarGroupContextProviderProps
+	props: IContextProviderProps
 ) => {
 	const { children } = props
 	const [openGroupHandlerId, setOpenGroupHandlerId] = useState<string | null>(

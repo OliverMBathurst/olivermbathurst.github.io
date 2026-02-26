@@ -3,20 +3,15 @@ import { useContext, useEffect, useRef, useState } from "react"
 import { FILETYPE_TEXT_PROPERTY } from "../../constants"
 import { WindowsContext } from "../../contexts"
 import TextFile from "../../files/textFile"
-import { Context } from "../../types/fs"
+import { IWindowRenderProps } from "../../interfaces/fs"
 import "./monacoEditor.scss"
-
-interface IMonacoEditorProps {
-	windowId: string
-	context: Context
-}
 
 const defaultOptions: monaco.editor.IStandaloneEditorConstructionOptions = {
 	autoDetectHighContrast: true,
 	theme: "vs-dark"
 }
 
-const MonacoEditor = (props: IMonacoEditorProps) => {
+const MonacoEditor = (props: IWindowRenderProps) => {
 	const { windowId, context } = props
 	const { setWindowContext } = useContext(WindowsContext)
 

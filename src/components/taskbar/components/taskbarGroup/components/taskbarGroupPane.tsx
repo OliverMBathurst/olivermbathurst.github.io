@@ -13,6 +13,7 @@ interface ITaskbarGroupPaneProps {
 }
 
 const ITEM_WIDTH_IN_PX = 130
+const ITEM_PADDING_WIDTH_IN_PX = 8
 
 const TaskbarGroupPane = (props: ITaskbarGroupPaneProps) => {
 	const {
@@ -25,7 +26,7 @@ const TaskbarGroupPane = (props: ITaskbarGroupPaneProps) => {
 	} = props
 
 	const Styles: React.CSSProperties = useMemo(() => {
-		const widthRequired = ITEM_WIDTH_IN_PX * items.length
+		const widthRequired = ITEM_WIDTH_IN_PX * items.length + (ITEM_PADDING_WIDTH_IN_PX * items.length - 1)
 
 		const styles: React.CSSProperties = {
 			left: 0,

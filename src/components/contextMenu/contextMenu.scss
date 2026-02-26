@@ -1,0 +1,49 @@
+@use "../../scss/colours";
+@use "../../scss/styles";
+
+.context-menu {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    color: colours.$ui-text-colour;
+    background-color: colours.$ui-background;
+    box-shadow: styles.$window-box-shadow;
+    border-radius: styles.$window-border-radius;
+    padding: 0.5rem;
+    max-width: 12.5rem;
+    max-height: 25rem;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.context-menu,
+.context-menu__item,
+.context-menu__item--selected {
+    display: flex;
+    font-size: 0.75rem;
+}
+
+.context-menu__item img,
+.context-menu__item--selected img {
+    height: 1.25rem;
+    width: 1.25rem;
+    padding-right: 0.3rem;
+}
+
+.context-menu__item,
+.context-menu__item--selected {
+    align-items: center;
+    overflow: hidden;
+    padding: 0.3rem 0.3rem 0.3rem 0.3rem;
+}
+
+.context-menu__item__text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.context-menu__item--selected,
+.context-menu__item:hover {
+    background-color: colours.$hover-button-background;
+}

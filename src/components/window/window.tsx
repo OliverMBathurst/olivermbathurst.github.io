@@ -1,20 +1,20 @@
-import React, { memo, useCallback, useContext, useEffect, useRef } from "react"
+import React, { JSX, memo, useCallback, useContext, useEffect, useRef, useState } from "react"
 import {
-	CLASSNAMES,
-	DEFAULT_MIN_WINDOW_HEIGHT_PIXELS,
-	DEFAULT_MIN_WINDOW_WIDTH_PIXELS,
-	DEFAULT_POINTER,
-	DEFAULT_TASKBAR_HEIGHT_PIXELS
+    CLASSNAMES,
+    DEFAULT_MIN_WINDOW_HEIGHT_PIXELS,
+    DEFAULT_MIN_WINDOW_WIDTH_PIXELS,
+    DEFAULT_POINTER,
+    DEFAULT_TASKBAR_HEIGHT_PIXELS
 } from "../../constants"
 import { WindowsContext } from "../../contexts"
 import { ExpandDirection } from "../../enums"
 import {
-	getCursor,
-	getExpandDirectionByRefAndPosition,
-	heightChangesEnum,
-	widthChangesEnum,
-	xChangesEnum,
-	yChangesEnum
+    getCursor,
+    getExpandDirectionByRefAndPosition,
+    heightChangesEnum,
+    widthChangesEnum,
+    xChangesEnum,
+    yChangesEnum
 } from "../../helpers/direction"
 import { useClickOutside } from "../../hooks"
 import { ISize, IWindowProperties, WindowState } from "../../interfaces/windows"
@@ -42,6 +42,7 @@ const Window = (props: IWindowProps) => {
 
 	const previousWindowSize = useRef<ISize>(size)
 	const currentWindowSize = useRef<ISize>(size)
+	const previousWindowState = useRef<WindowState>(WindowState.Normal)
 
 	const windowRef = useRef<HTMLDivElement | null>(null)
 	const windowPositionRef = useRef<{ x: number; y: number } | undefined>(
@@ -67,6 +68,8 @@ const Window = (props: IWindowProps) => {
 	} = useContext(WindowsContext)
 	const { width, height } = currentWindowSize.current
 
+	const [windowTopBarComponent, setWindowTopBarComponent] = useState<JSX.Element | null>(null)
+
 	useClickOutside(windowRef, (e) => {
 		if (selected) {
 			let validClick: boolean = true
@@ -83,8 +86,8 @@ const Window = (props: IWindowProps) => {
 		}
 	})
 
-	const onMaximiseRequested = () => {
-		if (state === WindowState.Maximised) {
+	useEffect(() => {
+		if (state === WindowState.Normal && previousWindowState.current === WindowState.Maximised) {
 			const div = windowRef.current
 			if (div) {
 				div.style.top = windowPreviousPositioning.current.top
@@ -95,8 +98,9 @@ const Window = (props: IWindowProps) => {
 				width: window.innerWidth,
 				height: window.innerHeight - DEFAULT_TASKBAR_HEIGHT_PIXELS
 			}
-			onWindowStateChanged(id, WindowState.Normal)
-		} else {
+
+			previousWindowState.current = WindowState.Normal
+		} else if (state === WindowState.Maximised && previousWindowState.current !== WindowState.Maximised) {
 			const div = windowRef.current
 			if (div) {
 				div.style.top = "50%"
@@ -108,11 +112,15 @@ const Window = (props: IWindowProps) => {
 				height: window.innerHeight - DEFAULT_TASKBAR_HEIGHT_PIXELS
 			}
 
-			if (!selected) {
-				onWindowSelected(id, true)
-			}
-			onWindowStateChanged(id, WindowState.Maximised)
+			previousWindowState.current = WindowState.Maximised
 		}
+	}, [state])
+
+	const onMaximiseRequested = () => {
+		if (!selected) {
+			onWindowSelected(id, true)
+		}
+		onWindowStateChanged(id, state === WindowState.Maximised ? WindowState.Normal : WindowState.Maximised)
 	}
 
 	const onMaximiseButtonClicked = (
@@ -481,6 +489,7 @@ const Window = (props: IWindowProps) => {
 			<div className="window__inner-content">
 				<WindowTopBar
 					context={context}
+					customContent={windowTopBarComponent}
 					onWindowTopBarMouseDown={onWindowTopBarMouseDown}
 					onMaximiseButtonClicked={onMaximiseButtonClicked}
 					onMinimiseButtonClicked={onMinimiseButtonClicked}
@@ -495,6 +504,7 @@ const Window = (props: IWindowProps) => {
 						windowId={id}
 						context={context}
 						handlerId={handlerId}
+						setWindowTopBar={setWindowTopBarComponent}
 						arguments={_arguments}
 					/>
 				</div>

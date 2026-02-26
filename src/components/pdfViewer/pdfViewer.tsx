@@ -1,4 +1,4 @@
-import { useContext } from "react"
+import { JSX, useContext } from "react"
 import { FILETYPE_DATA_PROPERTY, FILETYPE_PDF } from "../../constants"
 import { WindowsContext } from "../../contexts"
 import { PdfFile } from "../../files"
@@ -9,12 +9,14 @@ import "./pdfViewer.scss"
 
 export interface IPdfViewerProps
 	extends
-		IWindowRenderProps<HTMLObjectElement>,
+		IWindowRenderProps,
 		React.ObjectHTMLAttributes<HTMLObjectElement> {}
 
 interface IObjectProps extends React.ObjectHTMLAttributes<HTMLObjectElement> {
 	windowId?: string
 	context?: Context
+	arguments?: string
+	setWindowTopBar?: (component: JSX.Element) => void
 }
 
 const PdfViewer = (props: IPdfViewerProps) => {
@@ -55,6 +57,8 @@ const PdfViewer = (props: IPdfViewerProps) => {
 	const objectProps: IObjectProps = { ...props }
 	delete objectProps.windowId
 	delete objectProps.context
+	delete objectProps.setWindowTopBar
+	delete objectProps.arguments
 
 	return (
 		<div className="pdf-viewer">

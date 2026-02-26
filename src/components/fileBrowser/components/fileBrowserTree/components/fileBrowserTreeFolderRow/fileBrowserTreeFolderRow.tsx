@@ -8,7 +8,6 @@ import "./fileBrowserTreeFolderRow.scss"
 const { NO_SELECT_CLASS } = CLASSNAMES
 
 interface IFileBrowserTreeFolderRowProps {
-	windowId: string
 	index: number
 	context: BranchingContext
 	prefix: string
@@ -26,7 +25,7 @@ interface IFileBrowserTreeFolderRowProps {
 }
 
 const FileBrowserTreeFolderRow = (props: IFileBrowserTreeFolderRowProps) => {
-	const { windowId, index, context, prefix, selectedContextKeys, openContextKeys, onBranchRowClicked, onBranchExpansionChanged } = props
+	const { index, context, prefix, selectedContextKeys, openContextKeys, onBranchRowClicked, onBranchExpansionChanged } = props
 
 	const Icon = getIcon(context)
 	const DisplayName = getDisplayName(context)
@@ -48,7 +47,6 @@ const FileBrowserTreeFolderRow = (props: IFileBrowserTreeFolderRowProps) => {
 		return context.branches.map((b) => {
 			return (
 				<FileBrowserTreeFolderRow
-					windowId={windowId}
 					key={`expanded-${key}\\${b.fullName}`}
 					index={index + 1}
 					context={b}

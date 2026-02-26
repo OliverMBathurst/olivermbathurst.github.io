@@ -1,0 +1,57 @@
+@use "../../../../scss/colours";
+
+.file-browser__tab-content {
+	display: flex;
+	height: 100%;
+	flex-direction: column;
+}
+
+.file-browser__tab-content__content {
+	display: flex;
+	flex-grow: 1;
+	height: calc(100% - 4.5rem);
+}
+
+.file-browser__tab-content__content__tree-pane {
+	width: 100%;
+	min-width: 11rem;
+	height: 100%;
+	border-right: 0.25rem solid rgba(169, 169, 169, 0.12);
+}
+
+.file-browser__tab-content__content__tree-pane,
+.file-browser__tab-content__content__result-pane {
+	display: flex;
+}
+
+.file-browser__tab-content__content__result-pane {
+	display: flex;
+	overflow: scroll;
+	align-content: flex-start;
+	cursor: default;
+	flex-wrap: wrap;
+	flex-grow: 1;
+}
+
+.file-browser__tab-content__content__result-pane > .search-result-pane {
+	width: 100%;
+	height: calc(100% - 0.3rem);
+	padding: 0.3rem 0.5rem 0rem 0.5rem;
+	overflow: scroll;
+}
+
+.file-browser__tab-content__controls {
+	display: flex;
+	padding: 0.5rem;
+	overflow: hidden;
+	background-color: colours.$file-browser-tab-background;
+}
+
+.file-browser__tab-content__controls > .file-browser-location-bar {
+	margin-right: 0.5rem;
+	width: 80%;
+}
+
+.file-browser__tab-content__controls > .search-bar {
+	height: 1.3rem;
+}

@@ -1,3 +1,4 @@
+import { JSX } from "react";
 import { PhotoViewer as PhotoViewerComponent } from "../components/photoViewer";
 import { FILETYPE_EXECUTABLE } from "../constants";
 import { IApplicationFile } from "../interfaces/fs";
@@ -11,8 +12,8 @@ class PhotoViewer extends AbstractLeaf implements IApplicationFile {
         this.icon = icon
     }
 
-    handle = (windowId: string, context: Context, _arguments?: string) => (
-        <PhotoViewerComponent windowId={windowId} context={context} arguments={_arguments} />
+    handle = (windowId: string, context: Context, setWindowTopBar: (component: JSX.Element) => void, _arguments?: string) => (
+        <PhotoViewerComponent windowId={windowId} context={context} setWindowTopBar={setWindowTopBar} arguments={_arguments} />
     )
 }
 

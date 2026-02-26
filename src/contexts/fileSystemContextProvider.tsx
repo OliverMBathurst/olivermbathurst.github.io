@@ -1,4 +1,5 @@
 import { createContext, useState } from "react"
+import { IContextProviderProps } from "."
 import { FILETYPE_JPG } from "../constants"
 import { SpecialBranch } from "../enums"
 import {
@@ -93,11 +94,7 @@ export const FileSystemContext = createContext<IFileSystemContext>({
 	searchForItems: (_: string, __: Context) => []
 })
 
-interface IFileSystemContextProviderProps {
-	children: React.ReactNode
-}
-
-const FileSystemContextProvider = (props: IFileSystemContextProviderProps) => {
+const FileSystemContextProvider = (props: IContextProviderProps) => {
 	const { children } = props
 
 	const [_root] = useState<BranchingContext>(root)

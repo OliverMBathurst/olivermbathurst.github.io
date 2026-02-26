@@ -1,3 +1,6 @@
+import ContextMenuContextProvider, {
+    ContextMenuContext
+} from "./contextMenuContextProvider"
 import DesktopItemContextProvider, {
     DesktopItemContext
 } from "./desktopItemContextProvider"
@@ -18,7 +21,7 @@ import WindowsContextProvider, {
 } from "./windowsContextProvider"
 
 export {
-    DesktopItemContext,
+    ContextMenuContext, ContextMenuContextProvider, DesktopItemContext,
     DesktopItemContextProvider,
     FileSystemContext,
     FileSystemContextProvider, RecentsContext, RecentsContextProvider, RegistryContext,
@@ -28,4 +31,8 @@ export {
     WindowsContextProvider
 }
 
-export type { IRegistryContext }
+interface IContextProviderProps {
+    children: React.ReactNode
+}
+
+export type { IContextProviderProps, IRegistryContext }

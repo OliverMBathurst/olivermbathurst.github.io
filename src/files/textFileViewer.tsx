@@ -1,3 +1,4 @@
+import { JSX } from "react"
 import { MonacoEditor } from "../components/monaco"
 import { FILETYPE_EXECUTABLE } from "../constants"
 import { IApplicationFile } from "../interfaces/fs"
@@ -11,8 +12,8 @@ class TextFileViewer extends AbstractLeaf implements IApplicationFile {
 		this.icon = icon
 	}
 
-	handle = (windowId: string, context: Context) => (
-		<MonacoEditor windowId={windowId} context={context} />
+	handle = (windowId: string, context: Context, setWindowTopBar: (component: JSX.Element) => void) => (
+		<MonacoEditor windowId={windowId} setWindowTopBar={setWindowTopBar} context={context} />
 	)
 }
 

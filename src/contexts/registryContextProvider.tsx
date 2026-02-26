@@ -1,6 +1,7 @@
 import { createContext, useState } from "react"
 import { FILE_BROWSER_APP_ID } from "../constants"
 import { RegistryService } from "../services"
+import { IContextProviderProps } from "."
 
 export interface IRegistryContext {
 	applications: Record<string, string>
@@ -18,13 +19,9 @@ export const RegistryContext = createContext<IRegistryContext>({
 	branchHandlerId: FILE_BROWSER_APP_ID
 })
 
-interface IRegistryContextProviderProps {
-	children: React.ReactNode
-}
-
 const defaultRegistry = new RegistryService().getDefaultRegistry()
 
-const RegistryContextProvider = (props: IRegistryContextProviderProps) => {
+const RegistryContextProvider = (props: IContextProviderProps) => {
 	const { children } = props
 	const [registry, _] = useState<IRegistryContext>(defaultRegistry)
 

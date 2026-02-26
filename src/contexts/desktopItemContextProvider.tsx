@@ -1,4 +1,5 @@
 import React, { Context as ReactContext, createContext, useState } from "react"
+import { IContextProviderProps } from "."
 import { DEFAULT_TASKBAR_HEIGHT_PIXELS } from "../constants"
 import { Context } from "../types/fs"
 
@@ -21,10 +22,6 @@ interface IDesktopItemContext {
 	onDesktopDragOver: (e: React.DragEvent<HTMLDivElement>) => void
 	onWindowResized: (e: UIEvent) => void
 	setSelectedContextKeys: (contextKeys: string[]) => void
-}
-
-interface IDesktopItemContextProviderProps {
-	children: React.ReactNode
 }
 
 export const DesktopItemContext: ReactContext<IDesktopItemContext> =
@@ -52,7 +49,7 @@ export const DesktopItemContext: ReactContext<IDesktopItemContext> =
 const elementReferences: Record<string, HTMLElement> = {}
 
 const DesktopItemContextProvider = (
-	props: IDesktopItemContextProviderProps
+	props: IContextProviderProps
 ) => {
 	const { children } = props
 

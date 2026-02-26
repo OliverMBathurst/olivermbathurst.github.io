@@ -56,6 +56,9 @@ export const CLASSNAMES = {
 		ROW: "search-result-pane__row",
 		ROW_SELECTED: "search-result-pane__row--selected"
 	},
+	WINDOW_CLASSES: {
+		TOP_BAR: "window__top-bar"
+	},
 	DESKTOP_ITEM_CLASS: "desktop-item",
 	DESKTOP_ITEM_SELECTED_CLASS: "desktop-item--selected",
 	DESKTOP_ITEM_ICON_CLASS: "desktop-item__icon",
@@ -65,7 +68,7 @@ export const CLASSNAMES = {
 	TASKBAR_START_BUTTON_CLASS: "start-button",
 	DATE_DISPLAY_OVERLAY_CLASS: "date-display__overlay",
 	DATE_DISPLAY_PICKER_ID: "date-display__input",
-	FILE_BROWSER_CONTENT_RESULT_PANE_CLASS: "file-browser__content__result-pane",
+	FILE_BROWSER_CONTENT_RESULT_PANE_CLASS: "file-browser__tab-content__content__result-pane",
 	FILE_BROWSER_GRID_VIEW_CLASS: "file-browser-grid-view"
 }
 export const DEFAULT_DOCUMENT_TITLE = "Oliver Bathurst"

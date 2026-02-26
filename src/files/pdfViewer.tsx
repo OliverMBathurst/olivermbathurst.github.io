@@ -1,3 +1,4 @@
+import { JSX } from "react"
 import { PdfViewer as PdfViewerComponent } from "../components/pdfViewer"
 import { FILETYPE_EXECUTABLE } from "../constants"
 import { IApplicationFile } from "../interfaces/fs"
@@ -11,8 +12,8 @@ class PdfViewer extends AbstractLeaf implements IApplicationFile {
 		this.icon = icon
 	}
 
-	handle = (windowId: string, context: Context) => (
-		<PdfViewerComponent windowId={windowId} context={context} />
+	handle = (windowId: string, context: Context, setWindowTopBar: (component: JSX.Element) => void) => (
+		<PdfViewerComponent windowId={windowId} context={context} setWindowTopBar={setWindowTopBar} />
 	)
 }
 

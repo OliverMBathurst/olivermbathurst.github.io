@@ -1,3 +1,4 @@
+import { JSX } from "react"
 import { Game } from "../components/game"
 import { FILETYPE_EXECUTABLE } from "../constants"
 import { IApplicationFile } from "../interfaces/fs"
@@ -11,8 +12,8 @@ class GamePlayer extends AbstractLeaf implements IApplicationFile {
 		this.icon = icon
 	}
 
-	handle = (windowId: string, context: Context) => (
-		<Game windowId={windowId} context={context} />
+	handle = (windowId: string, context: Context, setWindowTopBar: (component: JSX.Element) => void) => (
+		<Game windowId={windowId} context={context} setWindowTopBar={setWindowTopBar} />
 	)
 }
 

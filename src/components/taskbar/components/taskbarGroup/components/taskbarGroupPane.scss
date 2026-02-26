@@ -1,13 +1,11 @@
-@use "../../../../../scss/colours";
-@use "../../../../../scss/styles";
-
 .taskbar-group-pane {
 	display: flex;
-	border-radius: styles.$window-border-radius;
-	background-color: colours.$ui-background;
 	position: absolute;
 	bottom: 3.5rem;
 	height: 3rem;
-	opacity: 80%;
 	overflow: scroll;
+}
+
+.taskbar-group-pane > *:not(:last-child) {
+	margin-right: 0.5rem;
 }

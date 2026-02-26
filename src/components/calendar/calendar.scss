@@ -9,15 +9,18 @@
 	min-width: 20rem;
 	min-height: 15rem;
 	height: 15rem;
-	width: 20rem;
+	width: 22rem;
 }
 
 .calendar__upper-container__date-display {
-	display: flex;
-
 	button:first-child {
 		margin-right: 0.25rem;
 	}
+}
+
+.calendar__upper-container__controls__control {
+	align-items: center;
+	padding: 0rem 0.3rem 0rem 0.3rem;
 }
 
 .calendar__upper-container__controls__control > img {
@@ -26,7 +29,8 @@
 }
 
 .calendar__upper-container,
-.calendar__upper-container__controls {
+.calendar__upper-container__controls,
+.calendar__upper-container__date-display {
 	display: flex;
 }
 
@@ -37,9 +41,10 @@
 
 .calendar__upper-container__controls__control:last-of-type {
 	margin-left: 0.3rem;
+	display: flex;
 }
 
-.calendar__upper-container__controls__control img:hover {
+.calendar__upper-container__controls__control:hover {
 	background-color: colours.$hover-button-background;
 }
 
@@ -79,4 +84,10 @@
 
 .calendar__lower-container__table__cell--selected {
 	background-color: colours.$hover-button-background-selected;
+}
+
+.calendar__lower-container__table__column-names > th {
+	width: 2rem;
+	min-width: 2rem;
+	max-width: 2rem;
 }

@@ -12,28 +12,28 @@
 }
 
 .start-menu__bottom-container__container__items,
-.start-menu__bottom-container__container__items__item {
+.start-menu__bottom-container__container__items__item,
+.start-menu__bottom-container__container__items__item--selected {
 	display: flex;
 	align-items: center;
 }
 
-.start-menu__bottom-container__container__items__item {
+.start-menu__bottom-container__container__items__item,
+.start-menu__bottom-container__container__items__item--selected {
 	width: 100%;
-	margin: 0.2rem 0rem 0.2rem 0rem;
+	height: 2rem;
+	margin-bottom: 0.1rem;
 }
 
 .start-menu__bottom-container__container__items {
 	flex-direction: column;
 }
 
-.start-menu__bottom-container__container,
-.start-menu__bottom-container__container__items {
-	height: 100%;
-}
-
-.start-menu__bottom-container__container__items__item > .icon-container {
-	width: 2rem;
-	height: 2rem;
+.start-menu__bottom-container__container__items__item > .icon-container,
+.start-menu__bottom-container__container__items__item--selected > .icon-container {
+	width: 1.75rem;
+	height: 1.75rem;
+	margin-left: 1rem;
 }
 
 .start-menu__bottom-container__container__items__item__icon {
@@ -42,6 +42,10 @@
 }
 
 .start-menu__bottom-container__container__items__item:hover {
+	background-color: colours.$hover-button-background;
+}
+
+.start-menu__bottom-container__container__items__item--selected {
 	background-color: colours.$hover-button-background;
 }
 

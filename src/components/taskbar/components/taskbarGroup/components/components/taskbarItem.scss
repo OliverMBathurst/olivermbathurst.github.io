@@ -1,13 +1,17 @@
 @use "../../../../../../scss/colours";
+@use "../../../../../../scss/styles";
 
 .taskbar-item,
 .taskbar-item--selected {
 	display: flex;
 	position: relative;
 	min-width: 8.125rem;
+	opacity: 80%;
 	cursor: pointer;
 	align-items: center;
 	height: calc(100% - 0.1rem);
+	background-color: colours.$ui-background;
+	border-radius: styles.$window-border-radius;
 }
 
 .taskbar-item__inner {
@@ -44,7 +48,7 @@
 
 .taskbar-item:hover,
 .taskbar-item--selected:hover {
-	background-color: colours.$taskbar-button-background-selected;
+	background-color: colours.$taskbar-item-button-background;
 }
 
 .taskbar-item__close-icon {
@@ -54,6 +58,7 @@
 	height: 1rem;
 	width: 1rem;
 	padding: 0.1rem 0.1rem 0rem 0rem;
+	border-radius: styles.$window-border-radius;
 }
 
 .taskbar-item__close-icon:hover {

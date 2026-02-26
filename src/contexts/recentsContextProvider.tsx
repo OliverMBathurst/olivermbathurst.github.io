@@ -1,5 +1,6 @@
 import { createContext, useState } from "react"
 import { RECENTS_LIMIT } from "../constants"
+import { IContextProviderProps } from "."
 
 interface IRecentContextInformation {
     path: string
@@ -16,11 +17,7 @@ export const RecentsContext = createContext<IRecentsContext>({
     addRecentContext: (_: string) => Function.prototype
 })
 
-interface IRecentsContextProviderProps {
-    children: React.ReactNode
-}
-
-const RecentsContextProvider = (props: IRecentsContextProviderProps) => {
+const RecentsContextProvider = (props: IContextProviderProps) => {
     const { children } = props
     const [recents, setRecents] = useState<IRecentContextInformation[]>([])
 

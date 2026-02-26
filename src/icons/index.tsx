@@ -14,6 +14,7 @@ import leftArrow from "../icons/left-arrow.png"
 import maximise from "../icons/maximise.png"
 import minimise from "../icons/minimise.png"
 import pdf from "../icons/pdf.png"
+import plus from "../icons/plus.png"
 import power from "../icons/power.png"
 import rightArrow from "../icons/right-arrow.png"
 import search from "../icons/search.png"
@@ -134,6 +135,10 @@ const ZoomOutIcon = (props: React.ImgHTMLAttributes<HTMLImageElement>) => (
 	<img src={zoomOut} alt="Zoom icon by icon8" {...props} />
 )
 
+const PlusIcon = (props: React.ImgHTMLAttributes<HTMLImageElement>) => (
+	<img src={plus} alt="Plus icon by icon8" {...props} />
+)
+
 export {
     CancelIcon,
     CloseIcon,
@@ -146,8 +151,7 @@ export {
     LeftArrowIcon,
     MaximizeIcon,
     MinimizeIcon,
-    PdfIcon,
-    PowerIcon,
+    PdfIcon, PlusIcon, PowerIcon,
     RightArrowIcon,
     SearchIcon, SelectedIcon,
     ShortcutIcon, StartMenuIcon,

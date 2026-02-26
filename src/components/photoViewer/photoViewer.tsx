@@ -18,7 +18,7 @@ const ZOOM_INCREMENT = 0.10
 const ZOOM_MINIMUM = 1
 const ZOOM_MAXIMUM = 7
 
-const PhotoViewer = (props: IWindowRenderProps<HTMLDivElement>) => {
+const PhotoViewer = (props: IWindowRenderProps) => {
 	const { windowId, context } = props
 	const [image, setImage] = useState<HTMLImageElement | null>(null)
 	const canvasRef = useRef<HTMLCanvasElement | null>(null)

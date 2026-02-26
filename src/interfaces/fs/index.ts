@@ -52,11 +52,11 @@ export interface IUploadedFile extends INamed, IIcon, IDataFile {
 	epoch: number
 }
 
-export interface IWindowRenderProps<T> {
+export interface IWindowRenderProps {
 	windowId: string
 	context: Context
+	setWindowTopBar: (component: JSX.Element) => void
 	arguments?: string
-	onMouseOver?: (e: React.MouseEvent<T, MouseEvent>) => void
 }
 
 export interface IForwardContextInformation {
@@ -76,7 +76,7 @@ export interface IAbstractUploadedWindowFile
 	extends IUploadedFile, INamed, IExtensionAvailable {}
 
 export interface IApplicationFile extends INamed, IIcon {
-	handle: (windowId: string, context: Context, _arguments?: string) => JSX.Element
+	handle: (windowId: string, context: Context, setWindowTopBar: (component: JSX.Element) => void, _arguments?: string) => JSX.Element
 }
 
 export interface IGameFile extends INamed, IIcon {

@@ -9,13 +9,15 @@ const { NO_SELECT_CLASS } = CLASSNAMES
 interface IContainerSectionProps<T> {
 	title?: string
 	items: T[]
-	onItemClicked: (item: T) => void
+	selected: string[]
+	onItemClicked: (item: T, e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void
+	onItemDoubleClicked: (item: T, e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void
 }
 
 const ContainerSection = <T extends Context>(
 	props: IContainerSectionProps<T>
 ) => {
-	const { title, items, onItemClicked } = props
+	const { title, items, selected, onItemClicked, onItemDoubleClicked } = props
 
 	return (
 		<div className="start-menu__bottom-container__container">
@@ -28,13 +30,15 @@ const ContainerSection = <T extends Context>(
 				{items.map((i) => {
 					const contextKey = i.toContextUniqueKey()
 					const Icon = getIcon(i, { className: "start-menu__bottom-container__container__items__item__icon" })
-					const DisplayName = getDisplayName(i)
+					const DisplayName = getDisplayName(i, false)
+					const _selected = selected.indexOf(contextKey) !== -1
 
 					return (
 						<div
 							key={contextKey}
-							onClick={() => onItemClicked(i)}
-							className={`start-menu__bottom-container__container__items__item ${NO_SELECT_CLASS}`}
+							onClick={(e) => onItemClicked(i, e)}
+							onDoubleClick={(e) => onItemDoubleClicked(i, e)}
+							className={`start-menu__bottom-container__container__items__item${_selected ? "--selected" : ""} ${NO_SELECT_CLASS}`}
 						>
 							{Icon}
 							<span className="start-menu__bottom-container__container__items__item__text">

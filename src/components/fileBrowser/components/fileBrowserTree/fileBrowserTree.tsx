@@ -5,12 +5,11 @@ import { FileBrowserTreeFolderRow } from "./components"
 import "./fileBrowserTree.scss"
 
 interface IFileBrowserTreeProps {
-	windowId: string
 	onDirectoryChanged: (context: BranchingContext) => void
 }
 
 const FileBrowserTree = (props: IFileBrowserTreeProps) => {
-	const { windowId, onDirectoryChanged } = props
+	const { onDirectoryChanged } = props
 	const { root } = useContext(FileSystemContext)
 
 	const [selectedContextKeys, setSelectedContextKeys] = useState<string[]>([])
@@ -34,7 +33,6 @@ const FileBrowserTree = (props: IFileBrowserTreeProps) => {
 	return (
 		<div className="file-browser-tree">
 			<FileBrowserTreeFolderRow
-				windowId={windowId}
 				selectedContextKeys={selectedContextKeys}
 				openContextKeys={openContextKeys}
 				index={0}

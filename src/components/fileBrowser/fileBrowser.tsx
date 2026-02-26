@@ -1,5 +1,4 @@
 import {
-    useCallback,
     useContext,
     useEffect,
     useMemo,
@@ -7,409 +6,140 @@ import {
     useState
 } from "react"
 import {
-    BRANCHING_CONTEXT_DETERMINER,
-    BRANCHING_CONTEXT_PARENT_PROPERTY,
-    CLASSNAMES,
-    FILE_BROWSER_TREE_MIN_WIDTH
+    BRANCHING_CONTEXT_DETERMINER
 } from "../../constants"
 import {
     FileSystemContext,
-    RegistryContext,
     WindowsContext
 } from "../../contexts"
-import { ExpandDirection, NavigationType } from "../../enums"
-import { getFullPath } from "../../helpers/paths"
-import {
-    doRectanglesIntersect,
-    onSelectionRowClicked
-} from "../../helpers/selections"
-import { useFileSystem, useNavigationHistory, useSearchResultPane, useWindowSelectionRectangle } from "../../hooks"
-import { WindowPropertiesService } from "../../services"
-import { BranchingContext, Context, Leaf, Shortcut } from "../../types/fs"
-import { Expandable } from "../expandable"
-import { SearchBar } from "../searchBar"
-import {
-    FileBrowserGridView,
-    FileBrowserRow,
-    FolderBaseInformation,
-    UpOneLevelRow
-} from "./components"
-import { FileBrowserLocationBar } from "./components/fileBrowserLocationBar"
-import { FileBrowserNavigationControls } from "./components/fileBrowserNavigationControls"
-import { FileBrowserTree } from "./components/fileBrowserTree"
-import "./fileBrowser.scss"
+import { IWindowRenderProps } from "../../interfaces/fs"
+import { BranchingContext } from "../../types/fs"
+import { FileBrowserTabContent } from "./components/fileBrowserTabContent"
+import { FileBrowserTabs } from "./components/fileBrowserTabs"
 
-const { FILE_BROWSER_CONTENT_RESULT_PANE_CLASS, FILE_BROWSER_GRID_VIEW_CLASS } =
-	CLASSNAMES
+const FileBrowser = (props: IWindowRenderProps) => {
+    const { context, windowId, setWindowTopBar, arguments: _arguments } = props
 
-interface IFileBrowserProps {
-	windowId: string
-	context: Context
-	arguments?: string
-}
+    const { root } = useContext(FileSystemContext)
+    const { removeWindow, setWindowContext } = useContext(WindowsContext)
 
-const baseClickExclusions = [
-	FILE_BROWSER_CONTENT_RESULT_PANE_CLASS,
-	FILE_BROWSER_GRID_VIEW_CLASS
-]
+    const resolvedContext =
+        BRANCHING_CONTEXT_DETERMINER in context ? context : root
 
-const selectionPanes = [
-	FILE_BROWSER_CONTENT_RESULT_PANE_CLASS,
-	FILE_BROWSER_GRID_VIEW_CLASS
-]
+    const [tabs, setTabs] = useState<BranchingContext[]>([resolvedContext])
+    const [selectedTabIndex, setSelectedTabIndex] = useState<number>(0)
+    const [tabContents, setTabContents] = useState<{ key: number, context: BranchingContext }[]>([
+        {
+            key: Date.now(),
+            context: resolvedContext
+        }
+    ])
 
-const windowPropertiesService = new WindowPropertiesService()
+    const previousTabContentSize = useRef<number>(1)
+    const selectedTabIndexRef = useRef<number>(1)
 
-const FileBrowser = (props: IFileBrowserProps) => {
-	const { windowId, context, arguments: _arguments } = props
-	const { root } = useContext(FileSystemContext)
+    useEffect(() => {
+        if (resolvedContext !== context) {
+            setWindowContext(windowId, resolvedContext)
+        }
+    }, [resolvedContext, context, setWindowContext, windowId])
 
-	const resolvedContext =
-		BRANCHING_CONTEXT_DETERMINER in context ? context : root
+    useEffect(() => {
+        if (selectedTabIndex < 0 || selectedTabIndex > tabs.length - 1) {
+            return
+        }
 
-	const { validateFilePath } = useFileSystem()
-	const {
-		history,
-		historyPointer,
-		addHistory,
-		backwardsPossible,
-		forwardsPossible,
-		navigate,
-		navigateToIndex
-	} = useNavigationHistory<string>(getFullPath(resolvedContext))
+        const selectedContext = tabs[selectedTabIndex]
+        if (context !== selectedContext) {
+            setWindowContext(windowId, selectedContext)
+        }
+    }, [selectedTabIndex, tabs, context, setWindowContext, windowId])
 
-	const [thumbnailView, setThumbnailView] = useState<boolean>(true)
+    const setTabContext = (index: number, context: BranchingContext) => {
+        setTabs(ts => {
+            const tabsCopy = [...ts]
+            tabsCopy[index] = context
+            return tabsCopy
+        })
+    }
 
-	const [selected, setSelected] = useState<string[]>(() => {
-		if (_arguments) {
-			const selectedLeaf = validateFilePath(_arguments)
-			if (selectedLeaf) {
-				return [selectedLeaf.toContextUniqueKey()]
-			}
-		}
+    const onTabOpened = () => {
+        previousTabContentSize.current = tabContents.length
+        setTabContents(tc => [
+            ...tc,
+            {
+                key: Date.now(),
+                context: root
+            }
+        ])
+        setTabs(ts => [...ts, root])
+    }
 
-		return []
-	})
-	const [searchText, setSearchText] = useState<string>("")
+    const onTabClosed = (index: number) => {
+        previousTabContentSize.current = tabContents.length
+        setTabs(ts => {
+            const tabsCopy = [...ts]
+            tabsCopy.splice(index, 1)
+            return tabsCopy
+        })
+        setTabContents(tc => {
+            const contentCopy = [...tc]
+            contentCopy.splice(index, 1)
+            return contentCopy
+        })
+    }
 
-	const { SearchResultPane, searchResult } = useSearchResultPane(searchText, { context: resolvedContext })
+    const onTabSelected = (index: number) => {
+        selectedTabIndexRef.current = index
+        setSelectedTabIndex(index)
+    }
 
-	const elementRowReferences = useRef<Record<string, HTMLElement | null>>({})
-	const fileBrowserPaneRef = useRef<HTMLDivElement | null>(null)
+    const WindowTopBarContent = useMemo(() => {
+        return (
+            <FileBrowserTabs
+                contexts={tabs}
+                selectedTabIndex={selectedTabIndex}
+                onTabSelected={onTabSelected}
+                onTabOpened={onTabOpened}
+                onTabClosed={onTabClosed}
+            />
+        )
+    }, [tabs, selectedTabIndex, onTabSelected, onTabOpened, onTabClosed])
 
-	const { addWindow, setWindowContext } = useContext(WindowsContext)
-	const registry = useContext(RegistryContext)
+    useEffect(() => {
+        setWindowTopBar(WindowTopBarContent)
+    }, [setWindowTopBar, WindowTopBarContent])
 
-	useEffect(() => {
-		if (!(BRANCHING_CONTEXT_DETERMINER in context)) {
-			setWindowContext(windowId, root)
-		}
-	}, [context, setWindowContext, windowId, root])
+    useEffect(() => {
+        if (tabs.length === 0) {
+            removeWindow(windowId)
+        }
+    }, [tabs, removeWindow, windowId])
 
-	const Entities = useMemo(() => {
-		return [
-			...resolvedContext.branches,
-			...resolvedContext.shortcuts,
-			...resolvedContext.leaves
-		]
-	}, [resolvedContext])
+    useEffect(() => {
+        if (tabContents.length > previousTabContentSize.current
+            || selectedTabIndexRef.current > tabContents.length - 1
+        ) {
+            setSelectedTabIndex(tabContents.length - 1)
+        }
+    }, [tabContents, setSelectedTabIndex])
 
-	const onRowDoubleClicked = useCallback(
-		(context: Context) => {
-			const windowProperties = windowPropertiesService.getProperties(
-				context,
-				registry
-			)
-
-			if (windowProperties != null) {
-				if (
-					BRANCHING_CONTEXT_DETERMINER in windowProperties.context &&
-					!windowProperties.openNewInstance
-				) {
-					elementRowReferences.current = {}
-					addHistory(getFullPath(windowProperties.context))
-					setWindowContext(windowId, windowProperties.context)
-				} else {
-					addWindow(windowProperties)
-				}
-			}
-		},
-		[
-			addWindow,
-			windowId,
-			setWindowContext,
-			addHistory,
-			getFullPath,
-			windowPropertiesService,
-			registry
-		]
-	)
-
-	const onRowClicked = useCallback(
-		(context: Context, e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-			const newSelectedContextKeys = onSelectionRowClicked(
-				context,
-				e,
-				selected,
-				Entities,
-				(x) => x.toContextUniqueKey()
-			)
-
-			setSelected(newSelectedContextKeys)
-		},
-		[onSelectionRowClicked, selected, Entities, setSelected]
-	)
-
-	const onSelectionChanged = (selectionRectangle: DOMRect) => {
-		const elems = elementRowReferences.current
-
-		const rowElementKeys = Object.keys(elems)
-		const selectedContextKeys: string[] = []
-		for (let i = 0; i < rowElementKeys.length; i++) {
-			const rowElement = elems[rowElementKeys[i]]
-			if (rowElement) {
-				const rowRectangle = rowElement.getBoundingClientRect()
-				if (doRectanglesIntersect(selectionRectangle, rowRectangle)) {
-					selectedContextKeys.push(rowElementKeys[i])
-				}
-			}
-		}
-
-		setSelected(selectedContextKeys)
-	}
-
-	const onFileBrowserMouseDown = (
-		e: React.MouseEvent<HTMLDivElement, MouseEvent>
-	) => {
-		if (baseClickExclusions.indexOf(e.currentTarget.className) !== -1) {
-			if (
-				e.target instanceof HTMLElement &&
-				baseClickExclusions.indexOf(e.target.className) !== -1
-			) {
-				setSelected([])
-			}
-		}
-	}
-
-	const onHistoryItemClicked = (historyIndex: number) => {
-
-
-
-	}
-
-	const onFileBrowserKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
-		if (e.key === "Enter" && selected.length > 0) {
-			const entities: Context[] = Entities
-
-			const selectedEntities = entities.filter(
-				(e) => selected.indexOf(e.toContextUniqueKey()) !== -1
-			)
-			const leaves = selectedEntities.filter(
-				(x) => !(BRANCHING_CONTEXT_DETERMINER in x)
-			)
-			const branches = selectedEntities.filter(
-				(x) => BRANCHING_CONTEXT_DETERMINER in x
-			)
-
-			for (let i = 0; i < leaves.length; i++) {
-				onRowDoubleClicked(leaves[i])
-			}
-
-			for (let i = 0; i < branches.length - 1; i++) {
-				const addWindowProperties = windowPropertiesService.getProperties(
-					branches[i],
-					registry
-				)
-				if (addWindowProperties) {
-					addWindow({ ...addWindowProperties, openNewInstance: true })
-				}
-			}
-
-			if (branches.length > 0) {
-				onRowDoubleClicked(branches[branches.length - 1])
-			}
-		}
-	}
-
-	const onPreNavigation = () => {
-		setSelected([])
-		elementRowReferences.current = {}
-	}
-
-	const onNavigationToHistoryIndex = (historyIndex: number) => {
-		onPreNavigation()
-		const history = navigateToIndex(historyIndex)
-		if (!history) {
-			return
-		}
-		const context = validateFilePath(history)
-		if (context) {
-			setWindowContext(windowId, context)
-		}
-	}
-
-	const onNavigation = (navigationType: NavigationType) => {
-		onPreNavigation()
-		const history = navigate(navigationType)
-		const context = validateFilePath(history)
-		if (context) {
-			setWindowContext(windowId, context)
-		}
-	}
-
-	const onBackwards = () => onNavigation(NavigationType.Backwards)
-
-	const onForwards = () => onNavigation(NavigationType.Forwards)
-
-	const onUpOneLevel = () => onNavigation(NavigationType.Upwards)
-
-	const onDirectoryChanged = (context: BranchingContext) => {
-		setSelected([])
-		addHistory(getFullPath(context))
-		setWindowContext(windowId, context)
-	}
-
-	const onFileNavigation = (context: Leaf | Shortcut) => {
-		const windowProperties = windowPropertiesService.getProperties(
-			context,
-			registry
-		)
-		if (windowProperties != null) {
-			addWindow(windowProperties)
-		}
-	}
-
-	const onSearchTextChanged = (text: string) => {
-		setSelected([])
-		setSearchText(text)
-	}
-
-	const onSearchCancelled = () => {
-		elementRowReferences.current = {}
-		setSelected([])
-		setSearchText("")
-	}
-
-	const onDisplayModeChange = () => {
-		elementRowReferences.current = {}
-		setSelected([])
-		setThumbnailView(tv => !tv)
-	}
-
-	const Display = useMemo(() => {
-		if (searchResult) {
-			return null
-		}
-
-		if (!thumbnailView) {
-			return (
-				<FileBrowserGridView
-					entities={Entities}
-					selected={selected}
-					setRowReference={(r, key) => (elementRowReferences.current[key] = r)}
-					onRowClicked={(ev, c) => onRowClicked(c, ev)}
-					onRowDoubleClicked={(_, c) => onRowDoubleClicked(c)}
-				/>
-			)
-		}
-
-		return (
-			<>
-				{Entities.map((e) => {
-					const contextKey = e.toContextUniqueKey()
-					return (
-						<FileBrowserRow
-							key={contextKey}
-							context={e}
-							selected={selected.indexOf(contextKey) !== -1}
-							setRowReference={(r) =>
-								(elementRowReferences.current[contextKey] = r)
-							}
-							onRowClicked={(ev) => onRowClicked(e, ev)}
-							onRowDoubleClicked={(_) => onRowDoubleClicked(e)}
-						/>
-					)
-				})}
-			</>
-		)
-	}, [
-		searchResult,
-		Entities,
-		thumbnailView,
-		selected,
-		onRowClicked,
-		onRowDoubleClicked
-	])
-
-	const SelectionRectangle = useWindowSelectionRectangle(
-		fileBrowserPaneRef,
-		onSelectionChanged,
-		selectionPanes
-	)
-
-	return (
-		<div className="file-browser">
-			<div className="file-browser__controls">
-				<FileBrowserNavigationControls
-					onBackwards={onBackwards}
-					onForwards={onForwards}
-					backwardsPossible={backwardsPossible}
-					forwardsPossible={forwardsPossible}
-					history={history}
-					historyPointer={historyPointer}
-					onHistoryItemClicked={onNavigationToHistoryIndex}
-				/>
-				<FileBrowserLocationBar
-					context={resolvedContext}
-					onDirectoryChanged={onDirectoryChanged}
-					onFileNavigation={onFileNavigation}
-				/>
-				<SearchBar
-					placeholder="Search..."
-					value={searchText}
-					onInputChange={onSearchTextChanged}
-					onCancelClicked={onSearchCancelled}
-				/>
-			</div>
-			<div className="file-browser__content">
-				<Expandable
-					allowedExpandDirections={ExpandDirection.Right}
-					minWidth={FILE_BROWSER_TREE_MIN_WIDTH}
-				>
-					<div className="file-browser__content__tree-pane">
-						<FileBrowserTree
-							windowId={windowId}
-							onDirectoryChanged={onDirectoryChanged}
-						/>
-					</div>
-				</Expandable>
-				<div
-					className={FILE_BROWSER_CONTENT_RESULT_PANE_CLASS}
-					ref={fileBrowserPaneRef}
-					onMouseDown={onFileBrowserMouseDown}
-					onKeyDown={onFileBrowserKeyDown}
-					tabIndex={0}
-				>
-					{SelectionRectangle}
-					{BRANCHING_CONTEXT_PARENT_PROPERTY in resolvedContext &&
-						resolvedContext.parent &&
-						thumbnailView &&
-						!searchResult && (
-							<UpOneLevelRow onRowDoubleClicked={onUpOneLevel} />
-						)}
-					{searchResult && SearchResultPane}
-					{Display}
-				</div>
-			</div>
-			<FolderBaseInformation
-				context={resolvedContext}
-				entities={Entities}
-				selected={selected}
-				thumbnailDisplay={thumbnailView}
-				toggleDisplayMode={onDisplayModeChange}
-			/>
-		</div>
-	)
+    return (
+        <>
+            {tabContents.map((tc, i) => {
+                const { key, context } = tc
+                return (
+                    <FileBrowserTabContent
+                        key={key}
+                        context={context}
+                        selected={i === selectedTabIndex}
+                        arguments={i === 0 ? _arguments : undefined}
+                        setTabContext={(c) => setTabContext(i, c)}
+                    />
+                )
+            })}
+        </>
+    )
 }
 
 export default FileBrowser

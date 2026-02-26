@@ -1,6 +1,7 @@
 import { createContext, useState } from "react"
 import { Wallpaper } from "../enums"
 import { IWallpaper } from "../interfaces/wallpaper"
+import { IContextProviderProps } from "."
 
 interface IWallpaperContext {
     wallpaper: IWallpaper
@@ -14,11 +15,7 @@ export const WallpaperContext = createContext<IWallpaperContext>({
     setWallpaper: (_: IWallpaper) => Function.prototype
 })
 
-interface IWallpaperContextProviderProps {
-    children: React.ReactNode
-}
-
-const WallpaperContextProvider = (props: IWallpaperContextProviderProps) => {
+const WallpaperContextProvider = (props: IContextProviderProps) => {
     const { children } = props
     const [wallpaper, setWallpaper] = useState<IWallpaper>(
         { id: Wallpaper.Conway }

@@ -1,7 +1,8 @@
-import { useContext, useEffect, useRef, useState } from "react"
+import { useCallback, useContext, useEffect, useRef, useState } from "react"
 import { BRANCHING_CONTEXT_DETERMINER, CLASSNAMES } from "../../constants"
 import { RegistryContext } from "../../contexts"
 import { SpecialBranch } from "../../enums"
+import { onSelectionRowClicked } from "../../helpers/selections"
 import { useClickOutside, useFileSystem } from "../../hooks"
 import { PowerIcon } from "../../icons"
 import { Context } from "../../types/fs"
@@ -14,15 +15,16 @@ const { TASKBAR_START_BUTTON_CLASS } = CLASSNAMES
 interface IStartMenuProps {
 	onClickOutside: () => void
 	onSearchBarFocused: () => void
-	onItemClicked: (item: Context) => void
+	onItemDoubleClicked: (item: Context) => void
 }
 
 const clickOutsideExclusions = [TASKBAR_START_BUTTON_CLASS]
 
 const StartMenu = (props: IStartMenuProps) => {
-	const { onClickOutside, onSearchBarFocused, onItemClicked } = props
+	const { onClickOutside, onSearchBarFocused, onItemDoubleClicked } = props
 	const startMenuRef = useRef<HTMLDivElement | null>(null)
 	const [items, setItems] = useState<Context[]>([])
+	const [selected, setSelected] = useState<string[]>([])
 
 	const { specialBranchPaths } = useContext(RegistryContext)
 	const { validateFilePath } = useFileSystem()
@@ -43,7 +45,7 @@ const StartMenu = (props: IStartMenuProps) => {
 		}
 	}, [specialBranchPaths, setItems])
 
-	useClickOutside(startMenuRef, (e) => {
+	const onClickOutsideInternal = useCallback((e: MouseEvent) => {
 		let validClick: boolean = true
 		if (e.target instanceof HTMLElement) {
 			const elem = e.target as HTMLElement
@@ -61,7 +63,32 @@ const StartMenu = (props: IStartMenuProps) => {
 		if (validClick) {
 			onClickOutside()
 		}
-	})
+	}, [clickOutsideExclusions, onClickOutside])
+
+	useClickOutside(startMenuRef, onClickOutsideInternal)
+
+	const onRowClicked = useCallback(
+		(context: Context, e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+			const newSelectedContextKeys = onSelectionRowClicked(
+				context,
+				e,
+				selected,
+				items,
+				(x) => x.toContextUniqueKey()
+			)
+
+			setSelected(newSelectedContextKeys)
+		},
+		[onSelectionRowClicked, selected, items, setSelected]
+	)
+
+	const onRowDoubleClicked = useCallback(
+		(context: Context, _: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+			onItemDoubleClicked(context)
+			setSelected([])
+		},
+		[onItemDoubleClicked, setSelected]
+	)
 
 	return (
 		<div className="start-menu" ref={startMenuRef}>
@@ -77,7 +104,12 @@ const StartMenu = (props: IStartMenuProps) => {
 					/>
 				</div>
 				<div className="start-menu__side-container__bottom-container">
-					<ContainerSection items={items} onItemClicked={onItemClicked} />
+					<ContainerSection
+						items={items}
+						selected={selected}
+						onItemClicked={onRowClicked}
+						onItemDoubleClicked={onRowDoubleClicked}
+					/>
 				</div>
 			</div>
 		</div>

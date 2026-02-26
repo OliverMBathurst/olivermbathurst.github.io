@@ -1,9 +1,11 @@
 import { useEffect, useRef, useState } from "react"
-import { BRANCHING_CONTEXT_DETERMINER } from "../../../../constants"
+import { BRANCHING_CONTEXT_DETERMINER, CLASSNAMES } from "../../../../constants"
 import { getFullPath } from "../../../../helpers/paths"
 import { useClickOutside, useFileSystem, useIcon } from "../../../../hooks"
 import { BranchingContext, Leaf, Shortcut } from "../../../../types/fs"
 import "./fileBrowserLocationBar.scss"
+
+const { NO_SELECT_CLASS } = CLASSNAMES
 
 interface IFileBrowserLocationBarProps {
 	context: BranchingContext
@@ -20,7 +22,7 @@ const FileBrowserLocationBar = (props: IFileBrowserLocationBarProps) => {
 	const inputRef = useRef<HTMLInputElement | null>(null)
 
 	const Icon = useIcon(context, true, {
-		className: "file-browser-location-bar__icon",
+		className: `file-browser-location-bar__icon ${NO_SELECT_CLASS}`,
 		onClick: () => inputRef.current?.focus()
 	})
 

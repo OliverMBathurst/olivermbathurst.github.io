@@ -40,7 +40,7 @@ const Screen = () => {
 		}
 	}
 
-	const onItemClicked = (context: Context) => {
+	const onItemDoubleClicked = (context: Context) => {
 		const properties = windowPropertiesService.getProperties(context, registry)
 		if (properties) {
 			addWindow(properties)
@@ -73,7 +73,7 @@ const Screen = () => {
 					<StartMenu
 						onClickOutside={() => setStartMenuShow((s) => !s)}
 						onSearchBarFocused={onStartMenuSearchBarFocused}
-						onItemClicked={onItemClicked}
+						onItemDoubleClicked={onItemDoubleClicked}
 					/>
 				)}
 				{calendarShow && (
