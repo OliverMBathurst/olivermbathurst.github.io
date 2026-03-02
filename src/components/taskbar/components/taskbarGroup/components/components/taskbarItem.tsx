@@ -3,7 +3,7 @@ import { CLASSNAMES } from "../../../../../../constants"
 import { showCustomIconInWindowTopBar } from "../../../../../../helpers/icons"
 import { useDisplayName, useIcon } from "../../../../../../hooks"
 import { CloseIcon } from "../../../../../../icons"
-import { IWindowProperties } from "../../../../../../interfaces/windows"
+import { ITaskbarItem } from "../../../../../../interfaces/taskbar"
 import "./taskbarItem.scss"
 
 const {
@@ -18,15 +18,15 @@ const {
 } = CLASSNAMES
 
 interface ITaskbarItemProps {
-	windowProperties: IWindowProperties
+	item: ITaskbarItem
 	onItemClicked: (windowId: string) => void
 	onCloseButtonClicked: (windowId: string) => void
 }
 
 const TaskbarItem = (props: ITaskbarItemProps) => {
-	const { windowProperties, onItemClicked, onCloseButtonClicked } = props
+	const { item, onItemClicked, onCloseButtonClicked } = props
 
-	const { context, id: windowId, selected } = windowProperties
+	const { context, id: windowId, selected } = item
 
 	const showCustomIcon = showCustomIconInWindowTopBar(context)
 	const Icon = useIcon(context, true, undefined, false, showCustomIcon)

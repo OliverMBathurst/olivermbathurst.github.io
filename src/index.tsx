@@ -7,6 +7,7 @@ import {
     FileSystemContextProvider,
     RecentsContextProvider,
     RegistryContextProvider,
+    TaskbarContextProvider,
     TaskbarGroupContextProvider,
     WindowsContextProvider
 } from "./contexts"
@@ -22,9 +23,11 @@ root.render(
                     <FileSystemContextProvider>
                         <WindowsContextProvider>
                             <DesktopItemContextProvider>
-                                <TaskbarGroupContextProvider>
-                                    <Screen />
-                                </TaskbarGroupContextProvider>
+                                <TaskbarContextProvider>
+                                    <TaskbarGroupContextProvider>
+                                        <Screen />
+                                    </TaskbarGroupContextProvider>
+                                </TaskbarContextProvider>
                             </DesktopItemContextProvider>
                         </WindowsContextProvider>
                     </FileSystemContextProvider>

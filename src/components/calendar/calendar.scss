@@ -1,4 +1,5 @@
 @use "../../scss/colours";
+@use "../../scss/styles";
 
 .calendar {
 	background-color: colours.$ui-background;
@@ -10,6 +11,8 @@
 	min-height: 15rem;
 	height: 15rem;
 	width: 22rem;
+	box-shadow: styles.$window-box-shadow;
+	border-radius: styles.$window-border-radius;
 }
 
 .calendar__upper-container__date-display {

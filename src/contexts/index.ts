@@ -12,6 +12,7 @@ import RegistryContextProvider, {
     IRegistryContext,
     RegistryContext
 } from "./registryContextProvider"
+import TaskbarContextProvider, { TaskbarContext } from "./taskbarContextProvider"
 import TaskbarGroupContextProvider, {
     TaskbarGroupContext
 } from "./taskbarGroupContextProvider"
@@ -25,8 +26,7 @@ export {
     DesktopItemContextProvider,
     FileSystemContext,
     FileSystemContextProvider, RecentsContext, RecentsContextProvider, RegistryContext,
-    RegistryContextProvider,
-    TaskbarGroupContext,
+    RegistryContextProvider, TaskbarContext, TaskbarContextProvider, TaskbarGroupContext,
     TaskbarGroupContextProvider, WallpaperContext, WallpaperContextProvider, WindowsContext,
     WindowsContextProvider
 }

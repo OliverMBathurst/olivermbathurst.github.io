@@ -1,11 +1,12 @@
 import { useMemo } from "react"
-import { IWindowProperties } from "../../../../../interfaces/windows"
+import { TASKBAR_ITEM_PINNED_DETERMINER } from "../../../../../constants"
+import { IPinnedTaskbarItem, ITaskbarItem } from "../../../../../interfaces/taskbar"
 import { TaskbarItem } from "./components"
 import "./taskbarGroupPane.scss"
 
 interface ITaskbarGroupPaneProps {
 	groupRef: React.RefObject<HTMLDivElement | null>
-	items: IWindowProperties[]
+	itemContext: IPinnedTaskbarItem | ITaskbarItem[]
 	onItemClicked: (windowId: string) => void
 	onCloseButtonClicked: (windowId: string) => void
 	onMouseOver: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void
@@ -18,15 +19,21 @@ const ITEM_PADDING_WIDTH_IN_PX = 8
 const TaskbarGroupPane = (props: ITaskbarGroupPaneProps) => {
 	const {
 		groupRef,
-		items,
+		itemContext,
 		onItemClicked,
 		onCloseButtonClicked,
 		onMouseOut,
 		onMouseOver
 	} = props
 
+	const isPinned = TASKBAR_ITEM_PINNED_DETERMINER in itemContext
+
 	const Styles: React.CSSProperties = useMemo(() => {
-		const widthRequired = ITEM_WIDTH_IN_PX * items.length + (ITEM_PADDING_WIDTH_IN_PX * items.length - 1)
+		if (isPinned) {
+			return {}
+		}
+
+		const widthRequired = ITEM_WIDTH_IN_PX * itemContext.length + (ITEM_PADDING_WIDTH_IN_PX * itemContext.length - 1)
 
 		const styles: React.CSSProperties = {
 			left: 0,
@@ -53,7 +60,11 @@ const TaskbarGroupPane = (props: ITaskbarGroupPaneProps) => {
 		}
 
 		return styles
-	}, [groupRef, ITEM_WIDTH_IN_PX, items])
+	}, [isPinned, groupRef, ITEM_WIDTH_IN_PX, itemContext])
+
+	if (isPinned) {
+		return null
+	}
 
 	return (
 		<div
@@ -62,11 +73,11 @@ const TaskbarGroupPane = (props: ITaskbarGroupPaneProps) => {
 			onMouseOver={onMouseOver}
 			onMouseOut={onMouseOut}
 		>
-			{items.map((i) => {
+			{itemContext.map((i) => {
 				return (
 					<TaskbarItem
 						key={i.id}
-						windowProperties={i}
+						item={i}
 						onItemClicked={onItemClicked}
 						onCloseButtonClicked={onCloseButtonClicked}
 					/>

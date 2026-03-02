@@ -35,11 +35,11 @@ class WindowPropertiesService {
 
 		if (APPLICATION_DETERMINER in resolvedContext) {
 			const applicationName = resolvedContext.fullName
-			const applicationId = Object.entries(applications).find(
+			const applicationInfo = Object.entries(applications).find(
 				(a) => a[1] === applicationName
 			)
-			if (applicationId) {
-				handlerId = applicationId[0]
+			if (applicationInfo) {
+				handlerId = applicationInfo[0]
 			}
 		} else if (BRANCHING_CONTEXT_DETERMINER in resolvedContext) {
 			handlerId = branchHandlerId

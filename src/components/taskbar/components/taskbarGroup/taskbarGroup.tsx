@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useMemo, useRef, useState } from "react"
-import { CLASSNAMES } from "../../../../constants"
+import { CLASSNAMES, TASKBAR_ITEM_PINNED_DETERMINER } from "../../../../constants"
 import {
     ContextMenuContext,
     RegistryContext,
@@ -10,9 +10,9 @@ import { getIcon } from "../../../../helpers/icons"
 import { getDisplayName } from "../../../../helpers/naming"
 import { useFileSystem } from "../../../../hooks"
 import { CloseIcon, MaximizeIcon, MinimizeIcon } from "../../../../icons"
+import { IPinnedTaskbarItem, ITaskbarItem } from "../../../../interfaces/taskbar"
 import {
-    IAddWindowProperties,
-    IWindowProperties
+    IAddWindowProperties
 } from "../../../../interfaces/windows"
 import { Context } from "../../../../types/fs"
 import { ContextMenu, IContextMenuItem } from "../../../contextMenu"
@@ -27,17 +27,18 @@ const {
 		TASKBAR_GROUP_CONTAINER_SELECTED_CLASS,
 		TASKBAR_GROUP_CONTAINER_TASKBAR_GROUP_CLASS,
 		TASKBAR_GROUP_CONTAINER_TASKBAR_GROUP_ICON_CLASS,
-		TASKBAR_GROUP_CONTAINER_TASKBAR_GROUP_ICON_SELECTED_CLASS
+		TASKBAR_GROUP_CONTAINER_TASKBAR_GROUP_ICON_SELECTED_CLASS,
+		TASKBAR_GROUP_CONTAINER_TASKBAR_GROUP_ICON_PINNED_CLASS
 	}
 } = CLASSNAMES
 
 interface ITaskbarGroupProps {
 	handlerId: string
-	items: IWindowProperties[]
+	itemContext: IPinnedTaskbarItem | ITaskbarItem[]
 }
 
 const TaskbarGroup = (props: ITaskbarGroupProps) => {
-	const { items, handlerId } = props
+	const { itemContext, handlerId } = props
 	const [showPane, setShowPane] = useState<boolean>(false)
 	const [application, setApplication] = useState<Context | null>(null)
 	const [contextMenuKey, setContextMenuKey] = useState<string | null>(null)
@@ -67,9 +68,23 @@ const TaskbarGroup = (props: ITaskbarGroupProps) => {
 		setApplication(validateFilePath(appPath))
 	}, [applicationPaths, handlerId, validateFilePath, setApplication])
 
-	const Icon = application ? getIcon(application) : null
+	const isPinned = TASKBAR_ITEM_PINNED_DETERMINER in itemContext
 
-	const anySelected = items.filter((x) => x.selected).length > 0
+	const Icon = useMemo(() => {
+		if (isPinned) {
+			return getIcon(itemContext.context)
+		}
+
+		if (application) {
+			return getIcon(application)
+		}
+
+		return null
+	}, [isPinned, getIcon, application])
+
+	const anySelected = isPinned
+		? false
+		: itemContext.filter((x) => x.selected).length > 0
 
 	const showContextMenu = contextMenuKey && openContextMenuId === contextMenuKey
 
@@ -88,12 +103,20 @@ const TaskbarGroup = (props: ITaskbarGroupProps) => {
 	}
 
 	const onCloseAllClicked = () => {
-		closeWindows(items.map(item => item.id))
+		if (isPinned) {
+			return
+		}
+
+		closeWindows(itemContext.map(item => item.id))
 		onAfterContextMenuItemClicked()
 	}
 
 	const onMinimiseAllClicked = () => {
-		minimiseWindows(items.map(item => item.id))
+		if (isPinned) {
+			return
+		}
+
+		minimiseWindows(itemContext.map(item => item.id))
 		onAfterContextMenuItemClicked()
 	}
 
@@ -111,7 +134,11 @@ const TaskbarGroup = (props: ITaskbarGroupProps) => {
 	}
 
 	const ContextMenuItems: IContextMenuItem[] = useMemo(() => {
-		const contextMenuItems: IContextMenuItem[] = items.map(item => {
+		if (isPinned) {
+			return []
+		}
+
+		const contextMenuItems: IContextMenuItem[] = itemContext.map(item => {
 			return {
 				value: getDisplayName(item.context),
 				selected: item.selected,
@@ -121,33 +148,44 @@ const TaskbarGroup = (props: ITaskbarGroupProps) => {
 		})
 
 		contextMenuItems.push({
-			value: `Close window${items.length > 1 ? "s" : ""}`,
+			value: `Close window${itemContext.length > 1 ? "s" : ""}`,
 			onClick: onCloseAllClicked,
 			icon: <CloseIcon />
 		})
 
-		if (items.length === 1) {
+		if (itemContext.length === 1) {
 			contextMenuItems.push({
 				value: "Maximise window",
-				onClick: () => onMaximiseClicked(items[0].id),
+				onClick: () => onMaximiseClicked(itemContext[0].id),
 				icon: <MaximizeIcon />
 			})
 		}
 
 		contextMenuItems.push({
-			value: `Minimise window${items.length > 1 ? "s" : ""}`,
+			value: `Minimise window${itemContext.length > 1 ? "s" : ""}`,
 			onClick: onMinimiseAllClicked,
 			icon: <MinimizeIcon />
 		})
 
 		return contextMenuItems
-	}, [items, getDisplayName, onTaskbarItemClicked, getIcon, onCloseAllClicked, onMinimiseAllClicked])
+	}, [isPinned, itemContext, getDisplayName, onTaskbarItemClicked, getIcon, onCloseAllClicked, onMinimiseAllClicked])
 
-	const onGroupPaneItemClicked = (
+	const onTaskbarGroupClicked = (
 		_: React.MouseEvent<HTMLDivElement, MouseEvent>
 	) => {
-		if (items.length === 1) {
-			onTaskbarItemClicked(items[0].id)
+		if (isPinned) {
+			const { context, handlerId } = itemContext
+			const windowProperties: IAddWindowProperties = {
+				context,
+				handlerId
+			}
+
+			addWindow(windowProperties)
+			return
+		}
+
+		if (itemContext.length === 1) {
+			onTaskbarItemClicked(itemContext[0].id)
 			return
 		}
 
@@ -156,13 +194,23 @@ const TaskbarGroup = (props: ITaskbarGroupProps) => {
 
 	const onMouseDown = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
 		e.stopPropagation()
-		if (e.button === 1 && application) {
-			const windowProperties: IAddWindowProperties = {
-				context: application,
-				handlerId
-			}
+		if (e.button === 1) {
+			if (isPinned) {
+				const { context, handlerId } = itemContext
+				const windowProperties: IAddWindowProperties = {
+					context,
+					handlerId
+				}
 
-			addWindow(windowProperties)
+				addWindow(windowProperties)
+			} else if (application) {
+				const windowProperties: IAddWindowProperties = {
+					context: application,
+					handlerId
+				}
+
+				addWindow(windowProperties)
+			}
 		}
 
 		if (e.button !== 2 && e.buttons !== 2) {
@@ -211,6 +259,10 @@ const TaskbarGroup = (props: ITaskbarGroupProps) => {
 	const onContextMenu = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
 		e.preventDefault()
 
+		if (isPinned) {
+			return
+		}
+
 		const key = `${Date.now()}`
 		setContextMenuKey(key)
 		openContextMenu(key)
@@ -230,7 +282,7 @@ const TaskbarGroup = (props: ITaskbarGroupProps) => {
 			{showPane && !contextMenuKey && openGroupHandlerId === handlerId && (
 				<TaskbarGroupPane
 					groupRef={groupRef}
-					items={items}
+					itemContext={itemContext}
 					onItemClicked={onTaskbarItemClickedInternal}
 					onCloseButtonClicked={onCloseButtonClickedInternal}
 					onMouseOver={onPanelMouseOver}
@@ -238,9 +290,9 @@ const TaskbarGroup = (props: ITaskbarGroupProps) => {
 				/>
 			)}
 			<div
-				className={`${anySelected ? TASKBAR_GROUP_CONTAINER_SELECTED_CLASS : TASKBAR_GROUP_CONTAINER_CLASS}${items.length > 1 ? ` ${TASKBAR_GROUP_CONTAINER_MULTIPLE_CLASS}` : ""}`}
+				className={`${anySelected ? TASKBAR_GROUP_CONTAINER_SELECTED_CLASS : TASKBAR_GROUP_CONTAINER_CLASS}${!isPinned && itemContext.length > 1 ? ` ${TASKBAR_GROUP_CONTAINER_MULTIPLE_CLASS}` : ""}`}
 				ref={groupRef}
-				onClick={onGroupPaneItemClicked}
+				onClick={onTaskbarGroupClicked}
 				onMouseDown={onMouseDown}
 				onMouseOver={onContainerMouseOver}
 				onMouseOut={onMouseOut}
@@ -250,7 +302,11 @@ const TaskbarGroup = (props: ITaskbarGroupProps) => {
 					className={`${TASKBAR_GROUP_CONTAINER_TASKBAR_GROUP_CLASS} ${NO_SELECT_CLASS}`}
 				>
 					<div
-						className={`${anySelected ? TASKBAR_GROUP_CONTAINER_TASKBAR_GROUP_ICON_SELECTED_CLASS : TASKBAR_GROUP_CONTAINER_TASKBAR_GROUP_ICON_CLASS}`}
+						className={`${anySelected
+							? TASKBAR_GROUP_CONTAINER_TASKBAR_GROUP_ICON_SELECTED_CLASS
+							: isPinned
+								? TASKBAR_GROUP_CONTAINER_TASKBAR_GROUP_ICON_PINNED_CLASS
+								: TASKBAR_GROUP_CONTAINER_TASKBAR_GROUP_ICON_CLASS}`}
 					>
 						{Icon}
 					</div>
