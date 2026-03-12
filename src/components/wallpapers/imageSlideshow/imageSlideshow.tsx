@@ -1,4 +1,4 @@
-import { useRef, useEffect } from "react"
+import { useEffect, useRef } from "react"
 import { useVisibility } from "../../../hooks"
 import "./imageSlideshow.scss"
 
@@ -12,8 +12,8 @@ const ImageSlideshow = () => {
 	const screensaverOneOpacity = useRef<number>(1.0)
 	const screensaverOneFading = useRef<boolean>(false)
 
-	const interval = useRef<NodeJS.Timer | undefined>(undefined)
-	const innerInterval = useRef<NodeJS.Timer | undefined>(undefined)
+	const interval = useRef<number | undefined>(undefined)
+	const innerInterval = useRef<number | undefined>(undefined)
 
 	const visible = useVisibility(true)
 
