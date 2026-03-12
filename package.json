@@ -3,8 +3,6 @@
 	"version": "1.0.0",
 	"private": true,
 	"dependencies": {
-		"@esbuild/win32-x64": "^0.27.2",
-		"@rollup/rollup-win32-x64-msvc": "^4.57.1",
 		"@types/react": "^19.2.7",
 		"@types/react-dom": "^19.2.3",
 		"@vitejs/plugin-react-swc": "^4.2.2",
