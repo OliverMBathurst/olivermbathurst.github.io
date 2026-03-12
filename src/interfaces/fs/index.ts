@@ -36,7 +36,7 @@ export interface IUrlShortcutFile extends ILeaf {
 	url: string
 }
 
-export interface IDataFile extends INamed {
+export interface IDataFile extends INamed, IExtensionAvailable {
 	data: string | null
 }
 
@@ -75,11 +75,11 @@ export interface IUploadedWindowFile extends IAbstractUploadedWindowFile {}
 export interface IAbstractUploadedWindowFile
 	extends IUploadedFile, INamed, IExtensionAvailable {}
 
-export interface IApplicationFile extends INamed, IIcon {
+export interface IApplicationFile extends INamed, IIcon, IExtensionAvailable {
 	handle: (windowId: string, context: Context, setWindowTopBar: (component: JSX.Element) => void, _arguments?: string) => JSX.Element
 }
 
-export interface IGameFile extends INamed, IIcon {
+export interface IGameFile extends INamed, IIcon, IExtensionAvailable {
 	render: (windowId: string, context: Context) => JSX.Element
 }
 
