@@ -26,6 +26,7 @@ const root = new Root("Root")
 const applicationsBranch = new Branch("Applications", SpecialBranch.None)
 const gamesBranch = new Branch("Games", SpecialBranch.None)
 const picturesBranch = new Branch("Pictures", SpecialBranch.None)
+const taskbarBranch = new Branch("Taskbar", SpecialBranch.Taskbar)
 
 gamesBranch.setLeaves([
 	//new Conways(gamesBranch)
@@ -39,10 +40,13 @@ desktopBranch.setLeaves([
 	new Credits(desktopBranch)
 ])
 
+const fileBrowserLeaf = new FileBrowser(applicationsBranch)
+const textFileViewerLeaf = new TextFileViewer(applicationsBranch)
+
 applicationsBranch.setLeaves([
-	new FileBrowser(applicationsBranch),
+	fileBrowserLeaf,
 	new PdfViewer(applicationsBranch),
-	new TextFileViewer(applicationsBranch),
+	textFileViewerLeaf,
 	new GamePlayer(applicationsBranch),
 	new PhotoViewer(applicationsBranch)
 ])
@@ -59,7 +63,8 @@ root.setBranches([
 	applicationsBranch,
 	gamesBranch,
 	picturesBranch,
-	startMenuBranch
+	startMenuBranch,
+	taskbarBranch
 ])
 
 desktopBranch.setParent(root)
@@ -67,6 +72,7 @@ applicationsBranch.setParent(root)
 gamesBranch.setParent(root)
 picturesBranch.setParent(root)
 startMenuBranch.setParent(root)
+taskbarBranch.setParent(root)
 
 const startMenuShortcuts: Shortcut[] = []
 
@@ -77,6 +83,11 @@ for (const applicationsBranchLeaf of applicationsBranch.leaves) {
 startMenuBranch.setShortcuts(startMenuShortcuts)
 
 desktopBranch.setShortcuts([new Shortcut(desktopBranch, root, "Root")])
+
+taskbarBranch.setShortcuts([
+	new Shortcut(applicationsBranch, fileBrowserLeaf, "File Browser"),
+	new Shortcut(applicationsBranch, textFileViewerLeaf, "Text File Viewer")
+])
 
 interface IFileSystemContext {
 	root: BranchingContext

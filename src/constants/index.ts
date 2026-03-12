@@ -18,6 +18,7 @@ export const SHORTCUT_DETERMINER = "context"
 export const APPLICATION_DETERMINER = "handle"
 export const GAME_DETERMINER = "render"
 export const ARRAY_DETERMINER = "length"
+export const TASKBAR_ITEM_PINNED_DETERMINER = "fullName"
 export const BRANCHING_CONTEXT_TYPE_PROPERTY = "type"
 export const LEAF_EXTENSION_PROPERTY_NAME = "extension"
 export const IMAGE_DROP_TYPE = "image/"
@@ -47,7 +48,9 @@ export const CLASSNAMES = {
 		TASKBAR_GROUP_CONTAINER_TASKBAR_GROUP_ICON_CLASS:
 			"taskbar-group__container__taskbar-group__icon",
 		TASKBAR_GROUP_CONTAINER_TASKBAR_GROUP_ICON_SELECTED_CLASS:
-			"taskbar-group__container__taskbar-group__icon--selected"
+			"taskbar-group__container__taskbar-group__icon--selected",
+		TASKBAR_GROUP_CONTAINER_TASKBAR_GROUP_ICON_PINNED_CLASS:
+			"taskbar-group__container__taskbar-group__icon--pinned"
 	},
 	SEARCH_CLASSES: {
 		INPUT: "search-bar__input"

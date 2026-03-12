@@ -117,11 +117,6 @@ export const useWindowSelectionRectangle = <T extends HTMLElement>(
 					elem.left -
 					selectionRectangeStart.current.x -
 					parentOffsetLeft
-			} else if (
-				elem.right - selectionRectangeStart.current.x - newWidth <=
-				0
-			) {
-				newWidth = elem.right - selectionRectangeStart.current.x
 			}
 
 			if (e.clientY >= elem.bottom) {

@@ -35,12 +35,14 @@
 }
 
 .taskbar-group__container__taskbar-group__icon,
-.taskbar-group__container__taskbar-group__icon--selected {
+.taskbar-group__container__taskbar-group__icon--selected,
+.taskbar-group__container__taskbar-group__icon--pinned {
 	position: relative;
 }
 
 .taskbar-group__container__taskbar-group__icon img,
-.taskbar-group__container__taskbar-group__icon--selected img {
+.taskbar-group__container__taskbar-group__icon--selected img,
+.taskbar-group__container__taskbar-group__icon--pinned img {
 	height: 1.5rem;
 	width: 1.5rem;
 	padding-bottom: 0.3rem;

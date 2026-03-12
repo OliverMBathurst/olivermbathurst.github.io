@@ -30,7 +30,7 @@ const InfoCard = (props: IInfoCardProps) => {
     const { addWindow } = useContext(WindowsContext)
     const registry = useContext(RegistryContext)
 
-    const Icon = useIcon(context, true, undefined, true)
+    const Icon = useIcon(context, true, { className: "info-card__header__icon" }, true)
     const DisplayName = useDisplayName(context)
 
     useEffect(() => {

@@ -31,7 +31,8 @@ class RegistryService {
 			},
 			specialBranchPaths: {
 				[SpecialBranch.Desktop]: "Root\\Desktop",
-				[SpecialBranch.StartMenu]: "Root\\Start Menu"
+				[SpecialBranch.StartMenu]: "Root\\Start Menu",
+				[SpecialBranch.Taskbar]: "Root\\Taskbar"
 			},
 			fileTypeAssociations: {
 				[PDF_VIEWER_APP_ID]: FILETYPE_PDF,
