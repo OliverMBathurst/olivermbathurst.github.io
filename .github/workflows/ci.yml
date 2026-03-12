@@ -36,6 +36,8 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
+    environment:
+      name: github-pages
     steps:
       - name: Download artifacts
         uses: actions/download-artifact@v4
