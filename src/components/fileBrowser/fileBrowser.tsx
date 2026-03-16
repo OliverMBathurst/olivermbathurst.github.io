@@ -36,7 +36,6 @@ const FileBrowser = (props: IWindowRenderProps) => {
     ])
 
     const previousTabContentSize = useRef<number>(1)
-    const selectedTabIndexRef = useRef<number>(1)
 
     useEffect(() => {
         if (resolvedContext !== context) {
@@ -64,7 +63,6 @@ const FileBrowser = (props: IWindowRenderProps) => {
     }
 
     const onTabOpened = () => {
-        previousTabContentSize.current = tabContents.length
         setTabContents(tc => [
             ...tc,
             {
@@ -76,7 +74,6 @@ const FileBrowser = (props: IWindowRenderProps) => {
     }
 
     const onTabClosed = (index: number) => {
-        previousTabContentSize.current = tabContents.length
         setTabs(ts => {
             const tabsCopy = [...ts]
             tabsCopy.splice(index, 1)
@@ -90,7 +87,6 @@ const FileBrowser = (props: IWindowRenderProps) => {
     }
 
     const onTabSelected = (index: number) => {
-        selectedTabIndexRef.current = index
         setSelectedTabIndex(index)
     }
 
@@ -117,12 +113,15 @@ const FileBrowser = (props: IWindowRenderProps) => {
     }, [tabs, removeWindow, windowId])
 
     useEffect(() => {
-        if (tabContents.length > previousTabContentSize.current
-            || selectedTabIndexRef.current > tabContents.length - 1
-        ) {
-            setSelectedTabIndex(tabContents.length - 1)
+        const tabLength = tabContents.length
+
+        if (tabLength > previousTabContentSize.current
+            || (previousTabContentSize.current > tabLength && selectedTabIndex >= tabLength)) {
+            setSelectedTabIndex(tabLength - 1)
         }
-    }, [tabContents, setSelectedTabIndex])
+
+        previousTabContentSize.current = tabLength
+    }, [tabContents, selectedTabIndex, setSelectedTabIndex])
 
     return (
         <>
