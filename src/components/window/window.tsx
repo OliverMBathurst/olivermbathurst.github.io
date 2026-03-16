@@ -89,29 +89,35 @@ const Window = (props: IWindowProps) => {
 	useEffect(() => {
 		if (state === WindowState.Normal && previousWindowState.current === WindowState.Maximised) {
 			const div = windowRef.current
+			const newSize: ISize = previousWindowSize.current
+			const newPositioning = windowPreviousPositioning.current
+
 			if (div) {
-				div.style.top = windowPreviousPositioning.current.top
-				div.style.left = windowPreviousPositioning.current.left
-			}
-			currentWindowSize.current = previousWindowSize.current
-			previousWindowSize.current = {
-				width: window.innerWidth,
-				height: window.innerHeight - DEFAULT_TASKBAR_HEIGHT_PIXELS
+				div.style.top = newPositioning.top
+				div.style.left = newPositioning.left
+				div.style.width = `${newSize.width}px`
+				div.style.height = `${newSize.height}px`
 			}
 
+			previousWindowSize.current = currentWindowSize.current
+			currentWindowSize.current = newSize
 			previousWindowState.current = WindowState.Normal
 		} else if (state === WindowState.Maximised && previousWindowState.current !== WindowState.Maximised) {
 			const div = windowRef.current
-			if (div) {
-				div.style.top = "50%"
-				div.style.left = "50%"
-			}
-			previousWindowSize.current = currentWindowSize.current
-			currentWindowSize.current = {
+
+			const newSize: ISize = {
 				width: window.innerWidth,
 				height: window.innerHeight - DEFAULT_TASKBAR_HEIGHT_PIXELS
 			}
 
+			if (div) {
+				div.style.top = "50%"
+				div.style.left = "50%"
+				div.style.width = `${newSize.width}px`
+				div.style.height = `${newSize.height}px`
+			}
+			previousWindowSize.current = currentWindowSize.current
+			currentWindowSize.current = newSize
 			previousWindowState.current = WindowState.Maximised
 		}
 	}, [state])
@@ -124,11 +130,11 @@ const Window = (props: IWindowProps) => {
 	}
 
 	const onMaximiseButtonClicked = (
-		_: React.MouseEvent<HTMLImageElement, MouseEvent>
+		_: React.MouseEvent<HTMLDivElement, MouseEvent>
 	) => onMaximiseRequested()
 
 	const onMinimiseButtonClicked = (
-		_: React.MouseEvent<HTMLImageElement, MouseEvent>
+		_: React.MouseEvent<HTMLDivElement, MouseEvent>
 	) => onWindowStateChanged(id, WindowState.Minimised)
 
 	const onWindowTopBarDoubleClicked = (
@@ -136,7 +142,7 @@ const Window = (props: IWindowProps) => {
 	) => onMaximiseRequested()
 
 	const onCloseButtonClicked = useCallback(
-		(_: React.MouseEvent<HTMLImageElement, MouseEvent>) => removeWindow(id),
+		(_: React.MouseEvent<HTMLDivElement, MouseEvent>) => removeWindow(id),
 		[removeWindow, id]
 	)
 
@@ -162,7 +168,7 @@ const Window = (props: IWindowProps) => {
 	}
 
 	const onWindowTopBarMouseUp = (_: MouseEvent) => {
-		if (state === WindowState.Maximised) {
+		if (state === WindowState.Maximised || !windowIsMovingRef.current) {
 			return
 		}
 

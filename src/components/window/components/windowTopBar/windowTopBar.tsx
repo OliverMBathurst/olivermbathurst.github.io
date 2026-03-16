@@ -12,13 +12,13 @@ interface IWindowTopBarProps {
 	context: Context
 	customContent: JSX.Element | null
 	onMaximiseButtonClicked: (
-		e: React.MouseEvent<HTMLImageElement, MouseEvent>
+		e: React.MouseEvent<HTMLDivElement, MouseEvent>
 	) => void
 	onMinimiseButtonClicked: (
-		e: React.MouseEvent<HTMLImageElement, MouseEvent>
+		e: React.MouseEvent<HTMLDivElement, MouseEvent>
 	) => void
 	onCloseButtonClicked: (
-		e: React.MouseEvent<HTMLImageElement, MouseEvent>
+		e: React.MouseEvent<HTMLDivElement, MouseEvent>
 	) => void
 	onWindowTopBarMouseDown: (
 		e: React.MouseEvent<HTMLDivElement, MouseEvent>
@@ -84,6 +84,21 @@ const WindowTopBar = (props: IWindowTopBarProps) => {
 		}
 	}
 
+	const onMinimiseButtonClickedInternal = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+		e.stopPropagation()
+		onMinimiseButtonClicked(e)
+	}
+
+	const onMaximiseButtonClickedInternal = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+		e.stopPropagation()
+		onMaximiseButtonClicked(e)
+	}
+
+	const onCloseButtonClickedInternal = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+		e.stopPropagation()
+		onCloseButtonClicked(e)
+	}
+
 	return (
 		<div
 			className={TOP_BAR}
@@ -94,19 +109,19 @@ const WindowTopBar = (props: IWindowTopBarProps) => {
 			<div className="window__top-bar__controls">
 				<div
 					className="window__top-bar__controls__button"
-					onClick={onMinimiseButtonClicked}
+					onClick={onMinimiseButtonClickedInternal}
 				>
 					<MinimizeIcon className={NO_SELECT_CLASS} {...imgProps} />
 				</div>
 				<div
 					className="window__top-bar__controls__button"
-					onClick={onMaximiseButtonClicked}
+					onClick={onMaximiseButtonClickedInternal}
 				>
 					<MaximizeIcon className={NO_SELECT_CLASS} {...imgProps} />
 				</div>
 				<div
 					className="window__top-bar__controls__close-button"
-					onClick={onCloseButtonClicked}
+					onClick={onCloseButtonClickedInternal}
 				>
 					<CloseIcon className={NO_SELECT_CLASS} {...imgProps} />
 				</div>
