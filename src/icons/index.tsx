@@ -1,31 +1,31 @@
 import React from "react"
-import cancel from "../icons/cancel.png"
-import close from "../icons/close.png"
-import collapse from "../icons/collapse.png"
-import drive from "../icons/drive.png"
-import executable from "../icons/executable.png"
-import expand from "../icons/expand.png"
-import file from "../icons/file.png"
-import folder from "../icons/folder.png"
-import game from "../icons/game.png"
-import image from "../icons/image.png"
-import internet from "../icons/internet.png"
-import leftArrow from "../icons/left-arrow.png"
-import maximise from "../icons/maximise.png"
-import minimise from "../icons/minimise.png"
-import pdf from "../icons/pdf.png"
-import plus from "../icons/plus.png"
-import power from "../icons/power.png"
-import rightArrow from "../icons/right-arrow.png"
-import search from "../icons/search.png"
-import selected from "../icons/selected.png"
-import shortcut from "../icons/shortcut.png"
-import start from "../icons/startMenu.png"
-import textFile from "../icons/textFile.png"
-import thumbs from "../icons/thumbs.png"
-import upArrow from "../icons/up-arrow.png"
-import zoomIn from "../icons/zoomIn.png"
-import zoomOut from "../icons/zoomOut.png"
+import cancel from "./cancel.png"
+import close from "./close.png"
+import collapse from "./collapse.png"
+import drive from "./drive.png"
+import executable from "./executable.png"
+import expand from "./expand.png"
+import file from "./file.png"
+import folder from "./folder.png"
+import game from "./game.png"
+import image from "./image.png"
+import internet from "./internet.png"
+import leftArrow from "./left-arrow.png"
+import maximise from "./maximise.png"
+import minimise from "./minimise.png"
+import pdf from "./pdf.png"
+import plus from "./plus.png"
+import power from "./power.png"
+import rightArrow from "./right-arrow.png"
+import search from "./search.png"
+import selected from "./selected.png"
+import shortcut from "./shortcut.png"
+import start from "./startMenu.png"
+import textFile from "./textFile.png"
+import thumbs from "./thumbs.png"
+import upArrow from "./up-arrow.png"
+import zoomIn from "./zoomIn.png"
+import zoomOut from "./zoomOut.png"
 
 const GenericFileIcon = (props: React.ImgHTMLAttributes<HTMLImageElement>) => (
 	<img src={file} alt="File icon by icon8" {...props} />
@@ -87,12 +87,8 @@ const CollapseIcon = (props: React.ImgHTMLAttributes<HTMLImageElement>) => (
 	<img src={collapse} alt="Collapse icon by icon8" {...props} />
 )
 
-const CustomIcon = (props: React.ImgHTMLAttributes<HTMLImageElement>) => (
-	<img alt="Custom icon by icon8" {...props} />
-)
-
 const ThumbsIcon = (props: React.ImgHTMLAttributes<HTMLImageElement>) => (
-	<img src={thumbs} alt="Custom icon by icon8" {...props} />
+	<img src={thumbs} alt="Thumbs icon by icon8" {...props} />
 )
 
 const UpArrowIcon = (props: React.ImgHTMLAttributes<HTMLImageElement>) => (
@@ -137,6 +133,10 @@ const ZoomOutIcon = (props: React.ImgHTMLAttributes<HTMLImageElement>) => (
 
 const PlusIcon = (props: React.ImgHTMLAttributes<HTMLImageElement>) => (
 	<img src={plus} alt="Plus icon by icon8" {...props} />
+)
+
+const CustomIcon = (props: React.ImgHTMLAttributes<HTMLImageElement>) => (
+	<img {...props} alt="Custom icon by icon8" />
 )
 
 export {

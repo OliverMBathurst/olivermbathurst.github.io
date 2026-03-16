@@ -1,15 +1,14 @@
-import { FILETYPE_EXECUTABLE } from "../constants"
-import { IApplicationFile } from "../interfaces/fs"
-import { FileBrowser as FileBrowserComponent } from "../components/fileBrowser"
-import { AbstractLeaf, BranchingContext, Context } from "../types/fs"
 import { JSX } from "react"
-
-const icon = "/src/icons/folder.png"
+import { FileBrowser as FileBrowserComponent } from "../components/fileBrowser"
+import { FILETYPE_EXECUTABLE } from "../constants"
+import folder from "../icons/folder.png"
+import { IApplicationFile } from "../interfaces/fs"
+import { AbstractLeaf, BranchingContext, Context } from "../types/fs"
 
 class FileBrowser extends AbstractLeaf implements IApplicationFile {
 	constructor(parent: BranchingContext) {
 		super("File Browser", FILETYPE_EXECUTABLE, parent)
-		this.icon = icon
+		this.icon = folder
 	}
 
 	handle = (windowId: string, context: Context, setWindowTopBar: (component: JSX.Element) => void, _arguments?: string) => (
