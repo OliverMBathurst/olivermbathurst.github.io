@@ -3,13 +3,12 @@ import { PhotoViewer as PhotoViewerComponent } from "../components/photoViewer";
 import { FILETYPE_EXECUTABLE } from "../constants";
 import { IApplicationFile } from "../interfaces/fs";
 import { AbstractLeaf, BranchingContext, Context } from "../types/fs";
-
-const icon = "/src/icons/image.png"
+import image from "/src/icons/image.png";
 
 class PhotoViewer extends AbstractLeaf implements IApplicationFile {
     constructor(parent: BranchingContext) {
         super("Photo Viewer", FILETYPE_EXECUTABLE, parent)
-        this.icon = icon
+        this.icon = image
     }
 
     handle = (windowId: string, context: Context, setWindowTopBar: (component: JSX.Element) => void, _arguments?: string) => (
